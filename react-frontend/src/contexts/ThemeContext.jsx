@@ -1,9 +1,6 @@
 import { createContext, useState } from 'react';
 import backgroundImage from '../assets/background.svg';
 const Context = createContext();
-
-console.log("backgroundImage: ", backgroundImage);
-
 const theme = {
     colors: {
         main: {
@@ -25,6 +22,21 @@ const theme = {
     borderRadius: "8px",
     boxShadow: "0 0 10px rgba(0,0,0,0.2)",
     backgroundImage: `url(${backgroundImage})`,
+    motion: {
+        cardVariants: {
+            offscreen: {
+                y: 100
+            },
+            onscreen: {
+                y: 0,
+                transition: {
+                    type: "spring",
+                    bounce: 0.4,
+                    duration: 0.8
+                }
+            }
+        }
+    }
 };
 
 theme.bluryStyle = {

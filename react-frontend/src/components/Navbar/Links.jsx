@@ -4,6 +4,7 @@ import Button from "../Button";
 import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { motion } from "framer-motion"
 
 export default function Links({ links, setLinks }) {
     const theme = useContext(Context);
@@ -14,15 +15,24 @@ export default function Links({ links, setLinks }) {
         <>
             {isMediumScreen ? (
                 <>
-                    <FontAwesomeIcon
-                        icon={faBars}
-                        size={"xl"}
-                        onClick={() => setIsMenuOpen((oldIsMenuOpen) => !oldIsMenuOpen)}
+                    <motion.div
                         style={{
-                            cursor: "pointer",
-                            color: isMenuOpen ? theme.colors.main.percent(100) : theme.colors.main.percent(50),
-                            transition: theme.transition,
-                        }} />
+                            display: "inline-block",
+                            color: theme.colors.main.full,
+                        }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        animate={{
+                            rotate: isMenuOpen ? 90 : 0,
+                            opacity: isMenuOpen ? 1 : 0.5,
+                        }}
+                        onClick={() => setIsMenuOpen((oldIsMenuOpen) => !oldIsMenuOpen)}
+                    >
+                        <FontAwesomeIcon
+                            icon={faBars}
+                            size={"xl"}
+                        />
+                    </motion.div>
                     <div
                         style={{
                             display: "flex",
@@ -30,7 +40,7 @@ export default function Links({ links, setLinks }) {
                             alignItems: "center",
                             justifyContent: "space-between",
                             gap: "1rem",
-                            padding: isMenuOpen ? "1rem 0 0" : "0",
+                            padding: isMenuOpen ? "1rem 0 0.5rem" : "0",
                             width: "100%",
                             transition: theme.transition,
                             overflow: "hidden",
@@ -43,7 +53,7 @@ export default function Links({ links, setLinks }) {
                                 key={linkName}
                                 style={{
                                     backgroundColor: linkActive ? theme.colors.main.percent(50) : theme.colors.main.faded,
-                                    width: "100%",
+                                    width: "80%",
                                 }}
                                 pointer={true}
                                 onClick={() => {

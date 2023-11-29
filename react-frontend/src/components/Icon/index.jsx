@@ -1,6 +1,7 @@
 import { useContext, useMemo } from 'react'
 import { Context } from '../../contexts/ThemeContext';
 import Text from '../Text';
+import { motion } from "framer-motion"
 
 export default function Icon({ src = "images/placeholder.png", alt, text, pointer = false, onClick }) {
     const theme = useContext(Context);
@@ -34,9 +35,12 @@ export default function Icon({ src = "images/placeholder.png", alt, text, pointe
     }, [theme]);
 
     return (
-        <div
+        <motion.div
+            style={outerStyle}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={onClick}
-            style={outerStyle}>
+        >
             <div style={imageFrameStyle}>
                 <img style={{
                     width: "70%",
@@ -44,7 +48,7 @@ export default function Icon({ src = "images/placeholder.png", alt, text, pointe
                     filter: "drop-shadow(0px 0px 2px rgba(0,0,0,0.5))",
                 }} src={src} alt={alt} />
             </div>
-            {text && <Text variant={"h4"}>{text}</Text>}
-        </ div>
+            {text && <Text variant={"body"}>{text}</Text>}
+        </motion.div>
     )
 }

@@ -1,5 +1,6 @@
 import { useContext, useMemo } from 'react'
 import { Context } from '../../contexts/ThemeContext';
+import { motion } from "framer-motion"
 
 export default function Button({ icon, text, onClick, size = "lg", style, pointer }) {
     const theme = useContext(Context);
@@ -20,14 +21,16 @@ export default function Button({ icon, text, onClick, size = "lg", style, pointe
             ...style,
         }
     }, [theme, size, style]);
-    
+
     return (
-        <div
+        <motion.div
             style={buttonStyle}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={onClick}
         >
             {icon}
             {text}
-        </div>
+        </motion.div>
     )
 }

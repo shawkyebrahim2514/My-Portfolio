@@ -1,6 +1,7 @@
 import { useContext, useMemo } from 'react'
 import { Context } from '../../contexts/ThemeContext';
 import Header from './Header';
+import { motion } from "framer-motion"
 
 export default function CenteredSection({ title, subtitle, icon, children }) {
     const theme = useContext(Context);
@@ -21,9 +22,15 @@ export default function CenteredSection({ title, subtitle, icon, children }) {
     }, [theme]);
 
     return (
-        <div style={containerStyle}>
-            <Header title={title} subtitle={subtitle} icon={icon} />
-            {children}
-        </div>
+        <motion.div
+            initial="offscreen"
+            whileInView="onscreen"
+            viewport={{ once: true, amount: 0.8 }}
+        >
+            <motion.div variants={theme.motion.cardVariants} style={containerStyle}>
+                <Header title={title} subtitle={subtitle} icon={icon} />
+                {children}
+            </motion.div>
+        </motion.div>
     )
 }

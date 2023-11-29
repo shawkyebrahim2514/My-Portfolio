@@ -3,6 +3,7 @@ import { Context } from '../../contexts/ThemeContext';
 import { useMediaQuery } from 'react-responsive';
 import Image from './Image';
 import Content from './Content';
+import { motion } from "framer-motion"
 
 export default function ProjectCard({
     imgSrc = "images/placeholder.png",
@@ -30,9 +31,15 @@ export default function ProjectCard({
     }, [theme, isSmallScreen]);
 
     return (
-        <div style={containerStyle}>
-            <Image imgSrc={imgSrc} isSmallScreen={isSmallScreen} projectLink={projectLink} demoLink={demoLink} />
-            <Content title={title} description={description} technologies={technologies} />
-        </div>
+        <motion.div
+            initial="offscreen"
+            whileInView="onscreen"
+            viewport={{ once: true, amount: 0.8 }}
+        >
+            <motion.div variants={theme.motion.cardVariants} style={containerStyle}>
+                <Image imgSrc={imgSrc} isSmallScreen={isSmallScreen} projectLink={projectLink} demoLink={demoLink} />
+                <Content title={title} description={description} technologies={technologies} />
+            </motion.div>
+        </motion.div>
     )
 }

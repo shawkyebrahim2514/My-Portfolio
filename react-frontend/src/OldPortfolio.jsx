@@ -10,13 +10,32 @@ import Icon from './components/Icon';
 import CenteredSection from './components/CenteredSection';
 import ProjectCard from './components/ProjectCard';
 import MainSection from './components/MainSection';
+import { motion } from "framer-motion"
+
+
+const cardVariants = {
+    offscreen: {
+        y: 300
+    },
+    onscreen: {
+        y: 0,
+        // rotate: -10,
+        transition: {
+            type: "spring",
+            bounce: 0.4,
+            duration: 0.8
+        }
+    }
+};
+
+
 
 export default function Portfolio() {
     const theme = useContext(Context);
     console.log(theme);
     return (
         <div style={{
-            backgroundColor: theme.colors.dark,
+            backgroundColor: theme.colors.dark.full,
             minHeight: "100vh",
             color: theme.colors.contrastText.full,
         }}>
@@ -31,24 +50,20 @@ export default function Portfolio() {
                 <SectionTitle highlightedText={"Skills"} text={"Good"} />
                 <br />
                 <SectionTitle highlightedText={"Skills"} text={"Good"} subtitle={"Hello"} />
-                {/* <br />
-                <FontAwesomeIcon icon="coffee" />
-                <FontAwesomeIcon icon={['fas', 'coffee']} />
-                <FontAwesomeIcon icon={['far', 'coffee']} />
-                <FontAwesomeIcon color='red' icon={["fal", "coffee"]} />
-                <FontAwesomeIcon icon={faCoffee} size={'2x'} />
-                <FontAwesomeIcon icon={faCoffee} size={'2x'} rotation={90}/>
-                <FontAwesomeIcon icon={faCoffee} size={'2x'} flip="horizontal"/>
-                <FontAwesomeIcon icon={faCoffee} size={'2x'} border />
-                <FontAwesomeIcon icon={faCoffee} size={'2x'} swapOpacity  />
-                <FontAwesomeIcon icon={faCoffee} size={'2x'} transform="shrink-6 left-4"  />
-                <FontAwesomeIcon icon={faCoffee} size={'2x'} spin/>
-                <FontAwesomeIcon icon={faCoffee} size={'2x'} pulse />
-                <FontAwesomeIcon icon={faPlay} size={'2x'} pulse /> */}
                 <br />
-                <Button
-                    icon={<FontAwesomeIcon icon={faCoffee} spin />}
-                    text={"Click me"} />
+                {/* Make it to the button\icon Components */}
+                {/* <motion.div
+                    style={{
+                        display: "inline-block",
+                    }}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                > */}
+                    <Button
+                        icon={<FontAwesomeIcon icon={faCoffee} spin />}
+                        text={"Click me"} />
+                {/* </motion.div> */}
+                {/* ------------------------------------ */}
                 <Button
                     icon={<FontAwesomeIcon icon={faCoffee} spin />}
                     text={"Click me"} />
@@ -86,23 +101,44 @@ export default function Portfolio() {
                     </MainSection>
                 </MainSection>
                 <br />
-                <ProjectCard
-                    imgSrc={"images/placeholder.png"}
-                    title={"Hello"}
-                    description={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."}
-                    technologies={['React', 'NodeJS']}
-                    projectLink={"https://google.com"}
-                    dempLink={"https://google.com"}
-                />
+
+
+                {/* <motion.div
+                    className="card-container"
+                    initial="offscreen"
+                    whileInView="onscreen"
+                    viewport={{ amount: 0.8 }}
+                >
+                    <motion.div className="card" variants={cardVariants}> */}
+                        <ProjectCard
+                            imgSrc={"images/placeholder.png"}
+                            title={"Hello"}
+                            description={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."}
+                            technologies={['React', 'NodeJS']}
+                            projectLink={"https://google.com"}
+                            dempLink={"https://google.com"}
+                        />
+                    {/* </motion.div>
+                </motion.div> */}
+
                 <br />
-                <ProjectCard
-                    imgSrc={"images/placeholder.png"}
-                    title={"Hello"}
-                    description={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."}
-                    technologies={['React', 'NodeJS']}
-                    projectLink={"https://google.com"}
-                    dempLink={"https://google.com"}
-                />
+                {/* <motion.div
+                    className="card-container"
+                    initial="offscreen"
+                    whileInView="onscreen"
+                    viewport={{ amount: 0.8 }}
+                >
+                    <motion.div className="card" variants={cardVariants}> */}
+                        <ProjectCard
+                            imgSrc={"images/placeholder.png"}
+                            title={"Hello"}
+                            description={"Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum."}
+                            technologies={['React', 'NodeJS']}
+                            projectLink={"https://google.com"}
+                            dempLink={"https://google.com"}
+                        />
+                    {/* </motion.div>
+                </motion.div> */}
                 <br />
                 <br />
             </div>

@@ -6,9 +6,13 @@ export default function Logo() {
     const theme = useContext(Context);
 
     return (
-        <div>
+        <div style={{
+            color: theme.colors.main.full,
+            cursor: "pointer",
+            onClick: {/* Handle here the change in the active section to be the About section */}
+        }}>
             <Text variant={"h2"} style={{
-                color: theme.colors.main.full,
+                fontWeight: "800",
             }}>
                 Shawky Ebrahim
             </Text>
