@@ -19,7 +19,7 @@ const variants = {
     }
 };
 
-const ContainerWrap = (Component, args) => function HOC() {
+const ContainerWrap = (Component) => function HOC() {
     return (
         <AnimatePresence>
             <motion.div

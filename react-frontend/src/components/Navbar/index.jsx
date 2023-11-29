@@ -3,7 +3,7 @@ import { Context } from '../../contexts/ThemeContext';
 import Logo from './Logo'
 import Links from './Links';
 
-export default function Navbar({ links, setLinks }) {
+export default function Navbar() {
     const theme = useContext(Context);
 
     return (
@@ -29,7 +29,7 @@ export default function Navbar({ links, setLinks }) {
                 flexWrap: "wrap",
             }}>
                 <Logo />
-                <Links links={links} setLinks={setLinks} />
+                <Links />
             </div>
         </div>
     )

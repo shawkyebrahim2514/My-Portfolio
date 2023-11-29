@@ -1,6 +1,21 @@
 import { useContext, useMemo } from 'react'
 import { Context } from '../../contexts/ThemeContext';
-import { motion } from "framer-motion"
+import { motion } from "framer-motion";
+
+const differentSizes = {
+    sm: {
+        fontSize: "0.8rem",
+        padding: "0.25rem 0.5rem",
+    },
+    md: {
+        fontSize: "1rem",
+        padding: "0.35rem 0.6rem",
+    },
+    lg: {
+        fontSize: "1rem",
+        padding: "0.5rem 1rem",
+    }
+}
 
 export default function Button({ icon, text, onClick, size = "lg", style, pointer }) {
     const theme = useContext(Context);
@@ -12,8 +27,8 @@ export default function Button({ icon, text, onClick, size = "lg", style, pointe
             justifyContent: "center",
             color: theme.colors.main.full,
             borderRadius: "8px",
-            padding: (size == "lg") ? "0.5rem 1rem" : "0.25rem 0.5rem",
-            fontSize: (size == "lg") ? "1rem" : "0.9rem",
+            padding: differentSizes[size].padding,
+            fontSize: differentSizes[size].fontSize,
             cursor: pointer ? "pointer" : "default",
             transition: theme.transition,
             boxShadow: theme.boxShadow,

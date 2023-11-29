@@ -1,11 +1,14 @@
 import './App.css';
 import ThemeContext from './contexts/ThemeContext';
+import NavigationControllerContext from './contexts/NavigationControllerContext';
 import Portfolio from './Portfolio';
 
 function App() {
   return (
     <ThemeContext>
-      <Portfolio />
+      <NavigationControllerContext>
+        <Portfolio />
+      </NavigationControllerContext>
     </ThemeContext>
   );
 }

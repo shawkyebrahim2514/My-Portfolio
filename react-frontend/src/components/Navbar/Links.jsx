@@ -5,11 +5,13 @@ import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { motion } from "framer-motion"
+import { navigationControllerContext } from '../../contexts/NavigationControllerContext';
 
-export default function Links({ links, setLinks }) {
+export default function Links() {
     const theme = useContext(Context);
     const isMediumScreen = useMediaQuery({ query: '(max-width: 974px)' });
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [links, setLinks] = useContext(navigationControllerContext);
 
     return (
         <>
@@ -19,6 +21,7 @@ export default function Links({ links, setLinks }) {
                         style={{
                             display: "inline-block",
                             color: theme.colors.main.full,
+                            cursor: "pointer",
                         }}
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.9 }}
@@ -93,6 +96,7 @@ export default function Links({ links, setLinks }) {
                                     )
                                 ))
                             }}
+                            size={"lg"}
                             text={linkName} />
                     ))}
                 </div>

@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import { Context } from './contexts/ThemeContext';
+import { Context as themeContext } from './contexts/ThemeContext';
 import About from './containers/About';
 import Navbar from './components/Navbar';
 import Skills from './containers/Skills';
@@ -7,17 +7,11 @@ import Education from './containers/Education';
 import Experience from './containers/Experience';
 import Projects from './containers/Projects';
 import Contacts from './containers/Contacts';
+import { navigationControllerContext } from './contexts/NavigationControllerContext';
 
 export default function Portfolio() {
-    const theme = useContext(Context);
-    const [links, setLinks] = useState({
-        "About": true,
-        "Skills": false,
-        "Education": false,
-        "Experience": false,
-        "Projects": false,
-        "Contact": false,
-    });
+    const theme = useContext(themeContext);
+    const [links,] = useContext(navigationControllerContext);
     return (
         <div style={{
             backgroundColor: theme.colors.dark.full,
@@ -30,13 +24,13 @@ export default function Portfolio() {
                 margin: "0 auto",
                 padding: "0 1rem",
             }}>
-                <Navbar links={links} setLinks={setLinks} />
+                <Navbar />
                 {links["About"] && <About />}
                 {links["Skills"] && <Skills />}
-                {links["Education"] && <Education />}
+                {links["Education"] && <Education />}   
                 {links["Experience"] && <Experience />}
                 {links["Projects"] && <Projects />}
-                {links["Contact"] && <Contacts />}
+                {links["Contacts"] && <Contacts />}
             </div>
         </div>
     )
