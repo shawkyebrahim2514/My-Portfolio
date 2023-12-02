@@ -33,8 +33,7 @@ export default function ProjectCard({
     return (
         <motion.div
             initial="offscreen"
-            whileInView="onscreen"
-            viewport={{ once: true, amount: 0.8 }}
+            animate="onscreen"
         >
             <motion.div variants={theme.motion.cardVariants} style={containerStyle}>
                 <Image imgSrc={imgSrc} isSmallScreen={isSmallScreen} projectLink={projectLink} demoLink={demoLink} />

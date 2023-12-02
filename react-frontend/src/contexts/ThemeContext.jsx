@@ -25,10 +25,10 @@ const theme = {
     motion: {
         cardVariants: {
             offscreen: {
-                y: 100
+                x: -100,
             },
             onscreen: {
-                y: 0,
+                x: 0,
                 transition: {
                     type: "spring",
                     bounce: 0.4,
