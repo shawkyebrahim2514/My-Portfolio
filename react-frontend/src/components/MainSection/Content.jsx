@@ -1,6 +1,5 @@
 import { useContext, useMemo } from 'react'
 import { Context } from '../../contexts/ThemeContext';
-import Text from '../Text'
 
 export default function Content({ children }) {
     const theme = useContext(Context);
@@ -15,9 +14,9 @@ export default function Content({ children }) {
     }, []);
     const verticalLineStyle = useMemo(() => {
         return {
-            width: "2px",
-            minHeight: "100%",
-            backgroundColor: theme.colors.main.full,
+            borderWidth: "1px",
+            borderStyle: "solid",
+            borderColor: theme.colors.main.full,
         }
     }, [theme]);
 

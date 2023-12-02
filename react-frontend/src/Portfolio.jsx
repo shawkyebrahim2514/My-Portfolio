@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import { Context as themeContext } from './contexts/ThemeContext';
 import About from './containers/About';
 import Navbar from './components/Navbar';
@@ -27,7 +27,7 @@ export default function Portfolio() {
                 <Navbar />
                 {links["About"] && <About />}
                 {links["Skills"] && <Skills />}
-                {links["Education"] && <Education />}   
+                {links["Education"] && <Education />}
                 {links["Experience"] && <Experience />}
                 {links["Projects"] && <Projects />}
                 {links["Contacts"] && <Contacts />}

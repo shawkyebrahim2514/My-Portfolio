@@ -12,7 +12,7 @@ export default function ListItems({ elements, icon }) {
         }}>
             {elements.map((line, index) => (
                 <div
-                    key={line.substring(0, 10)}
+                    key={line.substring(0, 10) + index}
                     style={{
                         display: "flex",
                         alignItems: "baseline",

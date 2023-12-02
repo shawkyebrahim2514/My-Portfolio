@@ -2,14 +2,15 @@ import { useContext } from 'react'
 import { Context } from '../../contexts/ThemeContext';
 import Text from '../../components/Text';
 import Button from '../../components/Button';
+import { useMediaQuery } from 'react-responsive';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
+import { getResumeURL } from '../../APIs';
 
-const resumeURL = "https://drive.google.com/drive/folders/1yJmOWWaRQpM32haB8CeXCOzK0_WC6o59";
-
-export default function Content({ isMediumScreen }) {
+export default function Content() {
     const theme = useContext(Context);
-    
+    const isMediumScreen = useMediaQuery({ query: '(max-width: 1124px)' });
+
     return (
         <div style={{
             textAlign: isMediumScreen ? "center" : "left",
@@ -54,7 +55,7 @@ export default function Content({ isMediumScreen }) {
                 text={"See My Resume"}
                 pointer={true}
                 onClick={() => {
-                    window.open(resumeURL, "_blank")
+                    window.open(getResumeURL(), "_blank")
                 }}
                 style={{
                     marginTop: "1rem",

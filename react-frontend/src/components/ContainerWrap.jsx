@@ -27,6 +27,7 @@ const ContainerWrap = (Component) => function HOC() {
                 initial="enter"
                 animate="center"
                 exit="exit"
+                transition={{ duration: 0.5  }}
             >
                 <div style={{
                     minHeight: "100vh",

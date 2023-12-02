@@ -2,19 +2,21 @@ import { useMediaQuery } from 'react-responsive';
 import ContainerWrap from '../../components/ContainerWrap'
 import Content from './Content';
 import Image from './Image';
+import { useMemo } from 'react';
 
 function About() {
     const isMediumScreen = useMediaQuery({ query: '(max-width: 1124px)' });
+    const containerStyle = useMemo(() => ({
+        display: "flex",
+        flexDirection: isMediumScreen ? "column-reverse" : "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        gap: "2rem",
+    }), [isMediumScreen]);
 
     return (
-        <div style={{
-            display: "flex",
-            flexDirection: isMediumScreen ? "column-reverse" : "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: "2rem",
-        }}>
-            <Content isMediumScreen={isMediumScreen} />
+        <div style={containerStyle}>
+            <Content />
             <Image />
         </div>
     )
