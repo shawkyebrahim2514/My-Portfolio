@@ -40,15 +40,15 @@ export default function Content() {
                 Software Development
             </Text>
             <Text variant="body" style={{
-                fontSize: "1.25rem",
+                fontSize: "1.1rem",
                 marginTop: "1rem",
             }}>
-                Are you looking for an intern with a sense of humor and a love for coding?
+                I can be a valuable asset to your team and contribute to your projects with my skills and enthusiasm.
             </Text>
             <Text variant="body" style={{
-                fontSize: "1.25rem",
+                fontSize: "1.1rem",
             }}>
-                Lucky you! You've found the perfect match.
+                Please don't hesitate to check out my resume or reach out from the contacts page.
             </Text>
             <Button
                 icon={<FontAwesomeIcon icon={faFileLines} />}
