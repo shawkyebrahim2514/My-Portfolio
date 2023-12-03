@@ -17,6 +17,7 @@ export default function ListExperiences({ list }) {
                     <MainSection
                         key={experience.title}
                         title={experience.title}
+                        link={experience.link}
                     >
                         <div style={{
                             display: "flex",

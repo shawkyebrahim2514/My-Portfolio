@@ -26,7 +26,7 @@ export default function Logo() {
             <Text variant={"h2"} style={{
                 fontWeight: "800",
             }}>
-                Shawky Ebrahim
+                SHAWKY EBRAHIM
             </Text>
         </div>
     )

@@ -4,7 +4,7 @@ import Header from './Header';
 import Content from './Content';
 import { motion } from "framer-motion"
 
-export default function MainSection({ title, subtitle, style, children }) {
+export default function MainSection({ title, link, subtitle, style, children }) {
     const theme = useContext(Context);
     const containerStyle = useMemo(() => {
         return {
@@ -21,6 +21,7 @@ export default function MainSection({ title, subtitle, style, children }) {
             boxShadow: theme.boxShadow,
         }
     }, [theme]);
+
     return (
         <motion.div
             initial="offscreen"
@@ -28,7 +29,7 @@ export default function MainSection({ title, subtitle, style, children }) {
         >
             <motion.div variants={theme.motion.cardVariants} style={containerStyle}>
                 {title &&
-                    <Header title={title} subtitle={subtitle} />
+                    <Header title={title} link={link} subtitle={subtitle} />
                 }
                 <Content>
                     {children}
