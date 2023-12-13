@@ -13,7 +13,7 @@ export { type TechnologySkill } from './pages/skills';
 
 export { type Course } from './pages/education';
 
-export { type Internship } from './pages/experience';
+export { type Internship, type Certificate } from './pages/experience';
 
 export { type Project } from './pages/projects';
 

@@ -1,4 +1,4 @@
 export const contactsPageContent = {
-    highlightedTitle: "Contacts",
-    titlePhrase: "You can reach me through",
+    highlightedTitle: "Get in Touch",
+    titlePhrase: "How to Reach Me",
 }

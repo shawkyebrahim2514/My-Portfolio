@@ -1,4 +1,4 @@
 export const projectsPageContent = {
     highlightedTitle: "Projects",
-    titlePhrase: "I have built",
+    titlePhrase: "What I Built With My Hands and Mind",
 }

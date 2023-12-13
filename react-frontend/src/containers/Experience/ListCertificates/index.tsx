@@ -4,43 +4,41 @@ import ListItems from '../../../components/ListItems'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { useThemeContext } from '../../../contexts/ThemeContext';
-import ListButtons from '../../../components/ListButtons'
-import { getInternships } from '../../../APIs'
+import { getCertificates } from '../../../APIs'
 import { useEffect, useState } from 'react'
-import { Internship } from '../../../Types'
+import { Certificate } from '../../../Types'
 
-export default function ListExperiences() {
-    const [experiences, setExperiences] = useState<Internship[]>([]);
+export default function ListCertificates() {
+    const [certificates, setCertificates] = useState<Certificate[]>([]);
     const { theme } = useThemeContext();
 
     useEffect(() => {
-        getInternships().then((result) => {
+        getCertificates().then((result) => {
             result = result.sort((element1, element2) => {
                 return element2.rank - element1.rank;
             });
-            let newState: Internship[] = [];
+            let newState: Certificate[] = [];
             result.forEach((element) => {
                 newState.push({
                     description: element.description,
                     title: element.title,
                     subTitle: element.subTitle,
-                    technologies: element.technologies,
                     link: element.link,
                     date: element.date,
                 })
             })
-            setExperiences(newState);
+            setCertificates(newState);
         });
     }, []);
 
     return (
         <>
-            {experiences.map((experience, index) => {
+            {certificates.map((certificate, index) => {
                 return (
                     <MainSection
-                        key={experience.title}
-                        title={experience.title}
-                        link={experience.link}
+                        key={certificate.title}
+                        title={certificate.title}
+                        link={certificate.link}
                     >
                         <div style={{
                             display: "flex",
@@ -56,10 +54,10 @@ export default function ListExperiences() {
                                 gap: "0.5rem",
                             }}>
                                 <Text variant={"h4"}>
-                                    {experience.subTitle}
+                                    {certificate.subTitle}
                                 </Text>
                                 <Text variant={"body"}>
-                                    From: {experience.date.from} - To: {experience.date.to}
+                                    {certificate.date}
                                 </Text>
                             </div>
                             <div style={{
@@ -69,16 +67,19 @@ export default function ListExperiences() {
                                 width: "fit-content",
                                 gap: "0.5rem",
                             }}>
-                                <Text variant={"h4"} style={{
-                                    color: theme.colors.main.full,
-                                }}>
-                                    Description
-                                </Text>
-                                <ListItems
-                                    elements={experience.description.split("\n")}
-                                    icon={<FontAwesomeIcon icon={faAngleRight} />} />
+                                {certificate.description && (
+                                    <>
+                                        <Text variant={"h4"} style={{
+                                            color: theme.colors.main.full,
+                                        }}>
+                                            Description
+                                        </Text>
+                                        <ListItems
+                                            elements={certificate.description.split("\n")}
+                                            icon={<FontAwesomeIcon icon={faAngleRight} />} />
+                                    </>
+                                )}
                             </div>
-                            <ListButtons elements={experience.technologies} />
                         </div>
                     </MainSection>
                 )

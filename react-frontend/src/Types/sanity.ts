@@ -44,3 +44,12 @@ export type SanityContact = {
     link: string;
     name: string;
 }
+
+export type SanityCertificate = {
+    title : string;
+    subTitle : string;
+    rank : number;
+    description? : string;
+    date : string;
+    link : string;
+}

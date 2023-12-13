@@ -1,4 +1,4 @@
 export const skillsPageContent = {
     highlightedTitle: "Skills & Tools",
-    titlePhrase: "I have experience with",
+    titlePhrase: "What I Know and Can Do",
 }

@@ -6,6 +6,7 @@ import {
     type SanityProject,
     type SanityContact
 } from '../Types';
+import { SanityCertificate } from '../Types/sanity';
 
 
 const sanityClient = createClient({
@@ -72,10 +73,30 @@ const getContacts = async () => {
     return result;
 };
 
+const getCertificates = async () => {
+    const query = `*[_type == "certificates"]{
+        title,
+        subTitle,
+        rank,
+        description,
+        date,
+        link,
+    }`;
+    const result: SanityCertificate[] = await sanityClient.fetch(query);
+    return result;
+};
+
 const getGithubImageURL = (username: string) => `https://avatars.githubusercontent.com/${username}`;
 
 const getResumeURL = () => `https://drive.google.com/drive/folders/1yJmOWWaRQpM32haB8CeXCOzK0_WC6o59`;
 
 export { getGithubImageURL, getResumeURL };
 
-export { getSkills, getEducationCourses, getInternships, getProjects, getContacts };
+export {
+    getSkills,
+    getEducationCourses,
+    getInternships,
+    getProjects,
+    getContacts,
+    getCertificates
+};

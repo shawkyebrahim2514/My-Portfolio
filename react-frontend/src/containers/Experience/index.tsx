@@ -1,8 +1,9 @@
 import { CSSProperties, useMemo } from 'react'
 import ContainerWrap from '../../components/ContainerWrap'
 import SectionTitle from '../../components/SectionTitle'
-import ListExperiences from './ListExperiences';
+import ListInternships from './ListInternships';
 import { experiencePageContent } from '../../Texts';
+import ListCertificates from './ListCertificates';
 
 function Experience() {
     const containerStyle = useMemo((): CSSProperties => ({
@@ -17,11 +18,19 @@ function Experience() {
         <div style={containerStyle}>
             {/* Title */}
             <SectionTitle
-                highlightedText={experiencePageContent.highlightedTitle}
-                text={experiencePageContent.titlePhrase} />
+                highlightedText={experiencePageContent.internships.highlightedTitle}
+                text={experiencePageContent.internships.titlePhrase} />
 
             {/* Content */}
-            <ListExperiences />
+            <ListInternships />
+
+            {/* Title */}
+            <SectionTitle
+                highlightedText={experiencePageContent.certificates.highlightedTitle}
+                text={experiencePageContent.certificates.titlePhrase} />
+
+            {/* Content */}
+            <ListCertificates />
         </div>
     )
 }

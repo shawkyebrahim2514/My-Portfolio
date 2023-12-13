@@ -1,6 +1,6 @@
 export const educationPageContent = {
-    highlightedTitle: "Education & Certifications",
-    titlePhrase: "I have got",
+    highlightedTitle: "Education",
+    titlePhrase: "As a computer science student",
     college: {
         name: "Faculty of Computers and Artificial Intelligence - Cairo University",
         degree: "Bachelor of Science in Computer Science",
