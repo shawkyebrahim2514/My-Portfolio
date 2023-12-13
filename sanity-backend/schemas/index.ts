@@ -69,9 +69,9 @@ const collegeCourses = {
             validation: Rule => Rule.required()
         },
         {
-            name: 'languages',
+            name: 'technologies',
             type: 'array',
-            title: 'Languages',
+            title: 'Technologies',
             of: [{ type: 'reference', to: [{ type: 'skills' }] }],
             validation: Rule => Rule.required()
         }
@@ -138,9 +138,9 @@ const internships = {
             validation: Rule => Rule.required()
         },
         {
-            name: 'languages',
+            name: 'technologies',
             type: 'array',
-            title: 'Languages',
+            title: 'Technologies',
             of: [{ type: 'reference', to: [{ type: 'skills' }] }],
             validation: Rule => Rule.required()
         }
@@ -194,9 +194,9 @@ const projects = {
             title: 'Image'
         },
         {
-            name: 'languages',
+            name: 'technologies',
             type: 'array',
-            title: 'Languages',
+            title: 'Technologies',
             of: [{ type: 'reference', to: [{ type: 'skills' }] }],
             validation: Rule => Rule.required()
         }
