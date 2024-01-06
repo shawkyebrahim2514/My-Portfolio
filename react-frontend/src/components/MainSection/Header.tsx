@@ -15,7 +15,8 @@ export default function Header({ title, link, subtitle } : HeaderProps) {
     const { theme } = useThemeContext();
     const headerStyle = useMemo(() => {
         return {
-            display: "flex",
+            display: "grid",
+            gridAutoFlow: "column",
             alignItems: "baseline",
             justifyContent: "flex-start",
             gap: "1rem",
