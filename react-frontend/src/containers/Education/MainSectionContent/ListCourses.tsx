@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 export default function ListCourses() {
     const [courses, setCourses] = useState<Course[]>([]);
     const { theme } = useThemeContext();
-    
+
     useEffect(() => {
         getEducationCourses().then((result) => {
             result = result.sort((element1, element2) => {
@@ -48,7 +48,7 @@ export default function ListCourses() {
                             <ListItems
                                 elements={course.description.split("\n")}
                                 icon={<FontAwesomeIcon icon={faAngleRight} />} />
-                            <ListButtons elements={course.technologies} />
+                            {course.technologies && <ListButtons elements={course.technologies} />}
                         </div>
                     </MainSection>
                 )
