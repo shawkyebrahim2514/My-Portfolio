@@ -26,8 +26,7 @@ export const collegeCourses = {
             name: 'technologies',
             type: 'array',
             title: 'Technologies',
-            of: [{ type: 'reference', to: [{ type: 'skills' }] }],
-            validation: Rule => Rule.required()
+            of: [{ type: 'reference', to: [{ type: 'skills' }] }]
         }
     ]
 }
