@@ -31,8 +31,7 @@ export default function CenteredSection({ title, subtitle, icon, children }: Cen
     return (
         <motion.div
             initial="offscreen"
-            animate="onscreen"
-        >
+            animate="onscreen" >
             <motion.div variants={theme.motion.cardVariants} style={containerStyle}>
                 <Header title={title} subtitle={subtitle} icon={icon} />
                 {children}

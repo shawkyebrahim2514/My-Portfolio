@@ -16,22 +16,31 @@ function Experience() {
 
     return (
         <div style={containerStyle}>
-            {/* Title */}
+            <InternshipsAndTraining />
+            <Certificates />
+        </div>
+    )
+}
+
+function InternshipsAndTraining() {
+    return (
+        <>
             <SectionTitle
                 highlightedText={experiencePageContent.internships.highlightedTitle}
                 text={experiencePageContent.internships.titlePhrase} />
-
-            {/* Content */}
             <ListInternships />
+        </>
+    )
+}
 
-            {/* Title */}
+function Certificates() {
+    return (
+        <>
             <SectionTitle
                 highlightedText={experiencePageContent.certificates.highlightedTitle}
                 text={experiencePageContent.certificates.titlePhrase} />
-
-            {/* Content */}
             <ListCertificates />
-        </div>
+        </>
     )
 }
 

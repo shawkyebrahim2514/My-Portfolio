@@ -9,7 +9,6 @@ type HeaderProps = {
 }
 
 export default function Header({ title, subtitle, icon }: HeaderProps) {
-    const { theme } = useThemeContext();
     const headerStyle = useMemo((): CSSProperties => {
         return {
             display: "flex",
@@ -19,6 +18,40 @@ export default function Header({ title, subtitle, icon }: HeaderProps) {
             gap: "0.5rem",
         }
     }, []);
+
+    return (
+        <header style={headerStyle}>
+            <HeaderTitle title={title} icon={icon} />
+            {subtitle && <Text variant={"h3"}>{subtitle}</Text>}
+            <HorizontalLine />
+        </header>
+    )
+}
+
+function HeaderTitle({ title, icon }: Readonly<Pick<HeaderProps, "title" | "icon">>) {
+    const { theme } = useThemeContext();
+    const titleStyle = useMemo((): CSSProperties => {
+        return {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "0.5rem",
+            color: theme.colors.main.full,
+        }
+    }, [theme.colors.main]);
+
+    return (
+        <div style={titleStyle}>
+            {icon}
+            <Text variant={"h3"}>
+                {title}
+            </Text>
+        </div>
+    )
+}
+
+function HorizontalLine() {
+    const { theme } = useThemeContext();
     const hrStyle = useMemo((): CSSProperties => {
         return {
             width: "100%",
@@ -29,22 +62,6 @@ export default function Header({ title, subtitle, icon }: HeaderProps) {
     }, [theme]);
 
     return (
-        <header style={headerStyle}>
-            <div style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "0.5rem",
-                color: theme.colors.main.full,
-            }}>
-                {icon}
-                <Text variant={"h3"}>
-                    {title}
-                </Text>
-            </div>
-            {subtitle &&
-                <Text variant={"h3"}>{subtitle}</Text>}
-            <hr style={hrStyle} />
-        </header>
+        <hr style={hrStyle} />
     )
 }

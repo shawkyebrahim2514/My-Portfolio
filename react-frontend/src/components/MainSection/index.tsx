@@ -12,9 +12,9 @@ type MainSectionProps = {
     readonly children: React.ReactNode,
 }
 
-export default function MainSection({ title, link, subtitle, style, children } : MainSectionProps) {
+export default function MainSection({ title, link, subtitle, style, children }: MainSectionProps) {
     const { theme } = useThemeContext();
-    const containerStyle = useMemo(() : CSSProperties => {
+    const containerStyle = useMemo((): CSSProperties => {
         return {
             display: "flex",
             flexDirection: "column",
@@ -33,8 +33,7 @@ export default function MainSection({ title, link, subtitle, style, children } :
     return (
         <motion.div
             initial="offscreen"
-            animate="onscreen"
-        >
+            animate="onscreen" >
             <motion.div variants={theme.motion.cardVariants} style={containerStyle}>
                 {title &&
                     <Header title={title} link={link} subtitle={subtitle} />

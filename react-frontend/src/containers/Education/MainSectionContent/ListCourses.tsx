@@ -5,11 +5,11 @@ import ListButtons from '../../../components/ListButtons'
 import ListItems from '../../../components/ListItems'
 import { getEducationCourses } from '../../../APIs'
 import { Course } from '../../../Types';
-import { useEffect, useState } from 'react';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
+import Loader from '../../../components/Loader';
 
 export default function ListCourses() {
-    const [courses, setCourses] = useState<Course[]>([]);
-    const { theme } = useThemeContext();
+    const [courses, setCourses] = useState<Course[] | null>(null);
 
     useEffect(() => {
         getEducationCourses().then((result) => {
@@ -30,25 +30,49 @@ export default function ListCourses() {
 
     return (
         <>
+            {courses ? <CoursesItems courses={courses} /> : <Loader />}
+        </>
+    )
+}
+
+function CoursesItems({ courses }: { readonly courses: Course[] }) {
+    const courseSectionStyle = useMemo((): CSSProperties => ({
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.5rem",
+    }), []);
+
+    return (
+        <>
             {courses.map((course, index) => {
                 return (
                     <MainSection key={course.name}>
-                        <div style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            gap: "0.5rem",
-                        }}>
-                            <Text variant={"h4"} style={{
-                                color: theme.colors.main.full,
-                            }}>
-                                {course.name}
-                            </Text>
-                            <ListItems elements={course.description.split("\n")} />
+                        <div style={courseSectionStyle}>
+                            <CourseTitle courseName={course.name} />
+                            <CourseContent courseDescription={course.description} />
                             {course.technologies && <ListButtons elements={course.technologies} />}
                         </div>
                     </MainSection>
                 )
             })}
         </>
+    )
+}
+
+function CourseTitle({ courseName }: { readonly courseName: string }) {
+    const { theme } = useThemeContext();
+
+    return (
+        <Text variant={"h4"} style={{
+            color: theme.colors.main.full,
+        }}>
+            {courseName}
+        </Text>
+    )
+}
+
+function CourseContent({ courseDescription }: { readonly courseDescription: string }) {
+    return (
+        <ListItems elements={courseDescription.split("\n")} />
     )
 }

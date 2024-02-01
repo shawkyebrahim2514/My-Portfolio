@@ -3,6 +3,7 @@ import { useThemeContext } from '../../contexts/ThemeContext';
 import Text from '../Text'
 import { useNavigationControllerContext } from '../../contexts/NavigationControllerContext';
 import { Links } from '../../Types';
+import { navbarContent } from '../../Texts';
 
 export default function Logo() {
     const { theme } = useThemeContext();
@@ -33,7 +34,7 @@ export default function Logo() {
             <Text variant={"h2"} style={{
                 fontWeight: "800",
             }}>
-                SHAWKY EBRAHIM
+                {navbarContent.logoText}
             </Text>
         </div>
     )

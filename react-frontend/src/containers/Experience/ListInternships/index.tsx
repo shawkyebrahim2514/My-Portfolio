@@ -1,15 +1,14 @@
 import MainSection from '../../../components/MainSection'
 import Text from '../../../components/Text'
 import ListItems from '../../../components/ListItems'
-import { useThemeContext } from '../../../contexts/ThemeContext';
 import ListButtons from '../../../components/ListButtons'
 import { getInternships } from '../../../APIs'
-import { useEffect, useState } from 'react'
+import { CSSProperties, useEffect, useMemo, useState } from 'react'
 import { Internship } from '../../../Types'
+import Loader from '../../../components/Loader';
 
 export default function ListInternships() {
-    const [experiences, setExperiences] = useState<Internship[]>([]);
-    const { theme } = useThemeContext();
+    const [experiences, setExperiences] = useState<Internship[] | null>(null);
 
     useEffect(() => {
         getInternships().then((result) => {
@@ -33,52 +32,80 @@ export default function ListInternships() {
 
     return (
         <>
+            {experiences ? <ExperiencesItems experiences={experiences} /> : <Loader />}
+        </>
+    )
+}
+
+function ExperiencesItems({ experiences }: { experiences: Internship[] }) {
+    const containerStyle = useMemo((): CSSProperties => ({
+        display: "flex",
+        justifyContent: "center",
+        flexDirection: "column",
+        gap: "1rem",
+    }), []);
+
+    return (
+        <>
             {experiences.map((experience, index) => {
                 return (
                     <MainSection
                         key={experience.title}
                         title={experience.title}
-                        link={experience.link}
-                    >
-                        <div style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            gap: "1rem",
-                        }}>
-                            <div style={{
-                                display: "flex",
-                                alignItems: "flex-start",
-                                flexDirection: "column",
-                                width: "fit-content",
-                                gap: "0.5rem",
-                            }}>
-                                <Text variant={"h4"}>
-                                    {experience.subTitle}
-                                </Text>
-                                <Text variant={"body"}>
-                                    From: {experience.date.from} - To: {experience.date.to}
-                                </Text>
-                            </div>
-                            <div style={{
-                                display: "flex",
-                                alignItems: "flex-start",
-                                flexDirection: "column",
-                                width: "fit-content",
-                                gap: "0.5rem",
-                            }}>
-                                <Text variant={"h4"} style={{
-                                    color: theme.colors.main.full,
-                                }}>
-                                    Description
-                                </Text>
-                                <ListItems elements={experience.description.split("\n")} />
-                            </div>
+                        link={experience.link} >
+                        <div style={containerStyle}>
+                            <ExperienceItemInformation subTitle={experience.subTitle} date={experience.date} />
+                            <ExperienceItemDescription description={experience.description} />
                             <ListButtons elements={experience.technologies} />
                         </div>
                     </MainSection>
                 )
             })}
         </>
+    )
+}
+
+function ExperienceItemInformation({ subTitle, date }: Pick<Internship, "subTitle" | "date">) {
+    const containerStyle = useMemo((): CSSProperties => ({
+        display: "flex",
+        alignItems: "flex-start",
+        flexDirection: "column",
+        width: "fit-content",
+        gap: "0.5rem",
+    }), []);
+
+    return (
+        <div style={containerStyle}>
+            <Text variant={"h4"}>
+                {subTitle}
+            </Text>
+            <Text variant={"body"}>
+                {formatDate({ date })}
+            </Text>
+        </div>
+    )
+}
+
+function formatDate({ date }: Pick<Internship, "date">) {
+    return `From: ${date.from} - To: ${date.to}`
+
+}
+
+function ExperienceItemDescription({ description }: Pick<Internship, "description">) {
+    const containerStyle = useMemo((): CSSProperties => ({
+        display: "flex",
+        alignItems: "flex-start",
+        flexDirection: "column",
+        width: "fit-content",
+        gap: "0.5rem",
+    }), []);
+
+    return (
+        <div style={containerStyle}>
+            <Text variant={"h4"}>
+                Description
+            </Text>
+            <ListItems elements={description.split("\n")} />
+        </div>
     )
 }

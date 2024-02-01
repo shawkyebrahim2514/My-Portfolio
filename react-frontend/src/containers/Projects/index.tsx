@@ -15,12 +15,9 @@ function Projects() {
 
     return (
         <div style={containerStyle}>
-            {/* Title */}
             <SectionTitle
                 highlightedText={projectsPageContent.highlightedTitle}
                 text={projectsPageContent.titlePhrase} />
-
-            {/* Content */}
             <ListProjects />
         </div>
     )

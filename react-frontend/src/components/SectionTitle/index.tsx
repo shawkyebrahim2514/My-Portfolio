@@ -10,7 +10,6 @@ type SectionTitleProps = {
 }
 
 export default function SectionTitle({ highlightedText, text, subtitle, style }: SectionTitleProps) {
-    const { theme } = useThemeContext();
     const containerStyle = useMemo((): CSSProperties => {
         return {
             display: "flex",
@@ -32,7 +31,21 @@ export default function SectionTitle({ highlightedText, text, subtitle, style }:
             flexWrap: "wrap",
         };
     }, []);
-    const highlightedTextStyle = useMemo((): CSSProperties => {
+
+    return (
+        <header style={containerStyle}>
+            <div style={titleStyle}>
+                {highlightedText ? <TitleHighlightedText>{highlightedText}</TitleHighlightedText> : null}
+                {text ? <Text variant={"h2"}>{text}</Text> : null}
+            </div>
+            {subtitle ? <Text variant={"h3"}>{subtitle}</Text> : null}
+        </header>
+    )
+}
+
+function TitleHighlightedText({ children }: { readonly children: string }) {
+    const { theme } = useThemeContext();
+    const style = useMemo((): CSSProperties => {
         return {
             backgroundColor: theme.colors.main.full,
             padding: "0.25rem 0.5rem",
@@ -40,20 +53,5 @@ export default function SectionTitle({ highlightedText, text, subtitle, style }:
             boxShadow: theme.boxShadow,
         };
     }, [theme]);
-
-    return (
-        <header style={containerStyle}>
-            <div style={titleStyle}>
-                {highlightedText ?
-                    <Text
-                        variant={"h2"}
-                        style={highlightedTextStyle}>
-                        {highlightedText}
-                    </Text>
-                    : null}
-                {text ? <Text variant={"h2"}>{text}</Text> : null}
-            </div>
-            {subtitle ? <Text variant={"h3"}>{subtitle}</Text> : null}
-        </header>
-    )
+    return <Text variant={"h2"} style={style}>{children}</Text>
 }

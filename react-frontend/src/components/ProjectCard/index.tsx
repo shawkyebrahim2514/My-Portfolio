@@ -45,7 +45,11 @@ export default function ProjectCard({
             animate="onscreen"
         >
             <motion.div variants={theme.motion.cardVariants} style={containerStyle}>
-                <Image imgSrc={imgSrc} isSmallScreen={isSmallScreen} projectLink={projectLink} demoLink={demoLink} />
+                <Image
+                    imgSrc={imgSrc}
+                    isSmallScreen={isSmallScreen}
+                    projectLink={projectLink}
+                    demoLink={demoLink} />
                 <Content title={title} description={description} technologies={technologies} />
             </motion.div>
         </motion.div>

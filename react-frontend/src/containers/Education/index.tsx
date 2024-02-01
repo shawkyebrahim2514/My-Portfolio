@@ -25,11 +25,15 @@ function Contacts() {
             {/* Content */}
             <MainSection
                 title={educationPageContent.college.name}
-                subtitle={educationPageContent.college.degree + " | " + educationPageContent.college.gpa}>
+                subtitle={createCollegePhrase()}>
                 <MainSectionContent />
             </MainSection>
         </div>
     )
+}
+
+function createCollegePhrase() {
+    return educationPageContent.college.degree + " | " + educationPageContent.college.gpa;
 }
 
 export default ContainerWrap(Contacts)

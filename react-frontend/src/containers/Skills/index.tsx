@@ -15,12 +15,9 @@ function Skills() {
 
     return (
         <div style={containerStyle}>
-            {/* Title */}
             <SectionTitle
                 highlightedText={skillsPageContent.highlightedTitle}
                 text={skillsPageContent.titlePhrase} />
-
-            {/* Content */}
             <Content />
         </div>
     )

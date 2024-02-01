@@ -11,7 +11,6 @@ type ContentProps = {
 }
 
 export default function Content({ title, description, technologies }: ContentProps) {
-    const { theme } = useThemeContext();
     const outerStyle = useMemo((): CSSProperties => {
         return {
             display: "flex",
@@ -34,15 +33,23 @@ export default function Content({ title, description, technologies }: ContentPro
     return (
         <div style={outerStyle}>
             <div style={innerStyle}>
-                <Text
-                    variant={"h3"}
-                    style={{
-                        color: theme.colors.main.full,
-                    }}
-                >{title}</Text>
+                <Title title={title} />
                 <ListItems elements={description.split("\n")} />
             </div>
             <ListButtons elements={technologies} />
         </div>
+    )
+}
+
+function Title({ title }: Pick<ContentProps, "title">) {
+    const { theme } = useThemeContext();
+    const titleStyle = useMemo((): CSSProperties => {
+        return {
+            color: theme.colors.main.full,
+        }
+    }, [theme]);
+
+    return (
+        <Text variant={"h3"} style={titleStyle}>{title}</Text>
     )
 }

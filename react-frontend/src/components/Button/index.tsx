@@ -26,6 +26,11 @@ type ButtonProps = {
     readonly pointer?: boolean;
 }
 
+const motionProperties = {
+    whileHover: { scale: 1.1 },
+    whileTap: { scale: 0.9 }
+}
+
 export default function Button({ icon, text, onClick, size = "lg", style, pointer }: ButtonProps) {
     const { theme } = useThemeContext();
     const buttonStyle = useMemo(() => {
@@ -54,11 +59,10 @@ export default function Button({ icon, text, onClick, size = "lg", style, pointe
     return (
         <motion.div
             style={buttonStyle}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={motionProperties.whileHover}
+            whileTap={motionProperties.whileTap}
             onClick={onClick}
-            onKeyDown={handleKeyDown}
-        >
+            onKeyDown={handleKeyDown} >
             {icon}
             {text}
         </motion.div>

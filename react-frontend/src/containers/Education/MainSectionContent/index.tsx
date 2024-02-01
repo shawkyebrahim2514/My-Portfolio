@@ -5,7 +5,6 @@ import ListCourses from './ListCourses';
 import { educationPageContent } from '../../../Texts';
 
 export default function Content() {
-    const { theme } = useThemeContext();
     const containerStyle = useMemo((): CSSProperties => ({
         display: "flex",
         justifyContent: "center",
@@ -15,6 +14,17 @@ export default function Content() {
 
     return (
         <div style={containerStyle}>
+            <EducationInformation />
+            <ListCourses />
+        </div>
+    )
+}
+
+function EducationInformation() {
+    const { theme } = useThemeContext();
+
+    return (
+        <>
             <div style={{
                 display: "flex",
                 alignItems: "center",
@@ -34,7 +44,6 @@ export default function Content() {
             }}>
                 Relevant Coursework
             </Text>
-            <ListCourses />
-        </div>
+        </>
     )
 }

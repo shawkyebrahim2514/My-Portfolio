@@ -1,5 +1,3 @@
-export const pages = ["about", "contact", "home", "projects"];
-
 export { aboutPageContent } from "./about";
 
 export { skillsPageContent } from "./skills";
@@ -11,3 +9,5 @@ export { experiencePageContent } from "./experience";
 export { projectsPageContent } from "./projects";
 
 export { contactsPageContent } from "./contacts";
+
+export { navbarContent, pages } from "./navbarContent";

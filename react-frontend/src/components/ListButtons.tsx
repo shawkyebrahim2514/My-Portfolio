@@ -1,3 +1,4 @@
+import { CSSProperties, useMemo } from 'react';
 import Button from './Button'
 
 type ListButtonsProps = {
@@ -5,16 +6,22 @@ type ListButtonsProps = {
 }
 
 export default function ListButtons({ elements }: ListButtonsProps) {
-    return (
-        <div style={{
+    const mainListStyle = useMemo((): CSSProperties => {
+        return {
             display: "flex",
             alignItems: "center",
             justifyContent: "flex-start",
             gap: "1rem",
             flexWrap: "wrap",
-        }}>
+        }
+    }, []);
+
+    return (
+        <div style={mainListStyle}>
             {elements.map((tech) => {
-                return <Button key={tech} text={tech} size='sm' />
+                return (
+                    <Button key={tech} text={tech} size='sm' />
+                )
             })}
         </div>
     )

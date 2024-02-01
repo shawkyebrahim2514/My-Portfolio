@@ -27,9 +27,14 @@ type IconProps = {
     readonly size?: keyof typeof variants;
 }
 
+const motionProperties = {
+    whileHover: { scale: 1.1 },
+    whileTap: { scale: 0.9 },
+}
+
 export default function Icon({ src = "images/placeholder.png", alt, text, pointer = false, onClick, size = "md" }: IconProps) {
     const { theme } = useThemeContext();
-    const outerStyle = useMemo(() : CSSProperties => {
+    const outerStyle = useMemo((): CSSProperties => {
         return {
             display: "inline-flex",
             gap: "0.5rem",
@@ -46,7 +51,7 @@ export default function Icon({ src = "images/placeholder.png", alt, text, pointe
             fontSize: variants[size].fontSize,
         };
     }, [theme, pointer, size]);
-    const imageFrameStyle = useMemo(() : CSSProperties => {
+    const imageFrameStyle = useMemo((): CSSProperties => {
         return {
             display: "flex",
             alignItems: "center",
@@ -58,20 +63,22 @@ export default function Icon({ src = "images/placeholder.png", alt, text, pointe
             overflow: "hidden",
         };
     }, [theme, size]);
+    const imageStyle = useMemo((): CSSProperties => {
+        return {
+            width: "70%",
+            objectFit: "cover",
+            filter: "drop-shadow(0px 0px 2px rgba(0,0,0,0.5))",
+        };
+    }, []);
 
     return (
         <motion.div
             style={outerStyle}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={onClick}
-        >
+            whileHover={motionProperties.whileHover}
+            whileTap={motionProperties.whileTap}
+            onClick={onClick} >
             <div style={imageFrameStyle}>
-                <img style={{
-                    width: "70%",
-                    objectFit: "cover",
-                    filter: "drop-shadow(0px 0px 2px rgba(0,0,0,0.5))",
-                }} src={src} alt={alt} />
+                <img style={imageStyle} src={src} alt={alt} />
             </div>
             {text && <Text variant={"body"}>{text}</Text>}
         </motion.div>

@@ -26,6 +26,34 @@ export default function Image({ imgSrc, isSmallScreen, projectLink, demoLink }: 
             flex: "0 0 auto"
         }
     }, [theme, isSmallScreen]);
+
+    return (
+        <div
+            onMouseOver={() => { setIsHovered(true) }}
+            onFocus={(e) => { setIsHovered(true) }}
+            onMouseOut={() => { setIsHovered(false) }}
+            onBlur={(e) => { setIsHovered(false) }}
+            style={imageFrameStyle}
+        >
+            <MainImage imgSrc={imgSrc} />
+            <ImageOverlay isHovered={isHovered} links={{ projectLink, demoLink }} />
+        </div>
+    )
+}
+
+function MainImage({ imgSrc }: Pick<ImageProps, "imgSrc">) {
+    return (
+        <img
+            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            src={imgSrc}
+            alt={imgSrc} />
+    )
+}
+
+function ImageOverlay({ isHovered, links }:
+    { readonly isHovered: boolean, readonly links: Pick<ImageProps, "projectLink" | "demoLink"> }
+) {
+    const { theme } = useThemeContext();
     const imageOverlayStyle = useMemo((): CSSProperties => {
         return {
             position: "absolute",
@@ -46,36 +74,31 @@ export default function Image({ imgSrc, isSmallScreen, projectLink, demoLink }: 
     }, [theme, isHovered]);
 
     return (
-        <div
-            onMouseOver={() => { setIsHovered(true) }}
-            onFocus={(e) => { setIsHovered(true) }}
-            onMouseOut={() => { setIsHovered(false) }}
-            onBlur={(e) => { setIsHovered(false) }}
-            style={imageFrameStyle}
-        >
-            <img
-                style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                src={imgSrc}
-                alt={imgSrc} />
-
-            <div style={imageOverlayStyle}>
-                {projectLink && (
-                    <Button
-                        icon={<FontAwesomeIcon icon={faCodeFork} />}
-                        text={"Project"}
-                        onClick={() => { window.open(projectLink, "_blank") }}
-                        pointer={true}
-                    />
-                )}
-                {demoLink && (
-                    <Button
-                        icon={<FontAwesomeIcon icon={faDesktop} />}
-                        text={"Demo"}
-                        onClick={() => { window.open(demoLink, "_blank") }}
-                        pointer={true}
-                    />
-                )}
-            </div>
+        <div style={imageOverlayStyle}>
+            {links.projectLink && <ProjectButton projectLink={links.projectLink} />}
+            {links.demoLink && <DemoButton demoLink={links.demoLink} />}
         </div>
+    )
+}
+
+function ProjectButton({ projectLink }: Pick<ImageProps, "projectLink">) {
+    return (
+        <Button
+            icon={<FontAwesomeIcon icon={faCodeFork} />}
+            text={"Project"}
+            onClick={() => { window.open(projectLink, "_blank") }}
+            pointer={true}
+        />
+    )
+}
+
+function DemoButton({ demoLink }: Pick<ImageProps, "demoLink">) {
+    return (
+        <Button
+            icon={<FontAwesomeIcon icon={faDesktop} />}
+            text={"Demo"}
+            onClick={() => { window.open(demoLink, "_blank") }}
+            pointer={true}
+        />
     )
 }
