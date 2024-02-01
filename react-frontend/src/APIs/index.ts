@@ -16,7 +16,7 @@ const sanityClient = createClient({
 })
 
 const getSkills = async () => {
-    const query = `*[_type == "skills"]{
+    const query = `*[_type == "skills" && rank >= 0]{
         "categoryName": category->name,
         "iconURL": icon.asset->url,
         name, rank
