@@ -1,8 +1,6 @@
 import MainSection from '../../../components/MainSection'
 import Text from '../../../components/Text'
 import ListItems from '../../../components/ListItems'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { useThemeContext } from '../../../contexts/ThemeContext';
 import ListButtons from '../../../components/ListButtons'
 import { getInternships } from '../../../APIs'
@@ -74,9 +72,7 @@ export default function ListInternships() {
                                 }}>
                                     Description
                                 </Text>
-                                <ListItems
-                                    elements={experience.description.split("\n")}
-                                    icon={<FontAwesomeIcon icon={faAngleRight} />} />
+                                <ListItems elements={experience.description.split("\n")} />
                             </div>
                             <ListButtons elements={experience.technologies} />
                         </div>

@@ -3,8 +3,6 @@ import { useThemeContext } from '../../contexts/ThemeContext';
 import Text from '../Text';
 import ListButtons from '../ListButtons';
 import ListItems from '../ListItems';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 type ContentProps = {
     readonly title: string,
@@ -42,9 +40,7 @@ export default function Content({ title, description, technologies }: ContentPro
                         color: theme.colors.main.full,
                     }}
                 >{title}</Text>
-                <ListItems
-                    elements={description.split("\n")}
-                    icon={<FontAwesomeIcon icon={faAngleRight} />} />
+                <ListItems elements={description.split("\n")} />
             </div>
             <ListButtons elements={technologies} />
         </div>

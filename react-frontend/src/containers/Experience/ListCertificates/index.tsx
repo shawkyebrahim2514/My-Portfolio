@@ -1,8 +1,6 @@
 import MainSection from '../../../components/MainSection'
 import Text from '../../../components/Text'
 import ListItems from '../../../components/ListItems'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { useThemeContext } from '../../../contexts/ThemeContext';
 import { getCertificates } from '../../../APIs'
 import { useEffect, useState } from 'react'
@@ -74,9 +72,7 @@ export default function ListCertificates() {
                                         }}>
                                             Description
                                         </Text>
-                                        <ListItems
-                                            elements={certificate.description.split("\n")}
-                                            icon={<FontAwesomeIcon icon={faAngleRight} />} />
+                                        <ListItems elements={certificate.description.split("\n")} />
                                     </>
                                 )}
                             </div>

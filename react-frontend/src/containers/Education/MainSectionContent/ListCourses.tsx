@@ -3,8 +3,6 @@ import MainSection from '../../../components/MainSection'
 import Text from '../../../components/Text'
 import ListButtons from '../../../components/ListButtons'
 import ListItems from '../../../components/ListItems'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { getEducationCourses } from '../../../APIs'
 import { Course } from '../../../Types';
 import { useEffect, useState } from 'react';
@@ -45,9 +43,7 @@ export default function ListCourses() {
                             }}>
                                 {course.name}
                             </Text>
-                            <ListItems
-                                elements={course.description.split("\n")}
-                                icon={<FontAwesomeIcon icon={faAngleRight} />} />
+                            <ListItems elements={course.description.split("\n")} />
                             {course.technologies && <ListButtons elements={course.technologies} />}
                         </div>
                     </MainSection>
