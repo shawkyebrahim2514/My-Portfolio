@@ -32,7 +32,14 @@ const motionProperties = {
     whileTap: { scale: 0.9 },
 }
 
-export default function Icon({ src = "images/placeholder.png", alt, text, pointer = false, onClick, size = "md" }: IconProps) {
+export default function Icon({
+    src = "images/placeholder.png",
+    alt,
+    text,
+    pointer = false,
+    onClick,
+    size = "md"
+}: IconProps) {
     const { theme } = useThemeContext();
     const outerStyle = useMemo((): CSSProperties => {
         return {

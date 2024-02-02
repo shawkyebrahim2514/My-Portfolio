@@ -1,7 +1,6 @@
 import { CSSProperties, useMemo } from 'react'
 import { useThemeContext } from '../../contexts/ThemeContext';
 import Header from './Header';
-import { motion } from "framer-motion"
 
 type CenteredSectionProps = {
     readonly title: string,
@@ -29,13 +28,9 @@ export default function CenteredSection({ title, subtitle, icon, children }: Cen
     }, [theme]);
 
     return (
-        <motion.div
-            initial="offscreen"
-            animate="onscreen" >
-            <motion.div variants={theme.motion.cardVariants} style={containerStyle}>
-                <Header title={title} subtitle={subtitle} icon={icon} />
-                {children}
-            </motion.div>
-        </motion.div>
+        <div style={containerStyle}>
+            <Header title={title} subtitle={subtitle} icon={icon} />
+            {children}
+        </div>
     )
 }

@@ -30,21 +30,6 @@ const themeProperties: Theme = {
     borderRadius: "8px",
     boxShadow: "0 0 10px rgba(0,0,0,0.2)",
     backgroundImage: `url(${backgroundImage})`,
-    motion: {
-        cardVariants: {
-            offscreen: {
-                x: -100,
-            },
-            onscreen: {
-                x: 0,
-                transition: {
-                    type: "spring",
-                    bounce: 0.4,
-                    duration: 0.8
-                }
-            }
-        }
-    },
     bluryStyle: {
         main: {
             backgroundColor: '',

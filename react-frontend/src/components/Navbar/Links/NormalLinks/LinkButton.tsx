@@ -21,11 +21,9 @@ function LinkButton({ linkName, linkActive, setLinks }: {
     }, [setLinks]);
     return (
         <Button
-            key={linkName}
             style={linkButtonStyle(linkActive)}
             pointer={true}
             onClick={() => linkButtonClickHandler(linkName)}
-            size={"lg"}
             text={createLinkButtonText(linkName)} />
     )
 }

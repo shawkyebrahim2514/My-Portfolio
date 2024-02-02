@@ -19,21 +19,6 @@ type Theme = {
     borderRadius: string,
     boxShadow: string,
     backgroundImage: string,
-    motion: {
-        cardVariants: {
-            offscreen: {
-                x: number
-            },
-            onscreen: {
-                x: number,
-                transition: {
-                    type: string,
-                    bounce: number,
-                    duration: number
-                }
-            }
-        }
-    },
     bluryStyle: {
         main: {
             backgroundColor: string,

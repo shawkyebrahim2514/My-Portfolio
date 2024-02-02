@@ -53,5 +53,6 @@ function TitleHighlightedText({ children }: { readonly children: string }) {
             boxShadow: theme.boxShadow,
         };
     }, [theme]);
+
     return <Text variant={"h2"} style={style}>{children}</Text>
 }

@@ -2,7 +2,6 @@ import { CSSProperties, useMemo } from 'react'
 import { useThemeContext } from '../../contexts/ThemeContext';
 import Header from './Header';
 import Content from './Content';
-import { motion } from "framer-motion"
 
 type MainSectionProps = {
     readonly title?: string,
@@ -12,7 +11,9 @@ type MainSectionProps = {
     readonly children: React.ReactNode,
 }
 
-export default function MainSection({ title, link, subtitle, style, children }: MainSectionProps) {
+export default function MainSection({ title, link, subtitle, style, children }:
+    MainSectionProps
+) {
     const { theme } = useThemeContext();
     const containerStyle = useMemo((): CSSProperties => {
         return {
@@ -31,17 +32,11 @@ export default function MainSection({ title, link, subtitle, style, children }: 
     }, [theme, style]);
 
     return (
-        <motion.div
-            initial="offscreen"
-            animate="onscreen" >
-            <motion.div variants={theme.motion.cardVariants} style={containerStyle}>
-                {title &&
-                    <Header title={title} link={link} subtitle={subtitle} />
-                }
-                <Content>
-                    {children}
-                </Content>
-            </motion.div>
-        </motion.div>
+        <div style={containerStyle}>
+            {title && <Header title={title} link={link} subtitle={subtitle} />}
+            <Content>
+                {children}
+            </Content>
+        </div>
     )
 }
