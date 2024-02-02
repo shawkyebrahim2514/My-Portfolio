@@ -1,6 +1,6 @@
 import MainSection from '../../../components/MainSection'
 import ListButtons from '../../../components/ListButtons'
-import { CSSProperties, useMemo } from 'react'
+import { CSSProperties, memo, useMemo } from 'react'
 import { Internship } from '../../../Types'
 import ExperienceItemInformation from './ExperienceItemInformation'
 import ExperienceItemDescription from './ExperienceItemDescription'
@@ -9,7 +9,7 @@ type ExperiencesItemsProps = {
     readonly experiences: Internship[]
 }
 
-export default function ExperiencesItems({ experiences }: ExperiencesItemsProps) {
+function ExperiencesItems({ experiences }: ExperiencesItemsProps) {
     const containerStyle = useMemo((): CSSProperties => ({
         display: "flex",
         justifyContent: "center",
@@ -36,3 +36,5 @@ export default function ExperiencesItems({ experiences }: ExperiencesItemsProps)
         </>
     )
 }
+
+export default memo(ExperiencesItems);

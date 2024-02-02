@@ -1,7 +1,8 @@
+import { memo } from 'react';
 import Text from '../../../components/Text';
 import { aboutPageContent } from '../../../Texts';
 
-export default function Description() {
+function Description() {
     return (
         <div style={{
             display: "flex",
@@ -21,3 +22,5 @@ export default function Description() {
         </div>
     )
 }
+
+export default memo(Description);

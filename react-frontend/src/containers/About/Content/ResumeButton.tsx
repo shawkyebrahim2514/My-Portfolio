@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
 import { getResumeURL } from '../../../APIs';
 import { aboutPageContent } from '../../../Texts';
+import { memo } from 'react';
 
-export default function ResumeButton() {
+function ResumeButton() {
     return (
         <Button
             icon={<FontAwesomeIcon icon={faFileLines} />}
@@ -18,3 +19,5 @@ export default function ResumeButton() {
             }} />
     )
 }
+
+export default memo(ResumeButton);

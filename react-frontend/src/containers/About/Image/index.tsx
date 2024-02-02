@@ -1,8 +1,8 @@
-import { CSSProperties, useMemo } from 'react';
+import { CSSProperties, memo, useMemo } from 'react';
 import BackShape from './BackShape';
 import GithubImage from './GithubImage';
 
-export default function Image() {
+function Image() {
     const containerStyle = useMemo((): CSSProperties => ({
         width: "320px",
         height: "320px",
@@ -17,3 +17,5 @@ export default function Image() {
         </div>
     )
 }
+
+export default memo(Image);

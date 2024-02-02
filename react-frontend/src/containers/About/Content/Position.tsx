@@ -1,9 +1,9 @@
 import { useThemeContext } from '../../../contexts/ThemeContext';
 import Text from '../../../components/Text';
 import { aboutPageContent } from '../../../Texts';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
-export default function Position() {
+function Position() {
     const { theme } = useThemeContext();
     const textStyle = useMemo(() => {
         return {
@@ -21,3 +21,5 @@ export default function Position() {
         </Text>
     )
 }
+
+export default memo(Position);

@@ -1,5 +1,5 @@
 import MainSection from '../../../components/MainSection'
-import { CSSProperties, useMemo } from 'react'
+import { CSSProperties, memo, useMemo } from 'react'
 import { Certificate } from '../../../Types'
 import SubtitleAndDate from './SubtitleAndDate';
 import Description from './Description';
@@ -8,7 +8,7 @@ type CertificatesItemsProps = {
     readonly certificates: Certificate[]
 }
 
-export default function CertificatesItems({ certificates }: CertificatesItemsProps) {
+function CertificatesItems({ certificates }: CertificatesItemsProps) {
     const containerStyle = useMemo((): CSSProperties => ({
         display: "flex",
         justifyContent: "center",
@@ -34,3 +34,5 @@ export default function CertificatesItems({ certificates }: CertificatesItemsPro
         </>
     )
 }
+
+export default memo(CertificatesItems);

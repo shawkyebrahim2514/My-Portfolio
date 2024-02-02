@@ -1,9 +1,9 @@
 import { useThemeContext } from '../../../contexts/ThemeContext';
 import Text from '../../../components/Text';
 import { aboutPageContent } from '../../../Texts';
-import { useMemo } from 'react';
+import { memo, useMemo } from 'react';
 
-export default function Name() {
+function Name() {
     const { theme } = useThemeContext();
     const textStyle = useMemo(() => {
         return {
@@ -19,3 +19,5 @@ export default function Name() {
         </Text>
     )
 }
+
+export default memo(Name);

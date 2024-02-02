@@ -1,4 +1,4 @@
-import { CSSProperties, useMemo } from 'react'
+import { CSSProperties, memo, useMemo } from 'react'
 import { useThemeContext } from '../../contexts/ThemeContext';
 import Text from '../Text';
 import ListButtons from '../ListButtons';
@@ -10,7 +10,7 @@ type ContentProps = {
     readonly technologies: string[],
 }
 
-export default function Content({ title, description, technologies }: ContentProps) {
+function Content({ title, description, technologies }: ContentProps) {
     const outerStyle = useMemo((): CSSProperties => {
         return {
             display: "flex",
@@ -53,3 +53,5 @@ function Title({ title }: Readonly<Pick<ContentProps, "title">>) {
         <Text variant={"h3"} style={titleStyle}>{title}</Text>
     )
 }
+
+export default memo(Content);

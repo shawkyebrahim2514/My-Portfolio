@@ -1,3 +1,4 @@
+import { memo } from "react";
 import ProjectCard from "../../../components/ProjectCard";
 import { Project } from "../../../Types";
 
@@ -5,7 +6,7 @@ type ProjectsItemsProps = {
     readonly projects: Project[]
 }
 
-export default function ProjectsItems({ projects }: ProjectsItemsProps) {
+function ProjectsItems({ projects }: ProjectsItemsProps) {
     return (
         <>
             {projects.map((project, index) => {
@@ -24,3 +25,5 @@ export default function ProjectsItems({ projects }: ProjectsItemsProps) {
         </>
     )
 }
+
+export default memo(ProjectsItems);

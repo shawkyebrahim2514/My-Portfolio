@@ -1,3 +1,4 @@
+import { memo } from "react";
 import Icon from "../../../components/Icon"
 import { Contact } from "../../../Types";
 
@@ -5,7 +6,7 @@ type ContactsItemsProps = {
     readonly contacts: Contact[]
 }
 
-export default function ContactsItems({ contacts }: ContactsItemsProps) {
+function ContactsItems({ contacts }: ContactsItemsProps) {
     return (
         <>
             {contacts.map((contact, index) => {
@@ -22,3 +23,5 @@ export default function ContactsItems({ contacts }: ContactsItemsProps) {
         </>
     )
 }
+
+export default memo(ContactsItems);

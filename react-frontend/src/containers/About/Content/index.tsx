@@ -5,8 +5,9 @@ import SeekingPhrase from './SeekingPhrase';
 import Position from './Position';
 import Description from './Description';
 import ResumeButton from './ResumeButton';
+import { memo } from 'react';
 
-export default function Content() {
+function Content() {
     const isMediumScreen = useMediaQuery({ query: '(max-width: 1124px)' });
 
     return (
@@ -22,3 +23,5 @@ export default function Content() {
         </div>
     )
 }
+
+export default memo(Content);

@@ -5,7 +5,7 @@ import { CSSProperties, useMemo } from 'react';
 import MainSectionContent from './MainSectionContent';
 import { educationPageContent } from '../../Texts';
 
-function Contacts() {
+function Education() {
     const containerStyle = useMemo((): CSSProperties => ({
         display: "flex",
         flexDirection: "column",
@@ -36,4 +36,4 @@ function createCollegePhrase() {
     return educationPageContent.college.degree + " | " + educationPageContent.college.gpa;
 }
 
-export default ContainerWrap(Contacts)
+export default ContainerWrap(Education)

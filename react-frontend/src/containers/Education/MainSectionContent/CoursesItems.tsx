@@ -4,13 +4,13 @@ import Text from '../../../components/Text'
 import ListButtons from '../../../components/ListButtons'
 import ListItems from '../../../components/ListItems'
 import { Course } from '../../../Types';
-import { CSSProperties, useMemo } from 'react';
+import { CSSProperties, memo, useMemo } from 'react';
 
 type CoursesItemsProps = {
     readonly courses: Course[]
 }
 
-export default function CoursesItems({ courses }: CoursesItemsProps) {
+function CoursesItems({ courses }: CoursesItemsProps) {
     const courseSectionStyle = useMemo((): CSSProperties => ({
         display: "flex",
         flexDirection: "column",
@@ -51,3 +51,5 @@ function CourseContent({ courseDescription }: { readonly courseDescription: stri
         <ListItems elements={courseDescription.split("\n")} />
     )
 }
+
+export default memo(CoursesItems);
