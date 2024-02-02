@@ -13,9 +13,12 @@ const barsMotion = {
     }),
 }
 
-export default function BarsIcon({ isMenuOpen, setIsMenuOpen }:
-    { isMenuOpen: boolean, setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>> }
-) {
+type BarsIconProps = {
+    readonly isMenuOpen: boolean,
+    readonly setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function BarsIcon({ isMenuOpen, setIsMenuOpen }: BarsIconProps) {
     const { theme } = useThemeContext();
     const barsStyle = useMemo(() => ({
         display: "inline-block",

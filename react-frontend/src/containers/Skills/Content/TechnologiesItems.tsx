@@ -7,7 +7,11 @@ import { TechnologySkill, TechnologyCategory } from '../../../Types';
 
 type StateTechnology = Record<TechnologyCategory, TechnologySkill[]>;
 
-export default function TechnologiesItems({ technologies }: { technologies: StateTechnology }) {
+type TechnologiesItemsProps = {
+    readonly technologies: StateTechnology
+}
+
+export default function TechnologiesItems({ technologies }: TechnologiesItemsProps) {
     const listItemsContainerStyle = useMemo((): CSSProperties => ({
         display: "flex",
         alignItems: "center",

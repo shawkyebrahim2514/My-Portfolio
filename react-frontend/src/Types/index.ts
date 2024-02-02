@@ -5,6 +5,7 @@ export {
     type SanityProject,
     type SanityContact,
     type TechnologyCategory,
+    type SanityCertificate
 } from './sanity';
 
 export { type Theme, type Links } from './contexts';

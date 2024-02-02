@@ -24,13 +24,13 @@ export default function Logo() {
     }, [changeLinksHandler]);
 
     return (
-        <div style={{
-            color: theme.colors.main.full,
-            cursor: "pointer",
-        }}
+        <div
+            style={{
+                color: theme.colors.main.full,
+                cursor: "pointer",
+            }}
             onClick={changeLinksHandler}
-            onKeyDown={onKeyDownHandler}
-        >
+            onKeyDown={onKeyDownHandler} >
             <Text variant={"h2"} style={{
                 fontWeight: "800",
             }}>

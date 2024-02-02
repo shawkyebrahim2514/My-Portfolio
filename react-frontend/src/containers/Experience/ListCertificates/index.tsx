@@ -1,29 +1,19 @@
-import MainSection from '../../../components/MainSection'
-import Text from '../../../components/Text'
-import ListItems from '../../../components/ListItems'
-import { useThemeContext } from '../../../contexts/ThemeContext';
 import { getCertificates } from '../../../APIs'
 import { useEffect, useState } from 'react'
 import { Certificate } from '../../../Types'
+import { SanityCertificate } from '../../../Types/sanity';
+import Loader from '../../../components/Loader';
+import CertificatesItems from './CertificatesItems';
 
 export default function ListCertificates() {
-    const [certificates, setCertificates] = useState<Certificate[]>([]);
-    const { theme } = useThemeContext();
+    const [certificates, setCertificates] = useState<Certificate[] | null>(null);
 
     useEffect(() => {
         getCertificates().then((result) => {
-            result = result.sort((element1, element2) => {
-                return element2.rank - element1.rank;
-            });
+            result = sortResultFromSanity(result);
             let newState: Certificate[] = [];
             result.forEach((element) => {
-                newState.push({
-                    description: element.description,
-                    title: element.title,
-                    subTitle: element.subTitle,
-                    link: element.link,
-                    date: element.date,
-                })
+                newState.push(formatCertificateFromSanity(element));
             })
             setCertificates(newState);
         });
@@ -31,55 +21,23 @@ export default function ListCertificates() {
 
     return (
         <>
-            {certificates.map((certificate, index) => {
-                return (
-                    <MainSection
-                        key={certificate.title}
-                        title={certificate.title}
-                        link={certificate.link}
-                    >
-                        <div style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            flexDirection: "column",
-                            gap: "1rem",
-                        }}>
-                            <div style={{
-                                display: "flex",
-                                alignItems: "flex-start",
-                                flexDirection: "column",
-                                width: "fit-content",
-                                gap: "0.5rem",
-                            }}>
-                                <Text variant={"h4"}>
-                                    {certificate.subTitle}
-                                </Text>
-                                <Text variant={"body"}>
-                                    {certificate.date}
-                                </Text>
-                            </div>
-                            <div style={{
-                                display: "flex",
-                                alignItems: "flex-start",
-                                flexDirection: "column",
-                                width: "fit-content",
-                                gap: "0.5rem",
-                            }}>
-                                {certificate.description && (
-                                    <>
-                                        <Text variant={"h4"} style={{
-                                            color: theme.colors.main.full,
-                                        }}>
-                                            Description
-                                        </Text>
-                                        <ListItems elements={certificate.description.split("\n")} />
-                                    </>
-                                )}
-                            </div>
-                        </div>
-                    </MainSection>
-                )
-            })}
+            {certificates ? <CertificatesItems certificates={certificates} /> : <Loader />}
         </>
     )
+}
+
+function sortResultFromSanity(result: SanityCertificate[]): SanityCertificate[] {
+    return result.sort((element1, element2) => {
+        return element2.rank - element1.rank;
+    });
+}
+
+function formatCertificateFromSanity(certificate: SanityCertificate): Certificate {
+    return {
+        description: certificate.description,
+        title: certificate.title,
+        subTitle: certificate.subTitle,
+        link: certificate.link,
+        date: certificate.date,
+    }
 }

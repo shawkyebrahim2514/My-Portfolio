@@ -4,9 +4,12 @@ import Button from '../../../Button';
 import { useNavigationControllerContext } from '../../../../contexts/NavigationControllerContext';
 import { Links } from "../../../../Types";
 
-export default function DropDownLinks({ isMenuOpen, setIsMenuOpen }:
-    { isMenuOpen: boolean, setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>> }
-) {
+type DropDownLinksProps = {
+    readonly isMenuOpen: boolean,
+    readonly setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function DropDownLinks({ isMenuOpen, setIsMenuOpen }: DropDownLinksProps) {
     const { theme } = useThemeContext();
     const { links, setLinks } = useNavigationControllerContext();
     const linksContainerStyle = useMemo((): CSSProperties => ({

@@ -30,18 +30,17 @@ export default function Image({ imgSrc, isSmallScreen, projectLink, demoLink }: 
     return (
         <div
             onMouseOver={() => { setIsHovered(true) }}
-            onFocus={(e) => { setIsHovered(true) }}
+            onFocus={() => { setIsHovered(true) }}
             onMouseOut={() => { setIsHovered(false) }}
-            onBlur={(e) => { setIsHovered(false) }}
-            style={imageFrameStyle}
-        >
+            onBlur={() => { setIsHovered(false) }}
+            style={imageFrameStyle} >
             <MainImage imgSrc={imgSrc} />
             <ImageOverlay isHovered={isHovered} links={{ projectLink, demoLink }} />
         </div>
     )
 }
 
-function MainImage({ imgSrc }: Pick<ImageProps, "imgSrc">) {
+function MainImage({ imgSrc }: Readonly<Pick<ImageProps, "imgSrc">>) {
     return (
         <img
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -81,7 +80,7 @@ function ImageOverlay({ isHovered, links }:
     )
 }
 
-function ProjectButton({ projectLink }: Pick<ImageProps, "projectLink">) {
+function ProjectButton({ projectLink }: Readonly<Pick<ImageProps, "projectLink">>) {
     return (
         <Button
             icon={<FontAwesomeIcon icon={faCodeFork} />}
@@ -92,7 +91,7 @@ function ProjectButton({ projectLink }: Pick<ImageProps, "projectLink">) {
     )
 }
 
-function DemoButton({ demoLink }: Pick<ImageProps, "demoLink">) {
+function DemoButton({ demoLink }: Readonly<Pick<ImageProps, "demoLink">>) {
     return (
         <Button
             icon={<FontAwesomeIcon icon={faDesktop} />}

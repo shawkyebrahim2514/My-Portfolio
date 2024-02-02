@@ -1,7 +1,11 @@
 import Icon from '../../../components/Icon'
 import { TechnologySkill } from '../../../Types';
 
-export default function listIcons({ list }: { list: TechnologySkill[] }) {
+type ListIconsProps = {
+    readonly list: TechnologySkill[]
+}
+
+export default function listIcons({ list }: ListIconsProps) {
     return (
         <>
             {list.map((icon, index) => {

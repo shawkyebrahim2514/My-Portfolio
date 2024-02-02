@@ -41,7 +41,7 @@ export default function Content({ title, description, technologies }: ContentPro
     )
 }
 
-function Title({ title }: Pick<ContentProps, "title">) {
+function Title({ title }: Readonly<Pick<ContentProps, "title">>) {
     const { theme } = useThemeContext();
     const titleStyle = useMemo((): CSSProperties => {
         return {

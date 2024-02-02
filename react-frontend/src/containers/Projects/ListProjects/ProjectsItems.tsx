@@ -1,7 +1,11 @@
 import ProjectCard from "../../../components/ProjectCard";
 import { Project } from "../../../Types";
 
-export default function ProjectsItems({ projects }: { projects: Project[] }) {
+type ProjectsItemsProps = {
+    readonly projects: Project[]
+}
+
+export default function ProjectsItems({ projects }: ProjectsItemsProps) {
     return (
         <>
             {projects.map((project, index) => {
