@@ -1,12 +1,15 @@
 import { useThemeContext } from './contexts/ThemeContext';
-import About from './containers/About';
 import Navbar from './components/Navbar';
-import Skills from './containers/Skills';
-import Education from './containers/Education';
-import Experience from './containers/Experience';
-import Projects from './containers/Projects';
 import Contacts from './containers/Contacts';
 import { useNavigationControllerContext } from './contexts/NavigationControllerContext';
+import { Suspense, lazy } from 'react';
+import Loader from './components/Loader';
+
+const About = lazy(() => import('./containers/About'));
+const Skills = lazy(() => import('./containers/Skills'));
+const Education = lazy(() => import('./containers/Education'));
+const Experience = lazy(() => import('./containers/Experience'));
+const Projects = lazy(() => import('./containers/Projects'));
 
 export default function Portfolio() {
     const { theme } = useThemeContext();
@@ -25,12 +28,14 @@ export default function Portfolio() {
                 padding: "0 1rem",
             }}>
                 <Navbar />
-                {links.about && <About />}
-                {links.skills && <Skills />}
-                {links.education && <Education />}
-                {links.experience && <Experience />}
-                {links.projects && <Projects />}
-                {links.contacts && <Contacts />}
+                <Suspense fallback={<Loader />}>
+                    {links.about && <About />}
+                    {links.skills && <Skills />}
+                    {links.education && <Education />}
+                    {links.experience && <Experience />}
+                    {links.projects && <Projects />}
+                    {links.contacts && <Contacts />}
+                </Suspense>
             </div>
         </div>
     )
