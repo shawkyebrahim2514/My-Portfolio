@@ -1,4 +1,4 @@
-import { commanTitle, commanPageName } from "./commanFields";
+import { commanTitle, changeDocumentPreviewTitle } from "./commanFields";
 import { IoCodeSlash } from "react-icons/io5";
 
 export const skillsPage = {
@@ -6,8 +6,8 @@ export const skillsPage = {
     type: 'document',
     title: 'Skills Page',
     icon: IoCodeSlash,
+    ...changeDocumentPreviewTitle("Skills Page"),
     fields: [
-        commanPageName,
         commanTitle,
         {
             name: 'categories',

@@ -16,9 +16,9 @@ export const portfolio = {
     icon: TbWorldCode,
     fields: [
         {
-            name: 'title',
+            name: 'logo',
             type: 'string',
-            title: 'Portfolio Title',
+            title: 'Logo',
             validation: Rule => Rule.required()
         },
         {

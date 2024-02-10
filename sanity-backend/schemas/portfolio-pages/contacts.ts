@@ -1,4 +1,4 @@
-import { commanTitle, commanPageName } from "./commanFields";
+import { commanTitle, changeDocumentPreviewTitle } from "./commanFields";
 import { MdContacts } from "react-icons/md";
 
 export const contactsPage = {
@@ -6,8 +6,8 @@ export const contactsPage = {
     type: 'document',
     title: 'Contacts Page',
     icon: MdContacts,
+    ...changeDocumentPreviewTitle("Contacts Page"),
     fields: [
-        commanPageName,
         commanTitle,
         {
             name: 'contacts',

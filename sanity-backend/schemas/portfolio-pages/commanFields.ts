@@ -19,9 +19,14 @@ export const commanTitle = {
     validation: Rule => Rule.required()
 }
 
-export const commanPageName = {
-    name: 'name',
-    type: 'string',
-    title: 'Page Name',
-    validation: Rule => Rule.required()
+export const changeDocumentPreviewTitle = (title: string) => {
+    return {
+        preview: {
+            prepare() {
+                return {
+                    title: title,
+                }
+            }
+        },
+    }
 }

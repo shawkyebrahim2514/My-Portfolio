@@ -1,4 +1,4 @@
-import { commanPageName } from "./commanFields";
+import { changeDocumentPreviewTitle } from "./commanFields";
 import { FaCircleInfo } from "react-icons/fa6";
 
 export const aboutPage = {
@@ -6,8 +6,8 @@ export const aboutPage = {
     type: 'document',
     title: 'About Page',
     icon: FaCircleInfo,
+    ...changeDocumentPreviewTitle("About Page"),
     fields: [
-        commanPageName,
         {
             name: 'personImage',
             title: 'Person Image',

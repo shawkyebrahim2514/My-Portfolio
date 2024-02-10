@@ -1,4 +1,4 @@
-import { commanTitle, commanPageName } from "./commanFields";
+import { commanTitle, changeDocumentPreviewTitle } from "./commanFields";
 import { GoGoal } from "react-icons/go";
 
 export const experiencePage = {
@@ -6,8 +6,8 @@ export const experiencePage = {
     type: 'document',
     title: 'Experience Page',
     icon: GoGoal,
+    ...changeDocumentPreviewTitle("Experience Page"),
     fields: [
-        commanPageName,
         {
             name: 'internshipsSection',
             type: 'object',

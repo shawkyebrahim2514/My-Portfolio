@@ -1,4 +1,4 @@
-import { commanTitle, commanPageName } from "./commanFields";
+import { commanTitle, changeDocumentPreviewTitle } from "./commanFields";
 import { PiStudentFill } from "react-icons/pi";
 
 export const educationPage = {
@@ -6,8 +6,8 @@ export const educationPage = {
     type: 'document',
     title: 'Education Page',
     icon: PiStudentFill,
+    ...changeDocumentPreviewTitle("Education Page"),
     fields: [
-        commanPageName,
         commanTitle,
         {
             name: 'education',

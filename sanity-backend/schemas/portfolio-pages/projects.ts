@@ -1,4 +1,4 @@
-import { commanTitle, commanPageName } from "./commanFields";
+import { commanTitle, changeDocumentPreviewTitle } from "./commanFields";
 import { BiGitRepoForked } from "react-icons/bi";
 
 export const projectsPage = {
@@ -6,8 +6,8 @@ export const projectsPage = {
     type: 'document',
     title: 'Projects Page',
     icon: BiGitRepoForked,
+    ...changeDocumentPreviewTitle("Projects Page"),
     fields: [
-        commanPageName,
         commanTitle,
         {
             name: 'projects',
