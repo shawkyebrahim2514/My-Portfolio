@@ -1,7 +1,10 @@
+import { IoCodeSlash } from "react-icons/io5";
+
 export const skills = {
     name: 'skills',
     type: 'document',
     title: 'Skills',
+    icon: IoCodeSlash,
     fields: [
         {
             name: 'name',

@@ -1,7 +1,10 @@
+import { BiGitRepoForked } from "react-icons/bi";
+
 export const projects = {
     name: 'projects',
     type: 'document',
     title: 'Projects',
+    icon: BiGitRepoForked,
     fields: [
         {
             name: 'name',

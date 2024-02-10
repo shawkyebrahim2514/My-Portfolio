@@ -1,7 +1,10 @@
+import { PiStudentFill } from "react-icons/pi";
+
 export const collegeCourses = {
     name: 'collegeCourses',
     type: 'document',
     title: 'College Courses',
+    icon: PiStudentFill,
     fields: [
         {
             name: 'name',

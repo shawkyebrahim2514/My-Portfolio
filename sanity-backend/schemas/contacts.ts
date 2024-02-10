@@ -1,7 +1,10 @@
+import { MdContacts } from "react-icons/md";
+
 export const contacts = {
     name: 'contacts',
     type: 'document',
     title: 'Contacts',
+    icon: MdContacts,
     fields: [
         {
             name: 'name',

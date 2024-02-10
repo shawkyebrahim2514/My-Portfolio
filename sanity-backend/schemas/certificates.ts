@@ -1,7 +1,10 @@
+import { PiCertificate } from "react-icons/pi";
+
 export const certificates = {
     name: 'certificates',
     type: 'document',
     title: 'Certificates',
+    icon: PiCertificate,
     fields: [
         {
             name: 'title',

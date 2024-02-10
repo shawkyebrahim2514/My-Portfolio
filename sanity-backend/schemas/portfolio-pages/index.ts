@@ -1,0 +1,6 @@
+export { aboutPage } from './about'
+export { skillsPage } from './skills'
+export { educationPage } from './education'
+export { experiencePage } from './experience'
+export { projectsPage } from './projects'
+export { contactsPage } from './contacts'

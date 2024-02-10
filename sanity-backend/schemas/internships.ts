@@ -1,7 +1,10 @@
+import { MdFactory } from "react-icons/md";
+
 export const internships = {
     name: 'internships',
     type: 'document',
     title: 'Internships',
+    icon: MdFactory,
     fields: [
         {
             name: 'title',
