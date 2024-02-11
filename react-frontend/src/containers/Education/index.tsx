@@ -1,11 +1,13 @@
 import ContainerWrap from '../../components/ContainerWrap'
-import SectionTitle from '../../components/SectionTitle'
-import MainSection from '../../components/MainSection'
-import { CSSProperties, useMemo } from 'react';
-import MainSectionContent from './MainSectionContent';
-import { educationPageContent } from '../../Texts';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
+import { SanityEducationPage } from '../../Types';
+import { getEducationPage } from '../../APIs';
+import Loader from '../../components/Loader';
+import Title from '../Title';
+import Content from './Content';
 
 function Education() {
+    const [educationPage, setEducationPage] = useState<SanityEducationPage | null>(null);
     const containerStyle = useMemo((): CSSProperties => ({
         display: "flex",
         flexDirection: "column",
@@ -14,26 +16,22 @@ function Education() {
         gap: "2rem",
     }), []);
 
+    useEffect(() => {
+        getEducationPage().then((result) => {
+            setEducationPage(result);
+        });
+    }, []);
 
     return (
-        <div style={containerStyle}>
-            {/* Title */}
-            <SectionTitle
-                highlightedText={educationPageContent.highlightedTitle}
-                text={educationPageContent.titlePhrase} />
-
-            {/* Content */}
-            <MainSection
-                title={educationPageContent.college.name}
-                subtitle={createCollegePhrase()}>
-                <MainSectionContent />
-            </MainSection>
-        </div>
+        <>
+            {educationPage ? (
+                <div style={containerStyle}>
+                    <Title title={educationPage.title} />
+                    <Content education={educationPage.education} />
+                </div>
+            ) : <Loader />}
+        </>
     )
-}
-
-function createCollegePhrase() {
-    return educationPageContent.college.degree + " | " + educationPageContent.college.gpa;
 }
 
 export default ContainerWrap(Education)

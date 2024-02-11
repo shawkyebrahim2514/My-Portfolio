@@ -1,16 +1,21 @@
-import { SanitySkill } from '../../Types';
+import { SanitySkillsPage } from '../../Types';
 import sanityClient from './client';
 
-const getSkills = async () => {
-    const query = `*[_type == "skills" && rank >= 0]{
-        "categoryName": category->name,
-        "iconURL": icon.asset->url,
-        name, rank
+const getSkillsPage = async () => {
+    const query = `*[_type == "portfolio"][0].pages[_type == "skillsPage"][0] {
+        title,
+        "categories": categories[] {
+            title,
+            skills[] -> {
+                "iconURL": icon.asset->url,
+                name
+            }
+        }
     }`;
-    const result: SanitySkill[] = await sanityClient.fetch(query);
+    const result: SanitySkillsPage = await sanityClient.fetch(query);
     return result;
 };
 
 export {
-    getSkills,
+    getSkillsPage,
 }

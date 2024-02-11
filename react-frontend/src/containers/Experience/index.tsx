@@ -1,11 +1,13 @@
-import { CSSProperties, useMemo } from 'react'
+import { CSSProperties, useEffect, useMemo, useState } from 'react'
 import ContainerWrap from '../../components/ContainerWrap'
-import SectionTitle from '../../components/SectionTitle'
-import ListInternships from './ListInternships';
-import { experiencePageContent } from '../../Texts';
-import ListCertificates from './ListCertificates';
+import { SanityExperiencePage } from '../../Types';
+import Certificates from './Certificates';
+import { getExperiencePage } from '../../APIs';
+import Loader from '../../components/Loader';
+import Internships from './Internships';
 
 function Experience() {
+    const [experiences, setExperiences] = useState<SanityExperiencePage | null>(null);
     const containerStyle = useMemo((): CSSProperties => ({
         display: "flex",
         flexDirection: "column",
@@ -14,32 +16,20 @@ function Experience() {
         gap: "2rem",
     }), []);
 
-    return (
-        <div style={containerStyle}>
-            <InternshipsAndTraining />
-            <Certificates />
-        </div>
-    )
-}
+    useEffect(() => {
+        getExperiencePage().then((result) => {
+            setExperiences(result);
+        });
+    }, []);
 
-function InternshipsAndTraining() {
     return (
         <>
-            <SectionTitle
-                highlightedText={experiencePageContent.internships.highlightedTitle}
-                text={experiencePageContent.internships.titlePhrase} />
-            <ListInternships />
-        </>
-    )
-}
-
-function Certificates() {
-    return (
-        <>
-            <SectionTitle
-                highlightedText={experiencePageContent.certificates.highlightedTitle}
-                text={experiencePageContent.certificates.titlePhrase} />
-            <ListCertificates />
+            {experiences ? (
+                <div style={containerStyle}>
+                    <Internships internshipsSection={experiences.internshipsSection} />
+                    <Certificates certificatesSection={experiences.certificatesSection} />
+                </div>
+            ) : <Loader />}
         </>
     )
 }

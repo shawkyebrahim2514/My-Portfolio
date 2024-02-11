@@ -1,8 +1,9 @@
 import { CSSProperties, memo, useMemo } from 'react';
 import BackShape from './BackShape';
-import GithubImage from './GithubImage';
+import ActualImage from './ActualImage';
+import { SanityAboutPage } from '../../../Types';
 
-function Image() {
+function Image({ personImage }: Readonly<Pick<SanityAboutPage, 'personImage'>>) {
     const containerStyle = useMemo((): CSSProperties => ({
         width: "320px",
         height: "320px",
@@ -13,7 +14,7 @@ function Image() {
     return (
         <div style={containerStyle}>
             <BackShape />
-            <GithubImage />
+            <ActualImage personImage={personImage} />
         </div>
     )
 }

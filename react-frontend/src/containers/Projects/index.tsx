@@ -1,10 +1,13 @@
-import { CSSProperties, useMemo } from 'react'
+import { CSSProperties, useEffect, useMemo, useState } from 'react'
 import ContainerWrap from '../../components/ContainerWrap';
-import SectionTitle from '../../components/SectionTitle';
-import ListProjects from './ListProjects';
-import { projectsPageContent } from '../../Texts';
+import { SanityProjectsPage } from '../../Types';
+import { getProjectsPage } from '../../APIs';
+import Loader from '../../components/Loader';
+import Title from '../Title';
+import Content from './Content';
 
 function Projects() {
+    const [projects, setProjects] = useState<SanityProjectsPage | null>(null);
     const containerStyle = useMemo((): CSSProperties => ({
         display: "flex",
         flexDirection: "column",
@@ -13,13 +16,21 @@ function Projects() {
         gap: "2rem",
     }), []);
 
+    useEffect(() => {
+        getProjectsPage().then((result) => {
+            setProjects(result);
+        })
+    }, []);
+
     return (
-        <div style={containerStyle}>
-            <SectionTitle
-                highlightedText={projectsPageContent.highlightedTitle}
-                text={projectsPageContent.titlePhrase} />
-            <ListProjects />
-        </div>
+        <>
+            {projects ? (
+                <div style={containerStyle}>
+                    <Title title={projects.title} />
+                    <Content projects={projects.projects} />
+                </div>
+            ) : <Loader />}
+        </>
     )
 }
 

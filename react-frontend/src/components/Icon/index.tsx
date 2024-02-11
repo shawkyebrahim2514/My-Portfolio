@@ -33,7 +33,7 @@ const motionProperties = {
 }
 
 export default function Icon({
-    src = "images/placeholder.png",
+    src,
     alt,
     text,
     pointer = false,
@@ -85,7 +85,7 @@ export default function Icon({
             whileTap={motionProperties.whileTap}
             onClick={onClick} >
             <div style={imageFrameStyle}>
-                <img style={imageStyle} src={src} alt={alt} />
+                <img style={imageStyle} src={src ?? "images/placeholder.png"} alt={alt} />
             </div>
             {text && <Text variant={"body"}>{text}</Text>}
         </motion.div>

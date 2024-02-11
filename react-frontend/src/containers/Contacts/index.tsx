@@ -1,10 +1,13 @@
-import { CSSProperties, useMemo } from 'react'
+import { CSSProperties, useEffect, useMemo, useState } from 'react'
 import ContainerWrap from '../../components/ContainerWrap';
-import SectionTitle from '../../components/SectionTitle';
-import ListContacts from './ListContacts';
-import { contactsPageContent } from '../../Texts';
+import { getContactsPage } from '../../APIs';
+import { SanityContactsPage } from '../../Types';
+import Loader from '../../components/Loader';
+import Content from './Content';
+import Title from '../Title';
 
 function Contacts() {
+    const [contactsPage, setContactsPage] = useState<SanityContactsPage | null>(null);
     const containerStyle = useMemo((): CSSProperties => ({
         display: "flex",
         flexDirection: "column",
@@ -13,27 +16,21 @@ function Contacts() {
         gap: "2rem",
     }), []);
 
-    return (
-        <div style={containerStyle}>
-            <SectionTitle
-                highlightedText={contactsPageContent.highlightedTitle}
-                text={contactsPageContent.titlePhrase} />
-            <SectionContent />
-        </div>
-    )
-}
+    useEffect(() => {
+        getContactsPage().then((result) => {
+            setContactsPage(result);
+        })
+    }, []);
 
-function SectionContent() {
     return (
-        <div style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "2rem",
-            flexWrap: "wrap",
-        }}>
-            <ListContacts />
-        </div>
+        <>
+            {contactsPage ? (
+                <div style={containerStyle}>
+                    <Title title={contactsPage.title} />
+                    <Content contacts={contactsPage.contacts} />
+                </div>
+            ) : <Loader />}
+        </>
     )
 }
 

@@ -22,7 +22,6 @@ export default function Loader() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        width: "100%",
     }), []);
 
     return (

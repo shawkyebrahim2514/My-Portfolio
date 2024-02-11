@@ -1,10 +1,9 @@
-export { getGithubImageURL, getResumeURL } from './ExternalResource';
-
 export {
-    getSkills,
-    getEducationCourses,
-    getInternships,
-    getProjects,
-    getContacts,
-    getCertificates
+    getSkillsPage,
+    getEducationPage,
+    getProjectsPage,
+    getContactsPage,
+    getExperiencePage,
+    getAboutPage,
+    getNavbarData
 } from './Sanity';

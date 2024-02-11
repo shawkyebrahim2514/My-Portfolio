@@ -1,9 +1,9 @@
 import { useThemeContext } from '../../../contexts/ThemeContext';
 import Text from '../../../components/Text';
-import { aboutPageContent } from '../../../Texts';
 import { memo, useMemo } from 'react';
+import { SanityAboutPage } from '../../../Types';
 
-function Name() {
+function Name({ personName }: Readonly<Pick<SanityAboutPage, 'personName'>>) {
     const { theme } = useThemeContext();
     const textStyle = useMemo(() => {
         return {
@@ -15,7 +15,7 @@ function Name() {
 
     return (
         <Text variant="body" style={textStyle}>
-            {aboutPageContent.name}
+            {personName}
         </Text>
     )
 }
