@@ -13,13 +13,6 @@ export const projects = {
             validation: Rule => Rule.required()
         },
         {
-            name: 'rank',
-            type: 'number',
-            title: 'Rank',
-            initialValue: 0,
-            validation: Rule => Rule.required()
-        },
-        {
             name: 'links',
             type: 'object',
             title: 'Links',

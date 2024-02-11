@@ -24,13 +24,6 @@ export const certificates = {
             title: 'Description',
         },
         {
-            name: 'rank',
-            type: 'number',
-            title: 'Rank',
-            initialValue: 0,
-            validation: Rule => Rule.required()
-        },
-        {
             name: 'date',
             type: 'date',
             title: 'Date',

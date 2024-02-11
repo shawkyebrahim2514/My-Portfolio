@@ -1,17 +1,15 @@
 // Get react-icons from https://react-icons.github.io/react-icons/#/
 
-import { skillsCategories } from './skillsCategories'
-import { skills } from './skills'
-import { collegeCourses } from './collegeCourses'
-import { internships } from './internships'
-import { projects } from './projects'
-import { contacts } from './contacts'
-import { certificates } from './certificates'
+import { skills } from './units/skills'
+import { collegeCourses } from './units/collegeCourses'
+import { internships } from './units/internships'
+import { projects } from './units/projects'
+import { contacts } from './units/contacts'
+import { certificates } from './units/certificates'
 import { portfolio } from './portfolio'
 
 export const schemaTypes = [
     portfolio,
-    skillsCategories,
     skills,
     collegeCourses,
     internships,

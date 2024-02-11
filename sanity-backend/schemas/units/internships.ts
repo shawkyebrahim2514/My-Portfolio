@@ -19,13 +19,6 @@ export const internships = {
             validation: Rule => Rule.required()
         },
         {
-            name: 'rank',
-            type: 'number',
-            title: 'Rank',
-            initialValue: 0,
-            validation: Rule => Rule.required()
-        },
-        {
             name: 'date',
             type: 'object',
             title: 'Date',
