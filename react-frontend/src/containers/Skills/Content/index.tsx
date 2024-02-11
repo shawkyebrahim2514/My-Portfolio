@@ -1,51 +1,40 @@
-import { useEffect, useState } from 'react';
-import { getSkills } from '../../../APIs';
-import { TechnologySkill, TechnologyCategory, SanitySkill } from '../../../Types';
-import Loader from '../../../components/Loader';
-import TechnologiesItems from './TechnologiesItems';
+import { useMemo } from 'react';
+import { CSSProperties } from 'styled-components';
+import { SanitySkillsPage } from '../../../Types';
+import CenteredSection from '../../../components/CenteredSection';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCode } from '@fortawesome/free-solid-svg-icons';
+import SkillsIcons from './SkillsIcons';
 
-type StateTechnology = Record<TechnologyCategory, TechnologySkill[]>;
-
-export default function Content() {
-    const [technologies, setTechnologies] = useState<StateTechnology | null>(null);
-
-    useEffect(() => {
-        getSkills().then((result) => {
-            result = sortResultFromSanity(result);
-            let newState: StateTechnology = initiateStateTechnology();
-            result.forEach((element) => {
-                newState[element.categoryName].push(formatTechnologyItemFromSanity(element));
-            })
-            setTechnologies(newState)
-        })
-    }, [])
+export default function Content({ categories }: Readonly<Pick<SanitySkillsPage, "categories">>) {
+    const listItemsContainerStyle = useMemo((): CSSProperties => ({
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "1rem",
+        flexWrap: "wrap",
+    }), []);
 
     return (
         <>
-            {technologies ? <TechnologiesItems technologies={technologies} /> : <Loader />}
+            {categories.map((category) => {
+                return (
+                    <CenteredSection
+                        key={category.title}
+                        icon={<HeaderIcon />}
+                        title={category.title} >
+                        <div style={listItemsContainerStyle}>
+                            <SkillsIcons skills={category.skills} />
+                        </div>
+                    </CenteredSection>
+                )
+            })}
         </>
     )
 }
 
-function initiateStateTechnology(): StateTechnology {
-    return {
-        "General": [],
-        "Frontend": [],
-        "Backend": [],
-        "Databases": [],
-        "Tools": [],
-    }
-}
-
-function sortResultFromSanity(result: SanitySkill[]): SanitySkill[] {
-    return result.sort((element1, element2) => {
-        return element1.rank - element2.rank;
-    });
-}
-
-function formatTechnologyItemFromSanity(element: SanitySkill): TechnologySkill {
-    return {
-        iconURL: element.iconURL,
-        name: element.name,
-    }
+function HeaderIcon() {
+    return (
+        <FontAwesomeIcon icon={faCode} size={"xl"} />
+    )
 }

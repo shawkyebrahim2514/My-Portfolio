@@ -1,13 +1,13 @@
 import { memo } from 'react';
 import Text from '../../../components/Text';
-import { aboutPageContent } from '../../../Texts';
+import { SanityAboutPage } from '../../../Types';
 
-function Salutation() {
+function Salutation({ salutation }: Readonly<Pick<SanityAboutPage, 'salutation'>>) {
     return (
         <Text variant="body" style={{
             fontSize: "2.2rem",
         }}>
-            {aboutPageContent.salutation}
+            {salutation}
         </Text>
     )
 }

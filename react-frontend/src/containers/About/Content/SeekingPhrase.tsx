@@ -1,11 +1,11 @@
 import { memo } from 'react';
 import Text from '../../../components/Text';
-import { aboutPageContent } from '../../../Texts';
+import { SanityAboutPage } from '../../../Types';
 
-function SeekingPhrase() {
+function SeekingPhrase({ seeking }: Readonly<Pick<SanityAboutPage, 'seeking'>>) {
     return (
         <Text variant="h2">
-            {aboutPageContent.seeking}
+            {seeking}
         </Text>
     )
 }

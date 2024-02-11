@@ -1,19 +1,21 @@
-import { SanityProject } from '../../Types';
+import { SanityProjectsPage } from '../../Types';
 import sanityClient from './client';
 
-const getProjects = async () => {
-    const query = `*[_type == "projects"]{
-        name,
-        rank,
-        links,
-        description,
-        "imgSrc": image.asset->url,
-        "technologies": technologies[]->name
+const getProjectsPage = async () => {
+    const query = `*[_type == "portfolio"][0].pages[_type == "projectsPage"][0] {
+        title,
+        "projects": projects[] -> {
+            name,
+            links,
+            description,
+            "imgSrc": image.asset->url,
+            "technologies": technologies[]->name
+        }
     }`;
-    const result: SanityProject[] = await sanityClient.fetch(query);
+    const result: SanityProjectsPage = await sanityClient.fetch(query);
     return result;
 };
 
 export {
-    getProjects,
+    getProjectsPage,
 }

@@ -1,11 +1,14 @@
 import ContainerWrap from '../../components/ContainerWrap'
-import SectionTitle from '../../components/SectionTitle'
 import Content from './Content';
-import { CSSProperties, useMemo } from 'react';
-import { skillsPageContent } from '../../Texts';
+import { CSSProperties, useEffect, useMemo, useState } from 'react';
+import { SanitySkillsPage } from '../../Types';
+import { getSkillsPage } from '../../APIs';
+import Title from '../Title';
+import Loader from '../../components/Loader';
 
 function Skills() {
-    const containerStyle = useMemo(():CSSProperties => ({
+    const [skillsPage, setSkillsPage] = useState<SanitySkillsPage | null>(null);
+    const containerStyle = useMemo((): CSSProperties => ({
         display: "flex",
         flexDirection: "column",
         alignItems: "stretch",
@@ -13,13 +16,21 @@ function Skills() {
         gap: "2rem",
     }), []);
 
+    useEffect(() => {
+        getSkillsPage().then((result) => {
+            setSkillsPage(result)
+        })
+    }, [])
+
     return (
-        <div style={containerStyle}>
-            <SectionTitle
-                highlightedText={skillsPageContent.highlightedTitle}
-                text={skillsPageContent.titlePhrase} />
-            <Content />
-        </div>
+        <>
+            {skillsPage ? (
+                <div style={containerStyle}>
+                    <Title title={skillsPage.title} />
+                    <Content categories={skillsPage.categories} />
+                </div>
+            ) : <Loader />}
+        </>
     )
 }
 

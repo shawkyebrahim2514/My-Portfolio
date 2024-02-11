@@ -1,9 +1,9 @@
 import { useThemeContext } from '../../../contexts/ThemeContext';
 import Text from '../../../components/Text';
-import { aboutPageContent } from '../../../Texts';
 import { memo, useMemo } from 'react';
+import { SanityAboutPage } from '../../../Types';
 
-function Position() {
+function Position({ position }: Readonly<Pick<SanityAboutPage, 'position'>>) {
     const { theme } = useThemeContext();
     const textStyle = useMemo(() => {
         return {
@@ -17,7 +17,7 @@ function Position() {
 
     return (
         <Text variant="h2" style={textStyle}>
-            {aboutPageContent.position}
+            {position}
         </Text>
     )
 }

@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import Text from '../../../components/Text';
-import { aboutPageContent } from '../../../Texts';
+import { SanityAboutPage } from '../../../Types';
 
-function Description() {
+function Description({ description }: Readonly<Pick<SanityAboutPage, 'description'>>) {
     return (
         <div style={{
             display: "flex",
@@ -12,7 +12,7 @@ function Description() {
             marginTop: "1rem",
             gap: "0.5rem",
         }}>
-            {aboutPageContent.description.split("\n").map((paragraph, index) => (
+            {description.split("\n").map((paragraph) => (
                 <Text variant="body" key={paragraph.substring(0, 5)} style={{
                     fontSize: "1.1rem",
                 }}>

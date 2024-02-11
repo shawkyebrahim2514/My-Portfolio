@@ -1,18 +1,17 @@
 import Button from '../../../components/Button';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFileLines } from '@fortawesome/free-solid-svg-icons';
-import { getResumeURL } from '../../../APIs';
-import { aboutPageContent } from '../../../Texts';
 import { memo } from 'react';
+import { SanityAboutPage } from '../../../Types';
 
-function ResumeButton() {
+function ResumeButton({ resume }: Readonly<Pick<SanityAboutPage, 'resume'>>) {
     return (
         <Button
             icon={<FontAwesomeIcon icon={faFileLines} />}
-            text={aboutPageContent.resume}
+            text={resume.text}
             pointer={true}
             onClick={() => {
-                window.open(getResumeURL(), "_blank")
+                window.open(resume.link, "_blank")
             }}
             style={{
                 marginTop: "1rem",

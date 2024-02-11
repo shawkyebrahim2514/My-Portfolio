@@ -41,7 +41,7 @@ export default function ProjectCard({
     return (
         <div style={containerStyle}>
             <Image
-                imgSrc={imgSrc}
+                imgSrc={imgSrc || "images/placeholder.png"}
                 isSmallScreen={isSmallScreen}
                 projectLink={projectLink}
                 demoLink={demoLink} />

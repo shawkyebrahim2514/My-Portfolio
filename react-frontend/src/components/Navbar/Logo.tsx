@@ -2,10 +2,9 @@ import { useCallback } from 'react'
 import { useThemeContext } from '../../contexts/ThemeContext';
 import Text from '../Text'
 import { useNavigationControllerContext } from '../../contexts/NavigationControllerContext';
-import { Links } from '../../Types';
-import { navbarContent } from '../../Texts';
+import { Links, SanityNavbarData } from '../../Types';
 
-export default function Logo() {
+export default function Logo({ logo }: Readonly<Pick<SanityNavbarData, "logo">>) {
     const { theme } = useThemeContext();
     const { setLinks } = useNavigationControllerContext();
     const changeLinksHandler = useCallback(() => {
@@ -34,7 +33,7 @@ export default function Logo() {
             <Text variant={"h2"} style={{
                 fontWeight: "800",
             }}>
-                {navbarContent.logoText}
+                {logo}
             </Text>
         </div>
     )
