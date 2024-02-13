@@ -1,21 +1,14 @@
 import { useCallback } from 'react'
 import { useThemeContext } from '../../contexts/ThemeContext';
 import Text from '../Text'
-import { useNavigationControllerContext } from '../../contexts/NavigationControllerContext';
-import { Links, SanityNavbarData } from '../../Types';
+import { SanityNavbarData } from '../../Types';
+import { useNavigate } from 'react-router-dom';
 
 export default function Logo({ logo }: Readonly<Pick<SanityNavbarData, "logo">>) {
     const { theme } = useThemeContext();
-    const { setLinks } = useNavigationControllerContext();
-    const changeLinksHandler = useCallback(() => {
-        setLinks((oldLinks) => (
-            Object.fromEntries(
-                Object.entries(oldLinks).map(([oldLinkName, oldLinkActive]) => (
-                    [oldLinkName, oldLinkName === "about"]
-                ))
-            ) as Links
-        ))
-    }, [setLinks]);
+    const navigate = useNavigate();
+
+    const changeLinksHandler = useCallback(() => navigate(''), [navigate]);
     const onKeyDownHandler = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
         if (event.key === "Enter") {
             changeLinksHandler();
@@ -25,7 +18,7 @@ export default function Logo({ logo }: Readonly<Pick<SanityNavbarData, "logo">>)
     return (
         <div
             style={{
-                color: theme.colors.main.full,
+                color: theme.colors.base,
                 cursor: "pointer",
             }}
             onClick={changeLinksHandler}

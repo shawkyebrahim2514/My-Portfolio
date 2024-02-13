@@ -19,7 +19,7 @@ export default function Image({ imgSrc, isSmallScreen, projectLink, demoLink }: 
             height: isSmallScreen ? "250px" : "auto",
             overflow: "hidden",
             borderRadius: theme.borderRadius,
-            border: `1px solid ${theme.colors.main.full}`,
+            border: `1px solid ${theme.colors.base}`,
             boxShadow: theme.boxShadow,
             position: "relative",
             flex: "0 0 auto"

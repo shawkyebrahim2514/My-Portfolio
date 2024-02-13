@@ -1,7 +1,9 @@
-import { CSSProperties, useMemo } from 'react'
+/** @jsxImportSource @emotion/react */
+
+import { CSSProperties, useCallback, useMemo } from 'react'
 import { useThemeContext } from '../../contexts/ThemeContext';
 import Text from '../Text';
-import { motion } from "framer-motion"
+import { css } from '@emotion/react';
 
 const variants = {
     "lg": {
@@ -27,11 +29,6 @@ type IconProps = {
     readonly size?: keyof typeof variants;
 }
 
-const motionProperties = {
-    whileHover: { scale: 1.1 },
-    whileTap: { scale: 0.9 },
-}
-
 export default function Icon({
     src,
     alt,
@@ -41,23 +38,13 @@ export default function Icon({
     size = "md"
 }: IconProps) {
     const { theme } = useThemeContext();
-    const outerStyle = useMemo((): CSSProperties => {
-        return {
-            display: "inline-flex",
-            gap: "0.5rem",
-            alignItems: "center",
-            justifyContent: "center",
-            flexDirection: "column",
-            color: theme.colors.main.full,
-            borderRadius: "8px",
-            padding: variants[size].outerPadding,
-            transition: theme.transition,
-            boxShadow: theme.boxShadow,
-            ...theme.bluryStyle.main,
-            cursor: pointer ? "pointer" : "default",
-            fontSize: variants[size].fontSize,
-        };
-    }, [theme, pointer, size]);
+    const outerStyle = useMemo(() => css({
+        flexDirection: "column",
+        padding: variants[size].outerPadding,
+        cursor: pointer ? "pointer" : "default",
+        fontSize: variants[size].fontSize,
+        ...theme.button,
+    }), [theme, pointer, size]);
     const imageFrameStyle = useMemo((): CSSProperties => {
         return {
             display: "flex",
@@ -66,7 +53,8 @@ export default function Icon({
             width: variants[size].imageWidth,
             height: variants[size].imageHeight,
             borderRadius: "50%",
-            ...theme.bluryStyle.main,
+            backgroundColor: theme.colors.dark2,
+            border: theme.border,
             overflow: "hidden",
         };
     }, [theme, size]);
@@ -77,17 +65,21 @@ export default function Icon({
             filter: "drop-shadow(0px 0px 2px rgba(0,0,0,0.5))",
         };
     }, []);
+    const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+        if (e.key === "Enter") {
+            onClick?.();
+        }
+    }, [onClick]);
 
     return (
-        <motion.div
-            style={outerStyle}
-            whileHover={motionProperties.whileHover}
-            whileTap={motionProperties.whileTap}
-            onClick={onClick} >
+        <div
+            css={outerStyle}
+            onClick={onClick}
+            onKeyDown={handleKeyDown} >
             <div style={imageFrameStyle}>
                 <img style={imageStyle} src={src ?? "images/placeholder.png"} alt={alt} />
             </div>
             {text && <Text variant={"body"}>{text}</Text>}
-        </motion.div>
+        </div>
     )
 }

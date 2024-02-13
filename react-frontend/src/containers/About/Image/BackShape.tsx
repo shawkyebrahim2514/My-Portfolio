@@ -8,7 +8,7 @@ export default function BackShape() {
             width: "inherit",
             height: "inherit",
             position: "absolute",
-            backgroundColor: theme.colors.main.full,
+            backgroundColor: theme.colors.base,
             borderRadius: "50%",
             zIndex: "1",
             top: "10px",

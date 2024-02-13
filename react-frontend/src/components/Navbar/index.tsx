@@ -17,8 +17,7 @@ export default function Navbar() {
         left: "0",
         zIndex: "999",
         boxShadow: theme.boxShadow,
-        ...theme.bluryStyle.main,
-        border: "none"
+        backgroundColor: theme.colors.dark3,
     }), [theme]);
     const innerStyle = useMemo((): CSSProperties => ({
         display: 'flex',

@@ -3,20 +3,21 @@ import { useThemeContext } from '../../contexts/ThemeContext';
 
 export default function HeaderSymbol() {
     const { theme } = useThemeContext();
-    const outerStyle = useMemo(() : CSSProperties => ({
+    const outerStyle = useMemo((): CSSProperties => ({
         width: "20px",
         height: "20px",
-        ...theme.bluryStyle.main,
+        backgroundColor: theme.colors.dark3,
+        border: theme.border,
         borderRadius: "50%",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
     }), [theme]);
-    const innerStyle = useMemo(() : CSSProperties => ({
+    const innerStyle = useMemo((): CSSProperties => ({
         width: "70%",
         height: "70%",
         borderRadius: "50%",
-        backgroundColor: theme.colors.main.full,
+        backgroundColor: theme.colors.base,
     }), [theme]);
 
     return (

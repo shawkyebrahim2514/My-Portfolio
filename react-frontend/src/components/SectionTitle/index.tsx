@@ -47,9 +47,9 @@ function TitleHighlightedText({ children }: { readonly children: string }) {
     const { theme } = useThemeContext();
     const style = useMemo((): CSSProperties => {
         return {
-            backgroundColor: theme.colors.main.full,
+            backgroundColor: theme.colors.base,
             padding: "0.25rem 0.5rem",
-            color: theme.colors.dark.full,
+            color: theme.colors.dark4,
             boxShadow: theme.boxShadow,
         };
     }, [theme]);

@@ -1,23 +1,11 @@
 import { useMemo } from 'react';
-import styled, { keyframes } from 'styled-components'
-
-const loaderKeyframe = keyframes`
-    to {
-        transform: rotate(1turn)
-    }
-`;
-
-const Spinner = styled.div`
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 8px solid;
-    border-color: #ffffff47;
-    border-right-color: #fff;
-    animation: ${loaderKeyframe} 1s infinite linear;
-`;
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { useThemeContext } from '../../contexts/ThemeContext';
 
 export default function Loader() {
+    const { theme } = useThemeContext();
+
     const containerStyle = useMemo(() => ({
         display: "flex",
         alignItems: "center",
@@ -26,7 +14,11 @@ export default function Loader() {
 
     return (
         <div style={containerStyle}>
-            <Spinner />
+            <FontAwesomeIcon
+            style={{
+                color: theme.colors.base,
+            }}
+            icon={faSpinner} size="2x" spin />
         </div>
     )
 }

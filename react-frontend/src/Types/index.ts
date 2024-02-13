@@ -9,4 +9,4 @@ export {
     type SanityNavbarData
 } from './sanity';
 
-export { type Theme, type Links } from './contexts';
+export { type Theme, type PortfolioPathes } from './contexts';
