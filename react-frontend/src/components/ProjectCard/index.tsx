@@ -1,4 +1,4 @@
-import { CSSProperties, useMemo } from 'react'
+import { CSSProperties, memo, useMemo } from 'react'
 import { useThemeContext } from '../../contexts/ThemeContext';
 import { useMediaQuery } from 'react-responsive';
 import Image from './Image';
@@ -13,7 +13,7 @@ type ProjectCardProps = {
     readonly technologies: string[],
 }
 
-export default function ProjectCard({
+function ProjectCard({
     imgSrc = "images/placeholder.png",
     projectLink,
     demoLink,
@@ -25,16 +25,11 @@ export default function ProjectCard({
     const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
     const containerStyle = useMemo((): CSSProperties => {
         return {
-            padding: "1rem",
-            ...theme.bluryStyle.main,
-            display: "flex",
-            flexDirection: isSmallScreen ? "column" : "row",
             alignItems: "stretch",
             justifyContent: "flex-start",
-            gap: "1rem",
+            flexDirection: isSmallScreen ? "column" : "row",
             height: "auto",
-            borderRadius: theme.borderRadius,
-            boxShadow: theme.boxShadow,
+            ...theme.container,
         }
     }, [theme, isSmallScreen]);
 
@@ -49,3 +44,5 @@ export default function ProjectCard({
         </div>
     )
 }
+
+export default memo(ProjectCard);

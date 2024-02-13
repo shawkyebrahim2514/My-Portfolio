@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.11.3",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
@@ -15,12 +16,12 @@
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@vercel/analytics": "^1.1.1",
-    "framer-motion": "^10.16.16",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-responsive": "^9.0.2",
+    "react-router-dom": "^6.22.0",
     "react-scripts": "5.0.1",
-    "styled-components": "^6.1.8",
+    "react-spring": "^9.7.3",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },

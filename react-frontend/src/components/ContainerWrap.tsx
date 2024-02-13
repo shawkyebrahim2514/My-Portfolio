@@ -1,26 +1,5 @@
-import { motion, AnimatePresence } from "framer-motion"
 import { CSSProperties, FC, useMemo } from "react";
-
-const variants = {
-    enter: (direction: number) => {
-        return {
-            x: direction > 0 ? 100 : -100,
-            opacity: 0
-        };
-    },
-    center: (direction: number) => {
-        return {
-            x: 0,
-            opacity: 1
-        };
-    },
-    exit: (direction: number) => {
-        return {
-            x: direction < 0 ? 100 : -100,
-            opacity: 0
-        };
-    }
-};
+import { useTransition, animated } from "react-spring";
 
 const ContainerWrap = (Component: FC) => function HOC() {
     const containerStyle = useMemo((): CSSProperties => {
@@ -33,21 +12,20 @@ const ContainerWrap = (Component: FC) => function HOC() {
         }
     }, []);
 
-    return (
-        <AnimatePresence>
-            <motion.div
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{ duration: 0.5 }}
-            >
-                <div style={containerStyle}>
-                    <Component />
-                </div>
-            </motion.div>
-        </AnimatePresence>
-    )
+    const transitions = useTransition(Component, {
+        from: { opacity: 0, transform: "translate(-500px)" },
+        enter: { opacity: 1, transform: "translate(0)" },
+        leave: { opacity: 0, transform: "translate(500)" },
+        config: { duration: 400 },
+    });
+
+    return transitions((styles, item) => (item != null) && (
+        <animated.div style={styles}>
+            <div style={containerStyle}>
+                <Component />
+            </div>
+        </animated.div>
+    ));
 }
 
 export default ContainerWrap

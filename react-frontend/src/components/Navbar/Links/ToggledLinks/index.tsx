@@ -7,7 +7,7 @@ export default function ToggledLinks() {
 
     return (
         <>
-            <BarsIcon isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
+            <BarsIcon setIsMenuOpen={setIsMenuOpen} />
             <DropDownLinks isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
         </>
     )

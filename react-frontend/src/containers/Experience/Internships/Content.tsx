@@ -1,5 +1,4 @@
-import { useMemo } from "react";
-import { CSSProperties } from "styled-components";
+import { CSSProperties, useMemo } from "react";
 import { SanityExperiencePage } from "../../../Types";
 import MainSection from "../../../components/MainSection";
 import ExperienceItemInformation from "../ExperienceItemInformation";

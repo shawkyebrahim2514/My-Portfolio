@@ -45,7 +45,7 @@ function Title({ title }: Readonly<Pick<ContentProps, "title">>) {
     const { theme } = useThemeContext();
     const titleStyle = useMemo((): CSSProperties => {
         return {
-            color: theme.colors.main.full,
+            color: theme.colors.base,
         }
     }, [theme]);
 

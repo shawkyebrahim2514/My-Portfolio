@@ -18,10 +18,8 @@ export default function Content({ children }: ContentProps) {
     }, []);
     const verticalLineStyle = useMemo((): CSSProperties => {
         return {
-            borderWidth: "1px",
-            borderStyle: "solid",
-            borderColor: theme.colors.main.full,
-            backgroundColor: theme.colors.main.full,
+            border: theme.border,
+            backgroundColor: theme.colors.base,
         }
     }, [theme]);
 

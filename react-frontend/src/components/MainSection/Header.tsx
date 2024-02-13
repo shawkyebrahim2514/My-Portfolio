@@ -25,13 +25,13 @@ export default function Header({ title, link, subtitle }: HeaderProps) {
 
     const headerTextStyle = useMemo(() => {
         return {
-            color: theme.colors.main.full,
+            color: theme.colors.base,
             display: "flex",
             alignItems: "center",
             gap: "0.5rem",
             cursor: link ? "pointer" : "default",
         }
-    }, [link, theme.colors.main.full]);
+    }, [link, theme.colors]);
 
     const headerOnCLickHandler = useCallback(() => {
         link && window.open(link, "_blank");

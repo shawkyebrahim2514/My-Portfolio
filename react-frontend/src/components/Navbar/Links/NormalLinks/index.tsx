@@ -1,9 +1,7 @@
-import { useNavigationControllerContext } from '../../../../contexts/NavigationControllerContext';
-import {useMemo } from 'react';
-import LinkButton from './LinkButton';
+import { useMemo } from 'react';
+import PortfolioLinks from '../PortfolioLinks';
 
 export default function NormalLinks() {
-    const { links, setLinks } = useNavigationControllerContext();
     const linksContainerStyle = useMemo(() => ({
         display: "flex",
         alignItems: "center",
@@ -13,13 +11,7 @@ export default function NormalLinks() {
 
     return (
         <div style={linksContainerStyle}>
-            {Object.entries(links).map(([linkName, linkActive]) => (
-                <LinkButton
-                    key={linkName}
-                    linkName={linkName}
-                    linkActive={linkActive}
-                    setLinks={setLinks} />
-            ))}
+            <PortfolioLinks />
         </div>
     )
 }

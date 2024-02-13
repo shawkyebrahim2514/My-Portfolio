@@ -17,17 +17,9 @@ export default function MainSection({ title, link, subtitle, style, children }:
     const { theme } = useThemeContext();
     const containerStyle = useMemo((): CSSProperties => {
         return {
-            display: "flex",
+            ...theme.container,
             flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "1rem",
-            padding: "1rem",
-            ...theme.bluryStyle.main,
-            placeItems: "stretch",
             ...style,
-            borderRadius: theme.borderRadius,
-            boxShadow: theme.boxShadow,
         }
     }, [theme, style]);
 

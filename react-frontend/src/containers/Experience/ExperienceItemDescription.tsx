@@ -18,8 +18,8 @@ export default function ExperienceItemDescription({ description }: ExperienceIte
         gap: "0.5rem",
     }), []);
     const descriptionStyle = useMemo((): CSSProperties => ({
-        color: theme.colors.main.full,
-    }), [theme]);
+        color: theme.colors.base,
+    }), [theme.colors]);
 
     return (
         <div style={containerStyle}>

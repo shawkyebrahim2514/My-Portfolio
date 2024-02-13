@@ -1,7 +1,6 @@
-import { memo, useMemo } from "react";
+import { CSSProperties, memo, useMemo } from "react";
 import { SanityEducationPage } from "../../../Types";
 import MainSection from "../../../components/MainSection";
-import { CSSProperties } from "styled-components";
 import EducationInformation from "./EducationInformation";
 import CoursesItems from "./CoursesItems";
 

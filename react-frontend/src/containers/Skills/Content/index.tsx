@@ -1,5 +1,4 @@
-import { useMemo } from 'react';
-import { CSSProperties } from 'styled-components';
+import { CSSProperties, useMemo } from 'react';
 import { SanitySkillsPage } from '../../../Types';
 import CenteredSection from '../../../components/CenteredSection';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

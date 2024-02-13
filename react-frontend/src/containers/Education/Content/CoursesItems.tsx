@@ -35,7 +35,7 @@ function CourseTitle({ courseName }: { readonly courseName: string }) {
 
     return (
         <Text variant={"h4"} style={{
-            color: theme.colors.main.full,
+            color: theme.colors.base,
         }}>
             {courseName}
         </Text>

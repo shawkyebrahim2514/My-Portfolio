@@ -10,19 +10,10 @@ body {
     sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
-}
-
-::selection {
-  background: rgb(102, 204, 255);
-  color: #fff
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
 }

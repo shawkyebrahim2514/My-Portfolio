@@ -1,40 +1,23 @@
 type Theme = {
     colors: {
-        main: {
-            full: string,
-            faded: string,
-            percent: (percent: number) => string
-        },
-        dark: {
-            full: string,
-            faded: string,
-            percent: (percent: number) => string
-        },
-        contrastText: {
-            full: string,
-            faded: string
-        }
+        base: string,
+        dark1: string,
+        dark2: string,
+        dark3: string,
+        dark4: string,
+        text: string,
     },
     transition: string,
     borderRadius: string,
     boxShadow: string,
     backgroundImage: string,
-    bluryStyle: {
-        main: {
-            backgroundColor: string,
-            backdropFilter: string,
-            border: string
-        },
-        dark: {
-            backgroundColor: string,
-            backdropFilter: string,
-            border: string
-        }
-    }
+    border: string,
+    button: object,
+    boxingStyle: object,
+    container: object,
+    buttonEffects: object,
 };
 
-type PortfolioPages = "about" | "skills" | "education" | "experience" | "projects" | "contacts";
+type PortfolioPathes = "" | "skills" | "education" | "experience" | "projects" | "contacts";
 
-type Links = Record<PortfolioPages, boolean>;
-
-export { type Theme, type Links }
+export { type Theme, type PortfolioPathes }

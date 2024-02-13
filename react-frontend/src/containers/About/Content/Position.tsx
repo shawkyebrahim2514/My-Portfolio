@@ -7,13 +7,13 @@ function Position({ position }: Readonly<Pick<SanityAboutPage, 'position'>>) {
     const { theme } = useThemeContext();
     const textStyle = useMemo(() => {
         return {
-            color: theme.colors.dark.full,
-            backgroundColor: theme.colors.main.full,
+            color: theme.colors.dark4,
+            backgroundColor: theme.colors.base,
             padding: "0.25rem 0.5rem",
             display: "inline-block",
             marginTop: "0.5rem",
         }
-    }, [theme]);
+    }, [theme.colors]);
 
     return (
         <Text variant="h2" style={textStyle}>
