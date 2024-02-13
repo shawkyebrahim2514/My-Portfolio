@@ -3,7 +3,7 @@
   <defs>
     <style>
       .cls-1 {
-      fill: rgba(255, 255, 255, 0.05);
+      fill: rgba(255, 255, 255, 0.04);
       fill-rule: evenodd;
       }
     </style>
