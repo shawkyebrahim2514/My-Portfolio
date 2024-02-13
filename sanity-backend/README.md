@@ -2,7 +2,7 @@
 
 >Portfolio Document Structure
 
-```json
+```
 portfolio: Document {
  navbar: Object{
   logo: String
@@ -15,7 +15,7 @@ portfolio: Document {
 
 >About Page Document Structure
 
-```json
+```
 aboutPage: Document{
  personImage: URL,
  salutation: String,
@@ -32,7 +32,7 @@ aboutPage: Document{
 
 >Skills Page Document Structure
 
-```json
+```
 skillsPage: Document{
  title: Object{
   highlightedText: String,
@@ -47,7 +47,7 @@ skillsPage: Document{
 
 >Education Page Document Structure
 
-```json
+```
 educationPage: Document{
  title: Object{
   highlightedText: String,
@@ -68,7 +68,7 @@ educationPage: Document{
 
 >Experience Page Document Structure
 
-```json
+```
 experiencePage: Document{
  internshipsSection: Object{
   title: Object{
@@ -89,7 +89,7 @@ experiencePage: Document{
 
 >Projects Page Document Structure
 
-```json
+```
 projectsPage: Document{
  title: Object{
   highlightedText: String,
@@ -101,7 +101,7 @@ projectsPage: Document{
 
 >Contacts Page Document Structure
 
-```json
+```
 contactsPage: Document{
  title: Object{
   highlightedText: String,
@@ -117,7 +117,7 @@ contactsPage: Document{
 
 >Skills Document Structure
 
-```json
+```
 skills: Document{
  name: String,
  icon: Image
@@ -126,7 +126,7 @@ skills: Document{
 
 >College Courses Document Structure
 
-```json
+```
 collegeCourses: Document{
  name: String,
  description: Text,
@@ -136,7 +136,7 @@ collegeCourses: Document{
 
 >Internships Document Structure
 
-```json
+```
 internships: Document{
  title: String,
  subTitle: String,
@@ -152,7 +152,7 @@ internships: Document{
 
 >Projects Document Structure
 
-```json
+```
 projects: Document{
  name: String,
  links: Object{
@@ -167,7 +167,7 @@ projects: Document{
 
 >Certificates Document Structure
 
-```json
+```
 certificates: Document{
  title: String,
  subTitle: String,
@@ -179,10 +179,13 @@ certificates: Document{
 
 >Contacts Document Structure
 
-```json
+```
 contacts: Document{
  name: String,
  link: URL,
  icon: Image
 }
 ```
+
+![Portfolio Diagrams](https://github.com/shawkyebrahim2514/My-Portfolio/assets/101745968/821b2239-437a-42c3-90b0-dc13435edde7)
+
