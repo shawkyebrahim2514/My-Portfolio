@@ -1,6 +1,6 @@
 import Text from '../Text'
 import { CSSProperties, useMemo } from 'react'
-import { useThemeContext } from '../../contexts/ThemeContext'
+import TitleHighlightedText from './TitleHighlightedText';
 
 type SectionTitleProps = {
     readonly highlightedText?: string;
@@ -26,7 +26,7 @@ export default function SectionTitle({ highlightedText, text, subtitle, style }:
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: "0.5rem",
+            gap: "1rem",
             fontSize: "1.2rem",
             flexWrap: "wrap",
         };
@@ -41,18 +41,4 @@ export default function SectionTitle({ highlightedText, text, subtitle, style }:
             {subtitle ? <Text variant={"h3"}>{subtitle}</Text> : null}
         </header>
     )
-}
-
-function TitleHighlightedText({ children }: { readonly children: string }) {
-    const { theme } = useThemeContext();
-    const style = useMemo((): CSSProperties => {
-        return {
-            backgroundColor: theme.colors.base,
-            padding: "0.25rem 0.5rem",
-            color: theme.colors.dark4,
-            boxShadow: theme.boxShadow,
-        };
-    }, [theme]);
-
-    return <Text variant={"h2"} style={style}>{children}</Text>
 }
