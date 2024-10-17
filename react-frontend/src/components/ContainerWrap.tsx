@@ -4,10 +4,9 @@ import { useTransition, animated } from "react-spring";
 const ContainerWrap = (Component: FC) => function HOC() {
     const containerStyle = useMemo((): CSSProperties => {
         return {
-            minHeight: "100vh",
             display: "grid",
             alignItems: "center",
-            paddingTop: "100px",
+            paddingTop: "70px",
             paddingBottom: "30px",
         }
     }, []);

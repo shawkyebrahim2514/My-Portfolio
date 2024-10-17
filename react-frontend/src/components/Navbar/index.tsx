@@ -10,14 +10,14 @@ export default function Navbar() {
     const [navbarData, setNavbarData] = useState<SanityNavbarData | null>(null);
     const { theme } = useThemeContext();
     const outerStyle = useMemo((): CSSProperties => ({
-        position: "fixed",
+        position: "sticky",
         padding: "1rem",
-        width: "100%",
-        top: "0",
-        left: "0",
+        maxWidth: "1255px",
+        top: "20px",
         zIndex: "999",
-        boxShadow: theme.boxShadow,
         backgroundColor: theme.colors.dark3,
+        ...theme.boxingStyle,
+        border: theme.border,
     }), [theme]);
     const innerStyle = useMemo((): CSSProperties => ({
         display: 'flex',

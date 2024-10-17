@@ -1,6 +1,6 @@
 import Button from '../../Button'
 import { PortfolioPathes } from '../../../Types';
-import { memo, useCallback } from 'react';
+import { memo, useMemo } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
 import { useThemeContext } from '../../../contexts/ThemeContext';
 
@@ -14,14 +14,21 @@ function LinkButton({ path, pageName, onClick }: LinkButtonProps) {
     const { theme } = useThemeContext();
     const navigate = useNavigate();
     const active = useMatch(`/${path}`);
-    const linkButtonStyle = useCallback((linkActive: boolean) => ({
-        backgroundColor: linkActive ? theme.colors.dark1 : theme.colors.dark3
-    }), [theme.colors]);
+    const linkButtonStyle = useMemo(() => {
+        const linkActive = active !== null;
+        return {
+            boxShadow: "none",
+            border: linkActive ? theme.border : "none",
+            backgroundColor: linkActive ? theme.colors.dark1 : "",
+            opacity: linkActive ? "1" : "0.7",
+        }
+    }, [theme.colors, active]);
 
     return (
         <Button
-            style={linkButtonStyle(active !== null)}
+            style={linkButtonStyle}
             pointer={true}
+            size='md'
             onClick={() => {
                 navigate(`/${path}`);
                 if (onClick) onClick();
