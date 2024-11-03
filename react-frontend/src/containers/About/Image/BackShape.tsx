@@ -11,7 +11,7 @@ export default function BackShape() {
             borderRadius: "50%",
             zIndex: "1",
             scale: "1.1",
-            border: `3px solid ${theme.colors.base}`,
+            border: `3px solid ${theme.colors.base[700]}`,
         }} />
     )
 }

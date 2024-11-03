@@ -11,7 +11,7 @@ function BarsIcon({ setIsMenuOpen }: BarsIconProps) {
     const { theme } = useThemeContext();
     const barsStyle = useMemo(() => ({
         display: "inline-block",
-        color: theme.colors.base,
+        color: theme.colors.base[400],
         cursor: "pointer",
     }), [theme.colors]);
     const clickHandler = useCallback(() => {

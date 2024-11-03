@@ -7,7 +7,7 @@ function Name({ personName }: Readonly<Pick<SanityAboutPage, 'personName'>>) {
     const { theme } = useThemeContext();
     const textStyle = useMemo(() => {
         return {
-            color: theme.colors.base,
+            color: theme.colors.base[800],
             fontSize: "3.4rem",
             fontWeight: "800",
         }

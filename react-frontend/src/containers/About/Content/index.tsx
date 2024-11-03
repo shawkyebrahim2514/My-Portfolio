@@ -7,6 +7,7 @@ import Description from './Description';
 import ResumeButton from './ResumeButton';
 import { memo } from 'react';
 import { SanityAboutPage } from '../../../Types';
+import { useThemeContext } from '../../../contexts/ThemeContext';
 
 function Content({
     seeking,
@@ -17,9 +18,11 @@ function Content({
     salutation,
 }: Readonly<Omit<SanityAboutPage, 'personImage'>>) {
     const isMediumScreen = useMediaQuery({ query: '(max-width: 1124px)' });
+    const { theme } = useThemeContext();
 
     return (
         <div style={{
+            color: theme.colors.base[700],
             textAlign: isMediumScreen ? "center" : "left",
         }}>
             <Salutation salutation={salutation} />

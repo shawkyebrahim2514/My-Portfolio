@@ -19,6 +19,7 @@ export default function ListItems({
             flexDirection: "column",
             width: "fit-content",
             gap: "0.5rem",
+            paddingLeft: "10px",
         }
     }, []);
 

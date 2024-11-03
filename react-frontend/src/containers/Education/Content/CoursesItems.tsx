@@ -34,11 +34,14 @@ function CourseTitle({ courseName }: { readonly courseName: string }) {
     const { theme } = useThemeContext();
 
     return (
-        <Text variant={"h4"} style={{
-            color: theme.colors.base,
-        }}>
-            {courseName}
-        </Text>
+        <div>
+            <Text variant={"h4"} style={{
+                display: "inline",
+                backgroundColor: theme.colors.base[100],
+            }}>
+                {courseName}
+            </Text>
+        </div>
     )
 }
 

@@ -17,13 +17,10 @@ export default function ExperienceItemDescription({ description }: ExperienceIte
         width: "fit-content",
         gap: "0.5rem",
     }), []);
-    const descriptionStyle = useMemo((): CSSProperties => ({
-        color: theme.colors.base,
-    }), [theme.colors]);
 
     return (
         <div style={containerStyle}>
-            <Text variant={"h4"} style={descriptionStyle}>
+            <Text variant={"h4"}>
                 Description
             </Text>
             <ListItems elements={description.split("\n")} />

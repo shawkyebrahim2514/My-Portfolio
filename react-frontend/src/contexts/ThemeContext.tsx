@@ -9,37 +9,41 @@ type ThemeContextType = {
 
 const Context = createContext<ThemeContextType | null>(null);
 
-/* Blue (Normal)
-        base: "#42afd1",
-        dark1: "#163c5b",
-        dark2: "#13334e",
-        dark3: "#0f2940",
-        dark4: "#0c2033",
-        text: '#f3fcff', 
-*/
+// Colors generate from: https://accessiblepalette.com/?lightness=98.2,93.95,85.1,76.5,67.65,57,47,40.4,24,16&5DACC9=1,0&f2f3ea=1,0
 
-/* Blue green (The second best)
-        base: "#51a9c4",
-        dark1: "#20424f",
-        dark2: "#19343f",
-        dark3: "#13262e",
-        dark4: "#0c181e",
-        text: '#f8feff',
-*/
-
+const colors = {
+    base: {
+        50: "#FAFAF6",
+        100: "#EDEEE6",
+        200: "#D4D5CD",
+        300: "#BDBDB6",
+        400: "#A5A59F",
+        500: "#898984",
+        600: "#6F706C",
+        700: "#5F5F5C",
+        800: "#393937",
+        900: "#282827",
+    },
+    secondary: {
+        50: "#FDF9F7",
+        100: "#F8EBE4",
+        200: "#EDCFBC",
+        300: "#E2B395",
+        400: "#D7966D",
+        500: "#B97A52",
+        600: "#976443",
+        700: "#815539",
+        800: "#4E3322",
+        900: "#362418",
+    },
+    opacity: (percentage: number) => `rgba(255,255,255,${percentage})`,
+}
 
 const themeProperties: Theme = {
-    colors: {
-        base: "#51a9c4",
-        dark1: "#20424f",
-        dark2: "#19343f",
-        dark3: "#13262e",
-        dark4: "#0c181e",
-        text: '#f5fdff',
-    },
+    colors,
     transition: "all 0.3s ease-out",
     borderRadius: "8px",
-    boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+    boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
     backgroundImage: `url(${backgroundImage})`,
     border: '',
     boxingStyle: {},
@@ -48,7 +52,7 @@ const themeProperties: Theme = {
     buttonEffects: {},
 };
 
-themeProperties.border = `1px solid ${themeProperties.colors.base}`;
+themeProperties.border = `1px solid ${themeProperties.colors.base[50]}`;
 
 themeProperties.boxingStyle = {
     border: themeProperties.border,
@@ -62,7 +66,7 @@ themeProperties.container = {
     gap: "1rem",
     padding: "1rem",
     placeItems: "stretch",
-    backgroundColor: themeProperties.colors.dark3,
+    backgroundColor: themeProperties.colors.base[50],
 }
 
 themeProperties.buttonEffects = {
@@ -72,7 +76,8 @@ themeProperties.buttonEffects = {
     },
     "&:active": {
         transform: 'scale(0.95)',
-        backgroundColor: themeProperties.colors.dark4,
+        color: themeProperties.colors.base[200],
+        backgroundColor: themeProperties.colors.base[600],
     },
 }
 
@@ -82,8 +87,8 @@ themeProperties.button = {
     gap: "0.5rem",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: themeProperties.colors.dark3,
-    color: themeProperties.colors.base,
+    backgroundColor: themeProperties.colors.base[50],
+    color: themeProperties.colors.base[600],
     ...themeProperties.buttonEffects,
 }
 

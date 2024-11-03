@@ -2,13 +2,13 @@ import { memo } from 'react'
 import Button from '../../../Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCodeFork } from '@fortawesome/free-solid-svg-icons';
-import { ImageProps } from '..';
 
-function ProjectButton({ projectLink }: Readonly<Pick<ImageProps, "projectLink">>) {
+function ProjectButton({ projectLink }: {projectLink: string}) {
     return (
         <Button
             icon={<FontAwesomeIcon icon={faCodeFork} />}
             text={"Project"}
+            size='md'
             onClick={() => { window.open(projectLink, "_blank") }}
             pointer={true}
         />

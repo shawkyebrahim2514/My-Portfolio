@@ -15,9 +15,9 @@ export default function Navbar() {
         maxWidth: "1255px",
         top: "20px",
         zIndex: "999",
-        backgroundColor: theme.colors.dark3,
+        backgroundColor: theme.colors.base[900],
         ...theme.boxingStyle,
-        border: theme.border,
+        border: "none",
     }), [theme]);
     const innerStyle = useMemo((): CSSProperties => ({
         display: 'flex',

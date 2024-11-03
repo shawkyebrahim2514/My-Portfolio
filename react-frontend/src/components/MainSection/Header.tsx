@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { CSSProperties, useCallback, useMemo } from 'react'
 import { useThemeContext } from '../../contexts/ThemeContext';
 import Text from '../Text';
 import HeaderSymbol from './HeaderSymbol';
@@ -13,23 +13,23 @@ type HeaderProps = {
 
 export default function Header({ title, link, subtitle }: HeaderProps) {
     const { theme } = useThemeContext();
-    const headerConatinerStyle = useMemo(() => {
+    const headerConatinerStyle = useMemo((): CSSProperties => {
         return {
-            display: "grid",
-            gridAutoFlow: "column",
-            alignItems: "baseline",
-            justifyContent: "flex-start",
-            gap: "1rem",
+            display: "inline-block",
+            alignItems: "center",
+            gap: "0.5rem",
         }
     }, []);
 
-    const headerTextStyle = useMemo(() => {
+    const headerTextStyle = useMemo((): CSSProperties => {
         return {
-            color: theme.colors.base,
-            display: "flex",
-            alignItems: "center",
-            gap: "0.5rem",
+            color: theme.colors.base[600],
+            backgroundColor: theme.colors.base[200],
+            display: "inline",
+            marginRight: "0.5rem",
             cursor: link ? "pointer" : "default",
+            borderRadius: theme.borderRadius,
+            padding: "0 5px"
         }
     }, [link, theme.colors]);
 
@@ -38,23 +38,31 @@ export default function Header({ title, link, subtitle }: HeaderProps) {
     }, [link]);
 
     return (
-        <header style={headerConatinerStyle}>
-            <HeaderSymbol />
-            <div>
+        <header>
+            <div style={headerConatinerStyle}>
                 <Text
                     variant={"h3"}
                     onClick={headerOnCLickHandler}
-                    style={headerTextStyle}
-                >
+                    style={headerTextStyle}>
                     {title}
-                    {link && (<ExternalLinkIcon />)}
                 </Text>
-                {subtitle &&
-                    <SubtitleText>
-                        {subtitle}
-                    </SubtitleText>
-                }
+                {link && (
+                    <Text
+                        variant={"h3"}
+                        onClick={headerOnCLickHandler}
+                        style={{
+                            display: "inline-block",
+                            cursor: link ? "pointer" : "default",
+                            }}>
+                        <ExternalLinkIcon />
+                    </Text>
+                )}
             </div>
+            {subtitle &&
+                <SubtitleText>
+                    {subtitle}
+                </SubtitleText>
+            }
         </header>
     )
 }

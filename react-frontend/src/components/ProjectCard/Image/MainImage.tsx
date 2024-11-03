@@ -1,10 +1,18 @@
 import { memo } from "react"
-import { ImageProps } from ".";
+import { useThemeContext } from '../../../contexts/ThemeContext';
 
-function MainImage({ imgSrc }: Readonly<Pick<ImageProps, "imgSrc">>) {
+function MainImage({ imgSrc, isHovered }: { imgSrc: string, isHovered: boolean }) {
+    const { theme } = useThemeContext();
+
     return (
         <img
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            style={{ 
+                transition: theme.transition ,
+                width: "100%", 
+                height: "100%", 
+                objectFit: "cover", 
+                scale: isHovered ? "1.2" : "1"
+            }}
             src={imgSrc}
             alt={imgSrc} />
     )

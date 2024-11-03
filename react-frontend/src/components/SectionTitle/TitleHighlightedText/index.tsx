@@ -1,5 +1,5 @@
 import { CSSProperties, useMemo } from 'react'
-import { useThemeContext } from '../../../contexts/ThemeContext'
+import { useThemeContext } from '../../../contexts/ThemeContext';
 import ActualText from './ActualText';
 import Shadow from './Shadow';
 import Stroke from './Stroke';
@@ -11,7 +11,7 @@ function TitleHighlightedText({ children }: { readonly children: string }) {
     }, []);
     const outerStyle = useMemo((): CSSProperties => {
         return {
-            color: theme.colors.dark4,
+            color: theme.colors.base[800],
             boxShadow: theme.boxShadow,
             width: titleWidth,
             height: "60px",

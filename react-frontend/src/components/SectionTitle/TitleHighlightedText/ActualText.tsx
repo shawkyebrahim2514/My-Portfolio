@@ -9,7 +9,7 @@ function ActualText({ text }: { readonly text: string }) {
         justifyContent: "center",
         alignItems: "center",
         borderRadius: "inherit",
-        backgroundColor: theme.colors.base,
+        backgroundColor: theme.colors.secondary[300],
         width: "100%",
         height: "100%",
     }), [theme.colors]);

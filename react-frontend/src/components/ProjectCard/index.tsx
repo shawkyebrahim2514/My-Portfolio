@@ -37,10 +37,13 @@ function ProjectCard({
         <div style={containerStyle}>
             <Image
                 imgSrc={imgSrc || "images/placeholder.png"}
-                isSmallScreen={isSmallScreen}
+                isSmallScreen={isSmallScreen} />
+            <Content 
+                title={title} 
+                description={description} 
+                technologies={technologies}
                 projectLink={projectLink}
                 demoLink={demoLink} />
-            <Content title={title} description={description} technologies={technologies} />
         </div>
     )
 }

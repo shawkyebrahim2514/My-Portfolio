@@ -6,7 +6,7 @@ export default function HeaderSymbol() {
     const outerStyle = useMemo((): CSSProperties => ({
         width: "20px",
         height: "20px",
-        backgroundColor: theme.colors.dark3,
+        backgroundColor: theme.colors.base[50],
         border: theme.border,
         borderRadius: "50%",
         display: "flex",
@@ -17,7 +17,7 @@ export default function HeaderSymbol() {
         width: "70%",
         height: "70%",
         borderRadius: "50%",
-        backgroundColor: theme.colors.base,
+        backgroundColor: theme.colors.base[500],
     }), [theme]);
 
     return (

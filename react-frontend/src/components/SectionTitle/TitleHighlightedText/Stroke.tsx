@@ -8,7 +8,7 @@ function Stroke({ titleWidth }: { readonly titleWidth: number }) {
         height: "50px",
         position: "absolute",
         zIndex: "1",
-        border: `3px solid ${theme.colors.dark3}`,
+        border: `3px solid ${theme.colors.base[800]}`,
         top: "5px",
         left: "5px",
         margin: "auto",

@@ -18,12 +18,13 @@ export default function Logo({ logo }: Readonly<Pick<SanityNavbarData, "logo">>)
     return (
         <div
             style={{
-                color: theme.colors.base,
+                color: theme.colors.base[100],
                 cursor: "pointer",
             }}
             onClick={changeLinksHandler}
             onKeyDown={onKeyDownHandler} >
             <Text variant={"h2"} style={{
+                fontSize: "1.7rem",
                 fontWeight: "800",
             }}>
                 {logo}

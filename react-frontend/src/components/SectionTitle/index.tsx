@@ -1,5 +1,6 @@
 import Text from '../Text'
 import { CSSProperties, useMemo } from 'react'
+import { useThemeContext } from '../../contexts/ThemeContext';
 import TitleHighlightedText from './TitleHighlightedText';
 
 type SectionTitleProps = {
@@ -10,6 +11,7 @@ type SectionTitleProps = {
 }
 
 export default function SectionTitle({ highlightedText, text, subtitle, style }: SectionTitleProps) {
+    const { theme } = useThemeContext();
     const containerStyle = useMemo((): CSSProperties => {
         return {
             display: "flex",
@@ -36,7 +38,7 @@ export default function SectionTitle({ highlightedText, text, subtitle, style }:
         <header style={containerStyle}>
             <div style={titleStyle}>
                 {highlightedText ? <TitleHighlightedText>{highlightedText}</TitleHighlightedText> : null}
-                {text ? <Text variant={"h2"}>{text}</Text> : null}
+                {text ? <Text style={{color: theme.colors.base[800]}} variant={"h2"}>{text}</Text> : null}
             </div>
             {subtitle ? <Text variant={"h3"}>{subtitle}</Text> : null}
         </header>
