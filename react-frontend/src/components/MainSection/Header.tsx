@@ -23,13 +23,10 @@ export default function Header({ title, link, subtitle }: HeaderProps) {
 
     const headerTextStyle = useMemo((): CSSProperties => {
         return {
-            color: theme.colors.base[600],
-            backgroundColor: theme.colors.base[200],
+            // color: theme.colors.base[600],
             display: "inline",
             marginRight: "0.5rem",
             cursor: link ? "pointer" : "default",
-            borderRadius: theme.borderRadius,
-            padding: "0 5px"
         }
     }, [link, theme.colors]);
 

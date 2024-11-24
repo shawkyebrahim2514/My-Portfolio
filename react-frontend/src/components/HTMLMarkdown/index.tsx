@@ -1,0 +1,44 @@
+import ReactMarkdown, { Components } from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import remarkBreaks from 'remark-breaks'
+import remarkDirective from 'remark-directive'
+import remarkDirectiveRehype from 'remark-directive-rehype'
+import HrMarkdown from './HrMarkdown';
+import UlMarkdown from './UlMarkdown';
+import LiMarkdown from './LiMarkdown';
+import HeadingMarkdown from './HeadingMarkdown';
+import SpanMarkdown from './SpanMarkdown';
+import BlockquoteMarkdown from './BlockquoteMarkdown';
+
+type Props = {
+    readonly markdown: string
+}
+
+export const markdownComponents : Components = {
+    hr: ({ node, ...props }) => <HrMarkdown {...props} />,
+    ul: ({ node, ...props }) => <UlMarkdown {...props} />,
+    li: ({ node, ...props }) => <LiMarkdown {...props} />,
+    h1: ({ node, ...props }) => <HeadingMarkdown headingNumber='one' {...props} />,
+    h2: ({ node, ...props }) => <HeadingMarkdown headingNumber='two' {...props} />,
+    h3: ({ node, ...props }) => <HeadingMarkdown headingNumber='three' {...props} />,
+    span: ({ node, ...props }) => <SpanMarkdown node={node} {...props} />,
+    strong: ({ node, ...props }) => <SpanMarkdown node={node} {...props} />,
+    blockquote: ({ node, ...props }) => <BlockquoteMarkdown node={node} {...props} />,
+};
+
+function HTMLMarkdown({ markdown }: Props) {
+    return (
+        <ReactMarkdown
+            remarkPlugins={[
+                remarkGfm,
+                remarkBreaks,
+                remarkDirective,
+                remarkDirectiveRehype
+            ]}
+            components={markdownComponents}>
+            {markdown}
+        </ReactMarkdown>
+    )
+}
+
+export default HTMLMarkdown

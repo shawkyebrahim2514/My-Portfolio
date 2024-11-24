@@ -37,7 +37,7 @@ export default function Portfolio() {
         <div css={css({
             backgroundColor: theme.colors.base[100],
             minHeight: "100vh",
-            color: theme.colors.base[500],
+            color: theme.colors.base[700],
             backgroundImage: theme.backgroundImage,
             '& *::selection': {
                 backgroundColor: theme.colors.base[700],
