@@ -35,7 +35,7 @@ export default function Header({ title, link, subtitle }: HeaderProps) {
     }, [link]);
 
     return (
-        <header>
+        <>
             <div style={headerConatinerStyle}>
                 <Text
                     variant={"h3"}
@@ -60,7 +60,7 @@ export default function Header({ title, link, subtitle }: HeaderProps) {
                     {subtitle}
                 </SubtitleText>
             }
-        </header>
+        </>
     )
 }
 

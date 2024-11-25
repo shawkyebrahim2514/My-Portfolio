@@ -9,6 +9,7 @@ import LiMarkdown from './LiMarkdown';
 import HeadingMarkdown from './HeadingMarkdown';
 import SpanMarkdown from './SpanMarkdown';
 import BlockquoteMarkdown from './BlockquoteMarkdown';
+import AncherLinkMarkdown from './AncherLinkMarkdown';
 
 type Props = {
     readonly markdown: string
@@ -27,6 +28,7 @@ export const markdownComponents : Components = {
     span: ({ node, ...props }) => <SpanMarkdown node={node} {...props} />,
     strong: ({ node, ...props }) => <SpanMarkdown node={node} {...props} />,
     blockquote: ({ node, ...props }) => <BlockquoteMarkdown node={node} {...props} />,
+    a: ({ node, ...props }) => <AncherLinkMarkdown node={node} {...props} />,
 };
 
 function HTMLMarkdown({ markdown }: Props) {
