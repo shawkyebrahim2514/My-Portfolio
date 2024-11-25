@@ -6,7 +6,6 @@ type Date = {
 }
 
 type Course = {
-    name: string;
     description: string;
     technologies: string[];
 }

@@ -14,8 +14,8 @@ type SpanMarkdownProps = {
 
 const SpanMarkdown = ({ node, ...props }: SpanMarkdownProps) => {
     const { theme } = useThemeContext();
-    let className = useMemo(() => props?.className?.split(' ') || [], [props?.className]);
-    let spanText = useMemo(() => {
+    let className = (() => props?.className?.split(' ') || [])();
+    let spanText = (() => {
         let text = '';
         visit(node as Element, 'text', (textNode: Text) => {
             text = textNode.value;
@@ -35,12 +35,13 @@ const SpanMarkdown = ({ node, ...props }: SpanMarkdownProps) => {
             }
         });
         return text;
-    }, [node, className]);
+    })();
 
     const textStyle = useMemo((): CSSProperties => {
         return {
             position: "relative",
             display: "inline-block",
+            zIndex: 2,
         }
     }, []);
     const lightEffectStyle = useMemo((): CSSProperties => ({

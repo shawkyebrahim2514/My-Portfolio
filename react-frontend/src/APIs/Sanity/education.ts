@@ -10,7 +10,6 @@ const getEducationPage = async () => {
             location,
             date,
             courses[] -> {
-                name,
                 description,
                 "technologies": technologies[]->name
             }

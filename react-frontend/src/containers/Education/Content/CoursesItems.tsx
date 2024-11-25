@@ -1,53 +1,30 @@
-import { useThemeContext } from '../../../contexts/ThemeContext';
-import MainSection from '../../../components/MainSection'
-import Text from '../../../components/Text'
 import ListButtons from '../../../components/ListButtons'
-import ListItems from '../../../components/ListItems'
 import { CSSProperties, memo, useMemo } from 'react';
 import { SanityEducationPage } from '../../../Types';
+import HTMLMarkdown from '../../../components/HTMLMarkdown';
+import MainSection from '../../../components/MainSection';
 
 function CoursesItems({ courses }: Readonly<Pick<SanityEducationPage["education"], "courses">>) {
-    const courseSectionStyle = useMemo((): CSSProperties => ({
+    const innerStyle = useMemo((): CSSProperties => ({
         display: "flex",
         flexDirection: "column",
-        gap: "0.5rem",
+        gap: "1rem",
     }), []);
 
     return (
         <>
             {courses.map((course, index) => {
                 return (
-                    <MainSection key={course.name}>
-                        <div style={courseSectionStyle}>
-                            <CourseTitle courseName={course.name} />
-                            <CourseContent courseDescription={course.description} />
+                    <MainSection
+                        key={course.description}>
+                        <div style={innerStyle}>
+                            <HTMLMarkdown markdown={course.description} />
                             {course.technologies && <ListButtons elements={course.technologies} />}
                         </div>
                     </MainSection>
                 )
             })}
         </>
-    )
-}
-
-function CourseTitle({ courseName }: { readonly courseName: string }) {
-    const { theme } = useThemeContext();
-
-    return (
-        <div>
-            <Text variant={"h4"} style={{
-                display: "inline",
-                backgroundColor: theme.colors.base[100],
-            }}>
-                {courseName}
-            </Text>
-        </div>
-    )
-}
-
-function CourseContent({ courseDescription }: { readonly courseDescription: string }) {
-    return (
-        <ListItems elements={courseDescription.split("\n")} />
     )
 }
 

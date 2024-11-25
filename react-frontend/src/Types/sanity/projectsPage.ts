@@ -6,7 +6,6 @@ type Links = {
 }
 
 type Project = {
-    name: string;
     links: Links;
     description: string;
     imgSrc: string;

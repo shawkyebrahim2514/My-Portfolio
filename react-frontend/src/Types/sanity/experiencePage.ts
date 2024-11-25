@@ -5,21 +5,16 @@ type Date = {
     to: string;
 }
 
-type Internship = {
+type Experience = {
     title: string;
     subTitle: string;
-    date: Date,
+    date: Date;
     link: string;
     description: string;
-    technologies: string[];
 }
 
-type Certificate = {
-    title: string;
-    subTitle: string;
-    description: string;
-    date: string;
-    link: string;
+type Internship = Experience & {
+    technologies: string[];
 }
 
 type SanityInternshipsSection = CommonTitle & {
@@ -27,7 +22,7 @@ type SanityInternshipsSection = CommonTitle & {
 }
 
 type SanityCertificatesSection = CommonTitle & {
-    certificates: Certificate[];
+    certificates: Experience[];
 }
 
 export type SanityExperiencePage = {

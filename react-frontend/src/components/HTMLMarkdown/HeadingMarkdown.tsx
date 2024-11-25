@@ -17,11 +17,17 @@ const HeadingMarkdown = ({ headingNumber, ...props }: HeadingMarkdownProps) => {
             color: theme.colors.base[800]
         },
         three: {
-            fontSize: "2rem"
+            fontSize: "1.8rem"
         },
-        four: {},
-        five: {},
-        six: {}
+        four: {
+            fontSize: "1.4rem"
+        },
+        five: {
+            fontSize: "1.2rem"
+        },
+        six: {
+            fontSize: "1.1rem"
+        }
     }
     const HTMLHeadings: Record<HeadingMarkdownProps["headingNumber"], JSX.Element> = {
         one: <h1 {...props}

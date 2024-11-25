@@ -8,7 +8,7 @@ type ProjectCardProps = {
     readonly imgSrc?: string,
     readonly projectLink?: string,
     readonly demoLink?: string,
-    readonly title: string,
+    readonly title?: string,
     readonly description: string,
     readonly technologies: string[],
 }
@@ -39,7 +39,6 @@ function ProjectCard({
                 imgSrc={imgSrc || "images/placeholder.png"}
                 isSmallScreen={isSmallScreen} />
             <Content 
-                title={title} 
                 description={description} 
                 technologies={technologies}
                 projectLink={projectLink}

@@ -1,13 +1,11 @@
 import { CSSProperties, memo, useMemo } from 'react'
-import { useThemeContext } from '../../contexts/ThemeContext';
-import Text from '../Text';
 import ListButtons from '../ListButtons';
-import ListItems from '../ListItems';
 import ProjectButton from './Image/ImageOverlay/ProjectButton';
 import DemoButton from './Image/ImageOverlay/DemoButton';
+import HTMLMarkdown from '../HTMLMarkdown';
 
 type ContentProps = {
-    readonly title: string,
+    readonly title?: string,
     readonly description: string,
     readonly technologies: string[],
     readonly projectLink?: string,
@@ -24,15 +22,6 @@ function Content({ title, description, technologies, projectLink, demoLink }: Co
             gap: "1rem",
         }
     }, []);
-    const detailsStyle = useMemo((): CSSProperties => {
-        return {
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            justifyContent: "flex-start",
-            gap: "0.25rem",
-        }
-    }, []);
     const linksStyle = useMemo(() => ({
         display: "flex",
         gap: "1rem",
@@ -40,33 +29,13 @@ function Content({ title, description, technologies, projectLink, demoLink }: Co
 
     return (
         <div style={outerStyle}>
-            <div style={detailsStyle}>
-                <Title title={title} />
-                <ListItems elements={description.split("\n")} />
-            </div>
+            <HTMLMarkdown markdown={description} />
             <div style={linksStyle}>
                 {projectLink && <ProjectButton projectLink={projectLink} />}
                 {demoLink && <DemoButton demoLink={demoLink} />}
             </div>
             <ListButtons elements={technologies} />
         </div>
-    )
-}
-
-function Title({ title }: Readonly<Pick<ContentProps, "title">>) {
-    const { theme } = useThemeContext();
-    const titleStyle = useMemo((): CSSProperties => {
-        return {
-            color: theme.colors.base[600],
-            backgroundColor: theme.colors.base[200],
-            display: "inline-block",
-            borderRadius: theme.borderRadius,
-            padding: "0 5px",
-        }
-    }, [theme]);
-
-    return (
-        <Text variant={"h3"} style={titleStyle}>{title}</Text>
     )
 }
 
