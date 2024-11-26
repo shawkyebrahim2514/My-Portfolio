@@ -15,11 +15,7 @@ function Content({ certificates }: Readonly<Pick<SanityExperiencePage['certifica
         <>
             {certificates.map((certificate) => {
                 return (
-                    <MainSection
-                        key={certificate.title}
-                        title={certificate.title}
-                        subtitle={certificate.subTitle}
-                        link={certificate.link} >
+                    <MainSection key={certificate.description}>
                         <div style={containerStyle}>
                             {certificate.description && <ExperienceItemDescription description={certificate.description} />}
                         </div>

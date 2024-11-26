@@ -1,6 +1,6 @@
 import { useState, useMemo, CSSProperties } from 'react'
 import { useThemeContext } from '../../../contexts/ThemeContext';
-import ImageOverlay from './ImageOverlay';
+// import ImageOverlay from './ImageOverlay';
 import MainImage from './MainImage';
 
 export type ImageProps = {
@@ -32,7 +32,7 @@ export default function Image({ imgSrc, isSmallScreen }: ImageProps) {
             onBlur={() => { setIsHovered(false) }}
             style={imageFrameStyle} >
             <MainImage imgSrc={imgSrc} isHovered={isHovered} />
-            <ImageOverlay isHovered={isHovered} />
+            {/* <ImageOverlay isHovered={isHovered} /> */}
         </div>
     )
 }

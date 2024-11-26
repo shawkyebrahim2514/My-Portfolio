@@ -1,10 +1,5 @@
 import { CommonTitle } from "./common";
 
-type Date = {
-    start: string;
-    end: string;
-}
-
 type Course = {
     description: string;
     technologies: string[];
@@ -12,10 +7,7 @@ type Course = {
 
 export type SanityEducationPage = CommonTitle & {
     education: {
-        name: string;
         description: string;
-        location: string;
-        date: Date;
         courses: Course[];
     }
 }

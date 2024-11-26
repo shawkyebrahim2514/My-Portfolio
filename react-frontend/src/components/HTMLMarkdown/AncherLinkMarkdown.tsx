@@ -9,8 +9,6 @@ type AncherLinkMarkdownProps = {
 } & React.HTMLAttributes<HTMLAnchorElement>;
 
 const AncherLinkMarkdown = ({ node, ...props }: AncherLinkMarkdownProps) => {
-    console.log("Title: ", props.children);
-    console.log("Link: ", node?.properties?.href);
     const title = props.children as string;
     const link = node?.properties?.href as string;
     const matchButtonLink = /\[(.*)\]/.exec(title);

@@ -1,8 +1,8 @@
 import { CSSProperties, memo, useMemo } from "react";
 import { SanityEducationPage } from "../../../Types";
 import MainSection from "../../../components/MainSection";
-import EducationInformation from "./EducationInformation";
 import CoursesItems from "./CoursesItems";
+import HTMLMarkdown from "../../../components/HTMLMarkdown";
 
 function Content({ education }: Readonly<Pick<SanityEducationPage, "education">>) {
     const containerStyle = useMemo((): CSSProperties => ({
@@ -14,10 +14,11 @@ function Content({ education }: Readonly<Pick<SanityEducationPage, "education">>
 
     return (
         <MainSection
-            title={education.name}
             subtitle={education.description}>
             <div style={containerStyle}>
-                <EducationInformation location={education.location} date={education.date} />
+                <div>
+                    <HTMLMarkdown markdown={education.description} />
+                </div>
                 <CoursesItems courses={education.courses} />
             </div>
         </MainSection>

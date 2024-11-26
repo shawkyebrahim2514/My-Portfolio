@@ -29,7 +29,6 @@ const SpanMarkdown = ({ node, ...props }: SpanMarkdownProps) => {
             let text = currentNodes[0].value;
             visit(node as Element, 'text', (textNode: Text) => {
                 text = textNode.value;
-                // console.log("text: ", text);
                 const matchHighlightAreaWithSecondaryColor = text.match(/^!-(.*?)-!/g);
                 const matchHighlightAreaWithBaseColor = text.match(/^-(.*?)-/g);
                 const matchHighlightTextWithSecondaryColor = text.match(/^!(.*?)!/g);
@@ -63,12 +62,6 @@ const SpanMarkdown = ({ node, ...props }: SpanMarkdownProps) => {
             } else if (matchHighlightTextWithSecondaryColor) {
                 className.push("secondary");
             }
-            console.log("text: ", text);
-            console.log("className: ", className);
-            console.log("matchHighlightAreaWithSecondaryColor: ", matchHighlightAreaWithSecondaryColor);
-            console.log("matchHighlightAreaWithBaseColor: ", matchHighlightAreaWithBaseColor);
-            console.log("matchHighlightTextWithSecondaryColor: ", matchHighlightTextWithSecondaryColor);
-
             // Delete the first and last node
             currentNodes.shift();
             currentNodes.pop();
@@ -85,8 +78,6 @@ const SpanMarkdown = ({ node, ...props }: SpanMarkdownProps) => {
                 }
             }))
     ), [content]);
-
-    // console.log("Content: ", content);
 
     const textStyle = useMemo((): CSSProperties => {
         return {

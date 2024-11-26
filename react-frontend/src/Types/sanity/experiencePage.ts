@@ -1,15 +1,6 @@
 import { CommonTitle } from "./common";
 
-type Date = {
-    from: string;
-    to: string;
-}
-
 type Experience = {
-    title: string;
-    subTitle: string;
-    date: Date;
-    link: string;
     description: string;
 }
 
