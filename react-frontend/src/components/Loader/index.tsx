@@ -16,7 +16,7 @@ export default function Loader() {
         <div style={containerStyle}>
             <FontAwesomeIcon
             style={{
-                color: theme.colors.base,
+                color: theme.colors.base[700],
             }}
             icon={faSpinner} size="2x" spin />
         </div>

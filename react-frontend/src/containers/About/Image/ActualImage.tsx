@@ -14,6 +14,7 @@ export default function ActualImage({ personImage }: Readonly<Pick<SanityAboutPa
         top: "0",
         left: "0",
         zIndex: "2",
+        border: `3px solid ${theme.colors.base[50]}`,
     }), [theme]);
     const imageStyle = useMemo((): CSSProperties => ({
         width: "100%",

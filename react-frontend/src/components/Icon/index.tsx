@@ -53,9 +53,10 @@ export default function Icon({
             width: variants[size].imageWidth,
             height: variants[size].imageHeight,
             borderRadius: "50%",
-            backgroundColor: theme.colors.dark2,
+            backgroundColor: theme.colors.base[50],
             border: theme.border,
             overflow: "hidden",
+            filter: "drop-shadow(0px 0px 2px rgba(0,0,0,0.2))",
         };
     }, [theme, size]);
     const imageStyle = useMemo((): CSSProperties => {

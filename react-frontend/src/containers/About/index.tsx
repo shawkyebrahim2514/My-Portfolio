@@ -29,12 +29,8 @@ function About() {
             {aboutPage ? (
                 <div style={containerStyle}>
                     <Content
-                        seeking={aboutPage.seeking}
-                        personName={aboutPage.personName}
                         description={aboutPage.description}
                         resume={aboutPage.resume}
-                        position={aboutPage.position}
-                        salutation={aboutPage.salutation}
                     />
                     <Image personImage={aboutPage.personImage} />
                 </div>

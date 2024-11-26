@@ -8,9 +8,8 @@ function Content({ projects }: Readonly<Pick<SanityProjectsPage, "projects">>) {
             {projects.map((project) => {
                 return (
                     <ProjectCard
-                        key={project.name}
+                        key={project.description}
                         imgSrc={project.imgSrc}
-                        title={project.name}
                         description={project.description}
                         projectLink={project.links.projectLink}
                         demoLink={project.links.demoLink}

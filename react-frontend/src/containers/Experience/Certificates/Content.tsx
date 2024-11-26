@@ -1,7 +1,6 @@
 import { CSSProperties, useMemo } from "react";
 import { SanityExperiencePage } from "../../../Types";
 import MainSection from "../../../components/MainSection";
-import ExperienceItemInformation from "../ExperienceItemInformation";
 import ExperienceItemDescription from "../ExperienceItemDescription";
 
 function Content({ certificates }: Readonly<Pick<SanityExperiencePage['certificatesSection'], 'certificates'>>) {
@@ -16,12 +15,8 @@ function Content({ certificates }: Readonly<Pick<SanityExperiencePage['certifica
         <>
             {certificates.map((certificate) => {
                 return (
-                    <MainSection
-                        key={certificate.title}
-                        title={certificate.title}
-                        link={certificate.link} >
+                    <MainSection key={certificate.description}>
                         <div style={containerStyle}>
-                            <ExperienceItemInformation subTitle={certificate.subTitle} date={certificate.date} />
                             {certificate.description && <ExperienceItemDescription description={certificate.description} />}
                         </div>
                     </MainSection>

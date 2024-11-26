@@ -1,25 +1,11 @@
 import { CommonTitle } from "./common";
 
-type Date = {
-    from: string;
-    to: string;
+type Experience = {
+    description: string;
 }
 
-type Internship = {
-    title: string;
-    subTitle: string;
-    date: Date,
-    link: string;
-    description: string;
+type Internship = Experience & {
     technologies: string[];
-}
-
-type Certificate = {
-    title: string;
-    subTitle: string;
-    description: string;
-    date: string;
-    link: string;
 }
 
 type SanityInternshipsSection = CommonTitle & {
@@ -27,7 +13,7 @@ type SanityInternshipsSection = CommonTitle & {
 }
 
 type SanityCertificatesSection = CommonTitle & {
-    certificates: Certificate[];
+    certificates: Experience[];
 }
 
 export type SanityExperiencePage = {

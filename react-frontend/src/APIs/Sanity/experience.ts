@@ -6,10 +6,6 @@ const getExperiencePage = async () => {
         internshipsSection {
             title,
             internships[] -> {
-                title,
-                subTitle,
-                date,
-                link,
                 description,
                 "technologies": technologies[]->name
             }
@@ -17,11 +13,7 @@ const getExperiencePage = async () => {
         certificatesSection {
             title,
             certificates[] -> {
-                title,
-                subTitle,
                 description,
-                date,
-                link,
             }
         }
     }`;

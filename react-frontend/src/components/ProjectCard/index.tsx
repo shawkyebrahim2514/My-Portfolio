@@ -8,7 +8,7 @@ type ProjectCardProps = {
     readonly imgSrc?: string,
     readonly projectLink?: string,
     readonly demoLink?: string,
-    readonly title: string,
+    readonly title?: string,
     readonly description: string,
     readonly technologies: string[],
 }
@@ -37,10 +37,12 @@ function ProjectCard({
         <div style={containerStyle}>
             <Image
                 imgSrc={imgSrc || "images/placeholder.png"}
-                isSmallScreen={isSmallScreen}
+                isSmallScreen={isSmallScreen} />
+            <Content 
+                description={description} 
+                technologies={technologies}
                 projectLink={projectLink}
                 demoLink={demoLink} />
-            <Content title={title} description={description} technologies={technologies} />
         </div>
     )
 }

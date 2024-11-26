@@ -36,7 +36,7 @@ function HeaderTitle({ title, icon }: Readonly<Pick<HeaderProps, "title" | "icon
             alignItems: "center",
             justifyContent: "center",
             gap: "0.5rem",
-            color: theme.colors.base,
+            color: theme.colors.base[600],
         }
     }, [theme.colors]);
 
@@ -56,7 +56,7 @@ function HorizontalLine() {
         return {
             width: "100%",
             height: "1px",
-            backgroundColor: theme.colors.base,
+            backgroundColor: theme.colors.base[200],
             border: "none",
         }
     }, [theme.colors]);

@@ -26,17 +26,28 @@ export default function DropDownLinks({ isMenuOpen, setIsMenuOpen }: DropDownLin
         transformOrigin: "top",
         transition: theme.transition,
         height: '100%',
-    }), [isMenuOpen, theme]);
+    }), [isMenuOpen, theme.transition]);
+    const linkButtonsContainerStyle = useMemo((): CSSProperties => ({
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        gap: "1rem",
+        ...theme.boxingStyle,
+        backgroundColor: theme.colors.base[50],
+        padding: "2rem",
+    }), [theme.boxingStyle, theme.colors]);
     const linkButtonOnClickHandler = useCallback(() => {
         setIsMenuOpen(false);
     }, [setIsMenuOpen]);
 
     return (
         <div style={linksContainerStyle}>
-            <BlurBackground backgroundColor={theme.colors.dark4} />
+            <BlurBackground backgroundColor={theme.colors.base[400]} />
             <ExitButton setIsMenuOpen={setIsMenuOpen} />
-            <PortfolioLinks
-                linkButtonOnClickHandler={linkButtonOnClickHandler} />
+            <div style={linkButtonsContainerStyle}>
+                <PortfolioLinks
+                    linkButtonOnClickHandler={linkButtonOnClickHandler} />
+            </div>
         </div>
     )
 }

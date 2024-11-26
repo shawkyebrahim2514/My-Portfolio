@@ -12,6 +12,7 @@ import {
 } from "react-router-dom";
 import { PortfolioPathes } from '../Types';
 import { css } from '@emotion/react';
+import MarkdownEditor from '../containers/MarkdownEditor';
 
 const About = lazy(() => import('../containers/About'));
 const Skills = lazy(() => import('../containers/Skills'));
@@ -20,14 +21,18 @@ const Experience = lazy(() => import('../containers/Experience'));
 const Projects = lazy(() => import('../containers/Projects'));
 
 type PathElementRoutes = Record<PortfolioPathes, JSX.Element>
+type TestingRoutes = {
+    "markdown": JSX.Element
+}
 
-const pathElementRoutes: PathElementRoutes = {
+const pathElementRoutes: PathElementRoutes & TestingRoutes = {
     "": <About />,
     "skills": <Skills />,
     "education": <Education />,
     "experience": <Experience />,
     "projects": <Projects />,
-    "contacts": <Contacts />
+    "contacts": <Contacts />,
+    "markdown": <MarkdownEditor />
 }
 
 export default function Portfolio() {
@@ -35,13 +40,13 @@ export default function Portfolio() {
 
     return (
         <div css={css({
-            backgroundColor: theme.colors.dark4,
+            backgroundColor: theme.colors.base[100],
             minHeight: "100vh",
-            color: theme.colors.text,
+            color: theme.colors.base[700],
             backgroundImage: theme.backgroundImage,
             '& *::selection': {
-                backgroundColor: theme.colors.base,
-                color: theme.colors.dark4
+                backgroundColor: theme.colors.base[700],
+                color: theme.colors.base[100]
             }
         })}>
             <div style={{

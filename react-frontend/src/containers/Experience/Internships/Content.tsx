@@ -1,7 +1,6 @@
 import { CSSProperties, useMemo } from "react";
 import { SanityExperiencePage } from "../../../Types";
 import MainSection from "../../../components/MainSection";
-import ExperienceItemInformation from "../ExperienceItemInformation";
 import ExperienceItemDescription from "../ExperienceItemDescription";
 import ListButtons from "../../../components/ListButtons";
 
@@ -17,12 +16,8 @@ function Content({ internships }: Readonly<Pick<SanityExperiencePage['internship
         <>
             {internships.map((internship) => {
                 return (
-                    <MainSection
-                        key={internship.title}
-                        title={internship.title}
-                        link={internship.link} >
+                    <MainSection key={internship.description}>
                         <div style={containerStyle}>
-                            <ExperienceItemInformation subTitle={internship.subTitle} date={formatDate(internship.date)} />
                             <ExperienceItemDescription description={internship.description} />
                             <ListButtons elements={internship.technologies} />
                         </div>
@@ -31,10 +26,6 @@ function Content({ internships }: Readonly<Pick<SanityExperiencePage['internship
             })}
         </>
     )
-}
-
-function formatDate(date: SanityExperiencePage['internshipsSection']['internships'][0]['date']) {
-    return `From: ${date.from} - To: ${date.to}`
 }
 
 export default Content;

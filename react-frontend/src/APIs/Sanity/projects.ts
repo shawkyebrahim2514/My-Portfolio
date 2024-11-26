@@ -5,7 +5,6 @@ const getProjectsPage = async () => {
     const query = `*[_type == "portfolio"][0].pages[_type == "projectsPage"][0] {
         title,
         "projects": projects[] -> {
-            name,
             links,
             description,
             "imgSrc": image.asset->url,

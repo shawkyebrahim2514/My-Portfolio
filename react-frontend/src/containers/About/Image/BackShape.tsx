@@ -8,11 +8,10 @@ export default function BackShape() {
             width: "inherit",
             height: "inherit",
             position: "absolute",
-            backgroundColor: theme.colors.base,
             borderRadius: "50%",
             zIndex: "1",
-            top: "10px",
-            left: "10px",
+            scale: "1.1",
+            border: `3px solid ${theme.colors.base[700]}`,
         }} />
     )
 }
