@@ -8,10 +8,10 @@ function TitleHighlightedText({ children }: { readonly children: string }) {
     const { theme } = useThemeContext();
     const titleWidth = useMemo(() => {
         return children.length * 16 + 30;
-    }, []);
+    }, [children]);
     const outerStyle = useMemo((): CSSProperties => {
         return {
-            color: theme.colors.base[800],
+            color: theme.colors.base[900],
             boxShadow: theme.boxShadow,
             width: titleWidth,
             height: "60px",

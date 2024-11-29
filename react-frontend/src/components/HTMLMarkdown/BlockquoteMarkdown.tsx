@@ -69,7 +69,7 @@ const BlockquoteMarkdown = ({ node, className, ...props }: BlockquoteMarkdownPro
         className='blockquote'
         style={{
             ...props.style,
-            padding: "1rem",
+            padding: "0 1rem",
             position: "relative",
             margin: "1rem 0",
             backgroundColor: `${colors.containerBackgroundColor}`,

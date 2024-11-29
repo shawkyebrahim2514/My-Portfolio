@@ -19,11 +19,12 @@ function LinkButton({ path, pageName, onClick }: LinkButtonProps) {
         return {
             boxShadow: "none",
             border: "none",
-            backgroundColor: linkActive ? theme.colors.base[600] : "",
-            color: linkActive ? theme.colors.base[200] : theme.colors.base[400],
-            opacity: linkActive ? "1" : "0.7",
+            backgroundColor: linkActive ? theme.colors.base[200] : "",
+            color: linkActive ? theme.colors.base[800] : theme.colors.base[400],
+            opacity: linkActive ? "1" : "0.9",
+            fontWeight: "500",
         }
-    }, [theme.colors.base, theme.border, active]);
+    }, [theme.colors.base, active]);
 
     return (
         <Button

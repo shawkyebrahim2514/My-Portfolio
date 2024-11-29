@@ -10,23 +10,31 @@ const HeadingMarkdown = ({ headingNumber, children, ...props }: HeadingMarkdownP
         one: {
             fontSize: "3.8rem",
             fontWeight: 700,
-            color: theme.colors.base[800]
+            // color: theme.colors.base[800]
         },
         two: {
             fontSize: "2.2rem",
-            color: theme.colors.base[800]
+            fontWeight: 700,
+            // color: theme.colors.base[800]
         },
         three: {
-            fontSize: "1.8rem"
+            fontSize: "1.8rem",
+            fontWeight: 700,
+            // color: theme.colors.base[800]
         },
         four: {
-            fontSize: "1.4rem"
+            fontSize: "1.4rem",
+            fontWeight: 700,
+            // color: theme.colors.base[800]
         },
         five: {
-            fontSize: "1.2rem"
+            fontSize: "1.2rem",
+            fontWeight: 700,
+            // color: theme.colors.base[800]
         },
         six: {
-            fontSize: "1.1rem"
+            fontSize: "1.1rem",
+            color: theme.colors.base[800]
         }
     }
     const HTMLHeadings: Record<HeadingMarkdownProps["headingNumber"], JSX.Element> = {

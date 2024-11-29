@@ -36,7 +36,7 @@ function HeaderTitle({ title, icon }: Readonly<Pick<HeaderProps, "title" | "icon
             alignItems: "center",
             justifyContent: "center",
             gap: "0.5rem",
-            color: theme.colors.base[600],
+            color: theme.colors.base[700],
         }
     }, [theme.colors]);
 

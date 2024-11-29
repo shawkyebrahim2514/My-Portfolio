@@ -53,10 +53,11 @@ const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
                     ...oldStyle,
                     ...textStyle,
                     fontWeight: 600,
+                    color: theme.colors.base[800],
                 }
                 const barStyle = {
                     ...lightEffectStyle,
-                    backgroundColor: theme.colors.base[300],
+                    backgroundColor: theme.colors.base[200],
                 }
                 return {
                     style: spanStyle,
@@ -71,6 +72,7 @@ const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
                     ...oldStyle,
                     ...textStyle,
                     fontWeight: 600,
+                    color: theme.colors.base[800],
                 }
                 const barStyle = {
                     ...lightEffectStyle,
@@ -90,7 +92,7 @@ const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
                 const spanStyle = {
                     ...oldStyle,
                     ...textStyle,
-                    fontWeight: 700,
+                    fontWeight: 600,
                 }
                 return {
                     style: spanStyle,
@@ -102,7 +104,7 @@ const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
                     ...oldStyle,
                     ...textStyle,
                     color: theme.colors.secondary[500],
-                    fontWeight: 700,
+                    fontWeight: 600,
                 }
                 return {
                     style: spanStyle,
