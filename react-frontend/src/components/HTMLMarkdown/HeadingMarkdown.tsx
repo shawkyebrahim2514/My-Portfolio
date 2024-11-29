@@ -4,7 +4,7 @@ type HeadingMarkdownProps = React.HTMLAttributes<HTMLHRElement> & {
     headingNumber: "one" | "two" | "three" | "four" | "five" | "six",
 }
 
-const HeadingMarkdown = ({ headingNumber, ...props }: HeadingMarkdownProps) => {
+const HeadingMarkdown = ({ headingNumber, children, ...props }: HeadingMarkdownProps) => {
     const { theme } = useThemeContext();
     const HTMLHeadingStyles: Record<HeadingMarkdownProps["headingNumber"], React.CSSProperties> = {
         one: {
@@ -30,36 +30,54 @@ const HeadingMarkdown = ({ headingNumber, ...props }: HeadingMarkdownProps) => {
         }
     }
     const HTMLHeadings: Record<HeadingMarkdownProps["headingNumber"], JSX.Element> = {
-        one: <h1 {...props}
-            style={{
-                ...props.style,
-                ...HTMLHeadingStyles.one
-            }} />,
-        two: <h2 {...props}
-            style={{
-                ...props.style,
-                ...HTMLHeadingStyles.two
-            }} />,
-        three: <h3 {...props}
-            style={{
-                ...props.style,
-                ...HTMLHeadingStyles.three
-            }} />,
-        four: <h4 {...props}
-            style={{
-                ...props.style,
-                ...HTMLHeadingStyles.four
-            }} />,
-        five: <h5 {...props}
-            style={{
-                ...props.style,
-                ...HTMLHeadingStyles.five
-            }} />,
-        six: <h6 {...props}
-            style={{
-                ...props.style,
-                ...HTMLHeadingStyles.six
-            }} />
+        one:
+            <h1 {...props}
+                style={{
+                    ...props.style,
+                    ...HTMLHeadingStyles.one
+                }}>
+                {children}
+            </h1>,
+        two:
+            <h2 {...props}
+                style={{
+                    ...props.style,
+                    ...HTMLHeadingStyles.two
+                }}>
+                {children}
+            </h2>,
+        three:
+            <h3 {...props}
+                style={{
+                    ...props.style,
+                    ...HTMLHeadingStyles.three
+                }}>
+                {children}
+            </h3>,
+        four:
+            <h4 {...props}
+                style={{
+                    ...props.style,
+                    ...HTMLHeadingStyles.four
+                }}>
+                {children}
+            </h4>,
+        five:
+            <h5 {...props}
+                style={{
+                    ...props.style,
+                    ...HTMLHeadingStyles.five
+                }}>
+                {children}
+            </h5>,
+        six:
+            <h6 {...props}
+                style={{
+                    ...props.style,
+                    ...HTMLHeadingStyles.six
+                }}>
+                {children}
+            </h6>,
     }
 
     return HTMLHeadings[headingNumber];

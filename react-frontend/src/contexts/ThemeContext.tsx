@@ -13,6 +13,7 @@ const Context = createContext<ThemeContextType | null>(null);
 
 const colors = {
     base: {
+        0: "#FFFFFF",
         50: "#FAFAF6",
         100: "#EDEEE6",
         200: "#D4D5CD",
@@ -25,6 +26,7 @@ const colors = {
         900: "#282827",
     },
     secondary: {
+        0: "#FFFFFF",
         50: "#FDF9F7",
         100: "#F8EBE4",
         200: "#EDCFBC",

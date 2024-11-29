@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useThemeContext } from '../../contexts/ThemeContext';
-import type { Element, Node, Text, Parent, RootContent } from 'hast'
+import type { Element, RootContent } from 'hast'
 import MainSection from '../MainSection';
 import { toJsxRuntime } from 'hast-util-to-jsx-runtime'
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime'
@@ -16,65 +16,17 @@ type BlockquoteMarkdownProps = {
     node?: Element,
 } & React.HTMLAttributes<HTMLQuoteElement>;
 
-const isTextNode = (node: Node): node is Text => {
-    return node?.type === 'text';
-};
 
-const isParentNode = (node: Node): node is Parent => {
-    return node && 'children' in node;
-};
-
-const dfsVisit = (currentNode: Node, callback: (node: Node) => boolean | undefined): boolean => {
-    let isFinished = false;
-    if (isParentNode(currentNode)) {
-        for (const child of currentNode.children) {
-            isFinished = callback(child) || isFinished;
-            if (!isFinished) {
-                isFinished = dfsVisit(child, callback) || isFinished;
-            }
-        }
-    }
-    return isFinished;
-};
-
-const BlockquoteMarkdown = ({ node, ...props }: BlockquoteMarkdownProps) => {
+const BlockquoteMarkdown = ({ node, className, ...props }: BlockquoteMarkdownProps) => {
     const { theme } = useThemeContext();
-
-    let { className, title, content } = useMemo(() => {
-        let className = props?.className?.split(' ') || [];
-        let title = '';
-        let content: Node[] = node?.children || [];
-        let completed = false;
-        dfsVisit(node as Node, (currentNode: Node) => {
-            if (completed) {
-                content.push(currentNode);
-            } else if (isTextNode(currentNode)) {
-                if (currentNode.value) {
-                    const match = /\[!(.+)\](.*)/.exec(currentNode.value);
-                    if (match) {
-                        match[1].trim().split(' ').forEach((element) => {
-                            className.push(element);
-                        });
-                        title = match[2].trim();
-                        content = [];
-                        completed = true;
-                        return true;
-                    }
-                }
-            }
-            return false;
-        });
-        return { className, title, content };
-    }, [node, props.className]);
-
     const contentJSXElementsFromAST = useMemo(() => (
-        content.map((element) => toJsxRuntime(element as RootContent, {
+        node?.children.map((element) => toJsxRuntime(element as RootContent, {
             Fragment, jsx, jsxs, passNode: true, components: {
                 ...markdownComponents,
                 br: () => null,
             }
         }))
-    ), [content]);
+    ), [node?.children]);
 
     const targetElement = useMemo((): TargetElementType => ({
         "highlight-background": {
@@ -104,10 +56,9 @@ const BlockquoteMarkdown = ({ node, ...props }: BlockquoteMarkdownProps) => {
     let colorType = useMemo((): BlockquoteColorType => className?.includes("secondary") ? "secondary" : "base", [className]);
     let colors = useMemo(() => targetElement[backgroundType][colorType], [backgroundType, colorType, targetElement]);
 
-    if (className.includes("popup")) {
+    if (className?.includes("popup")) {
         return (
-            <MainSection
-                title={title}>
+            <MainSection>
                 {contentJSXElementsFromAST}
             </MainSection>
         );
@@ -124,7 +75,6 @@ const BlockquoteMarkdown = ({ node, ...props }: BlockquoteMarkdownProps) => {
             backgroundColor: `${colors.containerBackgroundColor}`,
             color: `${colors.barColor}`
         }}>
-        <h3>{title}</h3>
         <div style={{
             position: "absolute",
             left: 0,

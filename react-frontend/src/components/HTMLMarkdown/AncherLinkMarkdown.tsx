@@ -11,6 +11,7 @@ type AncherLinkMarkdownProps = {
 const AncherLinkMarkdown = ({ node, ...props }: AncherLinkMarkdownProps) => {
     const title = props.children as string;
     const link = node?.properties?.href as string;
+    // `[[Google]](https://www.google.com)`
     const matchButtonLink = /\[(.*)\]/.exec(title);
     if (matchButtonLink) {
         return (
@@ -23,6 +24,7 @@ const AncherLinkMarkdown = ({ node, ...props }: AncherLinkMarkdownProps) => {
             />
         )
     }
+    // `[Google](https://www.google.com)`
     return (
         <Header
             title={title}

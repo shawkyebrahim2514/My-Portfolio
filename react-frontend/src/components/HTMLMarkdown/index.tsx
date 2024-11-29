@@ -10,12 +10,13 @@ import HeadingMarkdown from './HeadingMarkdown';
 import SpanMarkdown from './SpanMarkdown';
 import BlockquoteMarkdown from './BlockquoteMarkdown';
 import AncherLinkMarkdown from './AncherLinkMarkdown';
+import { prepareBlockQuotes, prepareTextVariations } from './customPlugins';
 
 type Props = {
     readonly markdown: string
 }
 
-export const markdownComponents : Components = {
+export const markdownComponents: Components = {
     hr: ({ node, ...props }) => <HrMarkdown {...props} />,
     ul: ({ node, ...props }) => <UlMarkdown {...props} />,
     li: ({ node, ...props }) => <LiMarkdown {...props} />,
@@ -38,7 +39,9 @@ function HTMLMarkdown({ markdown }: Props) {
                 remarkGfm,
                 remarkBreaks,
                 remarkDirective,
-                remarkDirectiveRehype
+                remarkDirectiveRehype,
+                prepareBlockQuotes,
+                prepareTextVariations
             ]}
             components={markdownComponents}>
             {markdown}

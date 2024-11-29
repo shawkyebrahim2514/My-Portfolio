@@ -26,9 +26,10 @@ type ButtonProps = {
     readonly size?: keyof typeof differentSizes;
     readonly style?: React.CSSProperties;
     readonly pointer?: boolean;
+    readonly children?: JSX.Element[];
 }
 
-export default function Button({ icon, text, onClick, size = "lg", style, pointer }: ButtonProps) {
+export default function Button({ icon, text, onClick, size = "lg", style, pointer, children }: ButtonProps) {
     const { theme } = useThemeContext();
     const buttonStyle = useMemo(() => css({
         padding: differentSizes[size].padding,
@@ -50,6 +51,7 @@ export default function Button({ icon, text, onClick, size = "lg", style, pointe
             onKeyDown={handleKeyDown} >
             {icon}
             {text}
+            {children}
         </div >
     )
 }
