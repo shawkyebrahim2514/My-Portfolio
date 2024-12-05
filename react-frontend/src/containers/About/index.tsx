@@ -9,14 +9,13 @@ import Loader from '../../components/Loader';
 
 function About() {
     const [aboutPage, setAboutPage] = useState<SanityAboutPage | null>(null);
-    const isMediumScreen = useMediaQuery({ query: '(max-width: 1124px)' });
     const containerStyle = useMemo((): CSSProperties => ({
         display: "flex",
-        flexDirection: isMediumScreen ? "column-reverse" : "row",
+        flexDirection: "column-reverse",
         justifyContent: "space-between",
         alignItems: "center",
         gap: "2rem",
-    }), [isMediumScreen]);
+    }), []);
 
     useEffect(() => {
         getAboutPage().then((result) => {

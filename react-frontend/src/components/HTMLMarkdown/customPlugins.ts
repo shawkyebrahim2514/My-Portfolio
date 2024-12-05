@@ -211,6 +211,14 @@ export const configureTextDirection = () => {
                         return null;
                     }
                 ])
+                findAndReplace(node as Nodes, [
+                    /\[newline\]/,
+                    (fullText: any) => {
+                        return {
+                            type: 'break'
+                        }
+                    }
+                ])
             }
         })
     }
