@@ -1,11 +1,11 @@
 import { CSSProperties, useMemo } from 'react';
 import { useThemeContext } from '../../contexts/ThemeContext';
-import type { Element, Text, Node, RootContent } from 'hast'
-import { visit } from 'unist-util-visit';
+import type { Element, RootContent } from 'hast'
 import { v4 as uuidv4 } from 'uuid';
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime'
 import { markdownComponents } from '.';
 import { toJsxRuntime } from 'hast-util-to-jsx-runtime'
+import Button from '../Button';
 
 type SpanElementType = "highlight-area" | "highlight-text";
 type SpanColorType = "base" | "secondary";
@@ -15,69 +15,20 @@ type SpanMarkdownProps = {
     node?: Element,
 } & React.HTMLAttributes<HTMLSpanElement>;
 
-const isTextNode = (node: Node): node is Text => {
-    return node?.type === 'text';
-};
-
-const SpanMarkdown = ({ node, ...props }: SpanMarkdownProps) => {
+const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
     const { theme } = useThemeContext();
-    let className = (() => props?.className?.split(' ') || [])();
-    let content = (() => {
-        let currentNodes: Node[] = node?.children || [];
-        // No children element found, only a text node
-        if (currentNodes.length === 1 && isTextNode(currentNodes[0])) {
-            let text = currentNodes[0].value;
-            visit(node as Element, 'text', (textNode: Text) => {
-                text = textNode.value;
-                const matchHighlightAreaWithSecondaryColor = text.match(/^!-(.*?)-!/g);
-                const matchHighlightAreaWithBaseColor = text.match(/^-(.*?)-/g);
-                const matchHighlightTextWithSecondaryColor = text.match(/^!(.*?)!/g);
-                if (matchHighlightAreaWithSecondaryColor) {
-                    className.push("highlight-area");
-                    className.push("secondary");
-                    text = text.substring(2, matchHighlightAreaWithSecondaryColor[0].length - 2);
-                } else if (matchHighlightAreaWithBaseColor) {
-                    className.push("highlight-area");
-                    text = text.substring(1, matchHighlightAreaWithBaseColor[0].length - 1);
-                } else if (matchHighlightTextWithSecondaryColor) {
-                    className.push("secondary");
-                    text = text.substring(1, matchHighlightTextWithSecondaryColor[0].length - 1);
-                }
-            });
-            return text;
-        }
-        let firstNodeChild = currentNodes[0];
-        let lastNodeChild = currentNodes[currentNodes.length - 1];
-        if (isTextNode(firstNodeChild) && isTextNode(lastNodeChild) &&
-            firstNodeChild.value === lastNodeChild.value.split('').reverse().join('')) {
-            let text = firstNodeChild.value;
-            const matchHighlightAreaWithSecondaryColor = /^!-/.exec(text);
-            const matchHighlightAreaWithBaseColor = /^-/.exec(text);
-            const matchHighlightTextWithSecondaryColor = /^!/.exec(text);
-            if (matchHighlightAreaWithSecondaryColor) {
-                className.push("highlight-area");
-                className.push("secondary");
-            } else if (matchHighlightAreaWithBaseColor) {
-                className.push("highlight-area");
-            } else if (matchHighlightTextWithSecondaryColor) {
-                className.push("secondary");
-            }
-            // Delete the first and last node
-            currentNodes.shift();
-            currentNodes.pop();
-        }
-        return currentNodes;
-    })();
+    let classes = (() => className?.split(' ') || [])();
+    let content = node?.children;
 
     const contentJSXElementsFromAST = useMemo(() => (
         typeof content === 'string' ? content :
-            content.map((element) => toJsxRuntime(element as RootContent, {
+            node?.children.map((element) => toJsxRuntime(element as RootContent, {
                 Fragment, jsx, jsxs, passNode: true, components: {
                     ...markdownComponents,
                     br: () => null,
                 }
             }))
-    ), [content]);
+    ), [content, node?.children]);
 
     const textStyle = useMemo((): CSSProperties => {
         return {
@@ -102,10 +53,11 @@ const SpanMarkdown = ({ node, ...props }: SpanMarkdownProps) => {
                     ...oldStyle,
                     ...textStyle,
                     fontWeight: 600,
+                    color: theme.colors.base[800],
                 }
                 const barStyle = {
                     ...lightEffectStyle,
-                    backgroundColor: theme.colors.base[300],
+                    backgroundColor: theme.colors.base[200],
                 }
                 return {
                     style: spanStyle,
@@ -120,6 +72,7 @@ const SpanMarkdown = ({ node, ...props }: SpanMarkdownProps) => {
                     ...oldStyle,
                     ...textStyle,
                     fontWeight: 600,
+                    color: theme.colors.base[800],
                 }
                 const barStyle = {
                     ...lightEffectStyle,
@@ -139,7 +92,7 @@ const SpanMarkdown = ({ node, ...props }: SpanMarkdownProps) => {
                 const spanStyle = {
                     ...oldStyle,
                     ...textStyle,
-                    fontWeight: 700,
+                    fontWeight: 600,
                 }
                 return {
                     style: spanStyle,
@@ -151,7 +104,7 @@ const SpanMarkdown = ({ node, ...props }: SpanMarkdownProps) => {
                     ...oldStyle,
                     ...textStyle,
                     color: theme.colors.secondary[500],
-                    fontWeight: 700,
+                    fontWeight: 600,
                 }
                 return {
                     style: spanStyle,
@@ -161,14 +114,19 @@ const SpanMarkdown = ({ node, ...props }: SpanMarkdownProps) => {
         },
     }), [lightEffectStyle, textStyle, theme.colors.base, theme.colors.secondary]);
     const spanElement = useMemo((): SpanElementType => {
-        return className?.includes("highlight-area") ? "highlight-area" : "highlight-text";
-    }, [className]);
+        return classes.includes("highlight-area") ? "highlight-area" : "highlight-text";
+    }, [classes]);
     const colorType = useMemo((): SpanColorType => {
-        return className?.includes("secondary") ? "secondary" : "base";
-    }, [className]);
+        return classes.includes("secondary") ? "secondary" : "base";
+    }, [classes]);
     const { style, children } = useMemo((): { style: CSSProperties, children: React.ReactNode } => {
         return targetElement[spanElement][colorType](props.style ?? {}, contentJSXElementsFromAST);
     }, [colorType, contentJSXElementsFromAST, props.style, spanElement, targetElement]);
+
+    // `**[[Button]]**`
+    if(classes.includes("button")) {
+        return <Button key={classes.join()} size='sm'>{contentJSXElementsFromAST}</Button>
+    }
 
     return (
         <span {...props} style={style}>

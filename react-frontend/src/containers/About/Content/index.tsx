@@ -15,7 +15,7 @@ function Content({
     const { theme } = useThemeContext();
     const containerStyle = useMemo((): CSSProperties => ({
         fontSize: "1.2rem",
-        color: theme.colors.base[700],
+        color: theme.colors.base[800],
         textAlign: isMediumScreen ? "center" : "left",
     }), [isMediumScreen, theme.colors.base]);
 

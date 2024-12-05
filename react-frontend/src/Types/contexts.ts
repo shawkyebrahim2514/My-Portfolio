@@ -1,4 +1,5 @@
 type ColorLevels = {
+    0: string,
     50: string,
     100: string,
     200: string,
