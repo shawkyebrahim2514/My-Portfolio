@@ -1,14 +1,14 @@
 import { findAndReplace } from 'mdast-util-find-and-replace'
 import { visit } from 'unist-util-visit';
 import type { Node } from 'hast'
-import { Nodes, Blockquote, Parent, Image, Root, RootContent, Paragraph } from 'mdast'
+import { Nodes, Blockquote, Parent, Image, RootContent } from 'mdast'
 import { toString } from 'mdast-util-to-string'
 
 export const prepareBlockQuotes = () => {
     return function (tree: Node) {
         visit(tree, 'blockquote', (node: Blockquote) => {
             findAndReplace(node, [
-                /\[!(.+)\](.*)/g,
+                /\[!([^\[]+)\](.*)/g,
                 (fullText, variation, titleText) => {
                     node.data = {
                         hProperties: {
@@ -39,19 +39,19 @@ const textVariationsRegexReplace = {
         }
     },
     highlightAreaWithSecondaryColor: {
-        regex: /!-(.*?)-!/,
+        regex: /!-(.*?)-!$/,
         replace: {
             className: 'highlight-area secondary',
         }
     },
     highlightTextWithSecondaryColor: {
-        regex: /!(.*?)!/,
+        regex: /!(.*?)!$/,
         replace: {
             className: 'secondary',
         }
     },
     highlightAreaWithBaseColor: {
-        regex: /-(.*?)-/,
+        regex: /-(.*?)-$/,
         replace: {
             className: 'highlight-area',
         }
@@ -106,8 +106,7 @@ export const prepareTextVariations = () => {
     }
 };
 
-// let imageRegex = /!\[([^\]]+)\]\(([^ ]+)\s*=\s*(\d+)x?(\d+)?\|?([^\)]+)?\)/;
-let imageRegex = /!\[([^\]]+)\]\(([^ ]+)\s?(?:=(\d+)x?(\d+)?)?(?:\|((?:center|left|right)+))?\)/;
+let imageRegex = /!\[([^\]]+)\]\(([^ ]+)\s?(?:=(\d+)x?(\d+)?)?(?:\|(center|left|right))?\)/;
 
 const imageNodeStyle: React.CSSProperties = ({
     maxWidth: `100%`,
@@ -135,6 +134,7 @@ const imageContainerStyle = (align: string): React.CSSProperties => {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: alignToFlex(align),
+        alignItems: 'center',
         gap: '10px',
     }
 }
@@ -145,7 +145,6 @@ export const customImagePlugin = () => {
             let nodeFullText = toString(node);
             const match = imageRegex.exec(nodeFullText);
             if (match) {
-                console.log('match', match);
                 const fragments = nodeFullText.split(imageRegex);
                 const currentNode = node as Parent;
                 const imageNodes: RootContent[] = [];
@@ -196,3 +195,24 @@ export const customImagePlugin = () => {
         })
     };
 };
+
+export const configureTextDirection = () => {
+    return function (tree: Node) {
+        visit(tree, (node: Node) => {
+            if (node && 'children' in node && (node as Parent).children.some((child) => child.type === 'text')) {
+                findAndReplace(node as Nodes, [
+                    /\[(center|left|right)\]/,
+                    (fullText: any, align: any) => {
+                        node.data = {
+                            hProperties: {
+                                style: "text-align: " + align
+                            }
+                        }
+                        return null;
+                    }
+                ])
+            }
+        })
+    }
+};
+

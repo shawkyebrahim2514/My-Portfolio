@@ -10,7 +10,7 @@ import HeadingMarkdown from './HeadingMarkdown';
 import SpanMarkdown from './SpanMarkdown';
 import BlockquoteMarkdown from './BlockquoteMarkdown';
 import AncherLinkMarkdown from './AncherLinkMarkdown';
-import { prepareBlockQuotes, prepareTextVariations, customImagePlugin } from './customPlugins';
+import { prepareBlockQuotes, prepareTextVariations, customImagePlugin, configureTextDirection } from './customPlugins';
 
 type Props = {
     readonly markdown: string
@@ -43,6 +43,7 @@ function HTMLMarkdown({ markdown }: Props) {
                 customImagePlugin,
                 prepareBlockQuotes,
                 prepareTextVariations,
+                configureTextDirection
             ]}
             components={markdownComponents}>
             {markdown}
