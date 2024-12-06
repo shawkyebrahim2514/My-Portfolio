@@ -24,8 +24,8 @@ export default function Logo({ logo }: Readonly<Pick<SanityNavbarData, "logo">>)
             onClick={changeLinksHandler}
             onKeyDown={onKeyDownHandler} >
             <Text variant={"h2"} style={{
-                fontSize: "1.7rem",
-                fontWeight: "800",
+                fontSize: "1.5rem",
+                fontWeight: "700",
             }}>
                 {logo}
             </Text>

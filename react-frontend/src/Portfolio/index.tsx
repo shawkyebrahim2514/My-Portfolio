@@ -44,6 +44,9 @@ export default function Portfolio() {
             minHeight: "100vh",
             color: theme.colors.base[700],
             backgroundImage: theme.backgroundImage,
+            backgroundSize: 'auto', // Adjust the size of the background image
+            backgroundRepeat: 'repeat', // Repeat the background image
+            backgroundPosition: 'center',
             '& *::selection': {
                 backgroundColor: theme.colors.base[700],
                 color: theme.colors.base[100]

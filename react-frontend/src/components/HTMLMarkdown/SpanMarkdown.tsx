@@ -1,7 +1,6 @@
 import { CSSProperties, useMemo } from 'react';
 import { useThemeContext } from '../../contexts/ThemeContext';
 import type { Element, RootContent } from 'hast'
-import { v4 as uuidv4 } from 'uuid';
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime'
 import { markdownComponents } from '.';
 import { toJsxRuntime } from 'hast-util-to-jsx-runtime'
@@ -33,19 +32,10 @@ const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
     const textStyle = useMemo((): CSSProperties => {
         return {
             position: "relative",
-            display: "inline-block",
             zIndex: 2,
         }
     }, []);
-    const lightEffectStyle = useMemo((): CSSProperties => ({
-        position: "absolute",
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: theme.colors.secondary[300],
-        height: "40%",
-        zIndex: -1,
-    }), [theme.colors.secondary]);
+
     const targetElement = useMemo((): TargetElementType => ({
         "highlight-area": {
             "base": (oldStyle: CSSProperties, children: React.ReactNode) => {
@@ -54,17 +44,11 @@ const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
                     ...textStyle,
                     fontWeight: 600,
                     color: theme.colors.base[800],
-                }
-                const barStyle = {
-                    ...lightEffectStyle,
-                    backgroundColor: theme.colors.base[200],
+                    background: `linear-gradient(to bottom, transparent 60%, ${theme.colors.base[200]} 60%)`,
                 }
                 return {
                     style: spanStyle,
-                    children: [
-                        <div key={uuidv4()} style={barStyle} />,
-                        children
-                    ]
+                    children: children
                 }
             },
             "secondary": (oldStyle: CSSProperties, children: React.ReactNode) => {
@@ -73,17 +57,11 @@ const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
                     ...textStyle,
                     fontWeight: 600,
                     color: theme.colors.base[800],
-                }
-                const barStyle = {
-                    ...lightEffectStyle,
-                    backgroundColor: theme.colors.secondary[300],
+                    background: `linear-gradient(to bottom, transparent 60%, ${theme.colors.secondary[300]} 60%)`
                 }
                 return {
                     style: spanStyle,
-                    children: [
-                        <div key={uuidv4()} style={barStyle} />,
-                        children
-                    ]
+                    children: children
                 }
             },
         },
@@ -112,7 +90,7 @@ const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
                 }
             },
         },
-    }), [lightEffectStyle, textStyle, theme.colors.base, theme.colors.secondary]);
+    }), [textStyle, theme.colors.base, theme.colors.secondary]);
     const spanElement = useMemo((): SpanElementType => {
         return classes.includes("highlight-area") ? "highlight-area" : "highlight-text";
     }, [classes]);
@@ -124,7 +102,7 @@ const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
     }, [colorType, contentJSXElementsFromAST, props.style, spanElement, targetElement]);
 
     // `**[[Button]]**`
-    if(classes.includes("button")) {
+    if (classes.includes("button")) {
         return <Button key={classes.join()} size='sm'>{contentJSXElementsFromAST}</Button>
     }
 

@@ -19,6 +19,8 @@ type BlockquoteMarkdownProps = {
 
 const BlockquoteMarkdown = ({ node, className, ...props }: BlockquoteMarkdownProps) => {
     const { theme } = useThemeContext();
+    console.log("Node Children", node?.children);
+    console.log("Props Children", props.children);
     const contentJSXElementsFromAST = useMemo(() => (
         node?.children.map((element) => toJsxRuntime(element as RootContent, {
             Fragment, jsx, jsxs, passNode: true, components: {
@@ -59,7 +61,8 @@ const BlockquoteMarkdown = ({ node, className, ...props }: BlockquoteMarkdownPro
     if (className?.includes("popup")) {
         return (
             <MainSection>
-                {contentJSXElementsFromAST}
+                {/* {contentJSXElementsFromAST} */}
+                {props.children}
             </MainSection>
         );
     }
