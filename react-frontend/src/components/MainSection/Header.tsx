@@ -1,7 +1,5 @@
 import { CSSProperties, useCallback, useMemo } from 'react'
-import { useThemeContext } from '../../contexts/ThemeContext';
 import Text from '../Text';
-import HeaderSymbol from './HeaderSymbol';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 
@@ -12,10 +10,9 @@ type HeaderProps = {
 }
 
 export default function Header({ title, link, subtitle }: HeaderProps) {
-    const { theme } = useThemeContext();
     const headerConatinerStyle = useMemo((): CSSProperties => {
         return {
-            display: "inline-block",
+            display: "inline",
             alignItems: "center",
             gap: "0.5rem",
         }
@@ -28,7 +25,7 @@ export default function Header({ title, link, subtitle }: HeaderProps) {
             marginRight: "0.5rem",
             cursor: link ? "pointer" : "default",
         }
-    }, [link, theme.colors]);
+    }, [link]);
 
     const headerOnCLickHandler = useCallback(() => {
         link && window.open(link, "_blank");

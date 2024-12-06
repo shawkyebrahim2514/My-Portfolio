@@ -59,7 +59,8 @@ const BlockquoteMarkdown = ({ node, className, ...props }: BlockquoteMarkdownPro
     if (className?.includes("popup")) {
         return (
             <MainSection>
-                {contentJSXElementsFromAST}
+                {/* {contentJSXElementsFromAST} */}
+                {props.children}
             </MainSection>
         );
     }

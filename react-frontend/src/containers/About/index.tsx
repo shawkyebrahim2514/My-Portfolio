@@ -1,4 +1,3 @@
-import { useMediaQuery } from 'react-responsive';
 import ContainerWrap from '../../components/ContainerWrap'
 import Content from './Content';
 import Image from './Image';
@@ -29,7 +28,6 @@ function About() {
                 <div style={containerStyle}>
                     <Content
                         description={aboutPage.description}
-                        resume={aboutPage.resume}
                     />
                     <Image personImage={aboutPage.personImage} />
                 </div>

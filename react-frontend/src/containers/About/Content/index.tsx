@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
 import { useMediaQuery } from 'react-responsive';
-import ResumeButton from './ResumeButton';
 import { CSSProperties, memo, useMemo } from 'react';
 import { SanityAboutPage } from '../../../Types';
 import { useThemeContext } from '../../../contexts/ThemeContext';
@@ -9,7 +8,6 @@ import HTMLMarkdown from '../../../components/HTMLMarkdown';
 
 function Content({
     description,
-    resume,
 }: Readonly<Omit<SanityAboutPage, 'personImage'>>) {
     const isMediumScreen = useMediaQuery({ query: '(max-width: 1124px)' });
     const { theme } = useThemeContext();
@@ -22,7 +20,6 @@ function Content({
     return (
         <div style={containerStyle}>
             <HTMLMarkdown markdown={description} />
-            <ResumeButton resume={resume} />
         </div>
     )
 }
