@@ -23,7 +23,6 @@ const AncherLinkMarkdown = ({ node, ...props }: AncherLinkMarkdownProps) => {
     if (matchButtonLink) {
         const title = matchButtonLink[1];
         const icon = iconName[(matchButtonLink[2] as typeof iconType[number]) || 'link'];
-        console.log(icon);
 
         return (
             <Button
