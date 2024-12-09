@@ -12,6 +12,10 @@ type SanityInternshipsSection = CommonTitle & {
     internships: Internship[];
 }
 
+type SanityprofessionalExperienceSection = CommonTitle & {
+    professionalExperience: Internship[];
+}
+
 type SanityCertificatesSection = CommonTitle & {
     certificates: Experience[];
 }
@@ -19,4 +23,5 @@ type SanityCertificatesSection = CommonTitle & {
 export type SanityExperiencePage = {
     certificatesSection: SanityCertificatesSection;
     internshipsSection: SanityInternshipsSection;
+    professionalExperienceSection: SanityprofessionalExperienceSection;
 }

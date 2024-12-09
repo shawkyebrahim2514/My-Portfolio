@@ -6,25 +6,20 @@ import Stroke from './Stroke';
 
 function TitleHighlightedText({ children }: { readonly children: string }) {
     const { theme } = useThemeContext();
-    const titleWidth = useMemo(() => {
-        return children.length * 16 + 30;
-    }, [children]);
     const outerStyle = useMemo((): CSSProperties => {
         return {
             color: theme.colors.base[900],
             boxShadow: theme.boxShadow,
-            width: titleWidth,
-            height: "60px",
             position: "relative",
             rotate: "-3deg",
             zIndex: "1",
             borderRadius: theme.borderRadius
         };
-    }, [theme, titleWidth]);
+    }, [theme]);
 
     return (
         <div style={outerStyle}>
-            <Stroke titleWidth={titleWidth} />
+            <Stroke />
             <Shadow />
             <ActualText text={children} />
         </div>

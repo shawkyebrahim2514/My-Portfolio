@@ -3,18 +3,29 @@ import { Nodes, Parent, Image, RootContent } from 'mdast'
 import { toString } from 'mdast-util-to-string'
 
 
-let imageRegex = /!\[([^\]]+)\]\(([^ ]+)\s?(?:=(\d+)x?(\d+)?)?(?:\|(center|left|right))?\)/;
+let imageRegex = /!\[([^\]]+)\]\(([^ ]+)\s?(?:=(?:(\d+)x(\d+)|(h|w)(\d+)))?(?:\|(center|left|right))?\)/;
 
 const imageNodeStyle: React.CSSProperties = ({
-    maxWidth: `100%`,
-    maxHeight: `100%`
+    maxWidth: `inherit`,
+    maxHeight: `inherit`,
 });
 
-const imageWrapperNodeStyle = (width: number, height: number): React.CSSProperties => ({
-    flexGrow: 1,
-    maxWidth: width ? `${width}px` : '100%',
-    maxHeight: height ? `${height}px` : '100%',
-});
+const imageWrapperNodeStyle = (width: number, height: number): React.CSSProperties => {
+    let finalWidth = "100%";
+    let finalHeight = "100%";
+    if (!width) {
+        finalHeight = `${height}px`;
+    } else if (!height) {
+        finalWidth = `min(100%, ${width}px)`;
+    } else {
+        finalWidth = `min(100%, ${width}px)`;
+        finalHeight = `min(100%, ${height}px)`;
+    }
+    return {
+        maxWidth: finalWidth,
+        maxHeight: finalHeight,
+    };
+}
 
 const alignToFlex = (align: string): string => {
     if (align === 'center') {
@@ -46,13 +57,21 @@ export const customImagePlugin = () => {
                 const currentNode = node as Parent;
                 const imageNodes: RootContent[] = [];
                 let align: string = 'left';
-                for (let i = 0; i < (fragments.length - 1) / 6; i++) {
-                    const range = i * 6;
+                for (let i = 0; i < (fragments.length - 1) / 8; i++) {
+                    const range = i * 8;
                     const altText = fragments[range + 1];
                     const url = fragments[range + 2];
-                    const width = fragments[range + 3];
-                    const height = fragments[range + 4];
-                    align = fragments[range + 5];
+                    let width = fragments[range + 3];
+                    let height = fragments[range + 4];
+                    const widthOrHeight = fragments[range + 5];
+                    if (widthOrHeight) {
+                        if (widthOrHeight === 'w') {
+                            width = fragments[range + 6];
+                        } else {
+                            height = fragments[range + 6];
+                        }
+                    }
+                    align = fragments[range + 7];
                     const imageNode: Image = {
                         type: 'image',
                         url: url,
