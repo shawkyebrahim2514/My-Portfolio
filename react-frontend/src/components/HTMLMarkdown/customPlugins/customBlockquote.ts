@@ -7,9 +7,10 @@ export const customBlockquote = () => {
     return function (tree: Node) {
         visit(tree, 'blockquote', (node: Blockquote) => {
             findAndReplace(node, [
-                /\[!([^\[]+)\](.*)/g,
-                (fullText, variation, titleText) => {
-                    node.data = {
+                /\[!([^\[]+)\]\s?([a-z]*)/,
+                (fullText, variation, titleText, matchedNode) => {
+                    // To modfiy the parent node (Blockquote) of the matched text
+                    matchedNode.stack[matchedNode.stack.length - 3].data = {
                         hProperties: {
                             className: variation,
                         }

@@ -31,10 +31,12 @@ const textVariationsRegexReplace = {
     },
 }
 
-const handleVariationReplace = (variation: typeof textVariationsRegexReplace[keyof typeof textVariationsRegexReplace], node: Nodes) => {
+const handleVariationReplace = (variation: typeof textVariationsRegexReplace[keyof typeof textVariationsRegexReplace], node: Nodes): boolean => {
+    let isMatched = false;
     findAndReplace(node, [
         variation.regex,
         (fullText: any, content: any) => {
+            isMatched = true;
             return {
                 type: 'strong',
                 children: [
@@ -51,6 +53,7 @@ const handleVariationReplace = (variation: typeof textVariationsRegexReplace[key
             } as any;
         }
     ])
+    return isMatched;
 };
 
 export const customHighlightText = () => {
@@ -58,20 +61,21 @@ export const customHighlightText = () => {
         visit(tree, "strong", (node: Node) => {
             const currentNode = node as Parent;
             if (currentNode.children.length === 1) {
-                Object.values(textVariationsRegexReplace).forEach((variation) => {
-                    handleVariationReplace(variation, currentNode as Nodes);
-                })
+                for (const variation of Object.values(textVariationsRegexReplace)) {
+                    if (handleVariationReplace(variation, currentNode as Nodes)) break;
+                }
             } else {
                 const nodeFullText = toString(node);
-                Object.values(textVariationsRegexReplace).forEach((variation) => {
+                for (const variation of Object.values(textVariationsRegexReplace)) {
                     if (variation.regex.test(nodeFullText)) {
                         node.data = {
                             hProperties: {
                                 className: variation.replace.className,
                             }
                         };
+                        break; // Exit the loop when the condition is met
                     }
-                });
+                }
                 (node as Parent).children.pop();
                 (node as Parent).children.shift();
             }

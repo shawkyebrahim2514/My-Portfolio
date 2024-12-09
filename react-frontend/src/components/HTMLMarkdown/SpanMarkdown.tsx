@@ -101,9 +101,11 @@ const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
         return targetElement[spanElement][colorType](props.style ?? {}, contentJSXElementsFromAST);
     }, [colorType, contentJSXElementsFromAST, props.style, spanElement, targetElement]);
 
-    // `**[[Button]]**`
+    // `[[Button]]`
     if (classes.includes("button")) {
-        return <Button key={classes.join()} size='sm'>{contentJSXElementsFromAST}</Button>
+        return <Button style={{
+            margin: "0.5rem",
+        }} key={classes.join()} size='sm'>{contentJSXElementsFromAST}</Button>
     }
 
     return (
