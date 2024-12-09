@@ -10,8 +10,7 @@ function ActualText({ text }: { readonly text: string }) {
         alignItems: "center",
         borderRadius: "inherit",
         backgroundColor: theme.colors.secondary[300],
-        width: "100%",
-        height: "100%",
+        padding: "10px 1.4rem",
     }), [theme.colors]);
     
     return (

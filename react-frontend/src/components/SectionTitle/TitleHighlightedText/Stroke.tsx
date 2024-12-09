@@ -1,11 +1,11 @@
 import { CSSProperties, useMemo } from 'react'
 import { useThemeContext } from '../../../contexts/ThemeContext'
 
-function Stroke({ titleWidth }: { readonly titleWidth: number }) {
+function Stroke() {
     const { theme } = useThemeContext();
     const style = useMemo((): CSSProperties => ({
-        width: titleWidth - 10,
-        height: "50px",
+        width: "calc(100% - 10px)",
+        height: "calc(100% - 10px)",
         position: "absolute",
         zIndex: "1",
         border: `3px solid ${theme.colors.base[800]}`,
@@ -13,7 +13,7 @@ function Stroke({ titleWidth }: { readonly titleWidth: number }) {
         left: "5px",
         margin: "auto",
         borderRadius: "inherit", 
-    }), [theme.colors, titleWidth]);
+    }), [theme.colors]);
     
     return (
         <div style={style} />
