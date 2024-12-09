@@ -6,12 +6,11 @@ import { toString } from 'mdast-util-to-string'
 let imageRegex = /!\[([^\]]+)\]\(([^ ]+)\s?(?:=(\d+)x?(\d+)?)?(?:\|(center|left|right))?\)/;
 
 const imageNodeStyle: React.CSSProperties = ({
-    maxWidth: `100%`,
-    maxHeight: `100%`
+    maxWidth: `inherit`,
+    maxHeight: `inherit`,
 });
 
-const imageWrapperNodeStyle = (width: number, height: number): React.CSSProperties => ({
-    flexGrow: 1,
+const imageWrapperNodeStyle = (height: number, width: number): React.CSSProperties => ({
     maxWidth: width ? `${width}px` : '100%',
     maxHeight: height ? `${height}px` : '100%',
 });
