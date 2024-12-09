@@ -3,6 +3,13 @@ import sanityClient from './client';
 
 const getExperiencePage = async () => {
     const query = `*[_type == "portfolio"][0].pages[_type == "experiencePage"][0] {
+        professionalExperienceSection {
+            title,
+            professionalExperience[] -> {
+                description,
+                "technologies": technologies[]->name
+            }
+        },
         internshipsSection {
             title,
             internships[] -> {

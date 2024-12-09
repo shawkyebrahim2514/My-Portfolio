@@ -9,6 +9,32 @@ export const experiencePage = {
     ...changeDocumentPreviewTitle("Experience Page"),
     fields: [
         {
+            name: 'professionalExperienceSection',
+            type: 'object',
+            title: 'Professional Experience Section',
+            validation: Rule => Rule.required(),
+            fields: [
+                commanTitle,
+                {
+                    name: 'professionalExperience',
+                    type: 'array',
+                    title: 'Professional Experience',
+                    validation: Rule => Rule.unique().required(),
+                    of: [
+                        {
+                            type: 'reference',
+                            name: 'professionalExperience',
+                            to: [
+                                {
+                                    type: 'professionalExperience'
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             name: 'internshipsSection',
             type: 'object',
             title: 'Internships Section',
@@ -59,6 +85,6 @@ export const experiencePage = {
                     ]
                 }
             ]
-        }
+        },
     ]
 }

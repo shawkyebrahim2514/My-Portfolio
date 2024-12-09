@@ -2,7 +2,7 @@ import { CSSProperties, useMemo } from "react";
 import { SanityExperiencePage } from "../../../Types";
 import ExperienceItemDescription from "../ExperienceItemDescription";
 
-function Content({ certificates }: Readonly<Pick<SanityExperiencePage['certificatesSection'], 'certificates'>>) {
+function Content({ professionalExperience }: Readonly<Pick<SanityExperiencePage['professionalExperienceSection'], 'professionalExperience'>>) {
     const containerStyle = useMemo((): CSSProperties => ({
         display: "flex",
         justifyContent: "center",
@@ -12,10 +12,10 @@ function Content({ certificates }: Readonly<Pick<SanityExperiencePage['certifica
 
     return (
         <>
-            {certificates.map((certificate) => {
+            {professionalExperience.map((experience) => {
                 return (
-                    <div style={containerStyle} key={certificate.description}>
-                        {certificate.description && <ExperienceItemDescription description={certificate.description} />}
+                    <div style={containerStyle} key={experience.description}>
+                        <ExperienceItemDescription description={experience.description} />
                     </div>
                 )
             })}

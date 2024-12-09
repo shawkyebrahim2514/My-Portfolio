@@ -5,6 +5,7 @@ import Certificates from './Certificates';
 import { getExperiencePage } from '../../APIs';
 import Loader from '../../components/Loader';
 import Internships from './Internships';
+import ProfessionalExperience from './ProfessionalExperience';
 
 function Experience() {
     const [experiences, setExperiences] = useState<SanityExperiencePage | null>(null);
@@ -26,6 +27,7 @@ function Experience() {
         <>
             {experiences ? (
                 <div style={containerStyle}>
+                    <ProfessionalExperience professionalExperienceSection={experiences.professionalExperienceSection} />
                     <Internships internshipsSection={experiences.internshipsSection} />
                     <Certificates certificatesSection={experiences.certificatesSection} />
                 </div>

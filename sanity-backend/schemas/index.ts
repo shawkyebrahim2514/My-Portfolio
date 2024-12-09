@@ -6,14 +6,16 @@ import { internships } from './units/internships'
 import { projects } from './units/projects'
 import { contacts } from './units/contacts'
 import { certificates } from './units/certificates'
+import { professionalExperience } from './units/professionalExperience'
 import { portfolio } from './portfolio'
 
 export const schemaTypes = [
     portfolio,
-    skills,
-    collegeCourses,
+    professionalExperience,
     internships,
+    collegeCourses,
     projects,
     certificates,
+    skills,
     contacts,
 ]
