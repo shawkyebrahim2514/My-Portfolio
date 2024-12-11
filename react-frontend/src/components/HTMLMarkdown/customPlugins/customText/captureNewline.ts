@@ -9,7 +9,7 @@ export const captureNewline = (node: Node): customType => ({
             children: [],
             data: {
                 hProperties: {
-                    style: "margin: 0.5rem 0; display: block;"
+                    style: "margin: 0.5rem 0; display: grid;"
                 }
             }
         } as any)

@@ -15,16 +15,15 @@ export const customBlockquote = () => {
                             className: variation,
                         }
                     }
+                    // If no title text is provided
+                    if(titleText === "") return null;
+                    // Chnage the node (paragraph) type to heading
+                    matchedNode.stack[matchedNode.stack.length - 2].type = "heading";
+                    matchedNode.stack[matchedNode.stack.length - 2].depth = 5;
                     return {
-                        type: 'heading',
-                        depth: 5,
-                        children: [
-                            {
-                                type: 'text',
-                                value: titleText
-                            }
-                        ],
-                    } as any;
+                        type: 'text',
+                        value: titleText
+                    };
                 }
             ])
         })
