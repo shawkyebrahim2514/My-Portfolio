@@ -47,7 +47,7 @@ const imageContainerStyle = (align: string): React.CSSProperties => {
     }
 }
 
-export const customImagePlugin = () => {
+export const customImage = () => {
     return function (tree: Nodes) {
         visit(tree, 'paragraph', (node: Nodes) => {
             let nodeFullText = toString(node);

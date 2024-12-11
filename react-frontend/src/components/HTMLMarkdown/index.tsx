@@ -1,8 +1,6 @@
 import ReactMarkdown, { Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks'
-import remarkDirective from 'remark-directive'
-import remarkDirectiveRehype from 'remark-directive-rehype'
 import HrMarkdown from './HrMarkdown';
 import UlMarkdown from './UlMarkdown';
 import LiMarkdown from './LiMarkdown';
@@ -10,7 +8,7 @@ import HeadingMarkdown from './HeadingMarkdown';
 import SpanMarkdown from './SpanMarkdown';
 import BlockquoteMarkdown from './BlockquoteMarkdown';
 import AncherLinkMarkdown from './AncherLinkMarkdown';
-import { customBlockquote, customHighlightText, customImagePlugin, customText } from './customPlugins';
+import { customBlockquote, customHighlightText, customImage, customText } from './customPlugins';
 
 type Props = {
     readonly markdown: string
@@ -36,11 +34,9 @@ function HTMLMarkdown({ markdown }: Props) {
     return (
         <ReactMarkdown
             remarkPlugins={[
-                // remarkGfm,
-                // remarkBreaks,
-                // remarkDirective,
-                // remarkDirectiveRehype,
-                customImagePlugin,
+                remarkGfm,
+                remarkBreaks,
+                customImage,
                 customText,
                 customHighlightText,
                 customBlockquote
