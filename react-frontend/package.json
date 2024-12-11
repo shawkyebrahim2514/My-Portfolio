@@ -26,8 +26,6 @@
     "react-spring": "^9.7.4",
     "rehype-stringify": "^10.0.1",
     "remark-breaks": "^4.0.0",
-    "remark-directive": "^3.0.0",
-    "remark-directive-rehype": "^0.4.2",
     "remark-gfm": "^4.0.0",
     "unist-util-visit": "^5.0.0",
     "uuid": "^11.0.2",

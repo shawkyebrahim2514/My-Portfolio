@@ -36,16 +36,17 @@ function HTMLMarkdown({ markdown }: Props) {
     return (
         <ReactMarkdown
             remarkPlugins={[
-                remarkGfm,
-                remarkBreaks,
-                remarkDirective,
-                remarkDirectiveRehype,
+                // remarkGfm,
+                // remarkBreaks,
+                // remarkDirective,
+                // remarkDirectiveRehype,
                 customImagePlugin,
                 customText,
                 customHighlightText,
                 customBlockquote
             ]}
-            components={markdownComponents}>
+            components={markdownComponents}
+            >
             {markdown}
         </ReactMarkdown>
     )

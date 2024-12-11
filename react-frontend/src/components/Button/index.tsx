@@ -32,6 +32,7 @@ type ButtonProps = {
 export default function Button({ icon, text, onClick, size = "lg", style, pointer, children }: ButtonProps) {
     const { theme } = useThemeContext();
     const buttonStyle = useMemo(() => css({
+        display: "inline-block",
         padding: differentSizes[size].padding,
         fontSize: differentSizes[size].fontSize,
         cursor: pointer ? "pointer" : "default",
@@ -45,13 +46,13 @@ export default function Button({ icon, text, onClick, size = "lg", style, pointe
     }, [onClick]);
 
     return (
-        <div
+        <span
             css={buttonStyle}
             onClick={onClick}
             onKeyDown={handleKeyDown} >
             {icon}
             {text}
             {children}
-        </div >
+        </span >
     )
 }
