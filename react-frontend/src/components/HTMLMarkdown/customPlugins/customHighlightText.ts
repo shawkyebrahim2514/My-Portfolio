@@ -5,12 +5,6 @@ import { Nodes, Parent } from 'mdast'
 import { toString } from 'mdast-util-to-string'
 
 const textVariationsRegexReplace = {
-    button: {
-        regex: /\[\[([a-zA-Z0-9\s]+)\]\]/,
-        replace: {
-            className: 'button',
-        }
-    },
     highlightAreaWithSecondaryColor: {
         regex: /!-(.*?)-!$/,
         replace: {

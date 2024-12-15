@@ -2,270 +2,204 @@
 
 ## Markdown to HTML
 
-> Open the following link to try the Markdown Editor: [Markdown Editor](https://shawkyebrahim.vercel.app/markdown)
+### Markdown Editor
 
-> I use the markdown notations in the backend to make the website content
+- Open the following link to try the Markdown Editor: [Markdown Editor](https://shawkyebrahim.vercel.app/markdown)
 
-### Used Markdown Notations
+### Headings
 
-> Headings => Normal markdown notations
-
-- We can use the other features inside the headings
-
-> Bullet Points => Normal markdown notations
-
-- By default, all points will have a right arrow before them with base color
+> As the default markdown syntax, the headings will be rendered with the base color unless use highlight syntax
 
 ```markdown
 
+# Heading 1
+## Heading 2
+### Heading 3
+#### Heading 4
+##### Heading 5
+###### Heading 6
+```
+
+### Bullet Points
+
+> By default, all points will have a right arrow before them with base color
+
+```markdown
 - First Level
   - First First Level
-  - Firest Second Level
+  - First Second Level
 - Second Level
-
 ```
 
-Into
-
-```html
-
-<ul style="list-style-type: none;">
-    <li class="css-1bj8dih">First Level
-        <ul style="list-style-type: none;">
-            <li class="css-1bj8dih">First First Level</li>
-            <li class="css-1bj8dih">Firest Second Level</li>
-        </ul>
-    </li>
-    <li class="css-1bj8dih">Second Level</li>
-</ul>
-
-```
-
-```css
-
-.css-1bj8dih {
-    list-style-type: none;
-    position: relative;
-}
-
-.css-1bj8dih::before {
-    content: ">";
-    position: absolute;
-    top: 0;
-    left: -15px;
-    font-weight: 600;
-}
-
-```
-
-> Horizontal Lines => Normal markdown notations
-
-- By default, it will have a base color line
+### Horizontal Lines
 
 ```markdown
+---
+```
+
+### Links
+
+> The normal syntax `[Text](Link)` will be rendered as a text with an icon next to it.
+>
+> The syntax `[[Text]](Link)` will be rendered as a link button with the text inside it.
+>
+> The syntax `[[Text|doc]](Link)` will be rendered as a link button with the text inside it and a `document` icon next to it.
+
+```markdown
+[Microsoft](https://careers.microsoft.com)
+
+[[Microsoft]](https://careers.microsoft.com)
+
+[[Microsoft|doc]](https://careers.microsoft.com)
+```
+
+### Highlight Text
+
+> Use the syntax `**Text Here**` to make the text bold and with the base color.
+>
+> Use the syntax `**!Text Here!**` to make the text bold and with the secondary color.
+
+```markdown
+Hello **Shawky** **!Ebrahim!**
+```
+
+### Highlight Text Area
+
+> Use the syntax `**-Text Here-**` to make an area with the base color.
+>
+> Use the syntax `**!-Text Here-!**` to make an area with the secondary color.
+
+```markdown
+Hello **-Shawky-** **!-Ebrahim-!**
+```
+
+### Block Quotes
+
+> Use the syntax `> Text Here` to create a block quote with only left bar with base color.
+>
+> Use the syntax `> [!highlight] Text Here` to create a block quote with left bar and background with base color.
+>
+> Use the syntax `> [!secondary] Text Here` to create a block quote with only left bar with secondary color.
+>
+> Use the syntax `> [!secondary highlight] Text Here` to create a block quote with left bar and background with secondary color.
+>
+> Use the syntax `> [!popup] Text Here` to create a block quote with a popup section without a left bar.
+
+```markdown
+> This is a block quote
+
+> [!highlight] This is a block quote with highlight background
+
+> [!secondary] This is a block quote with secondary color
+
+> [!secondary highlight] This is a block quote with secondary color and highlight background
+
+> [!popup] This is a block quote with popup section
+```
+
+### Buttons
+
+> Use the syntax `[[Button Text]]` to create a text like a button.
+
+```markdown
+[[Text Here]]
+```
+
+### Text Alignment
+
+> Use the syntax `[center]`, `[left]`, or `[right]` to align text (Write them wherever you want)
+
+```markdown
+[left]This text is left aligned
+
+[center]This text is centered
+
+[right]This text is right aligned
+```
+
+### New Line
+
+> Use the syntax `[newline]` to create a new line
+
+```markdown
+This is the first line[newline]This is the second line
+```
+
+### Gap
+
+> Use the syntax `[gap]` to create a gap
+
+```markdown
+This is some text[gap]This is some more text
+```
+
+### Images
+
+> Use the syntax `![alt text](url =h500)` to add images with specific height (replace `500` with the desired height)
+>
+> Use the syntax `![alt text](url =w500)` to add images with specific width (replace `500` with the desired width)
+>
+> Use any of the above syntax with `|align` to align the image to the left, right, or center: `![alt text](url =w500|center)`
+
+```markdown
+![Shawky with Microsoft](https://pbs.twimg.com/media/GYvdPB7XMAAfYRm?format=jpg&name=large =h500|center)
+```
+
+### Examples
+
+```markdown
+# Shawky Ebrahim [center]
+### **!-👨‍💻 Ex-SWE Intern @Microsoft-!** [center]
+### **-🎓 Final-Year CS Student-** [center]
+[newline]
+
+> [!popup]
+> #### Quick Highlights [newline]
+> ###### **-💻 SWE Intern @ Microsoft Egypt-**
+> ###### **-🎓 CS Student @ Cairo University: GPA 3.7/4.00-**
+> ###### **-🛠️ Tech Expertise: ReactJS, TypeScript, Node.js, Flutter, SQL, and more-**
+> ###### **-🏆 Achievements: 35th place at the ACPC 2022 Programming Championship-**
+```
+
+![Quick Intro About Me](./markdown-examples/quick%20intro.png)
 
 ---
 
-```
-
-Into
-
-```html
-
-<div style="margin: 1rem 0px; background-color: rgb(212, 213, 205); height: 1px;"></div>
-
-```
-
-> Links => Normal markdown notations
-
-- The normal syntax `[Text](Link)` will be rendered as a text with an icon bext to it
-- The syntax `[[Text]](Link)` will be rendered as a lnik button with the text inside it
-
 ```markdown
+> [!popup]
+> ##### **!-[Clarity Flutter SDK - Microsoft Egypt SWE Internship](https://www.linkedin.com/feed/update/urn:li:activity:7246924250966618112/)-!**
+> July 2024 - Sep 2024 [newline]
+> > During my Software Engineering Internship at **!Microsoft Egypt!**, I collaborated with the **Clarity Apps team**, contributing to the development of the Clarity **Flutter SDK**, a tool aimed at enhancing user experience tracking and analytics.
+> >
+> > This project provided hands-on experience in **optimizing performance**, implementing **gesture tracking**, and ensuring robust **user data privacy**. [newline]
+> 
+> **Key Contributions:**  
+> - **Performance Optimization:** Researched and implemented strategies for optimized asset decoding and transfer, reducing performance overhead and improving efficiency.
+> - **Gesture Detection & Heatmaps:** Supported the development of features like gesture tracking and visualization, enabling accurate heatmaps and user interaction analysis.  
+> - **Screen Capture & Visualization:** Built a Proof of Concept (PoC) leveraging Flutter canvas commands to enable advanced screen capture and visualization functionalities  
+> - **Privacy-Centric Features:** Delivered advanced masking techniques to protect user data while maintaining functionality, aligning with Microsoft’s privacy standards.  
+> - **Documentation & Collaboration:** Created detailed documentation for the SDK to facilitate onboarding and ensure seamless knowledge transfer for future development. 
+>
+> [newline] **Technologies Used:**
+> - **Languages & Tools:** Dart, Flutter
+> - **Focus Areas:** SDK Development, Visualization, Data Privacy 
+> [newline]
+> > This internship enhanced my skills in **Flutter development**, performance optimization, and data privacy implementation, while fostering a growth mindset through regular feedback and team collaboration. 
+> > 
+> > I also developed **stronger interpersonal communication** skills by actively seeking input from colleagues and engaging in inclusive discussions, reflecting Microsoft’s emphasis on a collaborative culture"
+> 
+> [[Flutter]] [[Dart]] [[Microsoft Clarity]] [[Heatmap Visualization]] [[SDK Development]] [[Gesture Tracking]] [[Screen Capture]] [[Documentation]] [[Problem Solving]] [[Agile Workflow]] [[Collaboration]] [[Research And Development]]
+```
 
-[Google](https://google.com)
+![Shawky with Clarity Apps Team](./markdown-examples/microsoft%20internship%20experience.png)
 
 ---
 
-[[Google]](https://google.com)
-
-```
-
-Into
-
-```html
-
-<p>
-    <div style="display: inline-block; align-items: center; gap: 0.5rem;">
-        <h3 tabindex="0" style="display: inline; margin-right: 0.5rem; cursor: pointer;">Google</h3>
-        <h3 tabindex="0" style="display: inline-block; cursor: pointer;">
-            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="arrow-up-right-from-square" class="svg-inline--fa fa-arrow-up-right-from-square fa-sm " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M320 0c-17.7 0-32 14.3-32 32s14.3 32 32 32l82.7 0L201.4 265.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L448 109.3l0 82.7c0 17.7 14.3 32 32 32s32-14.3 32-32l0-160c0-17.7-14.3-32-32-32L320 0zM80 32C35.8 32 0 67.8 0 112L0 432c0 44.2 35.8 80 80 80l320 0c44.2 0 80-35.8 80-80l0-112c0-17.7-14.3-32-32-32s-32 14.3-32 32l0 112c0 8.8-7.2 16-16 16L80 448c-8.8 0-16-7.2-16-16l0-320c0-8.8 7.2-16 16-16l112 0c17.7 0 32-14.3 32-32s-14.3-32-32-32L80 32z"></path></svg>
-        </h3>
-    </div>
-</p>
-
-<p>
-    <div class="css-1n6xck9">
-        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="link" class="svg-inline--fa fa-link " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M579.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L422.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C206.5 251.2 213 330 263 380c56.5 56.5 148 56.5 204.5 0L579.8 267.7zM60.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C74 372 74 321 105.5 289.5L217.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C433.5 260.8 427 182 377 132c-56.5-56.5-148-56.5-204.5 0L60.2 244.3z"></path></svg>
-        Google
-    </div>
-</p>
-
-```
-
-> Using Markdown Notations: Highlight Text
-
-- Use the syntax `**Text Here**` to make the text bold and with the base color
-- Use the syntax `**!Text Here!**` to make the text bold and with the secondary color
-
 ```markdown
+![Microsoft](https://media.licdn.com/dms/image/v2/D4D22AQG8Mljz7jshKA/feedshare-shrink_1280/feedshare-shrink_1280/0/1727801335788?e=1735776000&v=beta&t=86nL5H1md2etP2GvRKYyJZE_VJgm028wgDkE564OqHU =h400|center)
+![Microsoft](https://pbs.twimg.com/media/GYvdPB7XMAAfYRm?format=jpg&name=large =h400|center)
 
-Hello **Shawky** **!Ebrahim!** 
-
+![Microsoft](https://media.licdn.com/dms/image/v2/D4D22AQE6h3661nJ6Fw/feedshare-shrink_2048_1536/feedshare-shrink_2048_1536/0/1727801335409?e=1735776000&v=beta&t=ZAAsW1b5yfkayCqoMCmF7TFgxReWH9_EmadDMiUsIzU =w735|center)
 ```
 
-Into
-
-```html
-
-<p>
-    Hello
-    <span style="position: relative; display: inline-block; font-weight: 700;">
-        Shawky
-    </span>
-    <span style="position: relative; display: inline-block; color: rgb(185, 122, 82); font-weight: 700;">
-        Ebrahim
-    </span>
-</p>
-
-```
-
-> Using Markdown Notations: Highlight Text Area
-
-- Use the syntax `**-Text Here-**` to make an area with the base color
-- Use the syntax `**!-Text Here-!**` to make an area with the secondary color
-
-```markdown
-
-Hello **-Shawky-** **!-Ebrahim-!** 
-
-```
-
-Into
-
-```html
-
-<p>
-    Hello 
-    <span style="position: relative; display: inline-block; font-weight: 600;">
-        <div style="position: absolute; left: 0px; right: 0px; bottom: 0px; background-color: rgb(189, 189, 182); height: 40%; z-index: -1;"></div>
-        Shawky
-    </span>
-    <span style="position: relative; display: inline-block; font-weight: 600;">
-        <div style="position: absolute; left: 0px; right: 0px; bottom: 0px; background-color: rgb(226, 179, 149); height: 40%; z-index: -1;"></div>
-        Ebrahim
-    </span>
-</p>
-
-```
-
-> Using Directives: Highlight Text Area => Use the `span` tag with some configurations
-
-- By default, the background color will be with the base color
-- Use the class `highlight-area` to apply the effects
-- Add the class `secondary` to make the background color with the secondary one
-
-```markdown
-
-## :span[Ex-SWE intern @Microsoft]{.highlight-area.secondary style="margin-bottom:1rem"}
-
-```
-
-```html
-
-<span class="highlight-area secondary" style="margin-bottom: 1rem; position: relative; display: inline-block;">
-    <div style="position: absolute; left: 0px; right: 0px; bottom: 0px; background-color: rgb(226, 179, 149); height: 40%; z-index: -1;"></div>
-    Ex-SWE intern @Microsoft
-</span>
-
-```
-
-> Using Directives: Highlight Text => Use the `span` tag with some configurations
-
-- By default, the text will be bold and with the base color
-- Use the class `highlight-text` to apply the effects
-- Add the class `secondary` to make the text with the secondary color
-
-```markdown
-
-I can be a valuable asset to :span[your]{.highlight-text.secondary} :span[team]{.highlight-text.base} and contribute to your projects with my skills and enthusiasm.
-
-```
-
-```html
-
-<p>
-    I can be a valuable asset to
-    <span class="highlight-text secondary" style="position: relative; display: inline-block; color: rgb(185, 122, 82); font-weight: 600;">
-        your
-    </span> 
-    <span class="highlight-text base" style="position: relative; display: inline-block; color: rgb(57, 57, 55); font-weight: 600;">
-        team
-    </span> 
-    and contribute to your projects with my skills and enthusiasm.
-</p>
-
-```
-
-> Using Directives: Block Quote => Use the normal markdown notation or the `blockquote` tag
-
-- By default, the left bar will be with base color and there isn't a highlighted background color
-- Use the normal markdown notation will apply the default configurations only
-- Use the blockquote tag to add more customizations
-  - Use the class `blockquote` to apply the effects
-  - Add the class `secondary` to make the left bar with the secondary color
-  - Add the class `highlight-background` to make a highlighted background color with the specified color class or the default base one
-
-```markdown
-
-## With Base Color
-
-> Hello every one
-
-:blockquote[Hello Every One]{.highlight-background}
-
-## With Secondary Color
-
-:blockquote[Hello Every One]{.secondary}
-:blockquote[Hello Every One]{.secondary.highlight-background}
-
-```
-
-Into
-
-```html
-
-<blockquote style="padding-left: 1rem; position: relative; margin: 1rem 0px; background-color: rgb(237, 238, 230);">
-    <div style="position: absolute; left: 0px; height: 100%; top: 0px; background-color: rgb(137, 137, 132); width: 5px;"></div>
-    <p>Hello every one</p>
-</blockquote>
-<p>
-    <blockquote class="highlight-background" style="padding-left: 1rem; position: relative; margin: 1rem 0px; background-color: rgb(212, 213, 205);">
-        <div style="position: absolute; left: 0px; height: 100%; top: 0px; background-color: rgb(137, 137, 132); width: 5px;"></div>
-        Hello Every One
-    </blockquote>
-</p>
-<p>
-    <blockquote class="secondary" style="padding-left: 1rem; position: relative; margin: 1rem 0px; background-color: rgb(237, 238, 230);">
-        <div style="position: absolute; left: 0px; height: 100%; top: 0px; background-color: rgb(185, 122, 82); width: 5px;"></div>
-        Hello Every One
-    </blockquote>
-</p>
-<p>
-    <blockquote class="secondary highlight-background" style="padding-left: 1rem; position: relative; margin: 1rem 0px; background-color: rgb(237, 207, 188);">
-        <div style="position: absolute; left: 0px; height: 100%; top: 0px; background-color: rgb(185, 122, 82); width: 5px;"></div>
-        Hello Every One
-    </blockquote>
-</p>
-
-```
+![Shawky with Clarity Apps Team](./markdown-examples/microsoft%20clarity%20apps%20team.png)
