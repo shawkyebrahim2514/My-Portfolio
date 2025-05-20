@@ -1,0 +1,25 @@
+{
+  "short_name": "Shawky Ebrahim Portfolio",
+  "name": "Shawky Ebrahim Portfolio",
+  "icons": [
+    {
+      "src": "https://avatars.githubusercontent.com/shawkyebrahim2514",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "https://avatars.githubusercontent.com/shawkyebrahim2514",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://avatars.githubusercontent.com/shawkyebrahim2514",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0c181e",
+  "background_color": "#0c181e"
+}
