@@ -1,5 +1,37 @@
 # My Personal Portfolio
 
+## Development
+
+This project now uses [Vite](https://vitejs.dev/) for development and build.
+
+### Getting Started
+
+Install dependencies:
+
+```
+npm install
+```
+
+Start the development server:
+
+```
+npm run dev
+```
+
+Build for production:
+
+```
+npm run build
+```
+
+Preview the production build:
+
+```
+npm run preview
+```
+
+---
+
 ## Markdown to HTML
 
 ### Markdown Editor
