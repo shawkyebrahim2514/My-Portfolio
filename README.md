@@ -30,6 +30,7 @@ My portfolio consists of the following pages:
 ## Technologies
 
 I used the following tools and technologies to build my portfolio:
+
 - ReactJS
 - Framer-motion
 - Fontawesome
@@ -43,7 +44,7 @@ To install my portfolio locally, you need to have Node.js and npm installed on y
 - Go to the project directory: `cd react-frontend` or `cd sanity-backend`
 - Install the dependencies: `npm install`
 - Start the development server: `npm start`
-- Open your browser and go to http://localhost:3000 in case you run the react-frontend application
+- Open your browser and go to <http://localhost:3000> in case you run the react-frontend application
 
 ## Contribution
 
@@ -63,5 +64,5 @@ My portfolio is licensed under the MIT License. See the LICENSE file for more de
 
 Thank you for visiting my portfolio. If you have any questions or feedback, please feel free to contact me via email or LinkedIn.
 
-- Email: shawkyebrahim2514@gmail.com
-- LinkedIn: https://www.linkedin.com/in/shawkyebrahim2514/
+- Email: <shawkyebrahim2514@gmail.com>
+- LinkedIn: <https://www.linkedin.com/in/shawkyebrahim2514/>
