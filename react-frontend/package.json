@@ -7,6 +7,7 @@
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
+    "@react-spring/web": "^9.7.5",
     "@sanity/client": "^6.22.2",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
@@ -22,8 +23,6 @@
     "react-markdown": "^9.0.1",
     "react-responsive": "^10.0.0",
     "react-router-dom": "^6.27.0",
-    "react-scripts": "5.0.1",
-    "react-spring": "^9.7.4",
     "rehype-stringify": "^10.0.1",
     "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.0",
@@ -35,14 +34,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "test": "vitest"
   },
   "browserslist": {
     "production": [
@@ -58,8 +50,10 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.4.1",
+    "jsdom": "^25.0.1",
     "typescript": "5.6.3",
-    "vite": "^6.3.5"
+    "vite": "^6.4.3",
+    "vitest": "^3.2.4"
   },
   "overrides": {
     "typescript": "5.6.3"

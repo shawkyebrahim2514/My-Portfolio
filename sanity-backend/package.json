@@ -16,7 +16,7 @@
   ],
   "dependencies": {
     "@sanity/icons": "^2.6.0",
-    "@sanity/ui": "^1.8.3",
+    "@sanity/ui": "^2.0.0",
     "@sanity/vision": "^3.19.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -31,6 +31,14 @@
     "eslint": "^8.6.0",
     "prettier": "^3.0.2",
     "typescript": "^5.1.6"
+  },
+  "overrides": {
+    "@architect/utils": {
+      "glob": "^10.5.0"
+    },
+    "@architect/hydrate": {
+      "glob": "^10.5.0"
+    }
   },
   "prettier": {
     "semi": false,
