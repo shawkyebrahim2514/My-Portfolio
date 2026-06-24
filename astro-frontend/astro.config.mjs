@@ -7,6 +7,12 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  // Static site generation — Vercel auto-detects the Astro preset and
+  // serves the prerendered `dist/` output. No serverless adapter needed
+  // for this portfolio (keeps the dependency tree lean and vuln-free).
+  output: 'static',
+  site: 'https://www.shawkyebrahim.me',
+
   integrations: [react()],
 
   vite: {
