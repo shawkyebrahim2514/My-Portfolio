@@ -1,5 +1,5 @@
 import { CSSProperties, FC, useMemo } from "react";
-import { useTransition, animated } from "react-spring";
+import { useTransition, animated } from "@react-spring/web";
 
 const ContainerWrap = (Component: FC) => function HOC() {
     const containerStyle = useMemo((): CSSProperties => {
