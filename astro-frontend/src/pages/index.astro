@@ -1,19 +1,25 @@
 ﻿---
 import Layout from '../layouts/Layout.astro';
 import Counter from '../components/Counter';
+import FadeIn from '../components/motion/FadeIn';
 ---
 
 <Layout title="Astro Foundation">
   <main class="mx-auto flex max-w-2xl flex-col gap-md p-xl">
-    <h1 class="text-4xl font-bold text-text">Astro Foundation</h1>
-    <p class="text-text-muted">
-      Tailwind utilities mapped to semantic design tokens.
-    </p>
-    <div
-      class="flex flex-col gap-sm rounded-md border border-border bg-surface p-lg shadow-md"
-    >
-      <span class="text-sm text-text-muted">React island below:</span>
-      <Counter client:load />
-    </div>
+    <FadeIn client:visible>
+      <h1 class="text-4xl font-bold text-text">Astro Foundation</h1>
+      <p class="text-text-muted">
+        Tailwind utilities mapped to semantic design tokens, animated with
+        Framer Motion (reduced-motion aware).
+      </p>
+    </FadeIn>
+    <FadeIn client:visible delay={0.15}>
+      <div
+        class="flex flex-col gap-sm rounded-md border border-border bg-surface p-lg shadow-md"
+      >
+        <span class="text-sm text-text-muted">React island below:</span>
+        <Counter client:load />
+      </div>
+    </FadeIn>
   </main>
 </Layout>
