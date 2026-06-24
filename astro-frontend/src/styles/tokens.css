@@ -47,8 +47,9 @@
   --space-3xl: 4rem;
 
   /* ---- Font families ---- */
-  --ff-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --ff-mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, monospace;
+  --ff-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ff-mono: ui-monospace, 'SFMono-Regular', 'JetBrains Mono', Menlo, monospace;
 
   /* ---- Font-size scale ---- */
   --fs-xs: 0.75rem;
@@ -88,7 +89,7 @@
   --shadow-elevation: var(--elevation-md);
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   /* Semantic tokens remap to the dark end of the scales */
   --bg: var(--base-900);
   --surface: var(--base-800);
