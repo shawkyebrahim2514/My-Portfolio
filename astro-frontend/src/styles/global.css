@@ -58,16 +58,6 @@
   --text-3xl: var(--fs-3xl);
   --text-4xl: var(--fs-4xl);
 
-  /* Named spacing (in addition to Tailwind's numeric scale) */
-  --spacing-2xs: var(--space-2xs);
-  --spacing-xs: var(--space-xs);
-  --spacing-sm: var(--space-sm);
-  --spacing-md: var(--space-md);
-  --spacing-lg: var(--space-lg);
-  --spacing-xl: var(--space-xl);
-  --spacing-2xl: var(--space-2xl);
-  --spacing-3xl: var(--space-3xl);
-
   /* Radius */
   --radius-sm: var(--rad-sm);
   --radius-md: var(--rad-md);

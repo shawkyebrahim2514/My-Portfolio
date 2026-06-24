@@ -5,7 +5,7 @@ import FadeIn from '../components/motion/FadeIn';
 ---
 
 <Layout title="Astro Foundation">
-  <main class="mx-auto flex max-w-2xl flex-col gap-md p-xl">
+  <main class="mx-auto flex max-w-2xl flex-col gap-4 p-8">
     <FadeIn client:visible>
       <h1 class="text-4xl font-bold text-text">Astro Foundation</h1>
       <p class="text-text-muted">
@@ -15,7 +15,7 @@ import FadeIn from '../components/motion/FadeIn';
     </FadeIn>
     <FadeIn client:visible delay={0.15}>
       <div
-        class="flex flex-col gap-sm rounded-md border border-border bg-surface p-lg shadow-md"
+        class="flex flex-col gap-3 rounded-md border border-border bg-surface p-6 shadow-md"
       >
         <span class="text-sm text-text-muted">React island below:</span>
         <Counter client:load />
