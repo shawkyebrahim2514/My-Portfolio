@@ -1,18 +1,19 @@
----
+﻿---
+import Layout from '../layouts/Layout.astro';
 import Counter from '../components/Counter';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-		<Counter client:load />
-	</body>
-</html>
+<Layout title="Astro Foundation">
+  <main class="mx-auto flex max-w-2xl flex-col gap-md p-xl">
+    <h1 class="text-4xl font-bold text-text">Astro Foundation</h1>
+    <p class="text-text-muted">
+      Tailwind utilities mapped to semantic design tokens.
+    </p>
+    <div
+      class="flex flex-col gap-sm rounded-md border border-border bg-surface p-lg shadow-md"
+    >
+      <span class="text-sm text-text-muted">React island below:</span>
+      <Counter client:load />
+    </div>
+  </main>
+</Layout>
