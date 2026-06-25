@@ -143,5 +143,21 @@ const shadows = [
         }
       </div>
     </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="text-2xl font-semibold text-text">Flow spacing</h2>
+      <p class="text-text-muted">
+        The <code>.flow</code> utility adds consistent vertical rhythm between siblings
+        (override the gap with <code>flow-space-*</code>). Resize the window to
+        see the fluid type scale above respond.
+      </p>
+      <div
+        class="flow flow-space-md rounded-md border border-border bg-surface p-6"
+      >
+        <p class="text-text">First paragraph in a flow container.</p>
+        <p class="text-text">Second paragraph &mdash; evenly spaced.</p>
+        <p class="text-text">Third paragraph &mdash; no manual margins.</p>
+      </div>
+    </section>
   </main>
 </Layout>

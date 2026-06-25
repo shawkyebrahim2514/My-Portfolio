@@ -91,3 +91,29 @@ body {
     background-color 0.3s ease-out,
     color 0.3s ease-out;
 }
+
+/*
+ * Flow spacing — owl selector for consistent vertical rhythm.
+ * Each child gets top margin from --flow-space (defaults to 1em, so it
+ * scales with the element's own font size). Override per-context with
+ * the flow-space-* utilities or an inline --flow-space.
+ */
+.flow > * + * {
+  margin-top: var(--flow-space, 1em);
+}
+
+@utility flow-space-xs {
+  --flow-space: var(--space-xs);
+}
+@utility flow-space-sm {
+  --flow-space: var(--space-sm);
+}
+@utility flow-space-md {
+  --flow-space: var(--space-md);
+}
+@utility flow-space-lg {
+  --flow-space: var(--space-lg);
+}
+@utility flow-space-xl {
+  --flow-space: var(--space-xl);
+}

@@ -51,15 +51,15 @@
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --ff-mono: ui-monospace, 'SFMono-Regular', 'JetBrains Mono', Menlo, monospace;
 
-  /* ---- Font-size scale ---- */
-  --fs-xs: 0.75rem;
-  --fs-sm: 0.875rem;
-  --fs-base: 1rem;
-  --fs-lg: 1.125rem;
-  --fs-xl: 1.25rem;
-  --fs-2xl: 1.5rem;
-  --fs-3xl: 1.875rem;
-  --fs-4xl: 2.25rem;
+  /* ---- Font-size scale (fluid: min @ ~360px → max @ ~1240px) ---- */
+  --fs-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8rem);
+  --fs-sm: clamp(0.875rem, 0.84rem + 0.18vw, 0.95rem);
+  --fs-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --fs-lg: clamp(1.125rem, 1.06rem + 0.33vw, 1.3rem);
+  --fs-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --fs-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --fs-3xl: clamp(1.875rem, 1.5rem + 1.85vw, 2.75rem);
+  --fs-4xl: clamp(2.25rem, 1.7rem + 2.75vw, 3.75rem);
 
   /* ---- Radius ---- */
   --rad-sm: 4px;
