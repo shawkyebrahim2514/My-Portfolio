@@ -80,6 +80,26 @@
   --duration-slow: 500ms;
   --transition-base: all var(--duration-base) ease-out;
 
+  /* ---- Vivid accents (for bold/playful gradients & glows) ---- */
+  --vivid-amber: #f0985a;
+  --vivid-pink: #ec4f8c;
+  --vivid-violet: #8b5cf6;
+  --vivid-indigo: #6366f1;
+
+  /* Signature brand gradient: warm → pink → violet (sunset energy) */
+  --gradient-brand: linear-gradient(
+    115deg,
+    var(--vivid-amber),
+    var(--vivid-pink) 48%,
+    var(--vivid-violet)
+  );
+  --gradient-brand-soft: linear-gradient(
+    115deg,
+    color-mix(in srgb, var(--vivid-amber) 22%, transparent),
+    color-mix(in srgb, var(--vivid-pink) 18%, transparent) 48%,
+    color-mix(in srgb, var(--vivid-violet) 22%, transparent)
+  );
+
   /* ---- Semantic tokens (light theme) ---- */
   --bg: var(--base-50);
   --surface: var(--base-0);

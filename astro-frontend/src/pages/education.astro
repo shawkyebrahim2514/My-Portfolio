@@ -47,14 +47,17 @@ const coursesRendered = await Promise.all(
     }
   </div>
 
-  <h2 class="mb-5 mt-14 text-lg font-semibold text-text">
+  <h2 class="mb-6 mt-14 flex items-center gap-3 text-lg font-bold text-text">
+    <span
+      class="inline-block h-5 w-1 rounded-full"
+      style="background: var(--gradient-brand)"></span>
     Relevant Coursework
   </h2>
   <div class="grid gap-4 sm:grid-cols-2">
     {
       coursesRendered.map(({ entry, Content }) => (
         <FadeIn client:visible>
-          <article class="h-full rounded-md border border-border bg-surface p-5 transition-colors hover:border-accent">
+          <article class="lift h-full rounded-md border border-border bg-surface p-5 hover:border-accent">
             <h3 class="mb-2 font-semibold text-text">{entry.data.name}</h3>
             <div class="prose prose-sm text-sm text-text-muted">
               <Content components={proseComponents} />

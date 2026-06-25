@@ -15,22 +15,29 @@ const contacts = (await getCollection('contacts')).sort(
 ---
 
 <PortfolioLayout title={`${data.personName} — Portfolio`}>
-  <section class="relative isolate -mt-4 overflow-hidden rounded-lg">
+  <section
+    class="relative isolate -mt-4 overflow-hidden rounded-lg px-2 py-16 sm:px-6 sm:py-20"
+  >
     <Aurora client:visible />
-    <div
-      class="grid items-center gap-10 px-2 py-10 sm:px-6 md:grid-cols-[1fr_auto]"
-    >
+    <div class="grid items-center gap-12 md:grid-cols-[1fr_auto]">
       <FadeIn client:visible>
         <div class="flow flow-space-sm">
-          <p class="font-mono text-sm font-medium text-accent">
+          <p class="eyebrow text-gradient">
+            <span
+              class="inline-block h-2 w-2 animate-pulse rounded-full"
+              style="background: var(--vivid-pink)"></span>
             {data.salutation}
           </p>
-          <h1 class="text-4xl font-bold tracking-tight text-text sm:text-5xl">
-            {data.personName}
+          <h1
+            class="text-balance text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl"
+          >
+            <span class="text-gradient-animated">{data.personName}</span>
           </h1>
-          <p class="text-xl text-text-muted">{data.position}</p>
-          <p class="text-text-muted">{data.seeking}</p>
-          <div class="pt-2">
+          <p class="text-2xl font-semibold text-text sm:text-3xl">
+            {data.position}
+          </p>
+          <p class="max-w-md text-lg text-text-muted">{data.seeking}</p>
+          <div class="pt-3">
             <LinkButton href={data.resume.link} icon="doc">
               {data.resume.text}
             </LinkButton>
@@ -38,13 +45,20 @@ const contacts = (await getCollection('contacts')).sort(
         </div>
       </FadeIn>
       <FadeIn client:visible delay={0.15}>
-        <img
-          src={data.personImage}
-          alt={data.personName}
-          width="180"
-          height="180"
-          class="h-36 w-36 rounded-full border border-border object-cover shadow-lg sm:h-44 sm:w-44"
-        />
+        <div class="glow relative mx-auto w-fit">
+          <div
+            class="rounded-full p-[3px]"
+            style="background: var(--gradient-brand)"
+          >
+            <img
+              src={data.personImage}
+              alt={data.personName}
+              width="200"
+              height="200"
+              class="h-40 w-40 rounded-full border-4 border-bg object-cover sm:h-52 sm:w-52"
+            />
+          </div>
+        </div>
       </FadeIn>
     </div>
   </section>
@@ -56,11 +70,7 @@ const contacts = (await getCollection('contacts')).sort(
   </FadeIn>
 
   <section class="mt-14">
-    <h2
-      class="mb-4 text-sm font-medium uppercase tracking-widest text-text-muted"
-    >
-      Find me online
-    </h2>
+    <h2 class="eyebrow mb-4 text-text-muted">Find me online</h2>
     <ul class="flex flex-wrap gap-3">
       {
         contacts.map((c) => (
@@ -69,7 +79,7 @@ const contacts = (await getCollection('contacts')).sort(
               href={c.data.link}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm text-text transition-colors hover:border-accent hover:text-accent"
+              class="lift inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm text-text transition-colors hover:border-accent hover:text-accent"
             >
               <img
                 src={c.data.icon}

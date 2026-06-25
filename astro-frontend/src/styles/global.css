@@ -208,3 +208,135 @@ body {
   border-top: 1px solid var(--border-color);
   margin: 2em 0;
 }
+
+/* =====================================================================
+ * Bold / playful design language
+ * Gradient text, animated shimmer, glow, gradient borders, underlines.
+ * ===================================================================== */
+
+/* Gradient-filled text using the signature brand gradient. */
+.text-gradient {
+  background-image: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Animated shimmer sweep across gradient text. */
+.text-gradient-animated {
+  background-image: linear-gradient(
+    115deg,
+    var(--vivid-amber),
+    var(--vivid-pink) 35%,
+    var(--vivid-violet) 50%,
+    var(--vivid-pink) 65%,
+    var(--vivid-amber)
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 6s linear infinite;
+}
+
+@keyframes text-shimmer {
+  to {
+    background-position: 220% center;
+  }
+}
+
+/* Soft glow halo behind an element (decorative). */
+.glow {
+  position: relative;
+}
+.glow::before {
+  content: '';
+  position: absolute;
+  inset: -30%;
+  z-index: -1;
+  background: var(--gradient-brand-soft);
+  filter: blur(48px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* Gradient-bordered surface (card with a vivid edge). */
+.gradient-border {
+  position: relative;
+  background: var(--surface);
+  border-radius: var(--rad-lg);
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: var(--gradient-brand);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.5;
+  transition: opacity var(--duration-base) ease-out;
+}
+.gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* Card lift on hover. */
+.lift {
+  transition:
+    transform var(--duration-base) var(--mo-ease-out),
+    box-shadow var(--duration-base) var(--mo-ease-out);
+}
+.lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--elevation-lg);
+}
+
+/* Animated gradient underline that grows in from the left on hover. */
+.underline-grow {
+  position: relative;
+  text-decoration: none;
+}
+.underline-grow::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 100%;
+  background: var(--gradient-brand);
+  border-radius: var(--rad-full);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-base) var(--mo-ease-out);
+}
+.underline-grow:hover::after {
+  transform: scaleX(1);
+}
+.underline-grow[aria-current='page']::after {
+  transform: scaleX(1);
+}
+
+/* Eyebrow label — small uppercase tag with gradient text. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5ch;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-gradient-animated {
+    animation: none;
+  }
+}

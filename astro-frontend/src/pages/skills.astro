@@ -37,12 +37,16 @@ const grouped = categoryOrder
       grouped.map((group) => (
         <FadeIn client:visible>
           <section>
-            <h2 class="mb-4 text-lg font-semibold text-text">
+            <h2 class="mb-4 flex items-center gap-3 text-lg font-bold text-text">
+              <span
+                class="inline-block h-5 w-1 rounded-full"
+                style="background: var(--gradient-brand)"
+              />
               {group.category}
             </h2>
             <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
               {group.items.map((s) => (
-                <li class="flex items-center gap-3 rounded-md border border-border bg-surface px-4 py-3 transition-colors hover:border-accent">
+                <li class="lift flex items-center gap-3 rounded-md border border-border bg-surface px-4 py-3 hover:border-accent">
                   <img
                     src={s.data.icon}
                     alt=""

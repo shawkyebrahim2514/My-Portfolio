@@ -27,7 +27,7 @@ const isActive = (href: string) =>
       href="/"
       class="font-mono text-sm font-bold tracking-tight text-text transition-colors hover:text-accent"
     >
-      shawky<span class="text-accent">.</span>dev
+      shawky<span class="text-gradient">.dev</span>
     </a>
     <ul class="flex flex-wrap items-center gap-1 text-sm">
       {
@@ -37,9 +37,9 @@ const isActive = (href: string) =>
               href={l.href}
               aria-current={isActive(l.href) ? 'page' : undefined}
               class:list={[
-                'rounded-md px-3 py-1.5 transition-colors',
+                'underline-grow rounded-md px-3 py-1.5 transition-colors',
                 isActive(l.href)
-                  ? 'bg-surface-muted font-medium text-text'
+                  ? 'font-semibold text-text'
                   : 'text-text-muted hover:text-text',
               ]}
             >

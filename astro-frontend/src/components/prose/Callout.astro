@@ -6,17 +6,44 @@
 
 <style>
   .callout {
+    position: relative;
     margin: 1.5rem 0;
-    padding: 1.5rem;
+    padding: 1.6rem;
     border: 1px solid var(--border-color);
     border-radius: var(--rad-lg);
     background-color: var(--surface);
     box-shadow: var(--shadow-elevation);
+    overflow: hidden;
+    transition:
+      transform var(--duration-base) var(--mo-ease-out),
+      box-shadow var(--duration-base) var(--mo-ease-out),
+      border-color var(--duration-base) var(--mo-ease-out);
+  }
+  .callout::before {
+    content: '';
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 3px;
+    background: var(--gradient-brand);
+    opacity: 0.8;
+  }
+  .callout:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--elevation-lg);
+    border-color: color-mix(in srgb, var(--vivid-pink) 35%, var(--border-color));
   }
   .callout > :global(:first-child) {
     margin-top: 0;
   }
   .callout > :global(:last-child) {
     margin-bottom: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .callout {
+      transition: none;
+    }
+    .callout:hover {
+      transform: none;
+    }
   }
 </style>

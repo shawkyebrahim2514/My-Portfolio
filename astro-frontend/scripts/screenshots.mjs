@@ -23,12 +23,24 @@ const routes = [
 
 mkdirSync(outDir, { recursive: true });
 
+// Optional: set THEME=dark to preview the dark palette.
+const theme = process.env.THEME;
+
 const browser = await chromium.launch({ channel: 'msedge' });
 const ctx = await browser.newContext({
   viewport: { width: 1280, height: 900 },
   deviceScaleFactor: 1,
   reducedMotion: 'reduce',
 });
+if (theme) {
+  await ctx.addInitScript((t) => {
+    try {
+      localStorage.setItem('theme', t);
+    } catch {
+      /* ignore */
+    }
+  }, theme);
+}
 const page = await ctx.newPage();
 
 for (const [name, route] of routes) {

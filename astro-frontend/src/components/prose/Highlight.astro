@@ -27,15 +27,17 @@ const { variant = 'bold' } = Astro.props;
   .hl-area-secondary {
     background-image: linear-gradient(
       to bottom,
-      transparent 60%,
-      var(--hl-color) 60%
+      transparent 82%,
+      var(--hl-color) 82%
     );
-    padding-inline: 0.05em;
+    background-repeat: no-repeat;
+    padding-inline: 0.1em;
+    border-radius: 0.1em;
   }
   .hl-area {
-    --hl-color: color-mix(in srgb, var(--text-color) 18%, transparent);
+    --hl-color: color-mix(in srgb, var(--text-color) 16%, transparent);
   }
   .hl-area-secondary {
-    --hl-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    --hl-color: color-mix(in srgb, var(--vivid-pink) 45%, transparent);
   }
 </style>

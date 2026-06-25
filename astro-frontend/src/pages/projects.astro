@@ -25,9 +25,15 @@ const rendered = await Promise.all(
 
   <div class="flow flow-space-lg">
     {
-      rendered.map(({ entry, Content }) => (
+      rendered.map(({ entry, Content }, i) => (
         <FadeIn client:visible>
-          <article class="rounded-lg border border-border bg-surface p-6 shadow-sm transition-colors hover:border-accent">
+          <article class="gradient-border lift p-6 shadow-sm">
+            <span
+              class="mb-3 block font-mono text-sm font-bold text-gradient"
+              aria-hidden="true"
+            >
+              {String(i + 1).padStart(2, '0')}
+            </span>
             <div class="prose max-w-none">
               <Content components={proseComponents} />
             </div>
@@ -35,7 +41,7 @@ const rendered = await Promise.all(
             {entry.data.technologies.length > 0 && (
               <ul class="mt-5 flex flex-wrap gap-2">
                 {entry.data.technologies.map((tech) => (
-                  <li class="rounded-full border border-border bg-surface-muted px-3 py-1 text-xs font-medium text-text-muted">
+                  <li class="rounded-full border border-border bg-surface-muted px-3 py-1 text-xs font-medium text-text-muted transition-colors hover:border-accent hover:text-accent">
                     {tech}
                   </li>
                 ))}
