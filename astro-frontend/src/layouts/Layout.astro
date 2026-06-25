@@ -1,0 +1,43 @@
+---
+import '../styles/global.css';
+import ThemeToggle from '../components/ThemeToggle';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'Astro' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <script is:inline>
+      (function () {
+        try {
+          const stored = localStorage.getItem('theme');
+          const theme =
+            stored ||
+            (window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light');
+          document.documentElement.dataset.theme = theme;
+        } catch {
+          /* no-op: keep SSR default */
+        }
+      })();
+    </script>
+  </head>
+  <body class="bg-bg text-text">
+    <div class="fixed right-4 top-4 z-50">
+      <ThemeToggle client:load />
+    </div>
+    <slot />
+  </body>
+</html>

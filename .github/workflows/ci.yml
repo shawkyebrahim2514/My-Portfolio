@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [Development, main]
+  push:
+    branches: [Development, main]
+
+# Cancel superseded runs on the same ref
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  astro:
+    name: Lint, typecheck & build (astro-frontend)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: astro-frontend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: astro-frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Typecheck
+        run: npm run check
+
+      - name: Build
+        run: npm run build

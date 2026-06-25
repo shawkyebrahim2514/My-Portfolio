@@ -1,0 +1,25 @@
+version: 2
+updates:
+  # New Astro foundation
+  - package-ecosystem: npm
+    directory: /astro-frontend
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # Bundle non-major updates into a single PR to reduce noise
+      astro-minor-patch:
+        update-types:
+          - minor
+          - patch
+
+  # CI workflow actions
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      actions:
+        update-types:
+          - minor
+          - patch

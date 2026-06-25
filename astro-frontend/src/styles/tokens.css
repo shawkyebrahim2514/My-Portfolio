@@ -1,0 +1,114 @@
+/*
+ * Design tokens — ported from the legacy ThemeContext palette.
+ * Two layers:
+ *   1. Primitive scales (raw values, never used directly in components)
+ *   2. Semantic tokens (what components consume; swapped for dark mode)
+ *
+ * Primitive names deliberately avoid Tailwind v4 reserved namespaces
+ * (--color-*, --font-*, --text-*, --spacing-*, --radius-*, --shadow-*)
+ * so the @theme inline mapping in global.css is not self-referential.
+ */
+
+:root {
+  /* ---- Primitive: neutral (base) scale ---- */
+  --base-0: #ffffff;
+  --base-50: #fafaf6;
+  --base-100: #edeee6;
+  --base-200: #d4d5cd;
+  --base-300: #bdbdb6;
+  --base-400: #a5a59f;
+  --base-500: #898984;
+  --base-600: #6f706c;
+  --base-700: #545451;
+  --base-800: #393937;
+  --base-900: #282827;
+
+  /* ---- Primitive: warm (secondary) scale ---- */
+  --secondary-0: #ffffff;
+  --secondary-50: #fef9f5;
+  --secondary-100: #fbebdd;
+  --secondary-200: #f8d7bc;
+  --secondary-300: #f6c29a;
+  --secondary-400: #d4986c;
+  --secondary-500: #b4805b;
+  --secondary-600: #93684b;
+  --secondary-700: #7c573f;
+  --secondary-800: #644633;
+  --secondary-900: #4a3326;
+
+  /* ---- Spacing scale ---- */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  /* ---- Font families ---- */
+  --ff-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ff-mono: ui-monospace, 'SFMono-Regular', 'JetBrains Mono', Menlo, monospace;
+
+  /* ---- Font-size scale (fluid: min @ ~360px → max @ ~1240px) ---- */
+  --fs-xs: clamp(0.75rem, 0.72rem + 0.15vw, 0.8rem);
+  --fs-sm: clamp(0.875rem, 0.84rem + 0.18vw, 0.95rem);
+  --fs-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --fs-lg: clamp(1.125rem, 1.06rem + 0.33vw, 1.3rem);
+  --fs-xl: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);
+  --fs-2xl: clamp(1.5rem, 1.3rem + 1vw, 2rem);
+  --fs-3xl: clamp(1.875rem, 1.5rem + 1.85vw, 2.75rem);
+  --fs-4xl: clamp(2.25rem, 1.7rem + 2.75vw, 3.75rem);
+
+  /* ---- Radius ---- */
+  --rad-sm: 4px;
+  --rad-md: 8px;
+  --rad-lg: 16px;
+  --rad-full: 9999px;
+
+  /* ---- Elevation (shadow) ---- */
+  --elevation-sm: rgba(0, 0, 0, 0.12) 0px 1px 3px;
+  --elevation-md: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --elevation-lg: rgba(0, 0, 0, 0.28) 0px 10px 24px;
+
+  /* ---- Motion ---- */
+  --mo-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --mo-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 500ms;
+  --transition-base: all var(--duration-base) ease-out;
+
+  /* ---- Semantic tokens (light theme) ---- */
+  --bg: var(--base-50);
+  --surface: var(--base-0);
+  --surface-muted: var(--base-100);
+  --border-color: var(--base-200);
+  --text-color: var(--base-800);
+  --text-muted: var(--base-600);
+  --text-inverted: var(--base-50);
+  --primary: var(--secondary-500);
+  --primary-hover: var(--secondary-600);
+  --primary-contrast: var(--base-0);
+  --accent: var(--secondary-400);
+  --ring: var(--secondary-400);
+  --shadow-elevation: var(--elevation-md);
+}
+
+[data-theme='dark'] {
+  /* Semantic tokens remap to the dark end of the scales */
+  --bg: var(--base-900);
+  --surface: var(--base-800);
+  --surface-muted: var(--base-700);
+  --border-color: var(--base-700);
+  --text-color: var(--base-50);
+  --text-muted: var(--base-300);
+  --text-inverted: var(--base-900);
+  --primary: var(--secondary-400);
+  --primary-hover: var(--secondary-300);
+  --primary-contrast: var(--base-900);
+  --accent: var(--secondary-300);
+  --ring: var(--secondary-300);
+  --shadow-elevation: rgba(0, 0, 0, 0.6) 0px 3px 8px;
+}
