@@ -117,3 +117,226 @@ body {
 @utility flow-space-xl {
   --flow-space: var(--space-xl);
 }
+
+/*
+ * Prose — base typography for rendered MDX content bodies. The custom prose
+ * components (Highlight, Callout, ...) bring their own styling; this handles
+ * the plain markdown (headings, paragraphs, lists, code, links, images).
+ */
+.prose {
+  line-height: 1.7;
+  color: var(--text-color);
+}
+.prose > * + * {
+  margin-top: 1em;
+}
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  line-height: 1.25;
+  font-weight: 700;
+  margin-top: 1.6em;
+  margin-bottom: 0.4em;
+}
+.prose h1 {
+  font-size: var(--fs-3xl);
+}
+.prose h2 {
+  font-size: var(--fs-2xl);
+}
+.prose h3 {
+  font-size: var(--fs-xl);
+}
+.prose h4 {
+  font-size: var(--fs-lg);
+}
+.prose h5,
+.prose h6 {
+  font-size: var(--fs-base);
+  color: var(--text-muted);
+}
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.4em;
+}
+.prose ul {
+  list-style: disc;
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose li + li {
+  margin-top: 0.35em;
+}
+.prose code {
+  font-family: var(--ff-mono);
+  font-size: 0.9em;
+  background-color: var(--surface-muted);
+  padding: 0.15em 0.4em;
+  border-radius: var(--rad-sm);
+}
+.prose pre {
+  background-color: var(--surface-muted);
+  padding: 1rem;
+  border-radius: var(--rad-md);
+  overflow-x: auto;
+}
+.prose pre code {
+  background: none;
+  padding: 0;
+}
+.prose blockquote {
+  border-left: 3px solid var(--border-color);
+  padding-left: 1rem;
+  color: var(--text-muted);
+}
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--rad-md);
+}
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 2em 0;
+}
+
+/* =====================================================================
+ * Bold / playful design language
+ * Gradient text, animated shimmer, glow, gradient borders, underlines.
+ * ===================================================================== */
+
+/* Gradient-filled text using the signature brand gradient. */
+.text-gradient {
+  background-image: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Animated shimmer sweep across gradient text. */
+.text-gradient-animated {
+  background-image: linear-gradient(
+    115deg,
+    var(--vivid-amber),
+    var(--vivid-pink) 35%,
+    var(--vivid-violet) 50%,
+    var(--vivid-pink) 65%,
+    var(--vivid-amber)
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 6s linear infinite;
+}
+
+@keyframes text-shimmer {
+  to {
+    background-position: 220% center;
+  }
+}
+
+/* Soft glow halo behind an element (decorative). */
+.glow {
+  position: relative;
+}
+.glow::before {
+  content: '';
+  position: absolute;
+  inset: -30%;
+  z-index: -1;
+  background: var(--gradient-brand-soft);
+  filter: blur(48px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* Gradient-bordered surface (card with a vivid edge). */
+.gradient-border {
+  position: relative;
+  background: var(--surface);
+  border-radius: var(--rad-lg);
+}
+.gradient-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: var(--gradient-brand);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.5;
+  transition: opacity var(--duration-base) ease-out;
+}
+.gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* Card lift on hover. */
+.lift {
+  transition:
+    transform var(--duration-base) var(--mo-ease-out),
+    box-shadow var(--duration-base) var(--mo-ease-out);
+}
+.lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--elevation-lg);
+}
+
+/* Animated gradient underline that grows in from the left on hover. */
+.underline-grow {
+  position: relative;
+  text-decoration: none;
+}
+.underline-grow::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  height: 2px;
+  width: 100%;
+  background: var(--gradient-brand);
+  border-radius: var(--rad-full);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--duration-base) var(--mo-ease-out);
+}
+.underline-grow:hover::after {
+  transform: scaleX(1);
+}
+.underline-grow[aria-current='page']::after {
+  transform: scaleX(1);
+}
+
+/* Eyebrow label — small uppercase tag with gradient text. */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5ch;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .text-gradient-animated {
+    animation: none;
+  }
+}

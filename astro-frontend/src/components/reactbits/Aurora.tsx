@@ -12,19 +12,19 @@ export default function Aurora() {
   const blobs = [
     {
       className: 'left-[-10%] top-[-20%] h-72 w-72',
-      color: 'var(--color-primary)',
+      color: 'var(--vivid-amber)',
       animate: { x: [0, 40, 0], y: [0, 30, 0], scale: [1, 1.15, 1] },
       duration: 14,
     },
     {
       className: 'right-[-5%] top-[10%] h-80 w-80',
-      color: 'var(--color-accent)',
+      color: 'var(--vivid-pink)',
       animate: { x: [0, -30, 0], y: [0, 40, 0], scale: [1, 1.1, 1] },
       duration: 18,
     },
     {
       className: 'bottom-[-25%] left-[20%] h-72 w-72',
-      color: 'var(--color-ring)',
+      color: 'var(--vivid-violet)',
       animate: { x: [0, 24, 0], y: [0, -28, 0], scale: [1, 1.2, 1] },
       duration: 16,
     },
@@ -38,7 +38,7 @@ export default function Aurora() {
       {blobs.map((blob, i) => (
         <motion.div
           key={i}
-          className={`absolute rounded-full opacity-30 blur-3xl ${blob.className}`}
+          className={`absolute rounded-full opacity-40 blur-3xl ${blob.className}`}
           style={{ backgroundColor: blob.color }}
           animate={reduceMotion ? undefined : blob.animate}
           transition={

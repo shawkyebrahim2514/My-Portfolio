@@ -1,0 +1,68 @@
+---
+import PortfolioLayout from '../layouts/PortfolioLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import FadeIn from '../components/motion/FadeIn';
+import { getCollection } from 'astro:content';
+
+const skills = (await getCollection('skills')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const categoryOrder = [
+  'General',
+  'Frontend',
+  'Backend',
+  'Databases',
+  'Mobile',
+  'Tools',
+];
+
+const grouped = categoryOrder
+  .map((category) => ({
+    category,
+    items: skills.filter((s) => s.data.category === category),
+  }))
+  .filter((g) => g.items.length > 0);
+---
+
+<PortfolioLayout title="Skills — Shawky Ebrahim">
+  <SectionHeading
+    eyebrow="Toolbox"
+    title="Skills & Technologies"
+    subtitle="The languages, frameworks, and tools I reach for to build and ship software."
+  />
+
+  <div class="flow flow-space-xl">
+    {
+      grouped.map((group) => (
+        <FadeIn client:visible>
+          <section>
+            <h2 class="mb-4 flex items-center gap-3 text-lg font-bold text-text">
+              <span
+                class="inline-block h-5 w-1 rounded-full"
+                style="background: var(--gradient-brand)"
+              />
+              {group.category}
+            </h2>
+            <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+              {group.items.map((s) => (
+                <li class="lift flex items-center gap-3 rounded-md border border-border bg-surface px-4 py-3 hover:border-accent">
+                  <img
+                    src={s.data.icon}
+                    alt=""
+                    width="24"
+                    height="24"
+                    class="h-6 w-6 shrink-0 object-contain"
+                  />
+                  <span class="text-sm font-medium text-text">
+                    {s.data.name}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </FadeIn>
+      ))
+    }
+  </div>
+</PortfolioLayout>

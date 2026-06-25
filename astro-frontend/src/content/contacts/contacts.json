@@ -1,0 +1,51 @@
+[
+  {
+    "id": "wuzzuf",
+    "name": "WUZZUF",
+    "icon": "/icons/contacts/wuzzuf.svg",
+    "link": "https://wuzzuf.net/me/shawkyebrahim2514",
+    "order": 4
+  },
+  {
+    "id": "github",
+    "name": "GitHub",
+    "icon": "/icons/contacts/github.png",
+    "link": "https://github.com/shawkyebrahim2514",
+    "order": 1
+  },
+  {
+    "id": "facebook",
+    "name": "Facebook",
+    "icon": "/icons/contacts/facebook.png",
+    "link": "https://www.facebook.com/shawkyebrahim2514/",
+    "order": 5
+  },
+  {
+    "id": "behance",
+    "name": "Behance",
+    "icon": "/icons/contacts/behance.svg",
+    "link": "https://www.behance.net/shawkyebrahim2514",
+    "order": 6
+  },
+  {
+    "id": "gmail",
+    "name": "Gmail",
+    "icon": "/icons/contacts/gmail.svg",
+    "link": "mailto:shawkyebrahim2514@gmail.com",
+    "order": 2
+  },
+  {
+    "id": "linkedin",
+    "name": "LinkedIn",
+    "icon": "/icons/contacts/linkedin.svg",
+    "link": "https://www.linkedin.com/in/shawkyebrahim2514/",
+    "order": 0
+  },
+  {
+    "id": "telegram",
+    "name": "Telegram",
+    "icon": "/icons/contacts/telegram.svg",
+    "link": "https://t.me/shawkyebrahim2514",
+    "order": 3
+  }
+]

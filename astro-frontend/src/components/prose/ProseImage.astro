@@ -1,0 +1,45 @@
+---
+/**
+ * Content image — the legacy `![alt](url =w300|center)` token.
+ * `width`/`height` cap the size (px); the image never exceeds its column.
+ */
+interface Props {
+  src: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+  align?: 'center' | 'left' | 'right';
+}
+
+const { src, alt = '', width, height, align = 'left' } = Astro.props;
+
+const justify =
+  align === 'center' ? 'center' : align === 'right' ? 'flex-end' : 'flex-start';
+
+const maxW = width ? `min(100%, ${width}px)` : '100%';
+const maxH = height ? `${height}px` : 'auto';
+---
+
+<span class="prose-img" style={`justify-content: ${justify}`}>
+  <img
+    src={src}
+    alt={alt}
+    loading="lazy"
+    decoding="async"
+    style={`max-width: ${maxW}; max-height: ${maxH}`}
+  />
+</span>
+
+<style>
+  .prose-img {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin: 1rem 0;
+  }
+  .prose-img img {
+    height: auto;
+    border-radius: var(--rad-md);
+  }
+</style>

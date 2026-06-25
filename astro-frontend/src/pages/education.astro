@@ -1,0 +1,70 @@
+---
+import PortfolioLayout from '../layouts/PortfolioLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import FadeIn from '../components/motion/FadeIn';
+import { proseComponents } from '../components/prose';
+import { getCollection, render } from 'astro:content';
+
+const education = (await getCollection('education')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const educationRendered = await Promise.all(
+  education.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  })),
+);
+
+const courses = (await getCollection('courses')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+const coursesRendered = await Promise.all(
+  courses.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  })),
+);
+---
+
+<PortfolioLayout title="Education — Shawky Ebrahim">
+  <SectionHeading
+    eyebrow="Background"
+    title="Education"
+    subtitle="My academic foundation and the coursework that shaped how I build."
+  />
+
+  <div class="flow flow-space-lg">
+    {
+      educationRendered.map(({ Content }) => (
+        <FadeIn client:visible>
+          <article class="rounded-lg border border-border bg-surface p-6 shadow-sm">
+            <div class="prose max-w-none">
+              <Content components={proseComponents} />
+            </div>
+          </article>
+        </FadeIn>
+      ))
+    }
+  </div>
+
+  <h2 class="mb-6 mt-14 flex items-center gap-3 text-lg font-bold text-text">
+    <span
+      class="inline-block h-5 w-1 rounded-full"
+      style="background: var(--gradient-brand)"></span>
+    Relevant Coursework
+  </h2>
+  <div class="grid gap-4 sm:grid-cols-2">
+    {
+      coursesRendered.map(({ entry, Content }) => (
+        <FadeIn client:visible>
+          <article class="lift h-full rounded-md border border-border bg-surface p-5 hover:border-accent">
+            <h3 class="mb-2 font-semibold text-text">{entry.data.name}</h3>
+            <div class="prose prose-sm text-sm text-text-muted">
+              <Content components={proseComponents} />
+            </div>
+          </article>
+        </FadeIn>
+      ))
+    }
+  </div>
+</PortfolioLayout>

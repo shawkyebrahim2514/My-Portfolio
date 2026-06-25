@@ -1,0 +1,53 @@
+---
+/**
+ * Primary site navigation. Highlights the active section based on the
+ * current pathname.
+ */
+const links = [
+  { href: '/', label: 'About' },
+  { href: '/skills', label: 'Skills' },
+  { href: '/education', label: 'Education' },
+  { href: '/experience', label: 'Experience' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/contacts', label: 'Contacts' },
+];
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path.startsWith(href);
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-border bg-bg/80 backdrop-blur-md"
+>
+  <nav
+    class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3"
+  >
+    <a
+      href="/"
+      class="font-mono text-sm font-bold tracking-tight text-text transition-colors hover:text-accent"
+    >
+      shawky<span class="text-gradient">.dev</span>
+    </a>
+    <ul class="flex flex-wrap items-center gap-1 text-sm">
+      {
+        links.map((l) => (
+          <li>
+            <a
+              href={l.href}
+              aria-current={isActive(l.href) ? 'page' : undefined}
+              class:list={[
+                'underline-grow rounded-md px-3 py-1.5 transition-colors',
+                isActive(l.href)
+                  ? 'font-semibold text-text'
+                  : 'text-text-muted hover:text-text',
+              ]}
+            >
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>

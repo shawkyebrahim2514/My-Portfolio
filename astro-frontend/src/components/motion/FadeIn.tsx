@@ -36,7 +36,7 @@ export default function FadeIn({
     <motion.div
       className={className}
       variants={variants}
-      initial="hidden"
+      initial={reduceMotion ? 'visible' : 'hidden'}
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
     >

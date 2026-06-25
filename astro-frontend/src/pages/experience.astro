@@ -1,0 +1,105 @@
+---
+import PortfolioLayout from '../layouts/PortfolioLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import FadeIn from '../components/motion/FadeIn';
+import { proseComponents } from '../components/prose';
+import { getCollection, render } from 'astro:content';
+
+const experience = (await getCollection('experience')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const groups = [
+  { kind: 'professional', label: 'Professional Experience' },
+  { kind: 'internship', label: 'Internships' },
+  { kind: 'certificate', label: 'Certificates & Achievements' },
+] as const;
+
+const rendered = await Promise.all(
+  experience.map(async (entry) => ({
+    entry,
+    Content: (await render(entry)).Content,
+  })),
+);
+
+const byKind = (kind: string) =>
+  rendered.filter((r) => r.entry.data.kind === kind);
+---
+
+<PortfolioLayout title="Experience — Shawky Ebrahim">
+  <SectionHeading
+    eyebrow="Journey"
+    title="Experience"
+    subtitle="Roles, internships, and milestones along the way."
+  />
+
+  <div class="flow flow-space-xl">
+    {
+      groups
+        .filter((g) => byKind(g.kind).length > 0)
+        .map((group) => (
+          <section>
+            <h2 class="mb-6 flex items-center gap-3 text-lg font-bold text-text">
+              <span
+                class="inline-block h-5 w-1 rounded-full"
+                style="background: var(--gradient-brand)"
+              />
+              {group.label}
+            </h2>
+            <div class="timeline">
+              {byKind(group.kind).map(({ Content }) => (
+                <FadeIn client:visible>
+                  <div class="timeline-item">
+                    <span class="timeline-dot" aria-hidden="true" />
+                    <article class="prose max-w-none">
+                      <Content components={proseComponents} />
+                    </article>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </section>
+        ))
+    }
+  </div>
+</PortfolioLayout>
+
+<style>
+  .timeline {
+    position: relative;
+    margin-left: 0.5rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 0.6rem;
+    bottom: 0.6rem;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      var(--vivid-amber),
+      var(--vivid-pink),
+      var(--vivid-violet)
+    );
+    opacity: 0.5;
+    border-radius: var(--rad-full);
+  }
+  .timeline-item {
+    position: relative;
+    padding-left: 2rem;
+  }
+  .timeline-item + .timeline-item {
+    margin-top: 1.5rem;
+  }
+  .timeline-dot {
+    position: absolute;
+    left: 0;
+    top: 0.5rem;
+    height: 12px;
+    width: 12px;
+    border-radius: var(--rad-full);
+    background: var(--gradient-brand);
+    box-shadow: 0 0 0 4px var(--bg);
+  }
+</style>

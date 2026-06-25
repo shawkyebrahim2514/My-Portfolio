@@ -1,0 +1,10 @@
+---
+/** Center-aligns its block content — the legacy `[center]` token. */
+interface Props {
+  align?: 'center' | 'left' | 'right';
+}
+
+const { align = 'center' } = Astro.props;
+---
+
+<div style={`text-align: ${align}`}><slot /></div>
