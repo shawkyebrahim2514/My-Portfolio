@@ -1,0 +1,41 @@
+---
+/**
+ * Inline highlight used by ported portfolio content.
+ * Variants map to the legacy markdown dialect:
+ *   secondary       -> **!text!**   (accent-colored emphasis)
+ *   bold            -> **text**     (plain strong)
+ *   area            -> **-text-**   (neutral marker-pen underline)
+ *   area-secondary  -> **!-text-!** (accent marker-pen underline)
+ */
+interface Props {
+  variant?: 'secondary' | 'bold' | 'area' | 'area-secondary';
+}
+
+const { variant = 'bold' } = Astro.props;
+---
+
+<strong class:list={['hl', `hl-${variant}`]}><slot /></strong>
+
+<style>
+  .hl {
+    font-weight: 600;
+  }
+  .hl-secondary {
+    color: var(--accent);
+  }
+  .hl-area,
+  .hl-area-secondary {
+    background-image: linear-gradient(
+      to bottom,
+      transparent 60%,
+      var(--hl-color) 60%
+    );
+    padding-inline: 0.05em;
+  }
+  .hl-area {
+    --hl-color: color-mix(in srgb, var(--text-color) 18%, transparent);
+  }
+  .hl-area-secondary {
+    --hl-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+</style>

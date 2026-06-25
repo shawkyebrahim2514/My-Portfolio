@@ -1,0 +1,22 @@
+---
+/** A card container — the legacy `> [!popup]` blockquote callout. */
+---
+
+<div class="callout"><slot /></div>
+
+<style>
+  .callout {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--rad-lg);
+    background-color: var(--surface);
+    box-shadow: var(--shadow-elevation);
+  }
+  .callout > :global(:first-child) {
+    margin-top: 0;
+  }
+  .callout > :global(:last-child) {
+    margin-bottom: 0;
+  }
+</style>

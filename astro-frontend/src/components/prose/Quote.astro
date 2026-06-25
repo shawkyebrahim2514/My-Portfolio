@@ -1,0 +1,48 @@
+---
+/**
+ * Left-bar quote block — the legacy nested `> >` blockquote.
+ * `variant` tints the bar/background (base vs. accent), `background`
+ * toggles the soft fill.
+ */
+interface Props {
+  variant?: 'base' | 'secondary';
+  background?: boolean;
+}
+
+const { variant = 'base', background = false } = Astro.props;
+---
+
+<blockquote
+  class:list={['quote', `quote-${variant}`, { 'quote-filled': background }]}
+>
+  <slot />
+</blockquote>
+
+<style>
+  .quote {
+    position: relative;
+    margin: 1rem 0;
+    padding: 0.5rem 0 0.5rem 1rem;
+    border-left: 4px solid var(--bar);
+    color: var(--text-color);
+  }
+  .quote-base {
+    --bar: color-mix(in srgb, var(--text-color) 45%, transparent);
+    --fill: color-mix(in srgb, var(--text-color) 6%, transparent);
+  }
+  .quote-secondary {
+    --bar: var(--accent);
+    --fill: color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+  .quote-filled {
+    border-radius: 0 var(--rad-md) var(--rad-md) 0;
+    background-color: var(--fill);
+    padding-right: 1rem;
+  }
+  .quote > :global(:first-child) {
+    margin-top: 0;
+  }
+  .quote > :global(:last-child) {
+    margin-bottom: 0;
+  }
+</style>

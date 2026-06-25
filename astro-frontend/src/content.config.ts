@@ -41,7 +41,7 @@ const experience = defineCollection({
     title: z.string(),
     subtitle: z.string().optional(),
     kind: z.enum(['professional', 'internship', 'certificate']),
-    date: dateRange,
+    date: dateRange.optional(),
     link: z.string().url().optional(),
     technologies: z.array(z.string()).default([]),
     order: z.number().default(0),

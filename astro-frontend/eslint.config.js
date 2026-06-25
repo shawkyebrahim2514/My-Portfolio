@@ -31,4 +31,12 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
     },
   },
+
+  // Node scripts (build/migration tooling)
+  {
+    files: ['scripts/**/*.{js,mjs}'],
+    languageOptions: {
+      globals: { ...globals.node },
+    },
+  },
 );

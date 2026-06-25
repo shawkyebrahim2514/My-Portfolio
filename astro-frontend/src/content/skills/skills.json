@@ -1,9 +1,254 @@
 [
   {
-    "id": "csharp",
+    "id": "c",
     "name": "C#",
-    "icon": "/icons/skills/csharp.svg",
-    "category": "Backend",
+    "icon": "/icons/skills/c.svg",
+    "category": "General",
     "order": 0
+  },
+  {
+    "id": "reactjs",
+    "name": "ReactJS",
+    "icon": "/icons/skills/reactjs.svg",
+    "category": "Frontend",
+    "order": 1
+  },
+  {
+    "id": "hadoop",
+    "name": "Hadoop",
+    "icon": "/icons/skills/hadoop.png",
+    "category": "General",
+    "order": 2
+  },
+  {
+    "id": "mysql",
+    "name": "MySQL",
+    "icon": "/icons/skills/mysql.svg",
+    "category": "Databases",
+    "order": 3
+  },
+  {
+    "id": "spark",
+    "name": "Spark",
+    "icon": "/icons/skills/spark.png",
+    "category": "General",
+    "order": 4
+  },
+  {
+    "id": "rest-api",
+    "name": "REST API",
+    "icon": "",
+    "category": "Backend",
+    "order": 5
+  },
+  {
+    "id": "replicate",
+    "name": "Replicate",
+    "icon": "/icons/skills/replicate.svg",
+    "category": "General",
+    "order": 6
+  },
+  {
+    "id": "sanity",
+    "name": "Sanity",
+    "icon": "/icons/skills/sanity.png",
+    "category": "Databases",
+    "order": 7
+  },
+  {
+    "id": "adobe-xd",
+    "name": "Adobe XD",
+    "icon": "/icons/skills/adobe-xd.svg",
+    "category": "Tools",
+    "order": 8
+  },
+  {
+    "id": "typescript",
+    "name": "TypeScript",
+    "icon": "/icons/skills/typescript.png",
+    "category": "Frontend",
+    "order": 9
+  },
+  {
+    "id": "excel",
+    "name": "Excel",
+    "icon": "/icons/skills/excel.png",
+    "category": "General",
+    "order": 10
+  },
+  {
+    "id": "cpp",
+    "name": "CPP",
+    "icon": "/icons/skills/cpp.svg",
+    "category": "General",
+    "order": 11
+  },
+  {
+    "id": "java",
+    "name": "Java",
+    "icon": "/icons/skills/java.svg",
+    "category": "General",
+    "order": 12
+  },
+  {
+    "id": "firebase",
+    "name": "Firebase",
+    "icon": "/icons/skills/firebase.svg",
+    "category": "Databases",
+    "order": 13
+  },
+  {
+    "id": "adobe-illustrator",
+    "name": "Adobe Illustrator",
+    "icon": "/icons/skills/adobe-illustrator.svg",
+    "category": "Tools",
+    "order": 14
+  },
+  {
+    "id": "power-bi",
+    "name": "Power BI",
+    "icon": "/icons/skills/power-bi.png",
+    "category": "General",
+    "order": 15
+  },
+  {
+    "id": "mongodb",
+    "name": "MongoDB",
+    "icon": "/icons/skills/mongodb.svg",
+    "category": "Databases",
+    "order": 16
+  },
+  {
+    "id": "nodejs",
+    "name": "NodeJS",
+    "icon": "/icons/skills/nodejs.svg",
+    "category": "Backend",
+    "order": 17
+  },
+  {
+    "id": "material-ui",
+    "name": "Material UI",
+    "icon": "/icons/skills/material-ui.svg",
+    "category": "Frontend",
+    "order": 18
+  },
+  {
+    "id": "vertex-ai",
+    "name": "Vertex AI",
+    "icon": "/icons/skills/vertex-ai.svg",
+    "category": "General",
+    "order": 19
+  },
+  {
+    "id": "swagger",
+    "name": "Swagger",
+    "icon": "/icons/skills/swagger.svg",
+    "category": "Backend",
+    "order": 20
+  },
+  {
+    "id": "upstash",
+    "name": "Upstash",
+    "icon": "/icons/skills/upstash.svg",
+    "category": "Databases",
+    "order": 21
+  },
+  {
+    "id": "python",
+    "name": "Python",
+    "icon": "/icons/skills/python.svg",
+    "category": "General",
+    "order": 22
+  },
+  {
+    "id": "dart",
+    "name": "Dart",
+    "icon": "/icons/skills/dart.svg",
+    "category": "Mobile",
+    "order": 23
+  },
+  {
+    "id": "graphql",
+    "name": "GraphQL",
+    "icon": "/icons/skills/graphql.svg",
+    "category": "Backend",
+    "order": 24
+  },
+  {
+    "id": "sql-server",
+    "name": "SQL Server",
+    "icon": "/icons/skills/sql-server.svg",
+    "category": "Databases",
+    "order": 25
+  },
+  {
+    "id": "javascript",
+    "name": "JavaScript",
+    "icon": "/icons/skills/javascript.svg",
+    "category": "Frontend",
+    "order": 26
+  },
+  {
+    "id": "flutter",
+    "name": "Flutter",
+    "icon": "/icons/skills/flutter.svg",
+    "category": "Mobile",
+    "order": 27
+  },
+  {
+    "id": "html",
+    "name": "HTML",
+    "icon": "/icons/skills/html.svg",
+    "category": "Frontend",
+    "order": 28
+  },
+  {
+    "id": "vercel",
+    "name": "Vercel",
+    "icon": "/icons/skills/vercel.svg",
+    "category": "Backend",
+    "order": 29
+  },
+  {
+    "id": "fal-ai",
+    "name": "Fal AI",
+    "icon": "/icons/skills/fal-ai.svg",
+    "category": "General",
+    "order": 30
+  },
+  {
+    "id": "algolia",
+    "name": "Algolia",
+    "icon": "/icons/skills/algolia.svg",
+    "category": "Backend",
+    "order": 31
+  },
+  {
+    "id": "django",
+    "name": "Django",
+    "icon": "/icons/skills/django.png",
+    "category": "General",
+    "order": 32
+  },
+  {
+    "id": "expressjs",
+    "name": "ExpressJS",
+    "icon": "/icons/skills/expressjs.svg",
+    "category": "Backend",
+    "order": 33
+  },
+  {
+    "id": "jwt",
+    "name": "JWT",
+    "icon": "/icons/skills/jwt.svg",
+    "category": "Backend",
+    "order": 34
+  },
+  {
+    "id": "css",
+    "name": "CSS",
+    "icon": "/icons/skills/css.svg",
+    "category": "Frontend",
+    "order": 35
   }
 ]
