@@ -1,31 +1,88 @@
-﻿---
-import Layout from '../layouts/Layout.astro';
-import Counter from '../components/Counter';
-import FadeIn from '../components/motion/FadeIn';
+---
+import PortfolioLayout from '../layouts/PortfolioLayout.astro';
 import Aurora from '../components/reactbits/Aurora';
+import FadeIn from '../components/motion/FadeIn';
+import { proseComponents, LinkButton } from '../components/prose';
+import { getCollection, render } from 'astro:content';
+
+const [about] = await getCollection('about');
+const { Content } = await render(about);
+const data = about.data;
+
+const contacts = (await getCollection('contacts')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
 ---
 
-<Layout title="Astro Foundation">
-  <section class="relative isolate overflow-hidden">
+<PortfolioLayout title={`${data.personName} — Portfolio`}>
+  <section class="relative isolate -mt-4 overflow-hidden rounded-lg">
     <Aurora client:visible />
-    <main
-      class="mx-auto flex min-h-[60vh] max-w-2xl flex-col justify-center gap-4 p-8"
+    <div
+      class="grid items-center gap-10 px-2 py-10 sm:px-6 md:grid-cols-[1fr_auto]"
     >
       <FadeIn client:visible>
-        <h1 class="text-4xl font-bold text-text">Astro Foundation</h1>
-        <p class="text-text-muted">
-          Tailwind utilities mapped to semantic design tokens, animated with
-          Framer Motion (reduced-motion aware).
-        </p>
-      </FadeIn>
-      <FadeIn client:visible delay={0.15}>
-        <div
-          class="flex flex-col gap-3 rounded-md border border-border bg-surface p-6 shadow-md"
-        >
-          <span class="text-sm text-text-muted">React island below:</span>
-          <Counter client:load />
+        <div class="flow flow-space-sm">
+          <p class="font-mono text-sm font-medium text-accent">
+            {data.salutation}
+          </p>
+          <h1 class="text-4xl font-bold tracking-tight text-text sm:text-5xl">
+            {data.personName}
+          </h1>
+          <p class="text-xl text-text-muted">{data.position}</p>
+          <p class="text-text-muted">{data.seeking}</p>
+          <div class="pt-2">
+            <LinkButton href={data.resume.link} icon="doc">
+              {data.resume.text}
+            </LinkButton>
+          </div>
         </div>
       </FadeIn>
-    </main>
+      <FadeIn client:visible delay={0.15}>
+        <img
+          src={data.personImage}
+          alt={data.personName}
+          width="180"
+          height="180"
+          class="h-36 w-36 rounded-full border border-border object-cover shadow-lg sm:h-44 sm:w-44"
+        />
+      </FadeIn>
+    </div>
   </section>
-</Layout>
+
+  <FadeIn client:visible>
+    <article class="prose mt-12 max-w-3xl">
+      <Content components={proseComponents} />
+    </article>
+  </FadeIn>
+
+  <section class="mt-14">
+    <h2
+      class="mb-4 text-sm font-medium uppercase tracking-widest text-text-muted"
+    >
+      Find me online
+    </h2>
+    <ul class="flex flex-wrap gap-3">
+      {
+        contacts.map((c) => (
+          <li>
+            <a
+              href={c.data.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm text-text transition-colors hover:border-accent hover:text-accent"
+            >
+              <img
+                src={c.data.icon}
+                alt=""
+                width="18"
+                height="18"
+                class="h-[18px] w-[18px]"
+              />
+              {c.data.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</PortfolioLayout>

@@ -300,22 +300,22 @@ write(
   JSON.stringify(contactsOut, null, 2) + '\n',
 );
 
-// Courses (ordered by educationPage)
+// Courses (ordered by educationPage) — emitted as MDX so the custom dialect
+// renders through the same prose components as everything else.
 const eduPage = pages.educationPage;
 const courseRefs = eduPage.education.courses ?? [];
-const coursesOut = courseRefs.map((ref, idx) => {
+courseRefs.forEach((ref, idx) => {
   const c = courseById.get(ref._ref);
-  return {
-    id: slugify(c.name),
-    name: c.name,
-    description: c.description,
-    order: idx,
-  };
+  const slug = slugify(c.name);
+  // Drop the redundant leading title line (the card uses `name`).
+  const body = String(c.description)
+    .replace(/^\s*#{1,6}\s*\*\*[-!].*?[-!]\*\*\s*\n+/, '')
+    .trim();
+  write(
+    join(root, `src/content/courses/${slug}.mdx`),
+    frontmatter({ name: c.name, order: idx }) + '\n\n' + convert(body),
+  );
 });
-write(
-  join(root, 'src/content/courses/courses.json'),
-  JSON.stringify(coursesOut, null, 2) + '\n',
-);
 
 // About
 const about = pages.aboutPage;

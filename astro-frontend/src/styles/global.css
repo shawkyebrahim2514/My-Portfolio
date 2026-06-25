@@ -117,3 +117,94 @@ body {
 @utility flow-space-xl {
   --flow-space: var(--space-xl);
 }
+
+/*
+ * Prose — base typography for rendered MDX content bodies. The custom prose
+ * components (Highlight, Callout, ...) bring their own styling; this handles
+ * the plain markdown (headings, paragraphs, lists, code, links, images).
+ */
+.prose {
+  line-height: 1.7;
+  color: var(--text-color);
+}
+.prose > * + * {
+  margin-top: 1em;
+}
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  line-height: 1.25;
+  font-weight: 700;
+  margin-top: 1.6em;
+  margin-bottom: 0.4em;
+}
+.prose h1 {
+  font-size: var(--fs-3xl);
+}
+.prose h2 {
+  font-size: var(--fs-2xl);
+}
+.prose h3 {
+  font-size: var(--fs-xl);
+}
+.prose h4 {
+  font-size: var(--fs-lg);
+}
+.prose h5,
+.prose h6 {
+  font-size: var(--fs-base);
+  color: var(--text-muted);
+}
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.4em;
+}
+.prose ul {
+  list-style: disc;
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose li + li {
+  margin-top: 0.35em;
+}
+.prose code {
+  font-family: var(--ff-mono);
+  font-size: 0.9em;
+  background-color: var(--surface-muted);
+  padding: 0.15em 0.4em;
+  border-radius: var(--rad-sm);
+}
+.prose pre {
+  background-color: var(--surface-muted);
+  padding: 1rem;
+  border-radius: var(--rad-md);
+  overflow-x: auto;
+}
+.prose pre code {
+  background: none;
+  padding: 0;
+}
+.prose blockquote {
+  border-left: 3px solid var(--border-color);
+  padding-left: 1rem;
+  color: var(--text-muted);
+}
+.prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--rad-md);
+}
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 2em 0;
+}

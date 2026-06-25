@@ -1,0 +1,27 @@
+---
+/**
+ * Section heading for portfolio pages — an eyebrow label plus a large title,
+ * with an optional supporting line.
+ */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+}
+
+const { eyebrow, title, subtitle } = Astro.props;
+---
+
+<div class="mb-10 flow flow-space-sm">
+  {
+    eyebrow && (
+      <p class="font-mono text-sm font-medium uppercase tracking-widest text-accent">
+        {eyebrow}
+      </p>
+    )
+  }
+  <h1 class="text-3xl font-bold tracking-tight text-text sm:text-4xl">
+    {title}
+  </h1>
+  {subtitle && <p class="max-w-2xl text-text-muted">{subtitle}</p>}
+</div>

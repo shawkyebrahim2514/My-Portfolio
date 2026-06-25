@@ -59,11 +59,9 @@ const education = defineCollection({
 });
 
 const courses = defineCollection({
-  loader: file('./src/content/courses/courses.json'),
+  loader: glob({ base: './src/content/courses', pattern: '**/*.{md,mdx}' }),
   schema: z.object({
-    id: z.string(),
     name: z.string(),
-    description: z.string(),
     order: z.number().default(0),
   }),
 });

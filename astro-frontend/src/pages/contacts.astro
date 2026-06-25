@@ -1,0 +1,44 @@
+---
+import PortfolioLayout from '../layouts/PortfolioLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import FadeIn from '../components/motion/FadeIn';
+import { getCollection } from 'astro:content';
+
+const contacts = (await getCollection('contacts')).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<PortfolioLayout title="Contacts — Shawky Ebrahim">
+  <SectionHeading
+    eyebrow="Say hello"
+    title="Get in touch"
+    subtitle="Always happy to talk about software, opportunities, or a good idea. Reach me on any of these."
+  />
+
+  <ul class="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+    {
+      contacts.map((c) => (
+        <FadeIn client:visible>
+          <li>
+            <a
+              href={c.data.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex h-full items-center gap-4 rounded-lg border border-border bg-surface p-5 transition-colors hover:border-accent"
+            >
+              <img
+                src={c.data.icon}
+                alt=""
+                width="32"
+                height="32"
+                class="h-8 w-8 shrink-0 object-contain"
+              />
+              <span class="font-medium text-text">{c.data.name}</span>
+            </a>
+          </li>
+        </FadeIn>
+      ))
+    }
+  </ul>
+</PortfolioLayout>
