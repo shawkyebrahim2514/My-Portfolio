@@ -146,7 +146,7 @@ function processLines(lines) {
         i++;
       }
       const inner = processLines(group).trim();
-      result.push(`<Quote>\n${inner}\n</Quote>`);
+      result.push(`<Quote>\n\n${inner}\n\n</Quote>`);
       continue;
     }
 
@@ -159,7 +159,7 @@ function processLines(lines) {
       work = work.replace(/\s*\[(center|left|right)\]\s*/, '').trim();
       const transformed = imageTransform(inlineTransforms(work));
       result.push(
-        `<Center align="${alignMatch[1]}">\n${transformed}\n</Center>`,
+        `<Center align="${alignMatch[1]}">\n\n${transformed}\n\n</Center>`,
       );
       continue;
     }
@@ -180,6 +180,25 @@ function processLines(lines) {
     result.push(imageTransform(inlineTransforms(work)));
   }
   return result.join('\n');
+}
+
+// Ensure block-level markdown headings are separated from surrounding content
+// (and JSX tags) by blank lines, otherwise MDX renders the `#` markers as
+// literal text. Also strips stray leading whitespace before the `#`.
+function isolateHeadings(text) {
+  const lines = text.split('\n');
+  const out = [];
+  for (const raw of lines) {
+    const m = raw.match(/^\s*(#{1,6}\s.*)$/);
+    if (m) {
+      if (out.length && out[out.length - 1].trim() !== '') out.push('');
+      out.push(m[1]);
+      out.push('');
+    } else {
+      out.push(raw);
+    }
+  }
+  return out.join('\n');
 }
 
 // Convert a full description string into MDX body.
@@ -209,8 +228,8 @@ function convert(md) {
       const inner = processLines(group).trim();
       blocks.push(
         isCallout
-          ? `<Callout>\n${inner}\n</Callout>`
-          : `<Quote>\n${inner}\n</Quote>`,
+          ? `<Callout>\n\n${inner}\n\n</Callout>`
+          : `<Quote>\n\n${inner}\n\n</Quote>`,
       );
       continue;
     }
@@ -220,8 +239,7 @@ function convert(md) {
   }
   // Collapse 3+ blank lines, trim.
   return (
-    blocks
-      .join('\n')
+    isolateHeadings(blocks.join('\n'))
       .replace(/\n{3,}/g, '\n\n')
       .trim() + '\n'
   );

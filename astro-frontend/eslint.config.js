@@ -32,11 +32,12 @@ export default tseslint.config(
     },
   },
 
-  // Node scripts (build/migration tooling)
+  // Node scripts (build/migration/preview tooling). Some run code in a browser
+  // context (Playwright page.evaluate), so allow browser globals too.
   {
     files: ['scripts/**/*.{js,mjs}'],
     languageOptions: {
-      globals: { ...globals.node },
+      globals: { ...globals.node, ...globals.browser },
     },
   },
 );
