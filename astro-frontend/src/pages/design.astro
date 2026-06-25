@@ -1,5 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from '@/components/ui/card';
 
 const semanticColors = [
   'bg',
@@ -158,6 +166,30 @@ const shadows = [
         <p class="text-text">Second paragraph &mdash; evenly spaced.</p>
         <p class="text-text">Third paragraph &mdash; no manual margins.</p>
       </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="text-2xl font-semibold text-text">Primitives (shadcn)</h2>
+      <div class="flex flex-wrap items-center gap-3">
+        <Button>Primary</Button>
+        <Button variant="outline">Outline</Button>
+        <Button variant="ghost">Ghost</Button>
+        <Button variant="link">Link</Button>
+      </div>
+      <Card className="max-w-sm">
+        <CardHeader>
+          <CardTitle>Card title</CardTitle>
+          <CardDescription>
+            A themed shadcn-style card primitive.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <p class="text-text-muted">
+            All primitives consume the semantic tokens, so they remap with the
+            theme automatically.
+          </p>
+        </CardContent>
+      </Card>
     </section>
   </main>
 </Layout>
