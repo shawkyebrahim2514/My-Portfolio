@@ -78,6 +78,11 @@ html {
   font-family: var(--ff-sans);
   background-color: var(--bg);
   color: var(--text-color);
+  color-scheme: light;
+}
+
+html[data-theme='dark'] {
+  color-scheme: dark;
 }
 
 body {
