@@ -65,7 +65,13 @@
   --radius-full: var(--rad-full);
 
   /* Shadow (theme-aware) */
+  --shadow-sm: var(--elevation-sm);
   --shadow-md: var(--shadow-elevation);
+  --shadow-lg: var(--elevation-lg);
+
+  /* Motion easing */
+  --ease-out: var(--mo-ease-out);
+  --ease-in-out: var(--mo-ease-in-out);
 }
 
 html {

@@ -68,10 +68,17 @@
   --rad-full: 9999px;
 
   /* ---- Elevation (shadow) ---- */
+  --elevation-sm: rgba(0, 0, 0, 0.12) 0px 1px 3px;
   --elevation-md: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --elevation-lg: rgba(0, 0, 0, 0.28) 0px 10px 24px;
 
   /* ---- Motion ---- */
-  --transition-base: all 0.3s ease-out;
+  --mo-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --mo-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 500ms;
+  --transition-base: all var(--duration-base) ease-out;
 
   /* ---- Semantic tokens (light theme) ---- */
   --bg: var(--base-50);

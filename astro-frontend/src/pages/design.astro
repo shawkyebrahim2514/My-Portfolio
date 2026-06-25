@@ -1,0 +1,147 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const semanticColors = [
+  'bg',
+  'surface',
+  'surface-muted',
+  'border',
+  'text',
+  'text-muted',
+  'text-inverted',
+  'primary',
+  'primary-hover',
+  'primary-contrast',
+  'accent',
+  'ring',
+];
+
+const typeScale = [
+  { name: 'xs', cls: 'text-xs' },
+  { name: 'sm', cls: 'text-sm' },
+  { name: 'base', cls: 'text-base' },
+  { name: 'lg', cls: 'text-lg' },
+  { name: 'xl', cls: 'text-xl' },
+  { name: '2xl', cls: 'text-2xl' },
+  { name: '3xl', cls: 'text-3xl' },
+  { name: '4xl', cls: 'text-4xl' },
+];
+
+const spacing = [
+  { name: '2xs', v: '0.25rem' },
+  { name: 'xs', v: '0.5rem' },
+  { name: 'sm', v: '0.75rem' },
+  { name: 'md', v: '1rem' },
+  { name: 'lg', v: '1.5rem' },
+  { name: 'xl', v: '2rem' },
+  { name: '2xl', v: '3rem' },
+  { name: '3xl', v: '4rem' },
+];
+
+const radii = [
+  { name: 'sm', cls: 'rounded-sm' },
+  { name: 'md', cls: 'rounded-md' },
+  { name: 'lg', cls: 'rounded-lg' },
+  { name: 'full', cls: 'rounded-full' },
+];
+
+const shadows = [
+  { name: 'sm', cls: 'shadow-sm' },
+  { name: 'md', cls: 'shadow-md' },
+  { name: 'lg', cls: 'shadow-lg' },
+];
+---
+
+<Layout title="Design Tokens">
+  <main class="mx-auto flex max-w-4xl flex-col gap-12 p-8">
+    <header class="flex flex-col gap-2">
+      <h1 class="text-4xl font-bold text-text">Design Tokens</h1>
+      <p class="text-text-muted">
+        The single source of truth for the portfolio's visual language. Every
+        value below is theme-aware &mdash; toggle the page theme to see semantic
+        tokens remap.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="text-2xl font-semibold text-text">Semantic colors</h2>
+      <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+        {
+          semanticColors.map((c) => (
+            <div class="flex flex-col gap-2">
+              <div
+                class="h-16 rounded-md border border-border"
+                style={`background-color:var(--color-${c})`}
+                aria-hidden="true"
+              />
+              <code class="text-xs text-text-muted">{c}</code>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="text-2xl font-semibold text-text">Type scale</h2>
+      <div class="flex flex-col gap-3">
+        {
+          typeScale.map((t) => (
+            <div class="flex items-baseline gap-4">
+              <code class="w-12 shrink-0 text-xs text-text-muted">
+                {t.name}
+              </code>
+              <span class={`${t.cls} text-text`}>The quick brown fox</span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="text-2xl font-semibold text-text">Spacing scale</h2>
+      <div class="flex flex-col gap-2">
+        {
+          spacing.map((s) => (
+            <div class="flex items-center gap-4">
+              <code class="w-12 shrink-0 text-xs text-text-muted">
+                {s.name}
+              </code>
+              <div class="h-4 bg-primary" style={`width:${s.v}`} />
+              <span class="text-xs text-text-muted">{s.v}</span>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="text-2xl font-semibold text-text">Radii</h2>
+      <div class="flex flex-wrap gap-6">
+        {
+          radii.map((r) => (
+            <div class="flex flex-col items-center gap-2">
+              <div
+                class={`h-16 w-16 border border-border bg-surface-muted ${r.cls}`}
+              />
+              <code class="text-xs text-text-muted">{r.name}</code>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="flex flex-col gap-4">
+      <h2 class="text-2xl font-semibold text-text">Elevation</h2>
+      <div class="flex flex-wrap gap-8">
+        {
+          shadows.map((s) => (
+            <div class="flex flex-col items-center gap-2">
+              <div class={`h-16 w-24 rounded-md bg-surface ${s.cls}`} />
+              <code class="text-xs text-text-muted">{s.name}</code>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</Layout>
