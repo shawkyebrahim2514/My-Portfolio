@@ -4,12 +4,15 @@ import Nav from '../components/Nav.astro';
 
 interface Props {
   title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
 }
 
-const { title } = Astro.props;
+const { title, description, image, type } = Astro.props;
 ---
 
-<Layout title={title}>
+<Layout title={title} description={description} image={image} type={type}>
   <Nav />
   <main class="mx-auto max-w-5xl px-4 py-12 sm:py-16">
     <slot />

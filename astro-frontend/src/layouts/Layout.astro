@@ -4,9 +4,32 @@ import ThemeToggle from '../components/ThemeToggle';
 
 interface Props {
   title?: string;
+  description?: string;
+  /** OG/Twitter image — absolute or site-root-relative path. */
+  image?: string;
+  /** Open Graph type. */
+  type?: 'website' | 'article';
+  /** When true, ask crawlers not to index this page. */
+  noindex?: boolean;
 }
 
-const { title = 'Astro' } = Astro.props;
+const SITE_NAME = 'Shawky Ebrahim';
+const DEFAULT_TITLE = 'Shawky Ebrahim — Software Engineer';
+const DEFAULT_DESCRIPTION =
+  'Shawky Ebrahim — Software Engineer at Microsoft Egypt. Cross-platform development, performance optimization, and the Microsoft Clarity Flutter SDK. Explore my projects, skills, and experience.';
+
+const {
+  title = DEFAULT_TITLE,
+  description = DEFAULT_DESCRIPTION,
+  image = '/og.png',
+  type = 'website',
+  noindex = false,
+} = Astro.props;
+
+// Astro.site is configured in astro.config.mjs; fall back gracefully in dev.
+const siteOrigin = Astro.site?.origin ?? Astro.url.origin;
+const canonical = new URL(Astro.url.pathname, siteOrigin).href;
+const imageUrl = new URL(image, siteOrigin).href;
 ---
 
 <!doctype html>
@@ -17,7 +40,32 @@ const { title = 'Astro' } = Astro.props;
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="author" content={SITE_NAME} />
+    <meta name="theme-color" content="#ec4f8c" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
     <script is:inline>
       (function () {
         try {
