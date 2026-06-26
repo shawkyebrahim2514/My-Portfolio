@@ -7,6 +7,8 @@ import mdx from '@astrojs/mdx';
 
 import tailwindcss from '@tailwindcss/vite';
 
+import sitemap from '@astrojs/sitemap';
+
 // https://astro.build/config
 export default defineConfig({
   // Static site generation — Vercel auto-detects the Astro preset and
@@ -15,7 +17,13 @@ export default defineConfig({
   output: 'static',
   site: 'https://www.shawkyebrahim.me',
 
-  integrations: [react(), mdx()],
+  integrations: [
+    react(),
+    mdx(),
+    sitemap({
+      filter: (page) => !page.includes('/design'),
+    }),
+  ],
 
   vite: {
     plugins: [tailwindcss()],
