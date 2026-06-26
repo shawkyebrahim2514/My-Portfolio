@@ -19,15 +19,16 @@ const contacts = (await getCollection('contacts')).sort(
     subtitle="Always happy to talk about software, opportunities, or a good idea. Reach me on any of these."
   />
 
-  <ul class="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-    {
-      contacts.map((c) => (
-        <FadeIn client:visible>
+  <FadeIn client:visible>
+    <ul class="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+      {
+        contacts.map((c) => (
           <li>
             <a
               href={c.data.link}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`${c.data.name} (opens in a new tab)`}
               class="gradient-border lift flex h-full items-center gap-4 p-5"
             >
               <img
@@ -40,8 +41,8 @@ const contacts = (await getCollection('contacts')).sort(
               <span class="font-medium text-text">{c.data.name}</span>
             </a>
           </li>
-        </FadeIn>
-      ))
-    }
-  </ul>
+        ))
+      }
+    </ul>
+  </FadeIn>
 </PortfolioLayout>

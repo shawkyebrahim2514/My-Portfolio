@@ -93,6 +93,57 @@ body {
 }
 
 /*
+ * Accessibility: a consistent keyboard focus indicator for every interactive
+ * element. Uses :focus-visible so it only shows for keyboard/AT users, not on
+ * mouse clicks. Components may layer richer focus styling on top.
+ */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--rad-sm);
+}
+
+/* Visually-hidden content that remains available to screen readers. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip-to-content link: hidden until focused, then pinned top-left. */
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: -3rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  border-radius: var(--rad-md);
+  background-color: var(--surface);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-elevation);
+  font-weight: 600;
+  text-decoration: none;
+  transition: top var(--duration-fast) ease-out;
+}
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+/* The skip-link target is a programmatic focus stop, not an interactive
+ * control — don't draw an outline around the whole main region. */
+main:focus,
+main:focus-visible {
+  outline: none;
+}
+
+/*
  * Flow spacing — owl selector for consistent vertical rhythm.
  * Each child gets top margin from --flow-space (defaults to 1em, so it
  * scales with the element's own font size). Override per-context with
@@ -298,6 +349,10 @@ body {
   transform: translateY(-4px);
   box-shadow: var(--elevation-lg);
 }
+.lift:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: var(--elevation-lg);
+}
 
 /* Animated gradient underline that grows in from the left on hover. */
 .underline-grow {
@@ -320,6 +375,9 @@ body {
 .underline-grow:hover::after {
   transform: scaleX(1);
 }
+.underline-grow:focus-visible::after {
+  transform: scaleX(1);
+}
 .underline-grow[aria-current='page']::after {
   transform: scaleX(1);
 }
@@ -338,5 +396,12 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .text-gradient-animated {
     animation: none;
+  }
+  .lift {
+    transition: none;
+  }
+  .lift:hover,
+  .lift:focus-visible {
+    transform: none;
   }
 }

@@ -72,7 +72,7 @@ const contacts = (await getCollection('contacts')).sort(
     </article>
   </FadeIn>
 
-  <section class="mt-14">
+  <section class="mt-14" aria-label="Social and contact links">
     <h2 class="eyebrow mb-4 text-text-muted">Find me online</h2>
     <ul class="flex flex-wrap gap-3">
       {
@@ -82,6 +82,7 @@ const contacts = (await getCollection('contacts')).sort(
               href={c.data.link}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`${c.data.name} (opens in a new tab)`}
               class="lift inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm text-text transition-colors hover:border-accent hover:text-accent"
             >
               <img
