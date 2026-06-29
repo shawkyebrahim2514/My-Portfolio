@@ -1,0 +1,8 @@
+# Code owners for this repository
+# https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# These owners are requested for review automatically when someone opens a
+# pull request that modifies matching files.
+
+# Default owner for everything in the repo
+*       @shawkyebrahim2514
