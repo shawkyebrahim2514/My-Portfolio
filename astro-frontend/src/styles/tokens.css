@@ -108,8 +108,8 @@
   --text-color: var(--base-800);
   --text-muted: var(--base-600);
   --text-inverted: var(--base-50);
-  --primary: var(--secondary-500);
-  --primary-hover: var(--secondary-600);
+  --primary: var(--secondary-600);
+  --primary-hover: var(--secondary-700);
   --primary-contrast: var(--base-0);
   --accent: var(--secondary-400);
   --ring: var(--secondary-400);
