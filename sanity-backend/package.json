@@ -18,7 +18,7 @@
     "@sanity/icons": "^2.6.0",
     "@sanity/ui": "^2.0.0",
     "@sanity/vision": "^3.19.1",
-    "react": "^18.2.0",
+    "react": "^19.2.7",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-is": "^18.2.0",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^3.0.1",
-    "@types/react": "^18.0.25",
+    "@types/react": "^19.2.17",
     "eslint": "^8.6.0",
     "prettier": "^3.0.2",
     "typescript": "^5.1.6"
