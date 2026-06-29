@@ -1,0 +1,45 @@
+# Dependabot configuration
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+version: 2
+updates:
+  # Frontend (React + Vite) dependencies
+  - package-ecosystem: "npm"
+    directory: "/react-frontend"
+    target-branch: "Development"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "react-frontend"
+    groups:
+      react-frontend-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Sanity backend dependencies
+  - package-ecosystem: "npm"
+    directory: "/sanity-backend"
+    target-branch: "Development"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+      - "sanity-backend"
+    groups:
+      sanity-backend-minor-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  # GitHub Actions workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    target-branch: "Development"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "github-actions"
