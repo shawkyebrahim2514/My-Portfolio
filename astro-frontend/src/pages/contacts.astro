@@ -1,6 +1,7 @@
 ---
 import PortfolioLayout from '../layouts/PortfolioLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
+import Icon from '../components/Icon.astro';
 import FadeIn from '../components/motion/FadeIn';
 import { getCollection } from 'astro:content';
 
@@ -31,11 +32,9 @@ const contacts = (await getCollection('contacts')).sort(
               aria-label={`${c.data.name} (opens in a new tab)`}
               class="gradient-border lift flex h-full items-center gap-4 p-5"
             >
-              <img
-                src={c.data.icon}
-                alt=""
-                width="32"
-                height="32"
+              <Icon
+                icon={c.data.icon}
+                size={32}
                 class="h-8 w-8 shrink-0 object-contain"
               />
               <span class="font-medium text-text">{c.data.name}</span>

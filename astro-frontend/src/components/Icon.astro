@@ -1,0 +1,54 @@
+---
+import { Image } from 'astro:assets';
+import { resolveIcon } from '../lib/icons';
+
+/**
+ * Renders a skill/contact icon from a content-collection icon path.
+ * Raster icons (png/jpg/…) go through Astro's <Image> for optimization +
+ * retina densities; SVGs are already optimal vectors so they render as a
+ * plain bundled <img>. Decorative by default (alt=""), since the icon's
+ * label is shown as adjacent text.
+ */
+interface Props {
+  icon: string | undefined;
+  alt?: string;
+  size?: number;
+  class?: string;
+  loading?: 'lazy' | 'eager';
+}
+
+const {
+  icon,
+  alt = '',
+  size = 24,
+  class: className,
+  loading = 'lazy',
+} = Astro.props;
+
+const resolved = resolveIcon(icon);
+---
+
+{
+  resolved &&
+    (resolved.format === 'svg' ? (
+      <img
+        src={resolved.src}
+        alt={alt}
+        width={size}
+        height={size}
+        loading={loading}
+        decoding="async"
+        class={className}
+      />
+    ) : (
+      <Image
+        src={resolved}
+        alt={alt}
+        width={size}
+        densities={[2]}
+        loading={loading}
+        decoding="async"
+        class={className}
+      />
+    ))
+}

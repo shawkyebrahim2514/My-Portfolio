@@ -1,6 +1,7 @@
 ---
 import PortfolioLayout from '../layouts/PortfolioLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
+import Icon from '../components/Icon.astro';
 import FadeIn from '../components/motion/FadeIn';
 import { getCollection } from 'astro:content';
 
@@ -50,11 +51,9 @@ const grouped = categoryOrder
             <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
               {group.items.map((s) => (
                 <li class="lift flex items-center gap-3 rounded-md border border-border bg-surface px-4 py-3 hover:border-accent">
-                  <img
-                    src={s.data.icon}
-                    alt=""
-                    width="24"
-                    height="24"
+                  <Icon
+                    icon={s.data.icon}
+                    size={24}
                     class="h-6 w-6 shrink-0 object-contain"
                   />
                   <span class="text-sm font-medium text-text">

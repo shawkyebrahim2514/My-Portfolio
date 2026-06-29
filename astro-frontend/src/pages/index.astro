@@ -1,9 +1,11 @@
 ---
 import PortfolioLayout from '../layouts/PortfolioLayout.astro';
 import Aurora from '../components/reactbits/Aurora';
+import Icon from '../components/Icon.astro';
 import FadeIn from '../components/motion/FadeIn';
 import { proseComponents, LinkButton } from '../components/prose';
 import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
 
 const [about] = await getCollection('about');
 const { Content } = await render(about);
@@ -53,11 +55,13 @@ const contacts = (await getCollection('contacts')).sort(
             class="rounded-full p-[3px]"
             style="background: var(--gradient-brand)"
           >
-            <img
+            <Image
               src={data.personImage}
               alt={data.personName}
-              width="200"
-              height="200"
+              width={208}
+              height={208}
+              loading="eager"
+              fetchpriority="high"
               class="h-40 w-40 rounded-full border-4 border-bg object-cover sm:h-52 sm:w-52"
             />
           </div>
@@ -85,13 +89,7 @@ const contacts = (await getCollection('contacts')).sort(
               aria-label={`${c.data.name} (opens in a new tab)`}
               class="lift inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm text-text transition-colors hover:border-accent hover:text-accent"
             >
-              <img
-                src={c.data.icon}
-                alt=""
-                width="18"
-                height="18"
-                class="h-[18px] w-[18px]"
-              />
+              <Icon icon={c.data.icon} size={18} class="h-[18px] w-[18px]" />
               {c.data.name}
             </a>
           </li>

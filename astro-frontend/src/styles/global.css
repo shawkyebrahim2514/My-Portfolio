@@ -195,14 +195,20 @@ main:focus-visible {
 .prose h1 {
   font-size: var(--fs-3xl);
 }
+/*
+ * Heading sizes are intentionally decoupled from semantic level: the
+ * rehype-normalize-headings plugin remaps content headings to a sequential
+ * h2/h3 run for accessibility, and these sizes preserve the original visual
+ * weight (section titles ≈ h2, sub-items ≈ h3).
+ */
 .prose h2 {
-  font-size: var(--fs-2xl);
+  font-size: var(--fs-lg);
 }
 .prose h3 {
-  font-size: var(--fs-xl);
+  font-size: var(--fs-base);
 }
 .prose h4 {
-  font-size: var(--fs-lg);
+  font-size: var(--fs-base);
 }
 .prose h5,
 .prose h6 {

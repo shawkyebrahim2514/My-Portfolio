@@ -1,10 +1,15 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 /**
  * Content image — the legacy `![alt](url =w300|center)` token.
  * `width`/`height` cap the size (px); the image never exceeds its column.
+ * Local imported images (ImageMetadata) are optimized via Astro's <Image>;
+ * plain string URLs fall back to a native lazy <img>.
  */
 interface Props {
-  src: string;
+  src: string | ImageMetadata;
   alt?: string;
   width?: number;
   height?: number;
@@ -18,16 +23,33 @@ const justify =
 
 const maxW = width ? `min(100%, ${width}px)` : '100%';
 const maxH = height ? `${height}px` : 'auto';
+const boxStyle = `max-width: ${maxW}; max-height: ${maxH}`;
+const isLocal = typeof src !== 'string';
 ---
 
 <span class="prose-img" style={`justify-content: ${justify}`}>
-  <img
-    src={src}
-    alt={alt}
-    loading="lazy"
-    decoding="async"
-    style={`max-width: ${maxW}; max-height: ${maxH}`}
-  />
+  {
+    isLocal ? (
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        densities={[1, 2]}
+        loading="lazy"
+        decoding="async"
+        style={boxStyle}
+      />
+    ) : (
+      <img
+        src={src}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        style={boxStyle}
+      />
+    )
+  }
 </span>
 
 <style>

@@ -9,6 +9,8 @@ import tailwindcss from '@tailwindcss/vite';
 
 import sitemap from '@astrojs/sitemap';
 
+import rehypeNormalizeHeadings from './plugins/rehype-normalize-headings.mjs';
+
 // https://astro.build/config
 export default defineConfig({
   // Static site generation — Vercel auto-detects the Astro preset and
@@ -17,6 +19,12 @@ export default defineConfig({
   output: 'static',
   site: 'https://www.shawkyebrahim.me',
 
+  image: {
+    // The hero avatar is the only remote image; everything else is bundled
+    // from src/assets so Astro can optimize it at build time.
+    domains: ['avatars.githubusercontent.com'],
+  },
+
   integrations: [
     react(),
     mdx(),
@@ -24,6 +32,12 @@ export default defineConfig({
       filter: (page) => !page.includes('/design'),
     }),
   ],
+
+  markdown: {
+    // MDX inherits the markdown config; this normalizes content heading
+    // levels for a sequential, accessible outline.
+    rehypePlugins: [rehypeNormalizeHeadings],
+  },
 
   vite: {
     plugins: [tailwindcss()],
