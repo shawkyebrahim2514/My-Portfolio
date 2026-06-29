@@ -5,7 +5,7 @@ import Text from '../Text'
 type HeaderProps = {
     readonly title: string,
     readonly subtitle?: string,
-    readonly icon: JSX.Element,
+    readonly icon: React.JSX.Element,
 }
 
 export default function Header({ title, subtitle, icon }: HeaderProps) {

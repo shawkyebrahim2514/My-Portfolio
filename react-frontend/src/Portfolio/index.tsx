@@ -20,9 +20,9 @@ const Education = lazy(() => import('../containers/Education'));
 const Experience = lazy(() => import('../containers/Experience'));
 const Projects = lazy(() => import('../containers/Projects'));
 
-type PathElementRoutes = Record<PortfolioPathes, JSX.Element>
+type PathElementRoutes = Record<PortfolioPathes, React.JSX.Element>
 type TestingRoutes = {
-    "markdown": JSX.Element
+    "markdown": React.JSX.Element
 }
 
 const pathElementRoutes: PathElementRoutes & TestingRoutes = {

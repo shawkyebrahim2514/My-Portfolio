@@ -5,8 +5,8 @@ import Header from './Header';
 type CenteredSectionProps = {
     readonly title: string,
     readonly subtitle?: string,
-    readonly icon: JSX.Element,
-    readonly children: JSX.Element | JSX.Element[],
+    readonly icon: React.JSX.Element,
+    readonly children: React.JSX.Element | React.JSX.Element[],
 }
 
 export default function CenteredSection({ title, subtitle, icon, children }: CenteredSectionProps) {
