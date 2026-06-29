@@ -37,7 +37,7 @@ const HeadingMarkdown = ({ headingNumber, children, ...props }: HeadingMarkdownP
             color: theme.colors.base[800]
         }
     }
-    const HTMLHeadings: Record<HeadingMarkdownProps["headingNumber"], JSX.Element> = {
+    const HTMLHeadings: Record<HeadingMarkdownProps["headingNumber"], React.JSX.Element> = {
         one:
             <h1 {...props}
                 style={{

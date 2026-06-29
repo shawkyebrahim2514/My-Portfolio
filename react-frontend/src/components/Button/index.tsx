@@ -20,13 +20,13 @@ const differentSizes = {
 }
 
 type ButtonProps = {
-    readonly icon?: JSX.Element;
+    readonly icon?: React.JSX.Element;
     readonly text?: string;
     readonly onClick?: () => void;
     readonly size?: keyof typeof differentSizes;
     readonly style?: React.CSSProperties;
     readonly pointer?: boolean;
-    readonly children?: JSX.Element[];
+    readonly children?: React.JSX.Element[];
 }
 
 export default function Button({ icon, text, onClick, size = "lg", style, pointer, children }: ButtonProps) {
