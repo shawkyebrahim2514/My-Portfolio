@@ -1,36 +1,24 @@
 import ContainerWrap from '../../components/ContainerWrap'
-import { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { SanityEducationPage } from '../../Types';
 import { getEducationPage } from '../../APIs';
 import Loader from '../../components/Loader';
+import SectionError from '../../components/SectionError';
 import Title from '../Title';
 import Content from './Content';
+import { useSanityQuery } from '../../hooks/useSanityQuery';
+import styles from '../../styles/section.module.css';
 
 function Education() {
-    const [educationPage, setEducationPage] = useState<SanityEducationPage | null>(null);
-    const containerStyle = useMemo((): CSSProperties => ({
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "stretch",
-        justifyContent: "center",
-        gap: "2rem",
-    }), []);
+    const { data: educationPage, error } = useSanityQuery<SanityEducationPage>(getEducationPage);
 
-    useEffect(() => {
-        getEducationPage().then((result) => {
-            setEducationPage(result);
-        });
-    }, []);
+    if (error) return <SectionError />;
+    if (!educationPage) return <Loader />;
 
     return (
-        <>
-            {educationPage ? (
-                <div style={containerStyle}>
-                    <Title title={educationPage.title} />
-                    <Content education={educationPage.education} />
-                </div>
-            ) : <Loader />}
-        </>
+        <div className={styles.section}>
+            <Title title={educationPage.title} />
+            <Content education={educationPage.education} />
+        </div>
     )
 }
 
