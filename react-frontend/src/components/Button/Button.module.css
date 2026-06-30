@@ -27,6 +27,12 @@
     cursor: pointer;
 }
 
+.ghost {
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+}
+
 .sm {
     font-size: 0.8rem;
     padding: 0.25rem 0.5rem;

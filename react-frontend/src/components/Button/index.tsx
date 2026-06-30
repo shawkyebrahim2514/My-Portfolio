@@ -6,7 +6,9 @@ type ButtonProps = {
     readonly text?: string;
     readonly onClick?: () => void;
     readonly size?: 'sm' | 'md' | 'lg';
+    readonly variant?: 'solid' | 'ghost';
     readonly style?: React.CSSProperties;
+    readonly className?: string;
     readonly pointer?: boolean;
     readonly children?: React.ReactNode;
 };
@@ -16,14 +18,22 @@ export default function Button({
     text,
     onClick,
     size = 'lg',
+    variant = 'solid',
     style,
+    className,
     pointer,
     children,
 }: ButtonProps) {
     return (
         <button
             type="button"
-            className={cx(styles.button, styles[size], pointer && styles.pointer)}
+            className={cx(
+                styles.button,
+                styles[size],
+                variant === 'ghost' && styles.ghost,
+                pointer && styles.pointer,
+                className
+            )}
             style={style}
             onClick={onClick}
         >
