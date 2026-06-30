@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import './styles/tokens.css';
 import './index.css';
 import App from './App';
 import { Analytics } from '@vercel/analytics/react';

@@ -20,9 +20,9 @@ const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
     const { theme } = useThemeContext();
     const classes = useMemo(() => className?.split(" ") ?? [], [className]);
     const contentJSXElementsFromAST = useMemo(() => {
-        let content = node?.children;
+        const content = node?.children;
         if (typeof content === 'string') return content;
-        let result = node?.children.map((element) => toJsxRuntime(element as RootContent, {
+        const result = node?.children.map((element) => toJsxRuntime(element as RootContent, {
             Fragment, jsx, jsxs, passNode: true, components: {
                 ...markdownComponents,
                 br: () => null,

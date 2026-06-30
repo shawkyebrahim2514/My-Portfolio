@@ -21,7 +21,7 @@ type BlockquoteMarkdownProps = {
 const BlockquoteMarkdown = ({ node, className, ...props }: BlockquoteMarkdownProps) => {
     const { theme } = useThemeContext();
     const contentJSXElementsFromAST = useMemo(() => {
-        let content = node?.children.map((element) => toJsxRuntime(element as RootContent, {
+        const content = node?.children.map((element) => toJsxRuntime(element as RootContent, {
             Fragment, jsx, jsxs, passNode: true, components: {
                 ...markdownComponents,
                 br: () => null,
@@ -56,9 +56,9 @@ const BlockquoteMarkdown = ({ node, className, ...props }: BlockquoteMarkdownPro
     }), [theme.colors.base, theme.colors.secondary]);
 
     // By default it will be without-background and base color
-    let backgroundType = useMemo((): BlockquoteElementType => className?.includes("highlight") ? "highlight-background" : "without-background", [className]);
-    let colorType = useMemo((): BlockquoteColorType => className?.includes("secondary") ? "secondary" : "base", [className]);
-    let colors = useMemo(() => targetElement[backgroundType][colorType], [backgroundType, colorType, targetElement]);
+    const backgroundType = useMemo((): BlockquoteElementType => className?.includes("highlight") ? "highlight-background" : "without-background", [className]);
+    const colorType = useMemo((): BlockquoteColorType => className?.includes("secondary") ? "secondary" : "base", [className]);
+    const colors = useMemo(() => targetElement[backgroundType][colorType], [backgroundType, colorType, targetElement]);
 
     if (className?.includes("popup")) {
         return (
