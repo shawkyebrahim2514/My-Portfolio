@@ -1,0 +1,52 @@
+.hr {
+    margin: 1rem 0;
+    background-color: var(--color-base-200);
+    height: 1px;
+}
+
+.ul {
+    list-style-type: none;
+}
+
+.li {
+    list-style-type: none;
+    position: relative;
+}
+
+.li::before {
+    content: ">";
+    position: absolute;
+    top: 0;
+    left: -15px;
+    font-weight: 600;
+}
+
+.h1 {
+    font-size: 3.8rem;
+    font-weight: 700;
+}
+
+.h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+}
+
+.h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.h4 {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.h5 {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.h6 {
+    font-size: 1.1rem;
+    color: var(--color-base-800);
+}

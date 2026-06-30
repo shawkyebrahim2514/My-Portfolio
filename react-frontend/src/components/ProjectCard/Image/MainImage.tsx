@@ -1,18 +1,11 @@
 import { memo } from "react"
-import { useThemeContext } from '../../../contexts/ThemeContext';
+import styles from './MainImage.module.css';
 
 function MainImage({ imgSrc, isHovered }: { imgSrc: string, isHovered: boolean }) {
-    const { theme } = useThemeContext();
-
     return (
         <img
-            style={{ 
-                transition: theme.transition ,
-                width: "100%", 
-                height: "100%", 
-                objectFit: "cover", 
-                scale: isHovered ? "1.2" : "1"
-            }}
+            className={styles.image}
+            style={{ scale: isHovered ? "1.2" : "1" }}
             src={imgSrc}
             alt={imgSrc} />
     )

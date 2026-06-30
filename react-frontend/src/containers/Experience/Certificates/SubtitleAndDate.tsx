@@ -1,5 +1,5 @@
 import Text from '../../../components/Text'
-import { CSSProperties, useMemo } from 'react'
+import styles from './SubtitleAndDate.module.css'
 
 type SubtitleAndDateProps = {
     readonly subTitle: string,
@@ -7,16 +7,8 @@ type SubtitleAndDateProps = {
 }
 
 export default function SubtitleAndDate({ subTitle, date }: SubtitleAndDateProps) {
-    const containerStyle = useMemo((): CSSProperties => ({
-        display: "flex",
-        alignItems: "flex-start",
-        flexDirection: "column",
-        width: "fit-content",
-        gap: "0.5rem",
-    }), []);
-
     return (
-        <div style={containerStyle}>
+        <div className={styles.group}>
             <Text variant={"h4"}>
                 {subTitle}
             </Text>

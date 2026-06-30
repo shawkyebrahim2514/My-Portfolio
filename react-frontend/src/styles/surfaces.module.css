@@ -24,3 +24,11 @@
 .center {
     text-align: center;
 }
+
+/* Vertical stack used by container content groups (Education, Experience). */
+.stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+}

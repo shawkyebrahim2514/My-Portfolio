@@ -1,0 +1,5 @@
+.bars {
+    display: inline-block;
+    color: var(--color-base-400);
+    cursor: pointer;
+}

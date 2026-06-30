@@ -1,20 +1,13 @@
-import { CSSProperties, useMemo } from "react";
 import { SanityExperiencePage } from "../../../Types";
 import ExperienceItemDescription from "../ExperienceItemDescription";
+import surfaces from "../../../styles/surfaces.module.css";
 
 function Content({ internships }: Readonly<Pick<SanityExperiencePage['internshipsSection'], 'internships'>>) {
-    const containerStyle = useMemo((): CSSProperties => ({
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        gap: "1rem",
-    }), []);
-
     return (
         <>
             {internships.map((internship) => {
                 return (
-                    <div style={containerStyle} key={internship.description}>
+                    <div className={surfaces.stack} key={internship.description}>
                         <ExperienceItemDescription description={internship.description} />
                     </div>
                 )

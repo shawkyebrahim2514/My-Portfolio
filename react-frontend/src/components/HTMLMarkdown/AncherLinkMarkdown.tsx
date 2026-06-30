@@ -1,8 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import Button from '../Button';
 import Header from '../MainSection/Header';
 import type { Element } from 'hast'
 import { faLink, faFileAlt } from '@fortawesome/free-solid-svg-icons';
+import styles from './AncherLinkMarkdown.module.css';
 
 type AncherLinkMarkdownProps = {
     node?: Element,
@@ -10,7 +12,7 @@ type AncherLinkMarkdownProps = {
 
 const iconType = ['doc', 'link'] as const;
 
-const iconName: Record<typeof iconType[number], any> = {
+const iconName: Record<typeof iconType[number], IconDefinition> = {
     doc: faFileAlt,
     link: faLink,
 }
@@ -31,10 +33,7 @@ const AncherLinkMarkdown = ({ node, ...props }: AncherLinkMarkdownProps) => {
                 size='md'
                 onClick={() => { window.open(link, "_blank") }}
                 pointer={true}
-                style={{
-                    marginTop: '1rem',
-                    marginRight: '1rem',
-                }}
+                className={styles.button}
             />
         )
     }
