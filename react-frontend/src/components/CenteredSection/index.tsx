@@ -1,6 +1,6 @@
-import { CSSProperties, useMemo } from 'react'
-import { useThemeContext } from '../../contexts/ThemeContext';
 import Header from './Header';
+import { cx } from '../../utils/cx';
+import surfaces from '../../styles/surfaces.module.css';
 
 type CenteredSectionProps = {
     readonly title: string,
@@ -10,17 +10,8 @@ type CenteredSectionProps = {
 }
 
 export default function CenteredSection({ title, subtitle, icon, children }: CenteredSectionProps) {
-    const { theme } = useThemeContext();
-    const containerStyle = useMemo((): CSSProperties => {
-        return {
-            ...theme.container,
-            flexDirection: "column",
-            textAlign: "center",
-        }
-    }, [theme]);
-
     return (
-        <div style={containerStyle}>
+        <div className={cx(surfaces.container, surfaces.column, surfaces.center)}>
             <Header title={title} subtitle={subtitle} icon={icon} />
             {children}
         </div>

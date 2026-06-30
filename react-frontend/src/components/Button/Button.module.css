@@ -1,0 +1,43 @@
+.button {
+    display: inline-flex;
+    gap: 0.5rem;
+    align-items: center;
+    justify-content: center;
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    background-color: var(--color-base-50);
+    color: var(--color-base-700);
+    transition: var(--transition);
+    cursor: default;
+    font-family: inherit;
+}
+
+.button:hover {
+    transform: scale(1.05);
+}
+
+.button:active {
+    transform: scale(0.95);
+    color: var(--color-base-200);
+    background-color: var(--color-base-600);
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.sm {
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.md {
+    font-size: 1rem;
+    padding: 0.35rem 0.6rem;
+}
+
+.lg {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+}

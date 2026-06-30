@@ -1,0 +1,18 @@
+.headerContainer {
+    display: inline;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.headerText {
+    display: inline;
+    margin-right: 0.5rem;
+}
+
+.linkText {
+    display: inline-block;
+}
+
+.pointer {
+    cursor: pointer;
+}

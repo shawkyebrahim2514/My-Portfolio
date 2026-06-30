@@ -1,22 +1,8 @@
-import { CSSProperties, useMemo } from 'react'
-import { useThemeContext } from '../../../contexts/ThemeContext'
+import styles from './highlight.module.css';
 
 function Stroke() {
-    const { theme } = useThemeContext();
-    const style = useMemo((): CSSProperties => ({
-        width: "calc(100% - 10px)",
-        height: "calc(100% - 10px)",
-        position: "absolute",
-        zIndex: "1",
-        border: `3px solid ${theme.colors.base[800]}`,
-        top: "5px",
-        left: "5px",
-        margin: "auto",
-        borderRadius: "inherit", 
-    }), [theme.colors]);
-    
     return (
-        <div style={style} />
+        <div className={styles.stroke} />
     );
 }
 
