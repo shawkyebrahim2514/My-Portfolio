@@ -1,9 +1,9 @@
 import type { Node } from 'hast'
 import type { customType } from '.'
 
-export const captureButton = (node: Node): customType => ({
+export const captureButton = (_node: Node): customType => ({
     regex: /\[\[([a-zA-Z0-9\s]+)\]\]/,
-    callback: (fullText: string, content: string) => {
+    callback: (_fullText: string, content: string) => {
         return {
             type: 'strong',
             children: [

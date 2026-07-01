@@ -13,7 +13,7 @@ type ContentProps = {
     readonly demoLink?: string,
 }
 
-function Content({ title, description, technologies, projectLink, demoLink }: ContentProps) {
+function Content({ description, technologies, projectLink, demoLink }: ContentProps) {
     return (
         <div className={styles.content}>
             <HTMLMarkdown markdown={description} />
