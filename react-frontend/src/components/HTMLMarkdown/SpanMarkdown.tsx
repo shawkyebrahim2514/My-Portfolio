@@ -4,7 +4,6 @@ import { Fragment, jsx, jsxs } from 'react/jsx-runtime'
 import { markdownComponents } from './markdownComponents';
 import { toJsxRuntime } from 'hast-util-to-jsx-runtime'
 import Button from '../Button';
-import { v4 as uuid } from 'uuid';
 import styles from './SpanMarkdown.module.css';
 
 
@@ -37,8 +36,8 @@ const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
                 br: () => null,
             },
         }));
-        return result?.map((element) => (
-            <Fragment key={uuid()}>{element}</Fragment>
+        return result?.map((element, index) => (
+            <Fragment key={index}>{element}</Fragment>
         ));
     }, [node?.children]);
     const spanElement = useMemo((): SpanElementType => {
