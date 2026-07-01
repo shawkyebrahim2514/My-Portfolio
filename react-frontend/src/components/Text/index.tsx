@@ -10,12 +10,13 @@ const variantTags = {
 
 type TextProps = {
     readonly variant?: keyof typeof variantTags;
+    readonly className?: string;
     readonly style?: CSSProperties;
     readonly onClick?: () => void;
     readonly children: ReactNode;
 };
 
-export default function Text({ variant = 'body', style, onClick, children }: TextProps) {
+export default function Text({ variant = 'body', className, style, onClick, children }: TextProps) {
     const Tag = variantTags[variant];
 
     // Only expose keyboard/focus affordances when the node is actually interactive.
@@ -34,7 +35,7 @@ export default function Text({ variant = 'body', style, onClick, children }: Tex
         : {};
 
     return (
-        <Tag style={style} {...interactiveProps}>
+        <Tag className={className} style={style} {...interactiveProps}>
             {children}
         </Tag>
     );
