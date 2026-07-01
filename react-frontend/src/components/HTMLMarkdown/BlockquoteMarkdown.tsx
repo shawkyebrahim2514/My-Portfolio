@@ -4,7 +4,6 @@ import MainSection from '../MainSection';
 import { toJsxRuntime } from 'hast-util-to-jsx-runtime'
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime'
 import { markdownComponents } from './markdownComponents';
-import { v4 as uuid } from 'uuid';
 import { cx } from '../../utils/cx';
 import styles from './BlockquoteMarkdown.module.css';
 
@@ -23,8 +22,8 @@ const BlockquoteMarkdown = ({ node, className, ...props }: BlockquoteMarkdownPro
                 br: () => null,
             },
         }));
-        return content?.map((element) => (
-            <Fragment key={uuid()}>{element}</Fragment>
+        return content?.map((element, index) => (
+            <Fragment key={index}>{element}</Fragment>
         ));
     }, [node?.children]);
 

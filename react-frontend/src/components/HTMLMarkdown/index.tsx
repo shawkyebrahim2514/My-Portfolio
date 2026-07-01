@@ -2,7 +2,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks'
 import { markdownComponents } from './markdownComponents';
-import { customBlockquote, customHighlightText, customImage, customText } from './customPlugins';
+import { customBlockquote, customHighlightText, customImage, customLink, customText } from './customPlugins';
 
 type Props = {
     readonly markdown: string
@@ -15,6 +15,7 @@ function HTMLMarkdown({ markdown }: Props) {
                 remarkGfm,
                 remarkBreaks,
                 customImage,
+                customLink,
                 customText,
                 customHighlightText,
                 customBlockquote

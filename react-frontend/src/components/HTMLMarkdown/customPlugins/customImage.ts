@@ -89,6 +89,7 @@ export const customImage = () => {
                         type: 'paragraph',
                         children: [imageNode],
                         data: {
+                            hName: 'div',
                             hProperties: {
                                 className: 'image-container',
                                 style: Object.entries(imageWrapperNodeStyle(parseInt(width), parseInt(height)))
@@ -100,6 +101,7 @@ export const customImage = () => {
                 }
                 currentNode.children = imageNodes;
                 currentNode.data = {
+                    hName: 'div',
                     hProperties: {
                         className: 'image',
                         style: Object.entries(imageContainerStyle(align))
