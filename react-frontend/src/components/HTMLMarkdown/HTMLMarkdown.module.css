@@ -2,6 +2,7 @@
     margin: 1rem 0;
     background-color: var(--color-base-200);
     height: 1px;
+    border: none;
 }
 
 .ul {
@@ -17,36 +18,68 @@
     content: ">";
     position: absolute;
     top: 0;
-    left: -15px;
+    left: calc(-1 * var(--md-bullet-offset));
     font-weight: 600;
 }
 
 .h1 {
-    font-size: 3.8rem;
-    font-weight: 700;
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-heading);
 }
 
 .h2 {
-    font-size: 2.2rem;
-    font-weight: 700;
+    font-size: var(--font-size-h2);
+    font-weight: var(--font-weight-heading);
 }
 
 .h3 {
-    font-size: 1.8rem;
-    font-weight: 700;
+    font-size: var(--font-size-h3);
+    font-weight: var(--font-weight-heading);
 }
 
 .h4 {
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: var(--font-size-h4);
+    font-weight: var(--font-weight-heading);
 }
 
 .h5 {
-    font-size: 1.2rem;
-    font-weight: 700;
+    font-size: var(--font-size-h5);
+    font-weight: var(--font-weight-heading);
 }
 
 .h6 {
-    font-size: 1.1rem;
+    font-size: var(--font-size-h6);
     color: var(--color-base-800);
+}
+
+/* Image DSL layout — literal class names emitted by the customImage remark
+   plugin, so they are declared :global here. Only per-image pixel dimensions
+   are passed inline (as --md-image-max-* custom properties). */
+:global(.md-image-row) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--md-image-gap);
+}
+
+:global(.md-image-row--left) {
+    justify-content: flex-start;
+}
+
+:global(.md-image-row--center) {
+    justify-content: center;
+}
+
+:global(.md-image-row--right) {
+    justify-content: flex-end;
+}
+
+:global(.md-image-frame) {
+    max-width: var(--md-image-max-w, 100%);
+    max-height: var(--md-image-max-h, 100%);
+}
+
+:global(.md-image) {
+    max-width: inherit;
+    max-height: inherit;
 }

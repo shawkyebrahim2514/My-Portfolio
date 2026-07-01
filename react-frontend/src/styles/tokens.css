@@ -56,4 +56,19 @@
   --space-4: 1.5rem;
   --space-5: 2rem;
   --space-6: 3rem;
+
+  /* Fluid heading type scale. Max values match the previously fixed markdown
+     heading sizes, so desktop rendering is unchanged; below ~1200px the
+     headings scale down smoothly instead of overflowing on small screens. */
+  --font-weight-heading: 700;
+  --font-size-h1: clamp(2.6rem, 1.75rem + 3.4vw, 3.8rem);
+  --font-size-h2: clamp(1.8rem, 1.45rem + 1.4vw, 2.2rem);
+  --font-size-h3: clamp(1.5rem, 1.3rem + 0.8vw, 1.8rem);
+  --font-size-h4: clamp(1.25rem, 1.15rem + 0.4vw, 1.4rem);
+  --font-size-h5: clamp(1.1rem, 1.05rem + 0.2vw, 1.2rem);
+  --font-size-h6: clamp(1.05rem, 1rem + 0.15vw, 1.1rem);
+
+  /* Markdown-specific spacing (previously hardcoded magic numbers) */
+  --md-bullet-offset: 15px;
+  --md-image-gap: 10px;
 }

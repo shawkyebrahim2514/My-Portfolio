@@ -5,47 +5,28 @@ import { toString } from 'mdast-util-to-string'
 
 const imageRegex = /!\[([^\]]+)\]\(([^ ]+)\s?(?:=(?:(\d+)x(\d+)|(h|w)(\d+)))?(?:\|(center|left|right))?\)/;
 
-const imageNodeStyle: React.CSSProperties = ({
-    maxWidth: `inherit`,
-    maxHeight: `inherit`,
-});
-
-const imageWrapperNodeStyle = (width: number, height: number): React.CSSProperties => {
-    let finalWidth = "100%";
-    let finalHeight = "100%";
+// Only genuinely dynamic values (user-specified pixel dimensions) are emitted
+// inline, and only as CSS custom properties consumed by the stylesheet. All
+// static layout lives in HTMLMarkdown.module.css under :global(.md-image-*).
+const imageFrameVars = (width: number, height: number): string => {
+    let maxWidth = "100%";
+    let maxHeight = "100%";
     if (!width) {
-        finalHeight = `${height}px`;
+        maxHeight = `${height}px`;
     } else if (!height) {
-        finalWidth = `min(100%, ${width}px)`;
+        maxWidth = `min(100%, ${width}px)`;
     } else {
-        finalWidth = `min(100%, ${width}px)`;
-        finalHeight = `min(100%, ${height}px)`;
+        maxWidth = `min(100%, ${width}px)`;
+        maxHeight = `min(100%, ${height}px)`;
     }
-    return {
-        maxWidth: finalWidth,
-        maxHeight: finalHeight,
-    };
-}
+    return `--md-image-max-w: ${maxWidth}; --md-image-max-h: ${maxHeight}`;
+};
 
-const alignToFlex = (align: string): string => {
-    if (align === 'center') {
-        return 'center';
-    } else if (align === 'right') {
-        return 'flex-end';
-    } else {
-        return 'flex-start';
-    }
-}
-
-const imageContainerStyle = (align: string): React.CSSProperties => {
-    return {
-        display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: alignToFlex(align),
-        alignItems: 'center',
-        gap: '10px',
-    }
-}
+const alignModifier = (align: string): string => {
+    if (align === 'center') return 'md-image-row--center';
+    if (align === 'right') return 'md-image-row--right';
+    return 'md-image-row--left';
+};
 
 export const customImage = () => {
     return function (tree: Nodes) {
@@ -78,10 +59,7 @@ export const customImage = () => {
                         alt: altText,
                         data: {
                             hProperties: {
-                                className: 'image',
-                                style: Object.entries(imageNodeStyle)
-                                    .map(([key, value]) => `${key}: ${value}`)
-                                    .join('; '),
+                                className: 'md-image',
                             }
                         }
                     };
@@ -91,10 +69,8 @@ export const customImage = () => {
                         data: {
                             hName: 'div',
                             hProperties: {
-                                className: 'image-container',
-                                style: Object.entries(imageWrapperNodeStyle(parseInt(width), parseInt(height)))
-                                    .map(([key, value]) => `${key}: ${value}`)
-                                    .join('; ')
+                                className: 'md-image-frame',
+                                style: imageFrameVars(parseInt(width), parseInt(height)),
                             }
                         }
                     });
@@ -103,10 +79,7 @@ export const customImage = () => {
                 currentNode.data = {
                     hName: 'div',
                     hProperties: {
-                        className: 'image',
-                        style: Object.entries(imageContainerStyle(align))
-                            .map(([key, value]) => `${key}: ${value}`)
-                            .join('; '),
+                        className: `md-image-row ${alignModifier(align)}`,
                     }
                 }
             }
