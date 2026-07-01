@@ -12,19 +12,6 @@ import {
   useTheme,
 } from '@sanity/ui'
 import {CloseIcon} from '@sanity/icons'
-import styled, {css} from 'styled-components'
-
-const BlueColor = css`
-  color: ${({theme}) => theme.sanity.color.muted.primary.enabled.fg};
-`
-
-const LabelContainer = styled(Label)`
-  ${BlueColor}
-`
-
-const TextContainer = styled(Text)`
-  ${BlueColor}
-`
 
 export const GetStartedTutorial = () => {
   const [hideTutorial, setShowTutorial] = useState(
@@ -51,9 +38,7 @@ export const GetStartedTutorial = () => {
     <div ref={rootElement}>
       <Card tone="primary" padding={isSmallScreen ? 3 : 5} paddingBottom={isSmallScreen ? 4 : 6}>
         <Flex justify={isSmallScreen ? 'space-between' : 'flex-end'} align="center">
-          {isSmallScreen && (
-            <LabelContainer forwardedAs="p">Your Sanity Studio is all set up!</LabelContainer>
-          )}
+          {isSmallScreen && <Label as="p">Your Sanity Studio is all set up!</Label>}
 
           <Button
             aria-label="Close dialog"
@@ -66,9 +51,9 @@ export const GetStartedTutorial = () => {
         <Stack space={5}>
           {!isSmallScreen && (
             <>
-              <LabelContainer forwardedAs="p" align="center">
+              <Label as="p" align="center">
                 Get started with sanity
-              </LabelContainer>
+              </Label>
 
               <Heading as="h1" size={4} align="center">
                 Your Sanity Studio is all set up!
@@ -77,14 +62,14 @@ export const GetStartedTutorial = () => {
           )}
 
           <Container width={1}>
-            <TextContainer
-              forwardedAs="p"
+            <Text
+              as="p"
               size={isSmallScreen ? 1 : undefined}
               align={isSmallScreen ? 'left' : 'center'}
             >
               Next, our docs will guide you through building schemas, adding content, and connecting
               a frontend. You’ll see updates reflected in your Studio below.
-            </TextContainer>
+            </Text>
           </Container>
 
           <Flex justify={isSmallScreen ? 'flex-start' : 'center'}>
