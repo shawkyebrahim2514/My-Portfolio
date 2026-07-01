@@ -51,3 +51,35 @@
     font-size: 1.1rem;
     color: var(--color-base-800);
 }
+
+/* Image DSL layout — literal class names emitted by the customImage remark
+   plugin, so they are declared :global here. Only per-image pixel dimensions
+   are passed inline (as --md-image-max-* custom properties). */
+:global(.md-image-row) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+:global(.md-image-row--left) {
+    justify-content: flex-start;
+}
+
+:global(.md-image-row--center) {
+    justify-content: center;
+}
+
+:global(.md-image-row--right) {
+    justify-content: flex-end;
+}
+
+:global(.md-image-frame) {
+    max-width: var(--md-image-max-w, 100%);
+    max-height: var(--md-image-max-h, 100%);
+}
+
+:global(.md-image) {
+    max-width: inherit;
+    max-height: inherit;
+}
