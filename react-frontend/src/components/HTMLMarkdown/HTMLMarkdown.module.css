@@ -83,3 +83,27 @@
     max-width: inherit;
     max-height: inherit;
 }
+
+/* Inline text-DSL spacers and alignment — literal class names emitted by the
+   customText capture plugins. */
+:global(.md-gap) {
+    display: inline-block;
+    margin: 0 var(--space-3) var(--space-3) 0;
+}
+
+:global(.md-newline) {
+    display: grid;
+    margin: var(--space-2) 0;
+}
+
+:global(.md-align-left) {
+    text-align: left;
+}
+
+:global(.md-align-center) {
+    text-align: center;
+}
+
+:global(.md-align-right) {
+    text-align: right;
+}
