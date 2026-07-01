@@ -11,7 +11,7 @@ export const captureNewline = (_node: Node): customType => ({
             data: {
                 hName: 'span',
                 hProperties: {
-                    style: "margin: 0.5rem 0; display: grid;"
+                    className: 'md-newline'
                 }
             }
         } as unknown as PhrasingContent)

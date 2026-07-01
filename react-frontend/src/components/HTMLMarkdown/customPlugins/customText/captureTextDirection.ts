@@ -3,10 +3,10 @@ import type { customType } from '.'
 
 export const captureTextDirection = (node: Node): customType => ({
     regex: /\[(center|left|right)\]/,
-    callback: (fullText: string, align: string) => {
+    callback: (_fullText: string, align: string) => {
         node.data = {
             hProperties: {
-                style: "text-align: " + align
+                className: `md-align-${align}`
             }
         }
         return null;
