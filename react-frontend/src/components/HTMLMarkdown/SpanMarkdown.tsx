@@ -1,8 +1,6 @@
 import { useMemo } from 'react';
-import type { Element, RootContent } from 'hast'
-import { Fragment, jsx, jsxs } from 'react/jsx-runtime'
-import { markdownComponents } from './markdownComponents';
-import { toJsxRuntime } from 'hast-util-to-jsx-runtime'
+import type { Element } from 'hast'
+import { useRenderedMarkdownChildren } from './renderMarkdownChildren';
 import Button from '../Button';
 import styles from './SpanMarkdown.module.css';
 
@@ -27,19 +25,7 @@ const variantClass: Record<SpanElementType, Record<SpanColorType, string>> = {
 
 const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
     const classes = useMemo(() => className?.split(" ") ?? [], [className]);
-    const contentJSXElementsFromAST = useMemo(() => {
-        const content = node?.children;
-        if (typeof content === 'string') return content;
-        const result = node?.children.map((element) => toJsxRuntime(element as RootContent, {
-            Fragment, jsx, jsxs, passNode: true, components: {
-                ...markdownComponents,
-                br: () => null,
-            },
-        }));
-        return result?.map((element, index) => (
-            <Fragment key={index}>{element}</Fragment>
-        ));
-    }, [node?.children]);
+    const contentJSXElementsFromAST = useRenderedMarkdownChildren(node);
     const spanElement = useMemo((): SpanElementType => {
         return classes.includes("highlight-area") ? "highlight-area" : "highlight-text";
     }, [classes]);

@@ -1,9 +1,7 @@
 import { useMemo } from 'react';
-import type { Element, RootContent } from 'hast'
+import type { Element } from 'hast'
 import MainSection from '../MainSection';
-import { toJsxRuntime } from 'hast-util-to-jsx-runtime'
-import { Fragment, jsx, jsxs } from 'react/jsx-runtime'
-import { markdownComponents } from './markdownComponents';
+import { useRenderedMarkdownChildren } from './renderMarkdownChildren';
 import { cx } from '../../utils/cx';
 import styles from './BlockquoteMarkdown.module.css';
 
@@ -15,17 +13,7 @@ type BlockquoteMarkdownProps = {
 
 
 const BlockquoteMarkdown = ({ node, className, ...props }: BlockquoteMarkdownProps) => {
-    const contentJSXElementsFromAST = useMemo(() => {
-        const content = node?.children.map((element) => toJsxRuntime(element as RootContent, {
-            Fragment, jsx, jsxs, passNode: true, components: {
-                ...markdownComponents,
-                br: () => null,
-            },
-        }));
-        return content?.map((element, index) => (
-            <Fragment key={index}>{element}</Fragment>
-        ));
-    }, [node?.children]);
+    const contentJSXElementsFromAST = useRenderedMarkdownChildren(node);
 
     // By default it will be without-background and base color
     const backgroundType = useMemo((): BlockquoteElementType => className?.includes("highlight") ? "highlight-background" : "without-background", [className]);
