@@ -2,44 +2,61 @@
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
 version: 2
 updates:
-  # Frontend (React + Vite) dependencies
+  # Frontend (React + Vite) dependencies — the deployed app.
+  # All update types are grouped into a single PR to minimize noise.
   - package-ecosystem: "npm"
     directory: "/react-frontend"
     target-branch: "Development"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 10
+    open-pull-requests-limit: 5
     labels:
       - "dependencies"
       - "react-frontend"
     groups:
-      react-frontend-minor-patch:
+      react-frontend:
+        patterns:
+          - "*"
         update-types:
+          - "major"
           - "minor"
           - "patch"
 
-  # Sanity backend dependencies
+  # Sanity backend dependencies — CMS admin tool, NOT deployed.
+  # Lower priority, so checked monthly and fully grouped.
   - package-ecosystem: "npm"
     directory: "/sanity-backend"
     target-branch: "Development"
     schedule:
-      interval: "weekly"
-    open-pull-requests-limit: 10
+      interval: "monthly"
+    open-pull-requests-limit: 5
     labels:
       - "dependencies"
       - "sanity-backend"
     groups:
-      sanity-backend-minor-patch:
+      sanity-backend:
+        patterns:
+          - "*"
         update-types:
+          - "major"
           - "minor"
           - "patch"
 
-  # GitHub Actions workflows
+  # GitHub Actions workflows — grouped into a single PR.
   - package-ecosystem: "github-actions"
     directory: "/"
     target-branch: "Development"
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 5
     labels:
       - "dependencies"
       - "github-actions"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
+          - "minor"
+          - "patch"
