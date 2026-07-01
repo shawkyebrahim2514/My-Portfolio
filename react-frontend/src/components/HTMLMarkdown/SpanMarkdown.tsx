@@ -33,6 +33,12 @@ const SpanMarkdown = ({ node, className, ...props }: SpanMarkdownProps) => {
         return classes.includes("secondary") ? "secondary" : "base";
     }, [classes]);
 
+    // Inline spacers (`[gap]` / `[newline]`) carry a layout-only class and no
+    // content; render a plain span so its :global class controls the spacing.
+    if (classes.includes("md-gap") || classes.includes("md-newline")) {
+        return <span {...props} className={className} />;
+    }
+
     // `[[Button]]`
     if (classes.includes("button")) {
         return (

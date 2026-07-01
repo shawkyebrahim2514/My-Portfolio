@@ -10,7 +10,7 @@ export const captureGap = (_node: Node): customType => ({
         data: {
             hName: 'span',
             hProperties: {
-                style: "margin: 0 1rem 1rem 0; display: inline-block;"
+                className: 'md-gap'
             }
         }
     } as unknown as PhrasingContent)
