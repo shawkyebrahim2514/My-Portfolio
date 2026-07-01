@@ -86,4 +86,10 @@ describe('HTMLMarkdown — custom DSL', () => {
         const nestedDivInP = c.querySelector('p div');
         expect(nestedDivInP).toBeNull();
     });
+
+    it('--- renders a real semantic <hr> element', () => {
+        const c = renderMd('above\n\n---\n\nbelow');
+        const hr = c.querySelector('hr');
+        expect(hr).not.toBeNull();
+    });
 });
