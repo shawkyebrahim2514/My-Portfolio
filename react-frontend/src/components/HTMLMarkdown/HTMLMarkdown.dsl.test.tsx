@@ -78,4 +78,12 @@ describe('HTMLMarkdown — custom DSL', () => {
         expect(btn?.textContent).toContain('Google');
         expect(btn?.querySelector('svg')).not.toBeNull();
     });
+
+    it('a standalone [text](url) link does not produce invalid <div> inside <p>', () => {
+        const c = renderMd('[Google](https://google.com)');
+        // AncherLinkMarkdown renders a block Header; it must not sit inside a <p>.
+        expect(c.textContent).toContain('Google');
+        const nestedDivInP = c.querySelector('p div');
+        expect(nestedDivInP).toBeNull();
+    });
 });
