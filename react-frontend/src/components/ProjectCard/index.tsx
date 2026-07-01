@@ -18,7 +18,6 @@ function ProjectCard({
     imgSrc = "images/placeholder.png",
     projectLink,
     demoLink,
-    title,
     description,
     technologies
 }: ProjectCardProps) {
