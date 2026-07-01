@@ -1,7 +1,8 @@
 import Button from '../../Button'
 import { PortfolioPathes } from '../../../Types';
-import { memo, useMemo } from 'react';
+import { memo } from 'react';
 import { useMatch, useNavigate } from 'react-router-dom';
+import { cx } from '../../../utils/cx';
 import styles from './LinkButton.module.css';
 
 type LinkButtonProps = {
@@ -12,23 +13,12 @@ type LinkButtonProps = {
 
 function LinkButton({ path, pageName, onClick }: LinkButtonProps) {
     const navigate = useNavigate();
-    const active = useMatch(`/${path}`);
-    // Active/inactive colours depend on the current route, so they stay as
-    // token-based inline styles; the ghost variant strips the default border/shadow.
-    const linkButtonStyle = useMemo(() => {
-        const linkActive = active !== null;
-        return {
-            backgroundColor: linkActive ? 'var(--color-base-200)' : 'transparent',
-            color: linkActive ? 'var(--color-base-800)' : 'var(--color-base-400)',
-            opacity: linkActive ? 1 : 0.9,
-        };
-    }, [active]);
+    const active = useMatch(`/${path}`) !== null;
 
     return (
         <Button
             variant="ghost"
-            className={styles.link}
-            style={linkButtonStyle}
+            className={cx(styles.link, active && styles.active)}
             pointer={true}
             size='md'
             onClick={() => {

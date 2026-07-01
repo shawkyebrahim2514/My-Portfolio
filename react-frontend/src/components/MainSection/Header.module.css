@@ -2,6 +2,15 @@
     display: inline;
 }
 
+.titleText {
+    display: inline;
+    margin-right: 0.5rem;
+}
+
+.iconText {
+    display: inline-block;
+}
+
 .headerText {
     display: inline;
 }
