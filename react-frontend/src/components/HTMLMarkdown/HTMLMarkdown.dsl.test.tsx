@@ -13,21 +13,26 @@ describe('HTMLMarkdown — custom DSL', () => {
         expect(btn?.textContent).toBe('Click Me');
     });
 
-    it('[gap] renders an inline <span> spacer, never a nested <p>', () => {
+    it('[gap] renders an inline <span> spacer via class, never a nested <p>', () => {
         const c = renderMd('left[gap]right');
-        expect(c.querySelector('span')).not.toBeNull();
+        const gap = c.querySelector('span.md-gap');
+        expect(gap).not.toBeNull();
+        expect(gap?.getAttribute('style')).toBeNull();
         expect(c.querySelector('p p')).toBeNull();
     });
 
-    it('[newline] renders an inline <span> spacer, never a nested <p>', () => {
+    it('[newline] renders an inline <span> spacer via class, never a nested <p>', () => {
         const c = renderMd('top[newline]bottom');
-        expect(c.querySelector('span')).not.toBeNull();
+        const nl = c.querySelector('span.md-newline');
+        expect(nl).not.toBeNull();
+        expect(nl?.getAttribute('style')).toBeNull();
         expect(c.querySelector('p p')).toBeNull();
     });
 
-    it('[center] applies text-align to the block', () => {
+    it('[center] applies alignment via a class, not inline style', () => {
         const c = renderMd('[center]hello');
-        expect(c.querySelector('[style*="text-align: center"]')).not.toBeNull();
+        expect(c.querySelector('.md-align-center')).not.toBeNull();
+        expect(c.querySelector('[style*="text-align"]')).toBeNull();
     });
 
     it('# heading renders an <h1> with the heading style', () => {

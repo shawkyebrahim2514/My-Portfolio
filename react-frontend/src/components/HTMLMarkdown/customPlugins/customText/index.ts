@@ -20,8 +20,9 @@ export const customText = () => {
                     captureGap(node as Nodes)
                 ]
                 customTextPlugins.forEach(({ regex, callback }) => {
-                    while (true) {
-                        let exists = false;
+                    let exists = true;
+                    while (exists) {
+                        exists = false;
                         findAndReplace(node as Nodes, [
                             regex,
                             (...args) => {
@@ -29,9 +30,6 @@ export const customText = () => {
                                 return callback(...args)
                             },
                         ]);
-                        if (!exists) {
-                            break;
-                        }
                     }
                 })
             }
