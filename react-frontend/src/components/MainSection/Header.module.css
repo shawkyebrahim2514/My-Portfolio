@@ -1,0 +1,15 @@
+.headerContainer {
+    display: inline;
+}
+
+.headerText {
+    display: inline;
+}
+
+.linkText {
+    display: inline-block;
+}
+
+.pointer {
+    cursor: pointer;
+}

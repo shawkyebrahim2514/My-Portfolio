@@ -1,24 +1,13 @@
-import { CSSProperties, useMemo } from 'react'
+import styles from './Content.module.css';
 
 type ContentProps = {
     readonly children: React.ReactNode,
 }
 
 export default function Content({ children }: ContentProps) {
-    const mainStyle = useMemo((): CSSProperties => {
-        return {
-            display: "flex",
-            justifyContent: "flex-start",
-            gap: "1rem",
-            alignItems: "stretch",
-        }
-    }, []);
-
     return (
-        <main style={mainStyle}>
-            <div style={{
-                flexGrow: 1,
-            }}>
+        <main className={styles.content}>
+            <div className={styles.grow}>
                 {children}
             </div>
         </main>

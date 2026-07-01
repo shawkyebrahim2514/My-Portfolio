@@ -1,18 +1,12 @@
-import { CSSProperties, memo, useMemo } from 'react';
+import { memo } from 'react';
 import BackShape from './BackShape';
 import ActualImage from './ActualImage';
 import { SanityAboutPage } from '../../../Types';
+import styles from './Image.module.css';
 
 function Image({ personImage }: Readonly<Pick<SanityAboutPage, 'personImage'>>) {
-    const containerStyle = useMemo((): CSSProperties => ({
-        width: "320px",
-        height: "320px",
-        position: "relative",
-        marginRight: "10px",
-    }), []);
-
     return (
-        <div style={containerStyle}>
+        <div className={styles.frame}>
             <BackShape />
             <ActualImage personImage={personImage} />
         </div>

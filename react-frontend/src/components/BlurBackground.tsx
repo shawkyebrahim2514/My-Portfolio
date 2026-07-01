@@ -1,4 +1,4 @@
-/** @jsxImportSource @emotion/react */
+import styles from './BlurBackground.module.css';
 
 type BlurBackgroundProps = {
     backgroundColor: string,
@@ -6,19 +6,8 @@ type BlurBackgroundProps = {
 
 export default function BlurBackground({ backgroundColor }: BlurBackgroundProps) {
     return (
-        <div css={{
-            zIndex: -1,
-            position: "absolute",
-            backgroundColor: toRGBA(backgroundColor, 0.8),
-            backdropFilter: "blur(8px)",
-            top: "0",
-            left: "0",
-            width: "100%",
-            height: "100%",
-        }} />
+        <div
+            className={styles.blur}
+            style={{ backgroundColor: `color-mix(in srgb, ${backgroundColor} 80%, transparent)` }} />
     )
-}
-
-function toRGBA(color: string, alpha: number) {
-    return `${color}${Math.round(alpha * 255).toString(16)}`;
 }

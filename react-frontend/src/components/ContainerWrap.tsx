@@ -1,16 +1,8 @@
-import { CSSProperties, FC, useMemo } from "react";
+import { FC } from "react";
 import { useTransition, animated } from "@react-spring/web";
+import styles from "./ContainerWrap.module.css";
 
 const ContainerWrap = (Component: FC) => function HOC() {
-    const containerStyle = useMemo((): CSSProperties => {
-        return {
-            display: "grid",
-            alignItems: "center",
-            paddingTop: "70px",
-            paddingBottom: "30px",
-        }
-    }, []);
-
     const transitions = useTransition(Component, {
         from: { opacity: 0, transform: "translate(-500px)" },
         enter: { opacity: 1, transform: "translate(0)" },
@@ -18,9 +10,9 @@ const ContainerWrap = (Component: FC) => function HOC() {
         config: { duration: 400 },
     });
 
-    return transitions((styles, item) => (item != null) && (
-        <animated.div style={styles}>
-            <div style={containerStyle}>
+    return transitions((style, item) => (item != null) && (
+        <animated.div style={style}>
+            <div className={styles.container}>
                 <Component />
             </div>
         </animated.div>

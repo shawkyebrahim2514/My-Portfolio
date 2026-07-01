@@ -3,7 +3,7 @@ import type { customType } from '.'
 
 export const captureButton = (node: Node): customType => ({
     regex: /\[\[([a-zA-Z0-9\s]+)\]\]/,
-    callback: (fullText: any, content: any) => {
+    callback: (fullText: string, content: string) => {
         return {
             type: 'strong',
             children: [

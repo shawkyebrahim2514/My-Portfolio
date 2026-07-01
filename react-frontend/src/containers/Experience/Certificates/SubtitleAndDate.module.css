@@ -1,0 +1,7 @@
+.group {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    width: fit-content;
+    gap: 0.5rem;
+}

@@ -3,7 +3,7 @@ import { Nodes, Parent, Image, RootContent } from 'mdast'
 import { toString } from 'mdast-util-to-string'
 
 
-let imageRegex = /!\[([^\]]+)\]\(([^ ]+)\s?(?:=(?:(\d+)x(\d+)|(h|w)(\d+)))?(?:\|(center|left|right))?\)/;
+const imageRegex = /!\[([^\]]+)\]\(([^ ]+)\s?(?:=(?:(\d+)x(\d+)|(h|w)(\d+)))?(?:\|(center|left|right))?\)/;
 
 const imageNodeStyle: React.CSSProperties = ({
     maxWidth: `inherit`,
@@ -50,7 +50,7 @@ const imageContainerStyle = (align: string): React.CSSProperties => {
 export const customImage = () => {
     return function (tree: Nodes) {
         visit(tree, 'paragraph', (node: Nodes) => {
-            let nodeFullText = toString(node);
+            const nodeFullText = toString(node);
             const match = imageRegex.exec(nodeFullText);
             if (match) {
                 const fragments = nodeFullText.split(imageRegex);

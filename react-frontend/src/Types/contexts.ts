@@ -1,3 +1,6 @@
+import { CSSObject } from '@emotion/react';
+import { CSSProperties } from 'react';
+
 type ColorLevels = {
     0: string,
     50: string,
@@ -16,19 +19,19 @@ type Theme = {
     colors: {
         base: ColorLevels,
         secondary: ColorLevels,
-        opacity: (percentage: number) => void
+        opacity: (percentage: number) => string
     },
     transition: string,
     borderRadius: string,
     boxShadow: string,
     backgroundImage: string,
     border: string,
-    button: object,
-    boxingStyle: object,
-    container: object,
-    buttonEffects: object,
+    button: CSSObject,
+    boxingStyle: CSSProperties,
+    container: CSSProperties,
+    buttonEffects: CSSObject,
 };
 
 type PortfolioPathes = "" | "skills" | "education" | "experience" | "projects" | "contacts";
 
-export { type Theme, type PortfolioPathes }
+export { type Theme, type PortfolioPathes, type ColorLevels }

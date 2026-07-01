@@ -1,10 +1,8 @@
+import styles from './HTMLMarkdown.module.css';
+
 const UlMarkdown = ({ ...props }: React.HTMLAttributes<HTMLUListElement>) => {
     return (
-        <ul {...props}
-            style={{
-                ...props.style,
-                listStyleType: "none"
-            }} />
+        <ul {...props} className={styles.ul} />
     )
 }
 

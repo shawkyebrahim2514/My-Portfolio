@@ -1,8 +1,9 @@
-import { CSSProperties, memo, useMemo } from 'react'
-import { useThemeContext } from '../../contexts/ThemeContext';
-import { useMediaQuery } from 'react-responsive';
+import { memo } from 'react'
 import Image from './Image';
 import Content from './Content';
+import { cx } from '../../utils/cx';
+import surfaces from '../../styles/surfaces.module.css';
+import styles from './ProjectCard.module.css';
 
 type ProjectCardProps = {
     readonly imgSrc?: string,
@@ -21,23 +22,9 @@ function ProjectCard({
     description,
     technologies
 }: ProjectCardProps) {
-    const { theme } = useThemeContext();
-    const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' });
-    const containerStyle = useMemo((): CSSProperties => {
-        return {
-            alignItems: "stretch",
-            justifyContent: "flex-start",
-            flexDirection: isSmallScreen ? "column" : "row",
-            height: "auto",
-            ...theme.container,
-        }
-    }, [theme, isSmallScreen]);
-
     return (
-        <div style={containerStyle}>
-            <Image
-                imgSrc={imgSrc || "images/placeholder.png"}
-                isSmallScreen={isSmallScreen} />
+        <div className={cx(surfaces.container, styles.card)}>
+            <Image imgSrc={imgSrc || "images/placeholder.png"} />
             <Content 
                 description={description} 
                 technologies={technologies}

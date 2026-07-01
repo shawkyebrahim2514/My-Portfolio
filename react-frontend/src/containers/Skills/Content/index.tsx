@@ -1,19 +1,11 @@
-import { CSSProperties, useMemo } from 'react';
 import { SanitySkillsPage } from '../../../Types';
 import CenteredSection from '../../../components/CenteredSection';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCode } from '@fortawesome/free-solid-svg-icons';
 import SkillsIcons from './SkillsIcons';
+import styles from './Content.module.css';
 
 export default function Content({ categories }: Readonly<Pick<SanitySkillsPage, "categories">>) {
-    const listItemsContainerStyle = useMemo((): CSSProperties => ({
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "1rem",
-        flexWrap: "wrap",
-    }), []);
-
     return (
         <>
             {categories.map((category) => {
@@ -22,7 +14,7 @@ export default function Content({ categories }: Readonly<Pick<SanitySkillsPage, 
                         key={category.title}
                         icon={<HeaderIcon />}
                         title={category.title} >
-                        <div style={listItemsContainerStyle}>
+                        <div className={styles.list}>
                             <SkillsIcons skills={category.skills} />
                         </div>
                     </CenteredSection>

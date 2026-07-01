@@ -1,0 +1,5 @@
+.error {
+    text-align: center;
+    color: var(--color-base-600);
+    padding: 2rem;
+}
