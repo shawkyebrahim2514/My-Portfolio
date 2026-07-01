@@ -10,9 +10,9 @@ type AncherLinkMarkdownProps = {
     node?: Element,
 } & React.HTMLAttributes<HTMLAnchorElement>;
 
-const iconType = ['doc', 'link'] as const;
+type IconType = 'doc' | 'link';
 
-const iconName: Record<typeof iconType[number], IconDefinition> = {
+const iconName: Record<IconType, IconDefinition> = {
     doc: faFileAlt,
     link: faLink,
 }
@@ -24,7 +24,7 @@ const AncherLinkMarkdown = ({ node, ...props }: AncherLinkMarkdownProps) => {
     const matchButtonLink = /\[([^|]+)(?:\|(doc|link))?\]/.exec(title);
     if (matchButtonLink) {
         const title = matchButtonLink[1];
-        const icon = iconName[(matchButtonLink[2] as typeof iconType[number]) || 'link'];
+        const icon = iconName[(matchButtonLink[2] as IconType) || 'link'];
 
         return (
             <Button

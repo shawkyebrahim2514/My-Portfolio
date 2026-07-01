@@ -30,8 +30,22 @@ export default tseslint.config(
             ],
             '@typescript-eslint/no-unused-vars': [
                 'warn',
-                { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+                {
+                    argsIgnorePattern: '^_',
+                    varsIgnorePattern: '^_',
+                    ignoreRestSiblings: true,
+                },
             ],
+        },
+    },
+    {
+        // Route containers export `default ContainerWrap(X)`. The react-spring
+        // HOC is not detectable by eslint-plugin-react-refresh, so the rule
+        // false-positives here. Fast Refresh isn't relevant for these entry
+        // components, so disable the rule for them only.
+        files: ['src/containers/**/index.tsx'],
+        rules: {
+            'react-refresh/only-export-components': 'off',
         },
     },
     prettier
