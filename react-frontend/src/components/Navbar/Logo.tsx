@@ -1,11 +1,10 @@
 import { useCallback } from 'react'
-import { useThemeContext } from '../../contexts/ThemeContext';
 import Text from '../Text'
 import { SanityNavbarData } from '../../Types';
 import { useNavigate } from 'react-router-dom';
+import styles from './Logo.module.css';
 
 export default function Logo({ logo }: Readonly<Pick<SanityNavbarData, "logo">>) {
-    const { theme } = useThemeContext();
     const navigate = useNavigate();
 
     const changeLinksHandler = useCallback(() => navigate(''), [navigate]);
@@ -17,17 +16,13 @@ export default function Logo({ logo }: Readonly<Pick<SanityNavbarData, "logo">>)
 
     return (
         <div
-            style={{
-                color: theme.colors.base[100],
-                cursor: "pointer",
-            }}
+            className={styles.logo}
+            role="button"
+            tabIndex={0}
             onClick={changeLinksHandler}
             onKeyDown={onKeyDownHandler} >
-            <Text variant={"h2"} style={{
-                fontSize: "1.5rem",
-                fontWeight: "700",
-            }}>
-                {logo}
+            <Text variant={"h2"}>
+                <span className={styles.text}>{logo}</span>
             </Text>
         </div>
     )

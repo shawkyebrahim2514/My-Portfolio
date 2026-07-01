@@ -1,0 +1,11 @@
+.content {
+    font-size: 1.2rem;
+    color: var(--color-base-800);
+    text-align: left;
+}
+
+@media (max-width: 1124px) {
+    .content {
+        text-align: center;
+    }
+}

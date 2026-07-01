@@ -1,0 +1,59 @@
+/**
+ * Design tokens — single source of truth for the portfolio's visual language.
+ *
+ * These CSS custom properties are consumed two ways:
+ *   1. Directly in *.module.css files via var(--token).
+ *   2. Through the TS theme (contexts/ThemeContext), which exposes the same
+ *      tokens as var() references so existing inline/emotion styles keep working.
+ *
+ * Color ramps generated from:
+ * https://accessiblepalette.com/?lightness=98.2,93.95,85.1,76.5,67.65,57,47,40.4,24,16
+ */
+
+:root {
+  /* Base (neutral) ramp */
+  --color-base-0: #ffffff;
+  --color-base-50: #fafaf6;
+  --color-base-100: #edeee6;
+  --color-base-200: #d4d5cd;
+  --color-base-300: #bdbdb6;
+  --color-base-400: #a5a59f;
+  --color-base-500: #898984;
+  --color-base-600: #6f706c;
+  --color-base-700: #545451;
+  --color-base-800: #393937;
+  --color-base-900: #282827;
+
+  /* Secondary (warm) ramp */
+  --color-secondary-0: #ffffff;
+  --color-secondary-50: #fef9f5;
+  --color-secondary-100: #fbebdd;
+  --color-secondary-200: #f8d7bc;
+  --color-secondary-300: #f6c29a;
+  --color-secondary-400: #d4986c;
+  --color-secondary-500: #b4805b;
+  --color-secondary-600: #93684b;
+  --color-secondary-700: #7c573f;
+  --color-secondary-800: #644633;
+  --color-secondary-900: #4a3326;
+
+  /* Radius */
+  --radius: 8px;
+
+  /* Elevation */
+  --shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+  /* Motion */
+  --transition: all 0.3s ease-out;
+
+  /* Borders */
+  --border: 1px solid var(--color-base-50);
+
+  /* Spacing scale (used by layout primitives and components) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+}

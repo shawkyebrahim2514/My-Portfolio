@@ -1,7 +1,12 @@
-import { CSSProperties, useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import Text from '../Text';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import { cx } from '../../utils/cx';
+import styles from './Header.module.css';
+
+const titleTextStyle = { display: 'inline', marginRight: '0.5rem' } as const;
+const iconTextStyle = { display: 'inline-block' } as const;
 
 type HeaderProps = {
     readonly title: string,
@@ -10,45 +15,29 @@ type HeaderProps = {
 }
 
 export default function Header({ title, link, subtitle }: HeaderProps) {
-    const headerConatinerStyle = useMemo((): CSSProperties => {
-        return {
-            display: "inline",
-            alignItems: "center",
-            gap: "0.5rem",
-        }
-    }, []);
-
-    const headerTextStyle = useMemo((): CSSProperties => {
-        return {
-            // color: theme.colors.base[600],
-            display: "inline",
-            marginRight: "0.5rem",
-            cursor: link ? "pointer" : "default",
-        }
-    }, [link]);
-
     const headerOnCLickHandler = useCallback(() => {
-        link && window.open(link, "_blank");
+        if (link) {
+            window.open(link, "_blank");
+        }
     }, [link]);
 
     return (
         <>
-            <div style={headerConatinerStyle}>
+            <div className={styles.headerContainer}>
                 <Text
                     variant={"h3"}
-                    onClick={headerOnCLickHandler}
-                    style={headerTextStyle}>
-                    {title}
+                    onClick={link ? headerOnCLickHandler : undefined}
+                    style={titleTextStyle}>
+                    <span className={cx(styles.headerText, link && styles.pointer)}>{title}</span>
                 </Text>
                 {link && (
                     <Text
                         variant={"h3"}
                         onClick={headerOnCLickHandler}
-                        style={{
-                            display: "inline-block",
-                            cursor: link ? "pointer" : "default",
-                            }}>
-                        <ExternalLinkIcon />
+                        style={iconTextStyle}>
+                        <span className={cx(styles.linkText, styles.pointer)}>
+                            <ExternalLinkIcon />
+                        </span>
                     </Text>
                 )}
             </div>

@@ -1,0 +1,10 @@
+.content {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.grow {
+    flex-grow: 1;
+}

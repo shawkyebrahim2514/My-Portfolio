@@ -1,7 +1,7 @@
 import { findAndReplace } from 'mdast-util-find-and-replace'
 import { visit } from 'unist-util-visit';
 import type { Node } from 'hast'
-import { Nodes, Parent } from 'mdast'
+import { Nodes, Parent, PhrasingContent } from 'mdast'
 import { toString } from 'mdast-util-to-string'
 
 const textVariationsRegexReplace = {
@@ -29,7 +29,7 @@ const handleVariationReplace = (variation: typeof textVariationsRegexReplace[key
     let isMatched = false;
     findAndReplace(node, [
         variation.regex,
-        (fullText: any, content: any) => {
+        (fullText: string, content: string) => {
             isMatched = true;
             return {
                 type: 'strong',
@@ -44,7 +44,7 @@ const handleVariationReplace = (variation: typeof textVariationsRegexReplace[key
                         className: variation.replace.className,
                     }
                 }
-            } as any;
+            } as unknown as PhrasingContent;
         }
     ])
     return isMatched;
