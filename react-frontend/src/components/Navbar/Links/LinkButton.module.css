@@ -1,3 +1,15 @@
-.link {
+/* Self-compound (.link.link) raises specificity to 0-2-0 so these token-based
+   colours win over Button's single-class .button/.ghost rules regardless of
+   CSS bundle order — without resorting to inline styles or !important. */
+.link.link {
     font-weight: 500;
+    background-color: transparent;
+    color: var(--color-base-400);
+    opacity: 0.9;
+}
+
+.link.active {
+    background-color: var(--color-base-200);
+    color: var(--color-base-800);
+    opacity: 1;
 }

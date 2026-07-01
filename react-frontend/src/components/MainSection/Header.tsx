@@ -5,9 +5,6 @@ import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { cx } from '../../utils/cx';
 import styles from './Header.module.css';
 
-const titleTextStyle = { display: 'inline', marginRight: '0.5rem' } as const;
-const iconTextStyle = { display: 'inline-block' } as const;
-
 type HeaderProps = {
     readonly title: string,
     readonly link?: string,
@@ -27,14 +24,14 @@ export default function Header({ title, link, subtitle }: HeaderProps) {
                 <Text
                     variant={"h3"}
                     onClick={link ? headerOnCLickHandler : undefined}
-                    style={titleTextStyle}>
+                    className={styles.titleText}>
                     <span className={cx(styles.headerText, link && styles.pointer)}>{title}</span>
                 </Text>
                 {link && (
                     <Text
                         variant={"h3"}
                         onClick={headerOnCLickHandler}
-                        style={iconTextStyle}>
+                        className={styles.iconText}>
                         <span className={cx(styles.linkText, styles.pointer)}>
                             <ExternalLinkIcon />
                         </span>
