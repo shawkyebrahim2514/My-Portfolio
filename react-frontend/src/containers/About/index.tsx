@@ -1,38 +1,26 @@
 import ContainerWrap from '../../components/ContainerWrap'
 import Content from './Content';
 import Image from './Image';
-import { CSSProperties, useEffect, useMemo, useState } from 'react';
 import { SanityAboutPage } from '../../Types';
 import { getAboutPage } from '../../APIs';
 import Loader from '../../components/Loader';
+import SectionError from '../../components/SectionError';
+import { useSanityQuery } from '../../hooks/useSanityQuery';
+import styles from './About.module.css';
 
 function About() {
-    const [aboutPage, setAboutPage] = useState<SanityAboutPage | null>(null);
-    const containerStyle = useMemo((): CSSProperties => ({
-        display: "flex",
-        flexDirection: "column-reverse",
-        justifyContent: "space-between",
-        alignItems: "center",
-        gap: "2rem",
-    }), []);
+    const { data: aboutPage, error } = useSanityQuery<SanityAboutPage>(getAboutPage);
 
-    useEffect(() => {
-        getAboutPage().then((result) => {
-            setAboutPage(result);
-        });
-    }, []);
+    if (error) return <SectionError />;
+    if (!aboutPage) return <Loader />;
 
     return (
-        <>
-            {aboutPage ? (
-                <div style={containerStyle}>
-                    <Content
-                        description={aboutPage.description}
-                    />
-                    <Image personImage={aboutPage.personImage} />
-                </div>
-            ) : <Loader />}
-        </>
+        <div className={styles.container}>
+            <Content
+                description={aboutPage.description}
+            />
+            <Image personImage={aboutPage.personImage} />
+        </div>
     )
 }
 

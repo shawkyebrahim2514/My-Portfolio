@@ -1,16 +1,9 @@
-import { useMemo } from 'react';
 import PortfolioLinks from '../PortfolioLinks';
+import styles from './NormalLinks.module.css';
 
 export default function NormalLinks() {
-    const linksContainerStyle = useMemo(() => ({
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: "1rem",
-    }), []);
-
     return (
-        <div style={linksContainerStyle}>
+        <div className={styles.links}>
             <PortfolioLinks />
         </div>
     )

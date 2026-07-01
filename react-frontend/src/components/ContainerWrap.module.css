@@ -1,0 +1,6 @@
+.container {
+    display: grid;
+    align-items: center;
+    padding-top: 70px;
+    padding-bottom: 30px;
+}

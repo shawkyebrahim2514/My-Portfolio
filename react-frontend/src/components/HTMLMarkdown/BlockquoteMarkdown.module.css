@@ -1,0 +1,30 @@
+.blockquote {
+    padding: 0 1rem;
+    position: relative;
+    margin: 1rem 0;
+}
+
+.bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 5px;
+    background-color: currentColor;
+}
+
+.baseBar {
+    color: var(--color-base-700);
+}
+
+.secondaryBar {
+    color: var(--color-secondary-500);
+}
+
+.highlightBase {
+    background-color: var(--color-base-200);
+}
+
+.highlightSecondary {
+    background-color: var(--color-secondary-200);
+}

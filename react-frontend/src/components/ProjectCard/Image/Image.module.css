@@ -1,0 +1,17 @@
+.frame {
+    max-width: 350px;
+    height: auto;
+    overflow: hidden;
+    border-radius: var(--radius);
+    border: var(--border);
+    box-shadow: var(--shadow);
+    position: relative;
+    flex: 0 0 auto;
+}
+
+@media (max-width: 768px) {
+    .frame {
+        max-width: 100%;
+        height: 250px;
+    }
+}

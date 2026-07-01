@@ -1,0 +1,41 @@
+.highlight {
+    color: var(--color-base-900);
+    box-shadow: var(--shadow);
+    position: relative;
+    rotate: -3deg;
+    z-index: 1;
+    border-radius: var(--radius);
+}
+
+.shadow {
+    width: inherit;
+    height: inherit;
+    position: absolute;
+    z-index: -2;
+    background-color: var(--color-base-800);
+    bottom: -3px;
+    left: 3px;
+    margin: auto;
+    border-radius: inherit;
+}
+
+.stroke {
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    position: absolute;
+    z-index: 1;
+    border: 3px solid var(--color-base-800);
+    top: 5px;
+    left: 5px;
+    margin: auto;
+    border-radius: inherit;
+}
+
+.actual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: inherit;
+    background-color: var(--color-secondary-300);
+    padding: 10px 1.4rem;
+}

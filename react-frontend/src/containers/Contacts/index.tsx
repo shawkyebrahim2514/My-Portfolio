@@ -1,36 +1,24 @@
-import { CSSProperties, useEffect, useMemo, useState } from 'react'
 import ContainerWrap from '../../components/ContainerWrap';
 import { getContactsPage } from '../../APIs';
 import { SanityContactsPage } from '../../Types';
 import Loader from '../../components/Loader';
+import SectionError from '../../components/SectionError';
 import Content from './Content';
 import Title from '../Title';
+import { useSanityQuery } from '../../hooks/useSanityQuery';
+import styles from '../../styles/section.module.css';
 
 function Contacts() {
-    const [contactsPage, setContactsPage] = useState<SanityContactsPage | null>(null);
-    const containerStyle = useMemo((): CSSProperties => ({
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "stretch",
-        justifyContent: "center",
-        gap: "2rem",
-    }), []);
+    const { data: contactsPage, error } = useSanityQuery<SanityContactsPage>(getContactsPage);
 
-    useEffect(() => {
-        getContactsPage().then((result) => {
-            setContactsPage(result);
-        })
-    }, []);
+    if (error) return <SectionError />;
+    if (!contactsPage) return <Loader />;
 
     return (
-        <>
-            {contactsPage ? (
-                <div style={containerStyle}>
-                    <Title title={contactsPage.title} />
-                    <Content contacts={contactsPage.contacts} />
-                </div>
-            ) : <Loader />}
-        </>
+        <div className={styles.section}>
+            <Title title={contactsPage.title} />
+            <Content contacts={contactsPage.contacts} />
+        </div>
     )
 }
 

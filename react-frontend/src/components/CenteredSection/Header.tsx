@@ -1,6 +1,5 @@
-import { CSSProperties, useMemo } from 'react'
-import { useThemeContext } from '../../contexts/ThemeContext';
 import Text from '../Text'
+import styles from './Header.module.css';
 
 type HeaderProps = {
     readonly title: string,
@@ -9,18 +8,8 @@ type HeaderProps = {
 }
 
 export default function Header({ title, subtitle, icon }: HeaderProps) {
-    const headerStyle = useMemo((): CSSProperties => {
-        return {
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "0.5rem",
-        }
-    }, []);
-
     return (
-        <header style={headerStyle}>
+        <header className={styles.header}>
             <HeaderTitle title={title} icon={icon} />
             {subtitle && <Text variant={"h3"}>{subtitle}</Text>}
             <HorizontalLine />
@@ -29,19 +18,8 @@ export default function Header({ title, subtitle, icon }: HeaderProps) {
 }
 
 function HeaderTitle({ title, icon }: Readonly<Pick<HeaderProps, "title" | "icon">>) {
-    const { theme } = useThemeContext();
-    const titleStyle = useMemo((): CSSProperties => {
-        return {
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "0.5rem",
-            color: theme.colors.base[700],
-        }
-    }, [theme.colors]);
-
     return (
-        <div style={titleStyle}>
+        <div className={styles.title}>
             {icon}
             <Text variant={"h3"}>
                 {title}
@@ -51,17 +29,7 @@ function HeaderTitle({ title, icon }: Readonly<Pick<HeaderProps, "title" | "icon
 }
 
 function HorizontalLine() {
-    const { theme } = useThemeContext();
-    const hrStyle = useMemo((): CSSProperties => {
-        return {
-            width: "100%",
-            height: "1px",
-            backgroundColor: theme.colors.base[200],
-            border: "none",
-        }
-    }, [theme.colors]);
-
     return (
-        <hr style={hrStyle} />
+        <hr className={styles.line} />
     )
 }

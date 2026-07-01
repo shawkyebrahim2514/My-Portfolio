@@ -1,7 +1,7 @@
-import { CSSProperties, useMemo } from 'react'
-import { useThemeContext } from '../../contexts/ThemeContext';
 import Header from './Header';
 import Content from './Content';
+import { cx } from '../../utils/cx';
+import surfaces from '../../styles/surfaces.module.css';
 
 type MainSectionProps = {
     readonly title?: string,
@@ -14,17 +14,8 @@ type MainSectionProps = {
 export default function MainSection({ title, link, subtitle, style, children }:
     MainSectionProps
 ) {
-    const { theme } = useThemeContext();
-    const containerStyle = useMemo((): CSSProperties => {
-        return {
-            ...theme.container,
-            flexDirection: "column",
-            ...style,
-        }
-    }, [theme, style]);
-
     return (
-        <div style={containerStyle}>
+        <div className={cx(surfaces.container, surfaces.column)} style={style}>
             {title && <Header title={title} link={link} subtitle={subtitle} />}
             <Content>
                 {children}

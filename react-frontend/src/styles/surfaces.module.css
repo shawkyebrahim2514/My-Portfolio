@@ -1,0 +1,34 @@
+/* Shared surface treatments — replaces theme.container / theme.boxingStyle. */
+
+.container {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    place-items: stretch;
+    background-color: var(--color-base-50);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.boxing {
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.column {
+    flex-direction: column;
+}
+
+.center {
+    text-align: center;
+}
+
+/* Vertical stack used by container content groups (Education, Experience). */
+.stack {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+}

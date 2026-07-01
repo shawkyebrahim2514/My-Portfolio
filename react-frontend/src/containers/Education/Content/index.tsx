@@ -1,21 +1,15 @@
-import { CSSProperties, memo, useMemo } from "react";
+import { memo } from "react";
 import { SanityEducationPage } from "../../../Types";
 import MainSection from "../../../components/MainSection";
 import CoursesItems from "./CoursesItems";
 import HTMLMarkdown from "../../../components/HTMLMarkdown";
+import surfaces from "../../../styles/surfaces.module.css";
 
 function Content({ education }: Readonly<Pick<SanityEducationPage, "education">>) {
-    const containerStyle = useMemo((): CSSProperties => ({
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        gap: "1rem",
-    }), []);
-
     return (
         <MainSection
             subtitle={education.description}>
-            <div style={containerStyle}>
+            <div className={surfaces.stack}>
                 <div>
                     <HTMLMarkdown markdown={education.description} />
                 </div>

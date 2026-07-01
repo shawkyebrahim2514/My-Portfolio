@@ -1,9 +1,10 @@
 import type { Node } from 'hast'
+import type { PhrasingContent } from 'mdast'
 import type { customType } from '.'
 
 export const captureNewline = (node: Node): customType => ({
     regex: /\[newline\]/,
-    callback: (fullText: any) => {
+    callback: (fullText: string) => {
         return ({
             type: 'paragraph',
             children: [],
@@ -12,6 +13,6 @@ export const captureNewline = (node: Node): customType => ({
                     style: "margin: 0.5rem 0; display: grid;"
                 }
             }
-        } as any)
+        } as unknown as PhrasingContent)
     }
 })

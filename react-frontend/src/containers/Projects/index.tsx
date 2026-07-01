@@ -1,36 +1,24 @@
-import { CSSProperties, useEffect, useMemo, useState } from 'react'
-import ContainerWrap from '../../components/ContainerWrap';
+import ContainerWrap from '../../components/ContainerWrap'
 import { SanityProjectsPage } from '../../Types';
 import { getProjectsPage } from '../../APIs';
 import Loader from '../../components/Loader';
+import SectionError from '../../components/SectionError';
 import Title from '../Title';
 import Content from './Content';
+import { useSanityQuery } from '../../hooks/useSanityQuery';
+import styles from '../../styles/section.module.css';
 
 function Projects() {
-    const [projects, setProjects] = useState<SanityProjectsPage | null>(null);
-    const containerStyle = useMemo((): CSSProperties => ({
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "stretch",
-        justifyContent: "center",
-        gap: "2rem",
-    }), []);
+    const { data: projects, error } = useSanityQuery<SanityProjectsPage>(getProjectsPage);
 
-    useEffect(() => {
-        getProjectsPage().then((result) => {
-            setProjects(result);
-        })
-    }, []);
+    if (error) return <SectionError />;
+    if (!projects) return <Loader />;
 
     return (
-        <>
-            {projects ? (
-                <div style={containerStyle}>
-                    <Title title={projects.title} />
-                    <Content projects={projects.projects} />
-                </div>
-            ) : <Loader />}
-        </>
+        <div className={styles.section}>
+            <Title title={projects.title} />
+            <Content projects={projects.projects} />
+        </div>
     )
 }
 

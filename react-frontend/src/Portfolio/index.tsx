@@ -1,9 +1,6 @@
-/** @jsxImportSource @emotion/react */
-
-import { useThemeContext } from '../contexts/ThemeContext';
 import Navbar from '../components/Navbar';
 import Contacts from '../containers/Contacts';
-import { Suspense, lazy } from 'react';
+import { CSSProperties, Suspense, lazy } from 'react';
 import Loader from '../components/Loader';
 import {
     BrowserRouter,
@@ -11,57 +8,37 @@ import {
     Routes,
 } from "react-router-dom";
 import { PortfolioPathes } from '../Types';
-import { css } from '@emotion/react';
-import MarkdownEditor from '../containers/MarkdownEditor';
+import backgroundImage from '../assets/background.svg';
+import styles from './Portfolio.module.css';
 
 const About = lazy(() => import('../containers/About'));
 const Skills = lazy(() => import('../containers/Skills'));
 const Education = lazy(() => import('../containers/Education'));
 const Experience = lazy(() => import('../containers/Experience'));
 const Projects = lazy(() => import('../containers/Projects'));
+const MarkdownEditor = lazy(() => import('../containers/MarkdownEditor'));
 
 type PathElementRoutes = Record<PortfolioPathes, React.JSX.Element>
-type TestingRoutes = {
-    "markdown": React.JSX.Element
-}
 
-const pathElementRoutes: PathElementRoutes & TestingRoutes = {
+const pathElementRoutes: PathElementRoutes = {
     "": <About />,
     "skills": <Skills />,
     "education": <Education />,
     "experience": <Experience />,
     "projects": <Projects />,
     "contacts": <Contacts />,
-    "markdown": <MarkdownEditor />
 }
 
 export default function Portfolio() {
-    const { theme } = useThemeContext();
-
     return (
-        <div css={css({
-            backgroundColor: theme.colors.base[100],
-            minHeight: "100vh",
-            color: theme.colors.base[700],
-            backgroundImage: theme.backgroundImage,
-            backgroundSize: 'auto', // Adjust the size of the background image
-            backgroundRepeat: 'repeat', // Repeat the background image
-            backgroundPosition: 'center',
-            '& *::selection': {
-                backgroundColor: theme.colors.base[700],
-                color: theme.colors.base[100]
-            }
-        })}>
-            <div style={{
-                maxWidth: "1255px",
-                margin: "0 auto",
-                padding: "0 1rem",
-            }}>
+        <div
+            className={styles.page}
+            style={{ '--portfolio-bg': `url(${backgroundImage})` } as CSSProperties}>
+            <div className={styles.inner}>
                 <Suspense fallback={<Loader />}>
                     <BrowserRouter>
                         <Navbar />
                         <Routes>
-                            <Route path='/' element={<About />} />
                             {Object.entries(pathElementRoutes).map(([path, element]) => {
                                 return (
                                     <Route
@@ -70,6 +47,10 @@ export default function Portfolio() {
                                         element={element} />
                                 )
                             })}
+                            {/* Markdown editor is a dev-only authoring tool, not shipped in production routing. */}
+                            {import.meta.env.DEV && (
+                                <Route path="/markdown" element={<MarkdownEditor />} />
+                            )}
                         </Routes>
                     </BrowserRouter>
                 </Suspense>

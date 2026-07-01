@@ -1,16 +1,11 @@
 import { memo } from "react";
 import { SanityContactsPage } from "../../Types";
 import Icon from "../../components/Icon";
+import styles from "./Content.module.css";
 
 function Content({ contacts }: Readonly<Pick<SanityContactsPage, "contacts">>) {
     return (
-        <div style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: "2rem",
-            flexWrap: "wrap",
-        }}>
+        <div className={styles.contacts}>
             {contacts.map((contact) => {
                 return (
                     <Icon

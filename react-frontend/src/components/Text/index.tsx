@@ -1,45 +1,41 @@
-import { CSSProperties, ReactNode } from "react"
+import { CSSProperties, ReactNode, KeyboardEvent } from 'react';
+
+const variantTags = {
+    h1: 'h1',
+    h2: 'h2',
+    h3: 'h3',
+    h4: 'h4',
+    body: 'p',
+} as const;
 
 type TextProps = {
-    readonly variant?: keyof typeof TextVariants,
-    readonly style?: CSSProperties,
-    readonly onClick?: () => void,
-    readonly children: ReactNode,
-}
+    readonly variant?: keyof typeof variantTags;
+    readonly style?: CSSProperties;
+    readonly onClick?: () => void;
+    readonly children: ReactNode;
+};
 
-const TextVariants = {
-    h1: ({ style, onClick, children }: TextProps) =>
-        <h1 onClick={onClick}
-            onKeyDown={onClick}
-            style={style}
-            tabIndex={0}
-        >{children}</h1>,
-    h2: ({ style, onClick, children }: TextProps) =>
-        <h2 onClick={onClick}
-            onKeyDown={onClick}
-            tabIndex={0}
-            style={style}
-        >{children}</h2>,
-    h3: ({ style, onClick, children }: TextProps) =>
-        <h3 onClick={onClick}
-            onKeyDown={onClick}
-            tabIndex={0}
-            style={style}
-        >{children}</h3>,
-    h4: ({ style, onClick, children }: TextProps) =>
-        <h4 onClick={onClick}
-            onKeyDown={onClick}
-            tabIndex={0}
-            style={style}
-        >{children}</h4>,
-    body: ({ style, onClick, children }: TextProps) =>
-        <p onClick={onClick}
-            onKeyDown={onClick}
-            tabIndex={0}
-            style={style}
-        >{children}</p>,
-}
+export default function Text({ variant = 'body', style, onClick, children }: TextProps) {
+    const Tag = variantTags[variant];
 
-export default function Text({ variant = "body", style, onClick, children }: TextProps) {
-    return TextVariants[variant]({ style, onClick, children });
+    // Only expose keyboard/focus affordances when the node is actually interactive.
+    const interactiveProps = onClick
+        ? {
+              role: 'button' as const,
+              tabIndex: 0,
+              onClick,
+              onKeyDown: (event: KeyboardEvent<HTMLElement>) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                      event.preventDefault();
+                      onClick();
+                  }
+              },
+          }
+        : {};
+
+    return (
+        <Tag style={style} {...interactiveProps}>
+            {children}
+        </Tag>
+    );
 }

@@ -1,8 +1,9 @@
-import { CSSProperties, memo, useMemo } from 'react'
+import { memo } from 'react'
 import ListButtons from '../ListButtons';
 import ProjectButton from './Image/ImageOverlay/ProjectButton';
 import DemoButton from './Image/ImageOverlay/DemoButton';
 import HTMLMarkdown from '../HTMLMarkdown';
+import styles from './Content.module.css';
 
 type ContentProps = {
     readonly title?: string,
@@ -13,24 +14,10 @@ type ContentProps = {
 }
 
 function Content({ title, description, technologies, projectLink, demoLink }: ContentProps) {
-    const outerStyle = useMemo((): CSSProperties => {
-        return {
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            justifyContent: "space-between",
-            gap: "1rem",
-        }
-    }, []);
-    const linksStyle = useMemo(() => ({
-        display: "flex",
-        gap: "1rem",
-    }), []);
-
     return (
-        <div style={outerStyle}>
+        <div className={styles.content}>
             <HTMLMarkdown markdown={description} />
-            <div style={linksStyle}>
+            <div className={styles.links}>
                 {projectLink && <ProjectButton projectLink={projectLink} />}
                 {demoLink && <DemoButton demoLink={demoLink} />}
             </div>

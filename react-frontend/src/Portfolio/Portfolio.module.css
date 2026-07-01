@@ -1,0 +1,20 @@
+.page {
+    background-color: var(--color-base-100);
+    min-height: 100vh;
+    color: var(--color-base-700);
+    background-image: var(--portfolio-bg);
+    background-size: auto;
+    background-repeat: repeat;
+    background-position: center;
+}
+
+.page *::selection {
+    background-color: var(--color-base-700);
+    color: var(--color-base-100);
+}
+
+.inner {
+    max-width: 1255px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}

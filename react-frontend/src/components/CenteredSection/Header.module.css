@@ -1,0 +1,22 @@
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--color-base-700);
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-base-200);
+    border: none;
+}

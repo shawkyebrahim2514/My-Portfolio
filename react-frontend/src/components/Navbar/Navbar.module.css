@@ -1,0 +1,21 @@
+.navbar {
+    position: sticky;
+    padding: 1rem;
+    max-width: 1255px;
+    top: 20px;
+    z-index: 999;
+    background-color: var(--color-base-900);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    max-width: 1255px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    flex-wrap: wrap;
+}
