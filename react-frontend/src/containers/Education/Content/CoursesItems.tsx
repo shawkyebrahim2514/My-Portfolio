@@ -8,7 +8,7 @@ import surfaces from '../../../styles/surfaces.module.css';
 function CoursesItems({ courses }: Readonly<Pick<SanityEducationPage["education"], "courses">>) {
     return (
         <>
-            {courses.map((course, index) => {
+            {courses.map((course) => {
                 return (
                     <MainSection
                         key={course.description}>

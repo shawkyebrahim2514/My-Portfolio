@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from 'react';
+import { createContext, useMemo, useState } from 'react';
 import backgroundImage from '../assets/background.svg';
 import { ColorLevels, Theme } from '../Types';
 
@@ -95,13 +95,3 @@ export default function ThemeContext({ children }: ThemeContextProps) {
         </Context.Provider>
     )
 }
-
-function useThemeContext() {
-    const result = useContext(Context);
-    if (result == null) {
-        throw Error("Error happened while creating the ThemeContext!")
-    }
-    return { ...result }
-}
-
-export { useThemeContext };

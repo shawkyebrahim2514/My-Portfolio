@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import type { Element, RootContent } from 'hast'
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime'
-import { markdownComponents } from '.';
+import { markdownComponents } from './markdownComponents';
 import { toJsxRuntime } from 'hast-util-to-jsx-runtime'
 import Button from '../Button';
 import { v4 as uuid } from 'uuid';

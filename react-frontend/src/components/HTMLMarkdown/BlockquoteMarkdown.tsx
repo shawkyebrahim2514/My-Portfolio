@@ -3,7 +3,7 @@ import type { Element, RootContent } from 'hast'
 import MainSection from '../MainSection';
 import { toJsxRuntime } from 'hast-util-to-jsx-runtime'
 import { Fragment, jsx, jsxs } from 'react/jsx-runtime'
-import { markdownComponents } from '.';
+import { markdownComponents } from './markdownComponents';
 import { v4 as uuid } from 'uuid';
 import { cx } from '../../utils/cx';
 import styles from './BlockquoteMarkdown.module.css';
