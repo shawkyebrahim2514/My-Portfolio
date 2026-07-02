@@ -10,11 +10,11 @@ export default function Navbar() {
     const { data: navbarData } = useSanityQuery<SanityNavbarData>(getNavbarData);
 
     return (
-        <div className={styles.navbar}>
+        <nav className={styles.navbar} aria-label="Primary">
             <div className={styles.inner}>
                 {navbarData ? <Logo logo={navbarData.logo} /> : <Loader />}
                 <Links />
             </div>
-        </div>
+        </nav>
     )
 }

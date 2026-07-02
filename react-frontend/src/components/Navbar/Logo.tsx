@@ -8,22 +8,16 @@ export default function Logo({ logo }: Readonly<Pick<SanityNavbarData, "logo">>)
     const navigate = useNavigate();
 
     const changeLinksHandler = useCallback(() => navigate(''), [navigate]);
-    const onKeyDownHandler = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (event.key === "Enter") {
-            changeLinksHandler();
-        }
-    }, [changeLinksHandler]);
 
     return (
-        <div
+        <button
+            type="button"
             className={styles.logo}
-            role="button"
-            tabIndex={0}
             onClick={changeLinksHandler}
-            onKeyDown={onKeyDownHandler} >
+            aria-label={`${logo}, go to About`}>
             <Text variant={"h2"}>
                 <span className={styles.text}>{logo}</span>
             </Text>
-        </div>
+        </button>
     )
 }
