@@ -38,7 +38,7 @@ export default function Portfolio() {
             <div className={styles.inner}>
                 <Suspense fallback={<Loader />}>
                     <BrowserRouter>
-                        <header>
+                        <header className={styles.banner}>
                             <Navbar />
                         </header>
                         <main id="main-content" tabIndex={-1} className={styles.main}>

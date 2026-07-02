@@ -39,3 +39,11 @@
 .main:focus {
     outline: none;
 }
+
+/* The banner landmark must not create a layout box, otherwise it would clip
+   the sticky Navbar to its own (navbar-height) bounds and stop it following
+   the scroll. display:contents keeps the <header> banner role in the a11y
+   tree while letting the Navbar stick relative to .inner. */
+.banner {
+    display: contents;
+}

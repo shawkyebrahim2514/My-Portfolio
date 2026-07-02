@@ -1,3 +1,4 @@
+import { cx } from '../../utils/cx';
 import styles from './HTMLMarkdown.module.css';
 
 type HeadingMarkdownProps = React.HTMLAttributes<HTMLHRElement> & {
@@ -13,14 +14,15 @@ const headingClass: Record<HeadingMarkdownProps["headingNumber"], string> = {
     six: styles.h6,
 }
 
-const HeadingMarkdown = ({ headingNumber, children, ...props }: HeadingMarkdownProps) => {
+const HeadingMarkdown = ({ headingNumber, children, className, ...props }: HeadingMarkdownProps) => {
+    const merged = cx(headingClass[headingNumber], className);
     const HTMLHeadings: Record<HeadingMarkdownProps["headingNumber"], React.JSX.Element> = {
-        one: <h1 {...props} className={headingClass.one}>{children}</h1>,
-        two: <h2 {...props} className={headingClass.two}>{children}</h2>,
-        three: <h3 {...props} className={headingClass.three}>{children}</h3>,
-        four: <h4 {...props} className={headingClass.four}>{children}</h4>,
-        five: <h5 {...props} className={headingClass.five}>{children}</h5>,
-        six: <h6 {...props} className={headingClass.six}>{children}</h6>,
+        one: <h1 {...props} className={merged}>{children}</h1>,
+        two: <h2 {...props} className={merged}>{children}</h2>,
+        three: <h3 {...props} className={merged}>{children}</h3>,
+        four: <h4 {...props} className={merged}>{children}</h4>,
+        five: <h5 {...props} className={merged}>{children}</h5>,
+        six: <h6 {...props} className={merged}>{children}</h6>,
     }
 
     return HTMLHeadings[headingNumber];
