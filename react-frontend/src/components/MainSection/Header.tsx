@@ -1,4 +1,3 @@
-import { useCallback } from 'react'
 import Text from '../Text';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
@@ -12,31 +11,26 @@ type HeaderProps = {
 }
 
 export default function Header({ title, link, subtitle }: HeaderProps) {
-    const headerOnCLickHandler = useCallback(() => {
-        if (link) {
-            window.open(link, "_blank");
-        }
-    }, [link]);
-
     return (
         <>
             <div className={styles.headerContainer}>
-                <Text
-                    variant={"h3"}
-                    onClick={link ? headerOnCLickHandler : undefined}
-                    className={styles.titleText}>
-                    <span className={cx(styles.headerText, link && styles.pointer)}>{title}</span>
+                <Text variant={"h3"} className={styles.titleText}>
+                    {link ? (
+                        <a
+                            className={cx(styles.headerLink, styles.pointer)}
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={`${title} (opens in new tab)`}>
+                            <span className={styles.headerText}>{title}</span>
+                            <span className={styles.linkText}>
+                                <ExternalLinkIcon />
+                            </span>
+                        </a>
+                    ) : (
+                        <span className={styles.headerText}>{title}</span>
+                    )}
                 </Text>
-                {link && (
-                    <Text
-                        variant={"h3"}
-                        onClick={headerOnCLickHandler}
-                        className={styles.iconText}>
-                        <span className={cx(styles.linkText, styles.pointer)}>
-                            <ExternalLinkIcon />
-                        </span>
-                    </Text>
-                )}
             </div>
             {subtitle &&
                 <SubtitleText>
