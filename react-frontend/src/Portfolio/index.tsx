@@ -34,24 +34,29 @@ export default function Portfolio() {
         <div
             className={styles.page}
             style={{ '--portfolio-bg': `url(${backgroundImage})` } as CSSProperties}>
+            <a className={styles.skipLink} href="#main-content">Skip to main content</a>
             <div className={styles.inner}>
                 <Suspense fallback={<Loader />}>
                     <BrowserRouter>
-                        <Navbar />
-                        <Routes>
-                            {Object.entries(pathElementRoutes).map(([path, element]) => {
-                                return (
-                                    <Route
-                                        key={path}
-                                        path={`/${path}`}
-                                        element={element} />
-                                )
-                            })}
-                            {/* Markdown editor is a dev-only authoring tool, not shipped in production routing. */}
-                            {import.meta.env.DEV && (
-                                <Route path="/markdown" element={<MarkdownEditor />} />
-                            )}
-                        </Routes>
+                        <header>
+                            <Navbar />
+                        </header>
+                        <main id="main-content" tabIndex={-1} className={styles.main}>
+                            <Routes>
+                                {Object.entries(pathElementRoutes).map(([path, element]) => {
+                                    return (
+                                        <Route
+                                            key={path}
+                                            path={`/${path}`}
+                                            element={element} />
+                                    )
+                                })}
+                                {/* Markdown editor is a dev-only authoring tool, not shipped in production routing. */}
+                                {import.meta.env.DEV && (
+                                    <Route path="/markdown" element={<MarkdownEditor />} />
+                                )}
+                            </Routes>
+                        </main>
                     </BrowserRouter>
                 </Suspense>
             </div>
