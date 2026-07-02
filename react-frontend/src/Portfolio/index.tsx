@@ -2,6 +2,7 @@ import Navbar from '../components/Navbar';
 import Contacts from '../containers/Contacts';
 import { CSSProperties, Suspense, lazy } from 'react';
 import Loader from '../components/Loader';
+import ErrorBoundary from '../components/ErrorBoundary';
 import {
     BrowserRouter,
     Route,
@@ -42,20 +43,22 @@ export default function Portfolio() {
                             <Navbar />
                         </header>
                         <main id="main-content" tabIndex={-1} className={styles.main}>
-                            <Routes>
-                                {Object.entries(pathElementRoutes).map(([path, element]) => {
-                                    return (
-                                        <Route
-                                            key={path}
-                                            path={`/${path}`}
-                                            element={element} />
-                                    )
-                                })}
-                                {/* Markdown editor is a dev-only authoring tool, not shipped in production routing. */}
-                                {import.meta.env.DEV && (
-                                    <Route path="/markdown" element={<MarkdownEditor />} />
-                                )}
-                            </Routes>
+                            <ErrorBoundary>
+                                <Routes>
+                                    {Object.entries(pathElementRoutes).map(([path, element]) => {
+                                        return (
+                                            <Route
+                                                key={path}
+                                                path={`/${path}`}
+                                                element={element} />
+                                        )
+                                    })}
+                                    {/* Markdown editor is a dev-only authoring tool, not shipped in production routing. */}
+                                    {import.meta.env.DEV && (
+                                        <Route path="/markdown" element={<MarkdownEditor />} />
+                                    )}
+                                </Routes>
+                            </ErrorBoundary>
                         </main>
                     </BrowserRouter>
                 </Suspense>

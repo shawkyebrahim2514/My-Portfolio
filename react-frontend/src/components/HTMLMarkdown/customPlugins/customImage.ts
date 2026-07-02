@@ -60,6 +60,8 @@ export const customImage = () => {
                         data: {
                             hProperties: {
                                 className: 'md-image',
+                                loading: 'lazy',
+                                decoding: 'async',
                             }
                         }
                     };

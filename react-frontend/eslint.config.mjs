@@ -14,7 +14,6 @@ export default tseslint.config(
         extends: [
             js.configs.recommended,
             ...tseslint.configs.recommended,
-            reactHooks.configs['recommended-latest'],
         ],
         languageOptions: {
             ecmaVersion: 2020,
@@ -22,8 +21,15 @@ export default tseslint.config(
         },
         plugins: {
             'react-refresh': reactRefresh,
+            'react-hooks': reactHooks,
         },
         rules: {
+            // Classic React Hooks rules (behavior preserved from the previous
+            // eslint-plugin-react-hooks "recommended" set). The plugin's v7
+            // "recommended" additionally enables the stricter React Compiler
+            // rules, which are intentionally not adopted here.
+            'react-hooks/rules-of-hooks': 'error',
+            'react-hooks/exhaustive-deps': 'warn',
             'react-refresh/only-export-components': [
                 'warn',
                 { allowConstantExport: true },

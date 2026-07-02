@@ -22,8 +22,7 @@ describe('HTMLMarkdown — image rendering', () => {
         expect(img?.getAttribute('src')).toBe('/cat.png');
     });
 
-    it('applies layout via classes; only pixel dimensions are inline (as CSS vars)', () => {
-        const { container } = render(
+    it('applies layout via classes; only pixel dimensions are inline (as CSS vars)', () => {        const { container } = render(
             <HTMLMarkdown markdown={'![a cat](/cat.png =100x80|center)'} />
         );
         const row = container.querySelector('.md-image-row');
@@ -42,5 +41,14 @@ describe('HTMLMarkdown — image rendering', () => {
 
         // The <img> itself has no inline style.
         expect(container.querySelector('img')?.getAttribute('style')).toBeNull();
+    });
+
+    it('lazy-loads and async-decodes markdown images', () => {
+        const { container } = render(
+            <HTMLMarkdown markdown={'![a cat](/cat.png =100x80|center)'} />
+        );
+        const img = container.querySelector('img');
+        expect(img?.getAttribute('loading')).toBe('lazy');
+        expect(img?.getAttribute('decoding')).toBe('async');
     });
 });
