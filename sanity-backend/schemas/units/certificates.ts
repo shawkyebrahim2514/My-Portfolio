@@ -1,4 +1,5 @@
 import { PiCertificate } from "react-icons/pi";
+import { richContentOf } from "../objects/richContent";
 
 export const certificates = {
     name: 'certificates',
@@ -20,8 +21,9 @@ export const certificates = {
         },
         {
             name: 'description',
-            type: 'text',
+            type: 'array',
             title: 'Description',
+            of: richContentOf,
         },
         {
             name: 'date',

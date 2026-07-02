@@ -1,0 +1,6 @@
+/* The Button component is a real <button> (never underlined by default), but
+   ButtonLink is a real <a> reusing its visual classes — anchors get a
+   browser-default underline that .button never had to account for. */
+.noUnderline {
+    text-decoration: none;
+}

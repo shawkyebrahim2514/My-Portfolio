@@ -8,6 +8,7 @@ import { contacts } from './units/contacts'
 import { certificates } from './units/certificates'
 import { professionalExperience } from './units/professionalExperience'
 import { portfolio } from './portfolio'
+import { spacer, divider, imageRow, callout } from './objects/richContent'
 
 export const schemaTypes = [
     portfolio,
@@ -18,4 +19,9 @@ export const schemaTypes = [
     certificates,
     skills,
     contacts,
+    // Rich-content object types (Portable Text) used by description fields.
+    spacer,
+    divider,
+    imageRow,
+    callout,
 ]

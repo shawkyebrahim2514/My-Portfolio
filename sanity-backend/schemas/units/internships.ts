@@ -1,4 +1,5 @@
 import { MdFactory } from "react-icons/md";
+import { richContentOf } from "../objects/richContent";
 
 export const internships = {
     name: 'internships',
@@ -52,8 +53,9 @@ export const internships = {
         },
         {
             name: 'description',
-            type: 'text',
+            type: 'array',
             title: 'Description',
+            of: richContentOf,
             validation: Rule => Rule.required()
         },
         {

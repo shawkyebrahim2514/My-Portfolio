@@ -2,6 +2,7 @@ import { memo } from 'react'
 import Image from './Image';
 import Content from './Content';
 import { cx } from '../../utils/cx';
+import type { RichContentNode } from '../../Types';
 import surfaces from '../../styles/surfaces.module.css';
 import styles from './ProjectCard.module.css';
 
@@ -10,7 +11,7 @@ type ProjectCardProps = {
     readonly projectLink?: string,
     readonly demoLink?: string,
     readonly title?: string,
-    readonly description: string,
+    readonly description: RichContentNode[],
     readonly technologies: string[],
 }
 
