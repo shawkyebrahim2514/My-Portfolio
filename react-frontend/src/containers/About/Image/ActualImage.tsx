@@ -6,6 +6,10 @@ export default function ActualImage({ personImage }: Readonly<Pick<SanityAboutPa
         <div className={styles.imageFrame}>
             <img src={personImage}
                 alt="Shawky Ebrahim"
+                width={320}
+                height={320}
+                fetchPriority="high"
+                decoding="async"
                 className={styles.image} />
         </div>
     )
