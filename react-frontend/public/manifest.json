@@ -1,25 +1,26 @@
 {
-  "short_name": "Shawky Ebrahim Portfolio",
-  "name": "Shawky Ebrahim Portfolio",
+  "short_name": "Shawky Ebrahim",
+  "name": "Shawky Ebrahim — Software Engineer",
+  "description": "Portfolio of Shawky Ebrahim — Software Engineer at Microsoft.",
   "icons": [
     {
-      "src": "https://avatars.githubusercontent.com/shawkyebrahim2514",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "src": "/favicon.ico",
+      "sizes": "48x48",
       "type": "image/x-icon"
     },
     {
-      "src": "https://avatars.githubusercontent.com/shawkyebrahim2514",
+      "src": "/logo192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "https://avatars.githubusercontent.com/shawkyebrahim2514",
+      "src": "/logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "/",
   "display": "standalone",
-  "theme_color": "#0c181e",
+  "theme_color": "#13262e",
   "background_color": "#0c181e"
 }
