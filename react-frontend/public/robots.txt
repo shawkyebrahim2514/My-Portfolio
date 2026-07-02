@@ -1,3 +1,6 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /markdown
+
+Sitemap: https://shawkyebrahim.vercel.app/sitemap.xml
