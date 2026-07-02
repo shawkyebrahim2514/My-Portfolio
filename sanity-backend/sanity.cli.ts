@@ -6,5 +6,8 @@ export default defineCliConfig({
     // Same override as sanity.config.ts — keep the CLI targeting the same
     // dataset as Studio when SANITY_STUDIO_DATASET is set locally.
     dataset: process.env.SANITY_STUDIO_DATASET || 'production'
-  }
+  },
+  deployment: {
+    appId: '09fccba0f2ed1132428ca4af',
+  },
 })
