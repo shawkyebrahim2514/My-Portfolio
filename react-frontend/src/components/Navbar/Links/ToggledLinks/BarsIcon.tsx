@@ -4,30 +4,25 @@ import { memo, useCallback } from 'react';
 import styles from './BarsIcon.module.css';
 
 type BarsIconProps = {
+    readonly isMenuOpen: boolean,
     readonly setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-function BarsIcon({ setIsMenuOpen }: BarsIconProps) {
+function BarsIcon({ isMenuOpen, setIsMenuOpen }: BarsIconProps) {
     const clickHandler = useCallback(() => {
         setIsMenuOpen((oldIsMenuOpen) => !oldIsMenuOpen);
     }, [setIsMenuOpen]);
-    const keyDownHandler = useCallback((event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            clickHandler();
-        }
-    }, [clickHandler]);
 
     return (
-        <div
+        <button
+            type="button"
             className={styles.bars}
-            role="button"
-            tabIndex={0}
             aria-label="Open navigation menu"
-            onClick={clickHandler}
-            onKeyDown={keyDownHandler} >
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu"
+            onClick={clickHandler} >
             <FontAwesomeIcon icon={faBars} size={"xl"} />
-        </div>
+        </button>
     )
 }
 
