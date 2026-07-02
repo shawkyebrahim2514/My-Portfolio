@@ -14,7 +14,7 @@ function Content({ contacts }: Readonly<Pick<SanityContactsPage, "contacts">>) {
                         alt={contact.name}
                         text={contact.name}
                         pointer={true}
-                        onClick={() => window.open(contact.link, "_blank")} />
+                        href={contact.link} />
                 )
             })}
         </div>

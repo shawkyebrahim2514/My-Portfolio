@@ -11,6 +11,7 @@ type ButtonProps = {
     readonly className?: string;
     readonly pointer?: boolean;
     readonly children?: React.ReactNode;
+    readonly ariaLabel?: string;
 };
 
 export default function Button({
@@ -23,10 +24,12 @@ export default function Button({
     className,
     pointer,
     children,
+    ariaLabel,
 }: ButtonProps) {
     return (
         <button
             type="button"
+            aria-label={ariaLabel}
             className={cx(
                 styles.button,
                 styles[size],

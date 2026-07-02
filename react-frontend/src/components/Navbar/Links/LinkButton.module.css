@@ -6,6 +6,7 @@
     background-color: transparent;
     color: var(--color-base-400);
     opacity: 0.9;
+    text-decoration: none;
 }
 
 .link.active {

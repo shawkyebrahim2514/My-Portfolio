@@ -18,3 +18,32 @@
     margin: 0 auto;
     padding: 0 1rem;
 }
+
+.skipLink {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 1000;
+    padding: var(--space-2) var(--space-3);
+    background-color: var(--color-base-900);
+    color: var(--color-base-50);
+    border-radius: var(--radius);
+    text-decoration: none;
+}
+
+.skipLink:focus {
+    left: var(--space-3);
+    top: var(--space-3);
+}
+
+.main:focus {
+    outline: none;
+}
+
+/* The banner landmark must not create a layout box, otherwise it would clip
+   the sticky Navbar to its own (navbar-height) bounds and stop it following
+   the scroll. display:contents keeps the <header> banner role in the a11y
+   tree while letting the Navbar stick relative to .inner. */
+.banner {
+    display: contents;
+}

@@ -16,6 +16,7 @@ export default function ExitButton({ setIsMenuOpen }: ExitButtonProps) {
         <Button
             className={styles.exit}
             pointer={true}
+            ariaLabel="Close navigation menu"
             icon={<FontAwesomeIcon icon={faCircleXmark} transform="grow-12" />}
             onClick={buttonClickHandler} />
     )

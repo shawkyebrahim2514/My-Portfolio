@@ -12,3 +12,37 @@ body {
   box-sizing: border-box;
   margin: 0;
 }
+
+/* Consistent, visible keyboard focus indicator across all interactive
+   elements. Only shows for keyboard/AT users (not mouse clicks). */
+:focus-visible {
+  outline: 3px solid var(--color-secondary-400);
+  outline-offset: 2px;
+}
+
+/* Respect users who prefer reduced motion: neutralise CSS transitions and
+   animations (hover scaling, spinner, etc.). JS-driven route animation is
+   handled separately in ContainerWrap via useReducedMotion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Visually hidden but available to assistive tech (screen-reader-only). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -42,6 +42,15 @@ describe('HTMLMarkdown — custom DSL', () => {
         expect(h1?.className).toMatch(/h1/);
     });
 
+    it('# heading [center] keeps BOTH the heading style and the alignment class', () => {
+        const c = renderMd('# My Title [center]');
+        const h1 = c.querySelector('h1');
+        expect(h1).not.toBeNull();
+        expect(h1?.textContent?.trim()).toBe('My Title');
+        expect(h1?.className).toMatch(/h1/);
+        expect(h1?.className).toMatch(/md-align-center/);
+    });
+
     it('- list renders custom <li> items', () => {
         const c = renderMd('- first\n- second');
         const items = c.querySelectorAll('li');

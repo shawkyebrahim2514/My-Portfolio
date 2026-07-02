@@ -11,6 +11,7 @@
     color: var(--color-base-700);
     transition: var(--transition);
     cursor: default;
+    text-decoration: none;
 }
 
 .icon:hover {
