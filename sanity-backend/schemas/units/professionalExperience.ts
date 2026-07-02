@@ -1,4 +1,5 @@
 import { BsMicrosoft } from "react-icons/bs";
+import { richContentOf } from "../objects/richContent";
 
 export const professionalExperience = {
     name: 'professionalExperience',
@@ -52,8 +53,9 @@ export const professionalExperience = {
         },
         {
             name: 'description',
-            type: 'text',
+            type: 'array',
             title: 'Description',
+            of: richContentOf,
             validation: Rule => Rule.required()
         },
         {

@@ -31,8 +31,17 @@
     "@types/node": "^26.1.0",
     "@types/react": "^19.2.17",
     "eslint": "^9.39.4",
+    "globals": "^17.7.0",
+    "mdast-util-find-and-replace": "^3.0.2",
+    "mdast-util-to-hast": "^13.2.1",
+    "mdast-util-to-string": "^4.0.0",
     "prettier": "^3.9.4",
-    "typescript": "^5.9.3"
+    "remark-breaks": "^4.0.0",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "typescript": "^5.9.3",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.1.0"
   },
   "overrides": {
     "@architect/utils": {

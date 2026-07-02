@@ -1,5 +1,6 @@
 import { changeDocumentPreviewTitle } from "./commanFields";
 import { FaCircleInfo } from "react-icons/fa6";
+import { richContentOf } from "../objects/richContent";
 
 export const aboutPage = {
     name: 'aboutPage',
@@ -42,8 +43,9 @@ export const aboutPage = {
         },
         {
             name: 'description',
-            type: 'text',
+            type: 'array',
             title: 'Description',
+            of: richContentOf,
             validation: Rule => Rule.required()
         },
         {

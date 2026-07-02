@@ -1,7 +1,8 @@
 import { CommonTitle } from "./common";
+import { RichContentNode } from './richContent';
 
 type Experience = {
-    description: string;
+    description: RichContentNode[];
 }
 
 type Internship = Experience & {

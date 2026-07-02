@@ -1,4 +1,5 @@
 import { BiGitRepoForked } from "react-icons/bi";
+import { richContentOf } from "../objects/richContent";
 
 export const projects = {
     name: 'projects',
@@ -37,8 +38,9 @@ export const projects = {
         },
         {
             name: 'description',
-            type: 'text',
+            type: 'array',
             title: 'Description',
+            of: richContentOf,
             validation: Rule => Rule.required()
         },
         {

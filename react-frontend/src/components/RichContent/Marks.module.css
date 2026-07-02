@@ -1,3 +1,12 @@
+.highlightTextBase {
+    font-weight: 600;
+}
+
+.highlightTextSecondary {
+    font-weight: 600;
+    color: var(--color-secondary-600);
+}
+
 .highlightAreaBase {
     font-weight: 600;
     color: var(--color-base-800);
@@ -10,15 +19,11 @@
     background: linear-gradient(to bottom, transparent 60%, var(--color-secondary-300) 60%);
 }
 
-.highlightTextBase {
-    font-weight: 600;
-}
-
-.highlightTextSecondary {
-    font-weight: 600;
-    color: var(--color-secondary-600);
-}
-
-.button {
+.badge {
     margin: 0.5rem;
+}
+
+.inlineLink {
+    color: var(--color-secondary-600);
+    text-decoration: underline;
 }

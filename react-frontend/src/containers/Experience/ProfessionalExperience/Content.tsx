@@ -5,9 +5,9 @@ import surfaces from "../../../styles/surfaces.module.css";
 function Content({ professionalExperience }: Readonly<Pick<SanityExperiencePage['professionalExperienceSection'], 'professionalExperience'>>) {
     return (
         <>
-            {professionalExperience.map((experience) => {
+            {professionalExperience.map((experience, index) => {
                 return (
-                    <div className={surfaces.stack} key={experience.description}>
+                    <div className={surfaces.stack} key={index}>
                         <ExperienceItemDescription description={experience.description} />
                     </div>
                 )

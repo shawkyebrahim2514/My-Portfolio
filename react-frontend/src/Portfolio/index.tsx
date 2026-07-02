@@ -17,7 +17,6 @@ const Skills = lazy(() => import('../containers/Skills'));
 const Education = lazy(() => import('../containers/Education'));
 const Experience = lazy(() => import('../containers/Experience'));
 const Projects = lazy(() => import('../containers/Projects'));
-const MarkdownEditor = lazy(() => import('../containers/MarkdownEditor'));
 
 type PathElementRoutes = Record<PortfolioPathes, React.JSX.Element>
 
@@ -53,10 +52,6 @@ export default function Portfolio() {
                                                 element={element} />
                                         )
                                     })}
-                                    {/* Markdown editor is a dev-only authoring tool, not shipped in production routing. */}
-                                    {import.meta.env.DEV && (
-                                        <Route path="/markdown" element={<MarkdownEditor />} />
-                                    )}
                                 </Routes>
                             </ErrorBoundary>
                         </main>

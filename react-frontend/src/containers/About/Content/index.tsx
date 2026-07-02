@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { SanityAboutPage } from '../../../Types';
-import HTMLMarkdown from '../../../components/HTMLMarkdown';
+import RichContent from '../../../components/RichContent';
 import styles from './Content.module.css';
 
 function Content({
@@ -8,7 +8,7 @@ function Content({
 }: Readonly<Omit<SanityAboutPage, 'personImage'>>) {
     return (
         <div className={styles.content}>
-            <HTMLMarkdown markdown={description} />
+            <RichContent value={description} />
         </div>
     )
 }
