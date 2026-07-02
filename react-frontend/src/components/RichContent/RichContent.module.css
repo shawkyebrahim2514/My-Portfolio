@@ -52,58 +52,56 @@
     color: var(--color-base-800);
 }
 
-/* Image DSL layout — literal class names emitted by the customImage remark
-   plugin, so they are declared :global here. Only per-image pixel dimensions
+/* Image row layout (imageRow block object). Only per-image pixel dimensions
    are passed inline (as --md-image-max-* custom properties). */
-:global(.md-image-row) {
+.imageRow {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--md-image-gap);
 }
 
-:global(.md-image-row--left) {
+.imageRowLeft {
     justify-content: flex-start;
 }
 
-:global(.md-image-row--center) {
+.imageRowCenter {
     justify-content: center;
 }
 
-:global(.md-image-row--right) {
+.imageRowRight {
     justify-content: flex-end;
 }
 
-:global(.md-image-frame) {
+.imageFrame {
     max-width: var(--md-image-max-w, 100%);
     max-height: var(--md-image-max-h, 100%);
 }
 
-:global(.md-image) {
+.image {
     max-width: inherit;
     max-height: inherit;
 }
 
-/* Inline text-DSL spacers and alignment — literal class names emitted by the
-   customText capture plugins. */
-:global(.md-gap) {
+/* Inline spacer object and alignment marks. */
+.gap {
     display: inline-block;
     margin: 0 var(--space-3) var(--space-3) 0;
 }
 
-:global(.md-newline) {
+.newline {
     display: grid;
     margin: var(--space-2) 0;
 }
 
-:global(.md-align-left) {
+.alignLeft {
     text-align: left;
 }
 
-:global(.md-align-center) {
+.alignCenter {
     text-align: center;
 }
 
-:global(.md-align-right) {
+.alignRight {
     text-align: right;
 }

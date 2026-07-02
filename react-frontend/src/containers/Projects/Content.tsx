@@ -5,10 +5,10 @@ import ProjectCard from "../../components/ProjectCard"
 function Content({ projects }: Readonly<Pick<SanityProjectsPage, "projects">>) {
     return (
         <>
-            {projects.map((project) => {
+            {projects.map((project, index) => {
                 return (
                     <ProjectCard
-                        key={project.description}
+                        key={index}
                         imgSrc={project.imgSrc}
                         description={project.description}
                         projectLink={project.links.projectLink}

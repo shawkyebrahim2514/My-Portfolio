@@ -1,5 +1,5 @@
 import { SanityExperiencePage } from '../../Types'
-import HTMLMarkdown from '../../components/HTMLMarkdown'
+import RichContent from '../../components/RichContent'
 
 type ExperienceItemDescriptionProps = {
     readonly description: SanityExperiencePage['internshipsSection']['internships'][0]['description']
@@ -8,7 +8,7 @@ type ExperienceItemDescriptionProps = {
 export default function ExperienceItemDescription({ description }: ExperienceItemDescriptionProps) {
     return (
         <div>
-            <HTMLMarkdown markdown={description} />
+            <RichContent value={description} />
         </div>
     )
 }

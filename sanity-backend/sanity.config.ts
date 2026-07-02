@@ -11,7 +11,10 @@ export default defineConfig({
   title: 'Portfolio',
 
   projectId: 'h48br789',
-  dataset: 'production',
+  // Override locally via SANITY_STUDIO_DATASET in a .env.local (gitignored)
+  // to point Studio at a non-production dataset, e.g. a staging copy used
+  // while developing/testing a schema migration.
+  dataset: process.env.SANITY_STUDIO_DATASET || 'production',
 
   plugins: [structureTool(), visionTool(), ...(isDev ? devOnlyPlugins : [])],
 

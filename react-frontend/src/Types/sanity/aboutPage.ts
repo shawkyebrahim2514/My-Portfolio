@@ -1,4 +1,6 @@
+import { RichContentNode } from './richContent';
+
 export type SanityAboutPage = {
     personImage: string;
-    description: string;
+    description: RichContentNode[];
 }

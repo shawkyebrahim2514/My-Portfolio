@@ -1,5 +1,6 @@
 import { commanTitle, changeDocumentPreviewTitle } from "./commanFields";
 import { PiStudentFill } from "react-icons/pi";
+import { richContentOf } from "../objects/richContent";
 
 export const educationPage = {
     name: 'educationPage',
@@ -22,8 +23,9 @@ export const educationPage = {
                 },
                 {
                     name: 'description',
-                    type: 'text',
+                    type: 'array',
                     title: 'Description',
+                    of: richContentOf,
                     validation: Rule => Rule.required()
                 },
                 {

@@ -9,4 +9,16 @@ export {
     type SanityNavbarData
 } from './sanity';
 
+export {
+    type RichContentNode,
+    type RichBlock,
+    type RichSpan,
+    type RichSpacer,
+    type RichMarkDef,
+    type RichImage,
+    type RichImageRow,
+    type RichDivider,
+    type RichCallout,
+} from './sanity/richContent';
+
 export { type Theme, type PortfolioPathes, type ColorLevels } from './contexts';

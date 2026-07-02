@@ -1,4 +1,5 @@
 import { CommonTitle } from "./common";
+import { RichContentNode } from './richContent';
 
 type Links = {
     demoLink: string;
@@ -7,7 +8,7 @@ type Links = {
 
 type Project = {
     links: Links;
-    description: string;
+    description: RichContentNode[];
     imgSrc: string;
     technologies: string[];
 }

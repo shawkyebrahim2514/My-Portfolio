@@ -1,13 +1,14 @@
 import { CommonTitle } from "./common";
+import { RichContentNode } from './richContent';
 
 type Course = {
-    description: string;
+    description: RichContentNode[];
     technologies: string[];
 }
 
 export type SanityEducationPage = CommonTitle & {
     education: {
-        description: string;
+        description: RichContentNode[];
         courses: Course[];
     }
 }
