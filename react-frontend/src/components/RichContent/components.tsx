@@ -5,9 +5,10 @@ import Header from '../MainSection/Header';
 import ButtonLink from './ButtonLink';
 import ImageRow from './ImageRow';
 import Callout from './Callout';
+import SplitText from '../SplitText';
 import { cx } from '../../utils/cx';
-import type { RichBlock, RichMarkDef } from '../../Types';
-import { blockAlignClass } from './utils';
+import type { RichBlock, RichMarkDef, RichSpan } from '../../Types';
+import { blockAlignClass, ALIGN_MARKS } from './utils';
 import styles from './RichContent.module.css';
 import marksStyles from './Marks.module.css';
 
@@ -61,7 +62,31 @@ function NormalBlock({ value, children }: BlockProps) {
     return <p className={alignClass}>{children}</p>;
 }
 
-function makeHeading(tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6', styleKey: keyof typeof styles) {
+// The h1 is only ever the page-level name/title (see About/Content) — give
+// it a one-time character-stagger reveal via SplitText. Falls back to plain
+// rendering if the block carries an override link or any non-alignment mark
+// (bold/highlight/etc.), since splitting would otherwise drop that styling.
+function Heading1({ value, children }: BlockProps) {
+    const block = value as RichBlock;
+    const alignClass = blockAlignClass(block.children, styles);
+    const override = singleLinkOverride(block);
+    if (override) {
+        return <h1 className={cx(styles.h1, alignClass)}>{override}</h1>;
+    }
+    const spans = (block.children ?? []).filter((child): child is RichSpan => child._type === 'span');
+    const hasStylingMarks = spans.some((span) => (span.marks ?? []).some((mark) => !ALIGN_MARKS.has(mark)));
+    if (hasStylingMarks) {
+        return <h1 className={cx(styles.h1, alignClass)}>{children}</h1>;
+    }
+    const text = spans.map((span) => span.text).join('');
+    return (
+        <h1 className={cx(styles.h1, alignClass)}>
+            <SplitText text={text} />
+        </h1>
+    );
+}
+
+function makeHeading(tag: 'h2' | 'h3' | 'h4' | 'h5' | 'h6', styleKey: keyof typeof styles) {
     return function Heading({ value, children }: BlockProps) {
         const block = value as RichBlock;
         const override = singleLinkOverride(block);
@@ -76,7 +101,7 @@ function makeHeading(tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6', styleKey: key
 export const components: PortableTextComponents = {
     block: {
         normal: NormalBlock,
-        h1: makeHeading('h1', 'h1'),
+        h1: Heading1,
         h2: makeHeading('h2', 'h2'),
         h3: makeHeading('h3', 'h3'),
         h4: makeHeading('h4', 'h4'),

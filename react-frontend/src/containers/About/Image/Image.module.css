@@ -1,14 +1,27 @@
 .frame {
-    width: 320px;
-    height: 320px;
+    /* Scales down on narrow viewports so the ring (which extends beyond
+       this box) never gets close to the screen edges. */
+    --avatar-size: clamp(200px, 58vw, 320px);
+    width: var(--avatar-size);
+    height: var(--avatar-size);
     position: relative;
     margin-right: 10px;
+}
+
+.ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
 }
 
 .backShape {
     width: inherit;
     height: inherit;
     position: absolute;
+    top: 0;
+    left: 0;
     border-radius: 50%;
     z-index: 1;
     scale: 1.1;

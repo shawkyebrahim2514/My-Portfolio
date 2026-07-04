@@ -13,9 +13,11 @@ const pathesPages: Record<PortfolioPathes, string> = {
 
 type PortfolioLinkButtonsProps = {
     readonly linkButtonOnClickHandler?: () => void;
+    /** Optional per-item className, e.g. for the mobile bubble-menu pills. */
+    readonly itemClassName?: string;
 }
 
-function PortfolioLinkButtons({ linkButtonOnClickHandler }: PortfolioLinkButtonsProps) {
+function PortfolioLinkButtons({ linkButtonOnClickHandler, itemClassName }: PortfolioLinkButtonsProps) {
     return (
         <>
             {Object.entries(pathesPages).map(([path, pageName]) => {
@@ -25,6 +27,7 @@ function PortfolioLinkButtons({ linkButtonOnClickHandler }: PortfolioLinkButtons
                         path={path as PortfolioPathes}
                         pageName={pageName}
                         onClick={linkButtonOnClickHandler}
+                        className={itemClassName}
                     />
                 )
             })}

@@ -24,21 +24,22 @@
     "react-dom": "^19.2.0",
     "react-markdown": "^10.1.0",
     "react-responsive": "^10.0.1",
-    "react-router-dom": "^7.18.1",
     "rehype-stringify": "^10.0.1",
     "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.1",
     "unist-util-visit": "^5.1.0",
+    "vike": "^0.4.260",
+    "vike-react": "^0.6.25",
     "web-vitals": "^5.3.0"
   },
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
+    "dev": "vike dev",
+    "build": "vike build",
+    "preview": "vike preview",
     "test": "vitest",
     "lint": "eslint .",
-    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"pages/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\" \"pages/**/*.{ts,tsx}\""
   },
   "browserslist": {
     "production": [
