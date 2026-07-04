@@ -8,10 +8,11 @@ import styles from './LinkButton.module.css';
 type LinkButtonProps = {
     readonly path: PortfolioPathes,
     readonly pageName: string,
-    readonly onClick?: () => void
+    readonly onClick?: () => void,
+    readonly className?: string,
 }
 
-function LinkButton({ path, pageName, onClick }: LinkButtonProps) {
+function LinkButton({ path, pageName, onClick, className }: LinkButtonProps) {
     const pageContext = usePageContext();
     const href = `/${path}`;
     // Vike intercepts same-origin <a> clicks automatically (client-side
@@ -29,7 +30,8 @@ function LinkButton({ path, pageName, onClick }: LinkButtonProps) {
                 buttonStyles.md,
                 buttonStyles.pointer,
                 styles.link,
-                isActive && styles.active
+                isActive && styles.active,
+                className
             )}>
             {pageName}
         </a>

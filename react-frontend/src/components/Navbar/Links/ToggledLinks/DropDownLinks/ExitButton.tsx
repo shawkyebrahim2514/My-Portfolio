@@ -1,23 +1,28 @@
-import Button from '../../../../Button'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { memo, useCallback } from 'react';
 import styles from './ExitButton.module.css';
 
 type ExitButtonProps = {
     readonly setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function ExitButton({ setIsMenuOpen }: ExitButtonProps) {
-    const buttonClickHandler = () => {
+// A round "bubble" close button matching the BubbleMenu toggle's visual
+// language — two crossed lines forming a static X — instead of the
+// FontAwesome circle-X icon.
+function ExitButton({ setIsMenuOpen }: ExitButtonProps) {
+    const clickHandler = useCallback(() => {
         setIsMenuOpen(false);
-    };
+    }, [setIsMenuOpen]);
 
     return (
-        <Button
-            className={styles.exit}
-            pointer={true}
-            ariaLabel="Close navigation menu"
-            icon={<FontAwesomeIcon icon={faCircleXmark} transform="grow-12" />}
-            onClick={buttonClickHandler} />
+        <button
+            type="button"
+            className={styles.bubble}
+            aria-label="Close navigation menu"
+            onClick={clickHandler} >
+            <span className={styles.line} />
+            <span className={styles.line} />
+        </button>
     )
 }
+
+export default memo(ExitButton);
