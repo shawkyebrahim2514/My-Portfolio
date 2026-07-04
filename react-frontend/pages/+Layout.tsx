@@ -11,6 +11,7 @@ import Navbar from '../src/components/Navbar';
 import Loader from '../src/components/Loader';
 import ErrorBoundary from '../src/components/ErrorBoundary';
 import ShapeGridBackground from '../src/components/ShapeGridBackground';
+import ClickSpark from '../src/components/ClickSpark';
 import '../src/styles/tokens.css';
 import '../src/index.css';
 import styles from './Layout.module.css';
@@ -20,6 +21,7 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
         <ThemeContext>
             <div className={styles.page}>
                 <ShapeGridBackground />
+                <ClickSpark />
                 <a className={styles.skipLink} href="#main-content">Skip to main content</a>
                 <div className={styles.inner}>
                     <Suspense fallback={<Loader />}>
