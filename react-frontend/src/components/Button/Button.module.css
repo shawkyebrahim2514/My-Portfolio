@@ -34,16 +34,16 @@
 }
 
 .sm {
-    font-size: 0.8rem;
+    font-size: var(--font-size-xs);
     padding: 0.25rem 0.5rem;
 }
 
 .md {
-    font-size: 1rem;
+    font-size: var(--font-size-sm);
     padding: 0.35rem 0.6rem;
 }
 
 .lg {
-    font-size: 1rem;
+    font-size: var(--font-size-sm);
     padding: 0.5rem 1rem;
 }

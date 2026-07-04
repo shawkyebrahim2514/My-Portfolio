@@ -68,6 +68,16 @@
   --font-size-h5: clamp(1.1rem, 1.05rem + 0.2vw, 1.2rem);
   --font-size-h6: clamp(1.05rem, 1rem + 0.15vw, 1.1rem);
 
+  /* Fluid body/UI type scale — same approach as the heading scale above,
+     applied to the smaller text used by buttons, icons, labels, and
+     paragraph copy so nothing stays a hard-coded rem value that can feel
+     cramped (too big) or crowded (too small) at either end of the viewport
+     range. */
+  --font-size-xs: clamp(0.7rem, 0.66rem + 0.15vw, 0.8rem);
+  --font-size-sm: clamp(0.85rem, 0.8rem + 0.2vw, 1rem);
+  --font-size-md: clamp(1.05rem, 1rem + 0.2vw, 1.2rem);
+  --font-size-lg: clamp(1.3rem, 1.2rem + 0.3vw, 1.5rem);
+
   /* Markdown-specific spacing (previously hardcoded magic numbers) */
   --md-bullet-offset: 15px;
   --md-image-gap: 10px;
