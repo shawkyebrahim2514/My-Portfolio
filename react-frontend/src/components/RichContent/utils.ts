@@ -30,7 +30,7 @@ export function imageFrameVars(maxWidth?: number, maxHeight?: number): React.CSS
     return { '--md-image-max-w': width, '--md-image-max-h': height } as React.CSSProperties;
 }
 
-const ALIGN_MARKS = new Set(['alignLeft', 'alignCenter', 'alignRight']);
+export const ALIGN_MARKS = new Set(['alignLeft', 'alignCenter', 'alignRight']);
 
 // The old [center]/[left]/[right] markers were block-wide, but Portable
 // Text's native `block` type can't carry a custom field (see

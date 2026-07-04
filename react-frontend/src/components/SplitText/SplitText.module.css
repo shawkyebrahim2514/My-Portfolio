@@ -1,0 +1,21 @@
+.splitText {
+    display: inline-block;
+}
+
+.word {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.char {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(0.6em);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    will-change: transform, opacity;
+}
+
+.charVisible {
+    opacity: 1;
+    transform: translateY(0);
+}
