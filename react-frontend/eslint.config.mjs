@@ -49,7 +49,7 @@ export default tseslint.config(
         // HOC is not detectable by eslint-plugin-react-refresh, so the rule
         // false-positives here. Fast Refresh isn't relevant for these entry
         // components, so disable the rule for them only.
-        files: ['src/containers/**/index.tsx'],
+        files: ['src/containers/**/index.tsx', 'pages/**/+Page.tsx'],
         rules: {
             'react-refresh/only-export-components': 'off',
         },

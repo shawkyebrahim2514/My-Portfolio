@@ -1,6 +1,6 @@
 import { PortfolioPathes } from '../../../Types';
 import { memo } from 'react';
-import { NavLink } from 'react-router-dom';
+import { usePageContext } from 'vike-react/usePageContext';
 import { cx } from '../../../utils/cx';
 import buttonStyles from '../../Button/Button.module.css';
 import styles from './LinkButton.module.css';
@@ -12,12 +12,18 @@ type LinkButtonProps = {
 }
 
 function LinkButton({ path, pageName, onClick }: LinkButtonProps) {
+    const pageContext = usePageContext();
+    const href = `/${path}`;
+    // Vike intercepts same-origin <a> clicks automatically (client-side
+    // routing) — no special <Link> component needed, see vike.dev/active-links.
+    const isActive = pageContext.urlPathname === href;
+
     return (
-        <NavLink
-            to={`/${path}`}
-            end
+        <a
+            href={href}
             onClick={onClick}
-            className={({ isActive }) => cx(
+            aria-current={isActive ? 'page' : undefined}
+            className={cx(
                 buttonStyles.button,
                 buttonStyles.ghost,
                 buttonStyles.md,
@@ -26,7 +32,7 @@ function LinkButton({ path, pageName, onClick }: LinkButtonProps) {
                 isActive && styles.active
             )}>
             {pageName}
-        </NavLink>
+        </a>
     )
 }
 

@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
 import { axe } from 'vitest-axe';
 
 vi.mock('../../hooks/useSanityQuery', () => ({
@@ -11,14 +10,18 @@ vi.mock('react-responsive', () => ({
     useMediaQuery: () => false,
 }));
 
+vi.mock('vike/client/router', () => ({
+    navigate: vi.fn(),
+}));
+
+const { usePageContext } = vi.hoisted(() => ({ usePageContext: vi.fn() }));
+vi.mock('vike-react/usePageContext', () => ({ usePageContext }));
+
 import Navbar from './index';
 
 function renderNavbar(initialPath = '/') {
-    return render(
-        <MemoryRouter initialEntries={[initialPath]}>
-            <Navbar />
-        </MemoryRouter>
-    );
+    usePageContext.mockReturnValue({ urlPathname: initialPath });
+    return render(<Navbar />);
 }
 
 describe('Navbar — accessibility', () => {
