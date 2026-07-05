@@ -18,10 +18,7 @@ portfolio: Document {
 ```
 aboutPage: Document{
  personImage: URL,
- salutation: String,
- personName: String,
- seeking: String,
- position: String,
+ circularRingText: String,
  description: Text,
  resume: Object{
   text: String,

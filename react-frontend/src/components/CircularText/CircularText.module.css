@@ -1,0 +1,38 @@
+.circularText {
+    width: var(--circular-text-size);
+    height: var(--circular-text-size);
+    position: relative;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: circularTextSpin var(--circular-text-spin-duration) linear infinite;
+}
+
+.circularText span {
+    position: absolute;
+    inset: 0;
+    display: inline-block;
+    text-align: center;
+    /* Scales with the ring's own diameter so characters stay legible
+       without crowding the edges on small screens, clamped so it never
+       drops below a readable floor or grows past a sensible ceiling. */
+    font-size: clamp(var(--font-size-xs), calc(var(--circular-text-size) * 0.045), var(--font-size-sm));
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--color-base-700);
+}
+
+@keyframes circularTextSpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .circularText {
+        animation: none;
+    }
+}

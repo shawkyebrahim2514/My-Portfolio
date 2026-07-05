@@ -25,8 +25,53 @@
     justify-content: center;
     gap: 1rem;
     padding: 2rem;
+}
+
+/* Each nav link becomes a standalone rounded "bubble" pill that pops in
+   with a staggered scale/opacity transition once the menu opens — the
+   zero-dependency, CSS-only counterpart of react-bits' BubbleMenu pills. */
+.pill.pill {
+    border-radius: 999px !important;
+    background-color: var(--color-base-50) !important;
+    padding: 0.9rem 1.5rem !important;
+    justify-content: center;
+    text-align: center;
     border: var(--border);
-    border-radius: var(--radius);
     box-shadow: var(--shadow);
-    background-color: var(--color-base-50);
+    transform: scale(0.4);
+    opacity: 0;
+    transition:
+        transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.3s ease,
+        background-color var(--transition),
+        color var(--transition);
+}
+
+.overlayOpen .pill.pill {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Preserve the "current page" highlight from LinkButton's .active class
+   (which our !important background above would otherwise mask) using the
+   aria-current attribute it already sets — avoids depending on cross-module
+   class bundle order. */
+.pill.pill[aria-current="page"] {
+    background-color: var(--color-base-200) !important;
+    color: var(--color-base-800);
+}
+
+.panel > .pill:nth-child(1) { transition-delay: 0ms; }
+.panel > .pill:nth-child(2) { transition-delay: 60ms; }
+.panel > .pill:nth-child(3) { transition-delay: 120ms; }
+.panel > .pill:nth-child(4) { transition-delay: 180ms; }
+.panel > .pill:nth-child(5) { transition-delay: 240ms; }
+.panel > .pill:nth-child(6) { transition-delay: 300ms; }
+
+@media (prefers-reduced-motion: reduce) {
+    .pill.pill {
+        transition: none;
+        transform: scale(1);
+        opacity: 1;
+    }
 }

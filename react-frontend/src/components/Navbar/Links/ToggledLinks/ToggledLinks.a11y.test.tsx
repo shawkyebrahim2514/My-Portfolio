@@ -1,14 +1,18 @@
 import { describe, it, expect } from 'vitest';
 import { render, fireEvent } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
+import { vi } from 'vitest';
 import ToggledLinks from './index';
 
+vi.mock('vike/client/router', () => ({
+    navigate: vi.fn(),
+}));
+
+vi.mock('vike-react/usePageContext', () => ({
+    usePageContext: () => ({ urlPathname: '/' }),
+}));
+
 function renderMenu() {
-    return render(
-        <MemoryRouter>
-            <ToggledLinks />
-        </MemoryRouter>
-    );
+    return render(<ToggledLinks />);
 }
 
 describe('ToggledLinks — mobile menu accessibility', () => {
