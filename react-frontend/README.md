@@ -2,7 +2,15 @@
 
 ## Development
 
-This project now uses [Vite](https://vitejs.dev/) for development and build.
+This project uses [Vike](https://vike.dev/) (Vite-native SSG) for routing,
+per-page data-fetching, and build-time pre-rendering — each route under
+[`pages/`](./pages) has its own `+Page.tsx` (UI), `+data.ts` (Sanity fetch,
+runs at build time), and `+config.ts` (per-page `<title>`/`<description>`).
+The shared app shell (theme, nav, skip-link) lives in
+[`pages/+Layout.tsx`](./pages/+Layout.tsx); global `<head>` tags (favicon,
+manifest, JSON-LD) live in [`pages/+Head.tsx`](./pages/+Head.tsx). The site
+is fully pre-rendered at build time (`prerender: true`), so the production
+build in `dist/client` is 100% static — no Node server required.
 
 ### Getting Started
 

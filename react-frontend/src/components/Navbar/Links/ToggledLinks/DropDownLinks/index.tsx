@@ -35,7 +35,8 @@ export default function DropDownLinks({ isMenuOpen, setIsMenuOpen }: DropDownLin
             <ExitButton setIsMenuOpen={setIsMenuOpen} />
             <div className={styles.panel}>
                 <PortfolioLinks
-                    linkButtonOnClickHandler={linkButtonOnClickHandler} />
+                    linkButtonOnClickHandler={linkButtonOnClickHandler}
+                    itemClassName={styles.pill} />
             </div>
         </div>
     )

@@ -9,6 +9,6 @@
 }
 
 .text {
-    font-size: 1.5rem;
+    font-size: var(--font-size-lg);
     font-weight: 700;
 }
