@@ -5,14 +5,12 @@ import CircularText from '../../../components/CircularText';
 import { SanityAboutPage } from '../../../Types';
 import styles from './Image.module.css';
 
-const RING_TEXT = 'SHAWKY EBRAHIM \u2022 SOFTWARE ENGINEER \u2022 ';
-
-function Image({ personImage }: Readonly<Pick<SanityAboutPage, 'personImage'>>) {
+function Image({ personImage, circularRingText }: Readonly<Pick<SanityAboutPage, 'personImage' | 'circularRingText'>>) {
     return (
         <div className={styles.frame}>
             <div className={styles.ring}>
                 <CircularText
-                    text={RING_TEXT.repeat(2)}
+                    text={circularRingText.repeat(2)}
                     size="calc(var(--avatar-size) * 1.24)"
                     spinDuration={24}
                 />
