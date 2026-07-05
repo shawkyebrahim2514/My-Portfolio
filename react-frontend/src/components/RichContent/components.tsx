@@ -143,7 +143,7 @@ export const components: PortableTextComponents = {
             </a>
         ),
         buttonLink: ({ value, text }) => (
-            <ButtonLink href={value?.href} icon={value?.icon} text={text} size="sm" />
+            <ButtonLink href={value?.href} icon={value?.icon} text={text} size="md" />
         ),
     },
     types: {
