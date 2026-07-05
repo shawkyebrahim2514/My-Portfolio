@@ -13,7 +13,7 @@ function About() {
   return (
     <div className={styles.container}>
       <Content description={aboutPage.description} />
-      <Image personImage={aboutPage.personImage} />
+      <Image personImage={aboutPage.personImage} circularRingText={aboutPage.circularRingText} />
     </div>
   );
 }

@@ -5,7 +5,7 @@ import styles from './Content.module.css';
 
 function Content({
     description,
-}: Readonly<Omit<SanityAboutPage, 'personImage'>>) {
+}: Readonly<Pick<SanityAboutPage, 'description'>>) {
     return (
         <div className={styles.content}>
             <RichContent value={description} />
