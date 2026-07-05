@@ -12,30 +12,30 @@
 
 :root {
   /* Base (neutral) ramp */
-  --color-base-0: #ffffff;
-  --color-base-50: #fafaf6;
-  --color-base-100: #edeee6;
-  --color-base-200: #d4d5cd;
-  --color-base-300: #bdbdb6;
-  --color-base-400: #a5a59f;
-  --color-base-500: #898984;
-  --color-base-600: #6f706c;
-  --color-base-700: #545451;
-  --color-base-800: #393937;
-  --color-base-900: #282827;
+  --color-base-0: #F9F9FB;
+  --color-base-50: #EFF0F3;
+  --color-base-100: #E7E8EC;
+  --color-base-200: #E0E1E6;
+  --color-base-300: #D8D9E0;
+  --color-base-400: #CDCED7;
+  --color-base-500: #B9BBC6;
+  --color-base-600: #8B8D98;
+  --color-base-700: #80828D;
+  --color-base-800: #62636C;
+  --color-base-900: #1E1F24;
 
   /* Secondary (warm) ramp */
-  --color-secondary-0: #ffffff;
-  --color-secondary-50: #fef9f5;
-  --color-secondary-100: #fbebdd;
-  --color-secondary-200: #f8d7bc;
-  --color-secondary-300: #f6c29a;
-  --color-secondary-400: #d4986c;
-  --color-secondary-500: #b4805b;
-  --color-secondary-600: #93684b;
-  --color-secondary-700: #7c573f;
-  --color-secondary-800: #644633;
-  --color-secondary-900: #4a3326;
+  --color-secondary-0: #F1FAFF;
+  --color-secondary-50: #E1F6FF;
+  --color-secondary-100: #CFF0FF;
+  --color-secondary-200: #BAE7FE;
+  --color-secondary-300: #A2DBF8;
+  --color-secondary-400: #82CBF0;
+  --color-secondary-500: #47B5E7;
+  --color-secondary-600: #3CACDD;
+  --color-secondary-700: #2CA0D1;
+  --color-secondary-800: #0078A7;
+  --color-secondary-900: #003F5B;
 
   /* Radius */
   --radius: 8px;
