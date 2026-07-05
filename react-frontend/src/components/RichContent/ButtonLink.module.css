@@ -3,4 +3,6 @@
    browser-default underline that .button never had to account for. */
 .noUnderline {
     text-decoration: none;
+    position: relative;
+    z-index: 1;
 }
