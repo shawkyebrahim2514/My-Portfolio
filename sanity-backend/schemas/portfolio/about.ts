@@ -52,6 +52,24 @@ export const aboutPage = {
                 },
             ],
             validation: Rule => Rule.required()
+        },
+        {
+            name: 'featuredInAbout',
+            type: 'array',
+            title: 'Featured Hub Entries',
+            description: 'Up to 3 hand-picked Hub entries shown in the "See what I share" teaser on this page.',
+            of: [
+                {
+                    type: 'reference',
+                    name: 'featuredHubEntry',
+                    to: [
+                        {
+                            type: 'hubEntry'
+                        }
+                    ]
+                }
+            ],
+            validation: Rule => Rule.unique().max(3)
         }
     ]
 }

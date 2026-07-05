@@ -5,5 +5,13 @@ export {
     getContactsPage,
     getExperiencePage,
     getAboutPage,
-    getNavbarData
+    getNavbarData,
+    getHubPage,
+    getHubEntries,
+    getHubEntriesByCategory,
+    getHubEntryBySlug,
+    getHubEntrySlugs,
+    getHubCategories,
+    getHubCategoryBySlug,
+    getHubCategorySlugs,
 } from './Sanity';

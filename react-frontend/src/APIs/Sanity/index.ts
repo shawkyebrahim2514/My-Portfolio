@@ -5,3 +5,13 @@ export { getSkillsPage } from './skills';
 export { getAboutPage } from './about';
 export { getExperiencePage } from './experience';
 export { getNavbarData } from './navbar';
+export {
+    getHubPage,
+    getHubEntries,
+    getHubEntriesByCategory,
+    getHubEntryBySlug,
+    getHubEntrySlugs,
+    getHubCategories,
+    getHubCategoryBySlug,
+    getHubCategorySlugs,
+} from './hub';

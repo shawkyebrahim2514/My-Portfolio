@@ -6,7 +6,13 @@ export {
     type CommonTitle,
     type SanityExperiencePage,
     type SanityAboutPage,
-    type SanityNavbarData
+    type SanityNavbarData,
+    type SanityHubPage,
+    type SanityHubEntry,
+    type SanityHubEntrySummary,
+    type HubEntryKind,
+    type HubEntryCategoryRef,
+    type SanityHubCategory,
 } from './sanity';
 
 export {

@@ -9,6 +9,7 @@ import { certificates } from './units/certificates'
 import { professionalExperience } from './units/professionalExperience'
 import { portfolio } from './portfolio'
 import { spacer, divider, imageRow, callout } from './objects/richContent'
+import { hubPage, hubEntry, hubCategory } from './hub'
 
 export const schemaTypes = [
     portfolio,
@@ -19,6 +20,11 @@ export const schemaTypes = [
     certificates,
     skills,
     contacts,
+    // Hub: content-sharing section (articles/videos/podcasts/reads/books),
+    // entered via an About-page teaser rather than a navbar tab.
+    hubPage,
+    hubEntry,
+    hubCategory,
     // Rich-content object types (Portable Text) used by description fields.
     spacer,
     divider,

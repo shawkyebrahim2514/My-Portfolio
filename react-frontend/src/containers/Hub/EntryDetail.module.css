@@ -1,0 +1,54 @@
+.article {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background-color: var(--color-secondary-100);
+    color: var(--color-secondary-700);
+}
+
+.date {
+    font-size: var(--font-size-sm);
+    color: var(--color-base-600);
+}
+
+.excerpt {
+    font-size: var(--font-size-md);
+    color: var(--color-base-700);
+}
+
+.imageFrame {
+    width: 100%;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: var(--border);
+    box-shadow: var(--shadow);
+}
+
+.image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.externalLink {
+    text-decoration: none;
+}

@@ -1,0 +1,28 @@
+import type { PageContextServer } from 'vike/types';
+import { render } from 'vike/abort';
+import { useConfig } from 'vike-react/useConfig';
+import { getHubEntryBySlug } from '../../../src/APIs';
+import type { SanityHubEntry } from '../../../src/Types';
+
+export async function data(pageContext: PageContextServer): Promise<SanityHubEntry> {
+    // useConfig() must be called before any `await` — the actual config(...)
+    // call (setting a per-entry <title>/description) happens after the fetch.
+    // Not a React component/hook despite the naming convention — this is
+    // Vike's "universal hook" pattern (usable inside +data.ts), which the
+    // react-hooks/rules-of-hooks rule doesn't know about.
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const config = useConfig();
+    const { slug } = pageContext.routeParams;
+    const entry = await getHubEntryBySlug(slug);
+
+    if (!entry) {
+        throw render(404, `Hub entry not found: ${slug}`);
+    }
+
+    config({
+        title: `${entry.title} — Hub — Shawky Ebrahim`,
+        description: entry.excerpt,
+    });
+
+    return entry;
+}
