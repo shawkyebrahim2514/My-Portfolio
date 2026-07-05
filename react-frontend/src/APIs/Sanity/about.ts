@@ -4,6 +4,7 @@ import sanityClient from './client';
 const getAboutPage = async () => {
     const query = `*[_type == "portfolio"][0].pages[_type == "aboutPage"][0] {
         personImage,
+        circularRingText,
         description,
         resume,
     }`;

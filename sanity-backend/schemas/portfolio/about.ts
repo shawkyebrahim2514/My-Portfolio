@@ -18,27 +18,10 @@ export const aboutPage = {
             }).required()
         },
         {
-            name: 'salutation',
+            name: 'circularRingText',
+            title: 'Circular Ring Text',
+            description: 'Short text repeated around the rotating ring surrounding the avatar photo (e.g. "SHAWKY EBRAHIM • SOFTWARE ENGINEER • "). Include a trailing separator/space so the repeated loop reads smoothly.',
             type: 'string',
-            title: 'Salutation',
-            validation: Rule => Rule.required()
-        },
-        {
-            name: 'personName',
-            type: 'string',
-            title: 'Person Name',
-            validation: Rule => Rule.required()
-        },
-        {
-            name: 'seeking',
-            type: 'string',
-            title: 'Seeking',
-            validation: Rule => Rule.required()
-        },
-        {
-            name: 'position',
-            type: 'string',
-            title: 'Position',
             validation: Rule => Rule.required()
         },
         {

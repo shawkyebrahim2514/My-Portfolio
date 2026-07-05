@@ -19,7 +19,7 @@ function About() {
             <Content
                 description={aboutPage.description}
             />
-            <Image personImage={aboutPage.personImage} />
+            <Image personImage={aboutPage.personImage} circularRingText={aboutPage.circularRingText} />
         </div>
     )
 }
