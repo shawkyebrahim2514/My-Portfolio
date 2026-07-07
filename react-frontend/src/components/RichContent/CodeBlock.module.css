@@ -2,6 +2,13 @@
    the tokens; this wrapper adds the card chrome (header bar, border, radius)
    so it sits consistently among the other rich-content blocks. */
 .wrapper {
+    /* The parent .article is a flex column with align-items: flex-start, so
+       block children shrink to their content. Stretch to the full reading
+       column width; long lines then scroll inside .pre instead of widening
+       the card. min-width:0 stops the pre content forcing an overflow. */
+    width: 100%;
+    align-self: stretch;
+    min-width: 0;
     margin: 0;
     border: var(--border);
     border-radius: var(--radius);
