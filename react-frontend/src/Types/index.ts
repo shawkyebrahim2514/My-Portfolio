@@ -26,6 +26,7 @@ export {
     type RichImageRow,
     type RichDivider,
     type RichCallout,
+    type RichCode,
 } from './sanity/richContent';
 
 export { type Theme, type PortfolioPathes, type ColorLevels } from './contexts';

@@ -46,6 +46,19 @@ const block = (text, style = 'normal') => ({
 // Bulleted list item — exercises the RTL-aware list marker in RichContent.
 const bullet = (text) => ({ ...block(text), listItem: 'bullet', level: 1 })
 
+// Numbered list item — exercises the ordered-list counter in RichContent.
+const numbered = (text) => ({ ...block(text), listItem: 'number', level: 1 })
+
+// Fenced code block — exercises the syntax-highlighted CodeBlock renderer.
+const code = (codeText, language = 'text', filename, highlightedLines) => ({
+  _type: 'code',
+  _key: `k${Math.random().toString(36).slice(2, 10)}`,
+  code: codeText,
+  language,
+  ...(filename ? { filename } : {}),
+  ...(highlightedLines ? { highlightedLines } : {}),
+})
+
 // Minimal `icon.manager` value (matching sanity-plugin-icon-manager with
 // inlineSvg:true). The frontend only reads `icon.metadata.inlineSvg`; this
 // gives the seeded categories real, currentColor-based SVGs so the chip icons
@@ -175,6 +188,24 @@ const entries = [
       block('This is placeholder dummy content used to validate the hubEntry schema end-to-end.'),
       block('Key Takeaways', 'h3'),
       block('Separate data-fetching from presentation. Keep components dumb where possible.'),
+      block('A dependency-friendly folder layout I keep reaching for:'),
+      numbered('Domain — pure business types and rules, zero framework imports.'),
+      numbered('Application — use-cases that orchestrate the domain.'),
+      numbered('Infrastructure — Sanity clients, HTTP, and other adapters.'),
+      numbered('UI — React components that only speak to the application layer.'),
+      block('A tiny use-case reads cleanly when the data layer is injected:'),
+      code(
+        `type GetEntries = (client: SanityClient) => Promise<HubEntry[]>;
+
+export const getEntries: GetEntries = async (client) => {
+  const query = '*[_type == "hubEntry"] | order(publishedAt desc)';
+  return client.fetch(query);
+};`,
+        'typescript',
+        'application/getEntries.ts',
+        [6],
+      ),
+      block('Because the transport is a parameter, the same use-case runs in tests with an in-memory stub and no network at all.'),
     ],
   },
   {
@@ -315,6 +346,17 @@ const entries = [
       bullet('افصل جلب البيانات عن طبقة العرض قدر الإمكان.'),
       bullet('اجعل المكوّنات بسيطة (dumb components) حيثما أمكن ذلك.'),
       bullet('استعمل الأنواع (types) لتوثيق النوايا وتقليل الأخطاء.'),
+      block('وأتبع هذه الخطوات عند إضافة ميزة جديدة:'),
+      numbered('أبدأ بكتابة اختبار صغير يصف السلوك المطلوب.'),
+      numbered('أكتب أبسط كود يجعل الاختبار ينجح.'),
+      numbered('أعيد صياغة الكود (refactor) مع بقاء الاختبارات خضراء.'),
+      block('وحتى داخل نص عربي، تبقى الشيفرة البرمجية بالاتجاه الصحيح من اليسار إلى اليمين:'),
+      code(
+        `def greet(name: str) -> str:
+    return f"Hello, {name}!"`,
+        'python',
+        'greet.py',
+      ),
       block(
         'الاختبار المبكر يوفّر ساعات من التصحيح لاحقًا، والبساطة تكاد تكون دائمًا الخيار الأصح على المدى الطويل.',
       ),

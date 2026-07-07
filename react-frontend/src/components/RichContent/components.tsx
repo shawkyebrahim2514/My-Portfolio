@@ -5,6 +5,7 @@ import Header from '../MainSection/Header';
 import ButtonLink from './ButtonLink';
 import ImageRow from './ImageRow';
 import Callout from './Callout';
+import CodeBlock from './CodeBlock';
 import SplitText from '../SplitText';
 import { cx } from '../../utils/cx';
 import type { RichBlock, RichMarkDef, RichSpan } from '../../Types';
@@ -110,14 +111,16 @@ export const components: PortableTextComponents = {
     },
     list: {
         bullet: ({ children }) => <ul className={styles.ul}>{children}</ul>,
+        number: ({ children }) => <ol className={styles.ol}>{children}</ol>,
     },
     listItem: {
         bullet: ({ children }) => <li className={styles.li}>{children}</li>,
+        number: ({ children }) => <li className={styles.oli}>{children}</li>,
     },
     marks: {
         strong: ({ children }) => <strong className={marksStyles.highlightTextBase}>{children}</strong>,
         em: ({ children }) => <em>{children}</em>,
-        code: ({ children }) => <code>{children}</code>,
+        code: ({ children }) => <code className={marksStyles.code}>{children}</code>,
         highlightSecondary: ({ children }) => <span className={marksStyles.highlightTextSecondary}>{children}</span>,
         highlightAreaBase: ({ children }) => <span className={marksStyles.highlightAreaBase}>{children}</span>,
         highlightAreaSecondary: ({ children }) => (
@@ -149,6 +152,7 @@ export const components: PortableTextComponents = {
     types: {
         imageRow: ImageRow,
         callout: Callout,
+        code: CodeBlock,
         divider: () => <hr className={styles.hr} />,
         spacer: ({ value }) => (
             <span className={value.kind === 'newline' ? styles.newline : styles.gap} />

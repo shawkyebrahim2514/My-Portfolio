@@ -27,7 +27,7 @@ export type RichBlock = {
     _type: 'block';
     _key: string;
     style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-    listItem?: 'bullet';
+    listItem?: 'bullet' | 'number';
     level?: number;
     markDefs?: RichMarkDef[];
     children: Array<RichSpan | RichSpacer>;
@@ -62,4 +62,14 @@ export type RichCallout = {
     body: RichContentNode[];
 };
 
-export type RichContentNode = RichBlock | RichImageRow | RichDivider | RichCallout;
+// Code block from @sanity/code-input.
+export type RichCode = {
+    _type: 'code';
+    _key: string;
+    code: string;
+    language?: string;
+    filename?: string;
+    highlightedLines?: number[];
+};
+
+export type RichContentNode = RichBlock | RichImageRow | RichDivider | RichCallout | RichCode;

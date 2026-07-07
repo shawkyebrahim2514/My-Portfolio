@@ -121,7 +121,10 @@ export const richContentOf = [
             { title: 'H5', value: 'h5' },
             { title: 'H6', value: 'h6' },
         ],
-        lists: [{ title: 'Bulleted', value: 'bullet' }],
+        lists: [
+            { title: 'Bulleted', value: 'bullet' },
+            { title: 'Numbered', value: 'number' },
+        ],
         marks: {
             decorators: [
                 { title: 'Bold', value: 'strong' },
@@ -180,6 +183,31 @@ export const richContentOf = [
     { type: 'callout' },
     { type: 'imageRow' },
     { type: 'divider' },
+    // Syntax-highlighted code block (from @sanity/code-input). Stores the raw
+    // source, a language, an optional filename, and highlighted line numbers;
+    // the frontend renders it with a pre-made Prism highlighter.
+    {
+        type: 'code',
+        title: 'Code Block',
+        options: {
+            withFilename: true,
+            languageAlternatives: [
+                { title: 'Plain text', value: 'text' },
+                { title: 'Bash / Shell', value: 'bash' },
+                { title: 'JavaScript', value: 'javascript' },
+                { title: 'TypeScript', value: 'typescript' },
+                { title: 'JSX', value: 'jsx' },
+                { title: 'TSX', value: 'tsx' },
+                { title: 'JSON', value: 'json' },
+                { title: 'HTML', value: 'markup' },
+                { title: 'CSS', value: 'css' },
+                { title: 'Python', value: 'python' },
+                { title: 'Go', value: 'go' },
+                { title: 'SQL', value: 'sql' },
+                { title: 'Markdown', value: 'markdown' },
+            ],
+        },
+    },
 ]
 
 // Block-level object with a nested Portable Text body. Replaces the

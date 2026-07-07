@@ -2,6 +2,7 @@ import {defineConfig, isDev} from 'sanity'
 import {visionTool} from '@sanity/vision'
 import {structureTool} from 'sanity/structure'
 import {IconManager} from 'sanity-plugin-icon-manager'
+import {codeInput} from '@sanity/code-input'
 import {schemaTypes} from './schemas'
 import {getStartedPlugin} from './plugins/sanity-plugin-tutorial'
 
@@ -25,6 +26,9 @@ export default defineConfig({
     // it with zero runtime lookups (works with static prerendering) and no
     // extra client-side icon library.
     IconManager({defaults: {inlineSvg: true, size: {width: 24, height: 24}}}),
+    // Adds a `code` block type (used in richContent) with a language dropdown
+    // and syntax-highlighted editing in Studio.
+    codeInput(),
     ...(isDev ? devOnlyPlugins : []),
   ],
 

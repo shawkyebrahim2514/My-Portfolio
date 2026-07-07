@@ -44,6 +44,11 @@
      Latin glyphs inside Arabic content still render in the site's face. */
   --font-arabic: 'IBM Plex Sans Arabic', 'Omnes', sans-serif;
 
+  /* Monospace stack for code (inline chips + code blocks). Uses the OS's
+     native coding font so there's no extra web-font download. */
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas,
+    'Liberation Mono', monospace;
+
   /* Elevation */
   --shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
