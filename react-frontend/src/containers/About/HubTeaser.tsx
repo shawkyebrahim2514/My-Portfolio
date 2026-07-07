@@ -13,9 +13,11 @@ type HubTeaserProps = {
     readonly entries: (SanityHubEntrySummary | null)[];
 };
 
-// Small "Things Worth Sharing" teaser on the About/home page — surfaces up to 3
-// manually-curated Hub entries (via about.featuredInAbout) with a CTA to the
-// full /hub index. Renders nothing when no entries are curated yet.
+// Small "Things Worth Sharing" teaser on the About/home page — surfaces a
+// hand-curated list of Hub entries (via about.featuredInAbout, in author order)
+// with a CTA to the full /hub index. Renders nothing when no entries are
+// curated yet. The responsive grid wraps to as many rows as needed, so there's
+// no fixed entry count.
 function HubTeaser({ entries }: HubTeaserProps) {
     // Entries come from dereferencing `featuredInAbout` refs; a stale/broken
     // reference (e.g. the target was deleted, or is temporarily unreadable)
