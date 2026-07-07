@@ -397,6 +397,12 @@ async function run() {
 
   for (const doc of [...categories, ...entries, hubPage]) {
     await client.createOrReplace(doc)
+    // Remove any stale draft of the same document. Studio's "Drafts"
+    // perspective shows a draft on top of the published version, so an old
+    // draft left over from a previous seed would shadow this fresh content
+    // and appear un-editable / out of date. Deleting it makes the freshly
+    // upserted published doc the single source of truth again.
+    await client.delete(`drafts.${doc._id}`).catch(() => {})
     console.log(`  upserted ${doc._type}: ${doc._id}`)
   }
 
