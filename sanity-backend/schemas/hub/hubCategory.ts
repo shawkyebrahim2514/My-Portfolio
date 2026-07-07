@@ -1,4 +1,5 @@
 import { BiCategory } from 'react-icons/bi'
+import { mediaPreview } from 'sanity-plugin-icon-manager'
 import { makeIsUniqueSlug } from './utilities'
 
 // Taxonomy for Hub entries (e.g. "Software Engineering", "Faith & Reflection",
@@ -45,8 +46,9 @@ export const hubCategory = {
         },
         {
             name: 'icon',
-            type: 'image',
+            type: 'icon.manager',
             title: 'Icon',
+            description: 'Pick an icon (Iconify) shown on the category filter chip.',
         },
         {
             name: 'order',
@@ -56,6 +58,9 @@ export const hubCategory = {
         },
     ],
     preview: {
-        select: { title: 'title', subtitle: 'slug.current', media: 'icon' },
+        select: { title: 'title', subtitle: 'slug.current', icon: 'icon' },
+        prepare({ title, subtitle, icon }) {
+            return { title, subtitle, media: mediaPreview(icon) }
+        },
     },
 }

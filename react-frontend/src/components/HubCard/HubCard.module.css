@@ -33,6 +33,12 @@
     align-items: flex-start;
 }
 
+/* Arabic card content — direction/alignment come from dir="rtl"; this just
+   applies the Arabic font to the title, excerpt, and category chips. */
+.rtl {
+    font-family: var(--font-arabic);
+}
+
 .badge {
     display: inline-flex;
     align-items: center;

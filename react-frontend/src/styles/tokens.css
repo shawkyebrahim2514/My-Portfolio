@@ -40,6 +40,10 @@
   /* Radius */
   --radius: 8px;
 
+  /* Arabic / RTL script font. Falls back to Omnes then a generic sans so
+     Latin glyphs inside Arabic content still render in the site's face. */
+  --font-arabic: 'IBM Plex Sans Arabic', 'Omnes', sans-serif;
+
   /* Elevation */
   --shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 

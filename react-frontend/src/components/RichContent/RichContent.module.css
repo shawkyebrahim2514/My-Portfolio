@@ -18,8 +18,13 @@
     content: ">";
     position: absolute;
     top: 0;
-    left: calc(-1 * var(--md-bullet-offset));
+    inset-inline-start: calc(-1 * var(--md-bullet-offset));
     font-weight: 600;
+}
+
+/* In RTL the ">" marker should point toward the text (leftward). */
+[dir='rtl'] .li::before {
+    content: "<";
 }
 
 .h1 {

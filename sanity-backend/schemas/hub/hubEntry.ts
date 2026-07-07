@@ -54,6 +54,22 @@ export const hubEntry = {
             validation: Rule => Rule.required(),
         },
         {
+            name: 'language',
+            type: 'string',
+            title: 'Content Language',
+            description:
+                'Controls text direction and typography on the entry: English renders left-to-right, Arabic renders right-to-left (RTL) with an Arabic font.',
+            options: {
+                list: [
+                    { title: 'English (LTR)', value: 'en' },
+                    { title: 'Arabic (RTL)', value: 'ar' },
+                ],
+                layout: 'radio',
+            },
+            initialValue: 'en',
+            validation: Rule => Rule.required(),
+        },
+        {
             name: 'categories',
             type: 'array',
             title: 'Categories',
@@ -152,6 +168,14 @@ export const hubEntry = {
             name: 'featured',
             type: 'boolean',
             title: 'Featured on Hub index',
+            initialValue: false,
+        },
+        {
+            name: 'featuredInCategory',
+            type: 'boolean',
+            title: "Editor's pick within its category",
+            description:
+                'Highlights this entry as a pick on its detail page (shows an "Editor\'s pick" badge). Independent of the global Hub-index feature flag above.',
             initialValue: false,
         },
     ],

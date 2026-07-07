@@ -11,6 +11,7 @@ export {
     type SanityHubEntry,
     type SanityHubEntrySummary,
     type HubEntryKind,
+    type HubContentLanguage,
     type HubEntryCategoryRef,
     type SanityHubCategory,
 } from './sanity';

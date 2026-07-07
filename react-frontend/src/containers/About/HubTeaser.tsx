@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import Text from '../../components/Text';
 import StarBorder from '../../components/StarBorder';
 import HubCard from '../../components/HubCard';
@@ -13,7 +13,7 @@ type HubTeaserProps = {
     readonly entries: (SanityHubEntrySummary | null)[];
 };
 
-// Small "See what I share" teaser on the About/home page — surfaces up to 3
+// Small "Things Worth Sharing" teaser on the About/home page — surfaces up to 3
 // manually-curated Hub entries (via about.featuredInAbout) with a CTA to the
 // full /hub index. Renders nothing when no entries are curated yet.
 function HubTeaser({ entries }: HubTeaserProps) {
@@ -26,7 +26,13 @@ function HubTeaser({ entries }: HubTeaserProps) {
 
     return (
         <div className={styles.teaser}>
-            <Text variant="h3">See what I share</Text>
+            <header className={styles.header}>
+                <div className={styles.titleRow}>
+                    <FontAwesomeIcon icon={faBookOpen} size="xl" className={styles.titleIcon} />
+                    <Text variant="h3">Things Worth Sharing</Text>
+                </div>
+                <hr className={styles.divider} />
+            </header>
             <div className={styles.grid}>
                 {resolvedEntries.map((entry) => (
                     <HubCard
@@ -39,6 +45,7 @@ function HubTeaser({ entries }: HubTeaserProps) {
                         sourceThumbnail={entry.sourceThumbnail}
                         durationLabel={entry.durationLabel}
                         categories={entry.categories}
+                        language={entry.language}
                     />
                 ))}
             </div>
@@ -53,3 +60,4 @@ function HubTeaser({ entries }: HubTeaserProps) {
 }
 
 export default memo(HubTeaser);
+

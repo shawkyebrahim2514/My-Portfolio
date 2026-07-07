@@ -1,10 +1,16 @@
 import type { PageContextServer } from 'vike/types';
 import { render } from 'vike/abort';
 import { useConfig } from 'vike-react/useConfig';
-import { getHubEntryBySlug } from '../../../src/APIs';
-import type { SanityHubEntry } from '../../../src/Types';
+import { getHubEntryBySlug, getHubRecommendations } from '../../../src/APIs';
+import type { SanityHubEntry, SanityHubEntrySummary, HubEntryCategoryRef } from '../../../src/Types';
 
-export async function data(pageContext: PageContextServer): Promise<SanityHubEntry> {
+export type HubEntryData = {
+    entry: SanityHubEntry;
+    recommendations: SanityHubEntrySummary[];
+    recommendationCategory?: HubEntryCategoryRef;
+};
+
+export async function data(pageContext: PageContextServer): Promise<HubEntryData> {
     // useConfig() must be called before any `await` — the actual config(...)
     // call (setting a per-entry <title>/description) happens after the fetch.
     // Not a React component/hook despite the naming convention — this is
@@ -24,5 +30,14 @@ export async function data(pageContext: PageContextServer): Promise<SanityHubEnt
         description: entry.excerpt,
     });
 
-    return entry;
+    // Recommendations come from the entry's primary (first resolvable)
+    // category — latest 5, excluding the current entry.
+    const recommendationCategory = entry.categories.find(
+        (category): category is HubEntryCategoryRef => Boolean(category),
+    );
+    const recommendations = recommendationCategory
+        ? await getHubRecommendations(recommendationCategory.slug, slug)
+        : [];
+
+    return { entry, recommendations, recommendationCategory };
 }

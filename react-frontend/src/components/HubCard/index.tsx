@@ -5,7 +5,7 @@ import { cx } from '../../utils/cx';
 import Text from '../Text';
 import ListButtons from '../ListButtons';
 import surfaces from '../../styles/surfaces.module.css';
-import type { HubEntryKind, HubEntryCategoryRef } from '../../Types';
+import type { HubEntryKind, HubEntryCategoryRef, HubContentLanguage } from '../../Types';
 import styles from './HubCard.module.css';
 
 const KIND_META: Record<HubEntryKind, { icon: typeof faNewspaper; label: string }> = {
@@ -25,11 +25,13 @@ export type HubCardProps = {
     readonly sourceThumbnail?: string;
     readonly durationLabel?: string;
     readonly categories: (HubEntryCategoryRef | null)[];
+    readonly language?: HubContentLanguage;
 };
 
-function HubCard({ title, slug, kind, excerpt, coverImage, sourceThumbnail, durationLabel, categories }: HubCardProps) {
+function HubCard({ title, slug, kind, excerpt, coverImage, sourceThumbnail, durationLabel, categories, language = 'en' }: HubCardProps) {
     const image = coverImage ?? sourceThumbnail;
     const { icon, label } = KIND_META[kind];
+    const isRTL = language === 'ar';
     const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef => Boolean(category));
 
     return (
@@ -43,7 +45,7 @@ function HubCard({ title, slug, kind, excerpt, coverImage, sourceThumbnail, dura
                     </span>
                 </div>
             )}
-            <div className={styles.content}>
+            <div className={cx(styles.content, isRTL && styles.rtl)} dir={isRTL ? 'rtl' : undefined} lang={language}>
                 {!image && (
                     <span className={styles.badge}>
                         <FontAwesomeIcon icon={icon} />

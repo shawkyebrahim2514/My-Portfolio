@@ -5,6 +5,13 @@
     gap: 1rem;
 }
 
+/* Arabic / RTL entries. Direction + text alignment are driven by the
+   dir="rtl" attribute on the <article>; this only swaps in the Arabic
+   font so the whole entry (title, excerpt, body) renders in one face. */
+.rtl {
+    font-family: var(--font-arabic);
+}
+
 .meta {
     display: flex;
     align-items: center;
@@ -25,6 +32,11 @@
     color: var(--color-secondary-700);
 }
 
+.pick {
+    background-color: var(--color-secondary-500);
+    color: var(--color-base-50);
+}
+
 .date {
     font-size: var(--font-size-sm);
     color: var(--color-base-600);
@@ -37,6 +49,8 @@
 
 .imageFrame {
     width: 100%;
+    max-width: 640px;
+    margin-inline: auto;
     border-radius: var(--radius);
     overflow: hidden;
     border: var(--border);

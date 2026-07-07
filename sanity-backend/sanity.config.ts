@@ -1,6 +1,7 @@
 import {defineConfig, isDev} from 'sanity'
 import {visionTool} from '@sanity/vision'
 import {structureTool} from 'sanity/structure'
+import {IconManager} from 'sanity-plugin-icon-manager'
 import {schemaTypes} from './schemas'
 import {getStartedPlugin} from './plugins/sanity-plugin-tutorial'
 
@@ -16,7 +17,16 @@ export default defineConfig({
   // while developing/testing a schema migration.
   dataset: process.env.SANITY_STUDIO_DATASET || 'production',
 
-  plugins: [structureTool(), visionTool(), ...(isDev ? devOnlyPlugins : [])],
+  plugins: [
+    structureTool(),
+    visionTool(),
+    // Iconify-powered icon picker. `inlineSvg: true` stores the selected
+    // icon's SVG markup directly on the document so the frontend can render
+    // it with zero runtime lookups (works with static prerendering) and no
+    // extra client-side icon library.
+    IconManager({defaults: {inlineSvg: true, size: {width: 24, height: 24}}}),
+    ...(isDev ? devOnlyPlugins : []),
+  ],
 
   schema: {
     types: schemaTypes,

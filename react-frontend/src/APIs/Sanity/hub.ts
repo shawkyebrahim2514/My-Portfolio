@@ -8,6 +8,7 @@ const entrySummaryProjection = `{
     title,
     "slug": slug.current,
     kind,
+    language,
     excerpt,
     "coverImage": coverImage.asset->url,
     sourceThumbnail,
@@ -16,6 +17,7 @@ const entrySummaryProjection = `{
     externalUrl,
     publishedAt,
     featured,
+    featuredInCategory,
     "categories": categories[]->{ title, "slug": slug.current }
 }`;
 
@@ -45,6 +47,7 @@ const getHubEntryBySlug = async (slug: string) => {
         title,
         "slug": slug.current,
         kind,
+        language,
         excerpt,
         "coverImage": coverImage.asset->url,
         sourceThumbnail,
@@ -53,11 +56,20 @@ const getHubEntryBySlug = async (slug: string) => {
         externalUrl,
         publishedAt,
         featured,
+        featuredInCategory,
         tags,
         body,
         "categories": categories[]->{ title, "slug": slug.current }
     }`;
     const result: SanityHubEntry = await sanityClient.fetch(query, { slug });
+    return result;
+};
+
+// Latest entries sharing the given category, excluding the current entry —
+// powers the "More in this category" section on the /hub/<slug> detail page.
+const getHubRecommendations = async (categorySlug: string, excludeSlug: string) => {
+    const query = `*[_type == "hubEntry" && slug.current != $excludeSlug && $categorySlug in categories[]->slug.current] | order(publishedAt desc)[0...5] ${entrySummaryProjection}`;
+    const result: SanityHubEntrySummary[] = await sanityClient.fetch(query, { categorySlug, excludeSlug });
     return result;
 };
 
@@ -75,7 +87,7 @@ const getHubCategories = async () => {
         "slug": slug.current,
         description,
         accentColor,
-        "icon": icon.asset->url
+        icon { icon, metadata { inlineSvg, iconName } }
     }`;
     const result: SanityHubCategory[] = await sanityClient.fetch(query);
     return result;
@@ -87,7 +99,7 @@ const getHubCategoryBySlug = async (slug: string) => {
         "slug": slug.current,
         description,
         accentColor,
-        "icon": icon.asset->url
+        icon { icon, metadata { inlineSvg, iconName } }
     }`;
     const result: SanityHubCategory = await sanityClient.fetch(query, { slug });
     return result;
@@ -105,6 +117,7 @@ export {
     getHubEntries,
     getHubEntriesByCategory,
     getHubEntryBySlug,
+    getHubRecommendations,
     getHubEntrySlugs,
     getHubCategories,
     getHubCategoryBySlug,

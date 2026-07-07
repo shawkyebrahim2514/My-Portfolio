@@ -4,18 +4,25 @@ import Title from '../../src/containers/Title';
 import RichContent from '../../src/components/RichContent';
 import CategoryFilters from '../../src/containers/Hub/CategoryFilters';
 import Grid from '../../src/containers/Hub/Grid';
+import { cx } from '../../src/utils/cx';
 import type { HubIndexData } from './+data';
-import styles from '../../src/styles/section.module.css';
+import section from '../../src/styles/section.module.css';
+import surfaces from '../../src/styles/surfaces.module.css';
+import lede from '../../src/styles/lede.module.css';
 
 function Hub() {
     const { page, entries, categories } = useData<HubIndexData>();
 
     return (
-        <div className={styles.section}>
+        <div className={section.section}>
             <Title title={page.title} />
-            <RichContent value={page.intro} />
-            <CategoryFilters categories={categories} />
-            <Grid entries={entries} />
+            <div className={cx(surfaces.container, surfaces.column)}>
+                <div className={lede.lede}>
+                    <RichContent value={page.intro} />
+                </div>
+                <CategoryFilters categories={categories} />
+                <Grid entries={entries} />
+            </div>
         </div>
     );
 }

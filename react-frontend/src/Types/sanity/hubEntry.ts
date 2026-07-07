@@ -3,6 +3,10 @@ import { RichContentNode } from './richContent';
 // Mirrors sanity-backend/schemas/hub/hubEntry.ts `kind` options.
 export type HubEntryKind = 'article' | 'video' | 'podcast' | 'read' | 'book';
 
+// Mirrors the `language` field — drives text direction (LTR/RTL) and the
+// font applied when rendering an entry's title/excerpt/body.
+export type HubContentLanguage = 'en' | 'ar';
+
 export type HubEntryCategoryRef = {
     title: string;
     slug: string;
@@ -17,6 +21,9 @@ export type SanityHubEntrySummary = {
     slug: string;
     kind: HubEntryKind;
     excerpt: string;
+    // Defaults to 'en' when absent (legacy entries seeded before the field
+    // existed). Controls RTL rendering + Arabic font on cards and detail page.
+    language?: HubContentLanguage;
     coverImage?: string;
     sourceThumbnail?: string;
     sourceName?: string;
@@ -24,6 +31,7 @@ export type SanityHubEntrySummary = {
     externalUrl?: string;
     publishedAt: string;
     featured: boolean;
+    featuredInCategory?: boolean;
     // Items can be `null` if a referenced hubCategory is deleted or
     // temporarily unresolvable — callers must filter before rendering.
     categories: (HubEntryCategoryRef | null)[];

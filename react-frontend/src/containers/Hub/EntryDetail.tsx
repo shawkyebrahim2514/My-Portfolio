@@ -7,6 +7,7 @@ import {
     faBookOpen,
     faBook,
     faArrowUpRightFromSquare,
+    faStar,
 } from '@fortawesome/free-solid-svg-icons';
 import Text from '../../components/Text';
 import ListButtons from '../../components/ListButtons';
@@ -14,7 +15,7 @@ import RichContent from '../../components/RichContent';
 import StarBorder from '../../components/StarBorder';
 import buttonStyles from '../../components/Button/Button.module.css';
 import { cx } from '../../utils/cx';
-import type { SanityHubEntry, HubEntryKind, HubEntryCategoryRef } from '../../Types';
+import type { SanityHubEntry, HubEntryKind, HubEntryCategoryRef, HubContentLanguage } from '../../Types';
 import styles from './EntryDetail.module.css';
 
 const KIND_META: Record<HubEntryKind, { icon: typeof faNewspaper; label: string }> = {
@@ -25,24 +26,47 @@ const KIND_META: Record<HubEntryKind, { icon: typeof faNewspaper; label: string 
     book: { icon: faBook, label: 'Book' },
 };
 
-function formatDate(iso: string) {
-    return new Date(iso).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+function formatDate(iso: string, language: HubContentLanguage) {
+    const locale = language === 'ar' ? 'ar' : undefined;
+    return new Date(iso).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
 function EntryDetail(entry: SanityHubEntry) {
-    const { title, kind, excerpt, coverImage, sourceThumbnail, sourceName, externalUrl, durationLabel, publishedAt, tags, body, categories } = entry;
+    const {
+        title,
+        kind,
+        excerpt,
+        coverImage,
+        sourceThumbnail,
+        sourceName,
+        externalUrl,
+        durationLabel,
+        publishedAt,
+        tags,
+        body,
+        categories,
+        featuredInCategory,
+        language = 'en',
+    } = entry;
     const { icon, label } = KIND_META[kind];
     const image = coverImage ?? sourceThumbnail;
+    const isRTL = language === 'ar';
     const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef => Boolean(category));
 
     return (
-        <article className={styles.article}>
+        <article className={cx(styles.article, isRTL && styles.rtl)} dir={isRTL ? 'rtl' : undefined} lang={language}>
             <div className={styles.meta}>
                 <span className={styles.badge}>
                     <FontAwesomeIcon icon={icon} />
                     {label}
                 </span>
-                <Text className={styles.date}>{formatDate(publishedAt)}</Text>
+                {featuredInCategory && (
+                    <span className={cx(styles.badge, styles.pick)}>
+                        <FontAwesomeIcon icon={faStar} />
+                        Editor&apos;s pick
+                    </span>
+                )}
+                <Text className={styles.date}>{formatDate(publishedAt, language)}</Text>
                 {durationLabel && <Text className={styles.date}>{durationLabel}</Text>}
             </div>
 

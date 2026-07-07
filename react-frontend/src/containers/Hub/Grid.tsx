@@ -25,6 +25,7 @@ function Grid({ entries }: GridProps) {
                     sourceThumbnail={entry.sourceThumbnail}
                     durationLabel={entry.durationLabel}
                     categories={entry.categories}
+                    language={entry.language}
                 />
             ))}
         </div>

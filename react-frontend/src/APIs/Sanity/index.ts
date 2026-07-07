@@ -10,6 +10,7 @@ export {
     getHubEntries,
     getHubEntriesByCategory,
     getHubEntryBySlug,
+    getHubRecommendations,
     getHubEntrySlugs,
     getHubCategories,
     getHubCategoryBySlug,
