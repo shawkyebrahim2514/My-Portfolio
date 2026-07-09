@@ -127,6 +127,81 @@
     border-top: var(--border);
 }
 
+/* --- Podcast hero: square cover art + host + tagline + "Listen on" pills --- */
+.podcastHero {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    width: 100%;
+    padding: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    background-image: linear-gradient(135deg, color-mix(in srgb, var(--color-secondary-500) 10%, var(--color-base-100)) 0%, var(--color-base-0) 60%, var(--color-base-100) 100%);
+}
+
+.podcastCover {
+    flex: 0 0 auto;
+    width: 9rem;
+    height: 9rem;
+    border-radius: var(--radius);
+    object-fit: cover;
+    box-shadow: var(--shadow);
+}
+
+.podcastInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+}
+
+.podcastName {
+    margin: 0;
+}
+
+.podcastHost {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-secondary-700);
+}
+
+.podcastTagline {
+    font-size: var(--font-size-md);
+    color: var(--color-base-700);
+    line-height: 1.6;
+}
+
+/* "Listen On" brand pills row. */
+.platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
+}
+
+.platformPill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.4rem 0.85rem;
+    border: var(--border);
+    border-radius: 999px;
+    background-color: var(--color-base-0);
+    color: var(--color-base-700);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+.platformPill:hover,
+.platformPill:focus-visible {
+    transform: translateY(-1px);
+    color: var(--color-secondary-700);
+    border-color: var(--color-secondary-500);
+}
+
 @media (max-width: 640px) {
     .channelHero {
         flex-direction: column;
@@ -136,5 +211,15 @@
 
     .channelCta {
         align-self: center;
+    }
+
+    .podcastHero {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .platforms {
+        justify-content: center;
     }
 }

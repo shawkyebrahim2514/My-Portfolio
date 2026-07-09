@@ -8,7 +8,7 @@
 // syntax) with real structured content authored via Studio's rich-text
 // toolbar — see react-frontend's `components/PortableText` for the renderer.
 
-import { FaGripLines, FaImages, FaMessage, FaYoutube } from 'react-icons/fa6'
+import { FaGripLines, FaImages, FaMessage, FaYoutube, FaMicrophoneLines } from 'react-icons/fa6'
 import { HiOutlineArrowsExpand } from 'react-icons/hi'
 
 // Inline object placed inside a block's `children`, alongside plain text
@@ -133,6 +133,75 @@ export const youtube = {
     },
 }
 
+// Block-level object: a single podcast episode, meant to be inserted
+// (repeatedly) in a Podcast-kind entry's body — the audio analogue of the
+// `youtube` block. The frontend derives the provider + embed from the URL:
+// a Spotify or YouTube link becomes an inline click-to-play player (both are
+// key-free and self-contained), any other link falls back to a "Listen"
+// button that opens the episode in a new tab. Metadata (number/date/duration)
+// is authored by hand so the card reads well before the player loads.
+export const podcastEpisode = {
+    name: 'podcastEpisode',
+    title: 'Podcast Episode',
+    type: 'object',
+    icon: FaMicrophoneLines,
+    fields: [
+        {
+            name: 'title',
+            title: 'Episode Title',
+            type: 'string',
+            validation: Rule => Rule.required(),
+        },
+        {
+            name: 'url',
+            title: 'Episode URL',
+            type: 'url',
+            description:
+                'Link to the episode. A Spotify or YouTube link plays inline; any other link opens in a new tab.',
+            validation: Rule => Rule.required().uri({ scheme: ['http', 'https'] }),
+        },
+        {
+            name: 'episodeLabel',
+            title: 'Episode Label (optional)',
+            type: 'string',
+            description: 'Short number/label shown as a badge, e.g. "01" or "S2 · E5".',
+        },
+        {
+            name: 'date',
+            title: 'Published Date (optional)',
+            type: 'date',
+            options: { dateFormat: 'MMM YYYY' },
+        },
+        {
+            name: 'duration',
+            title: 'Duration (optional)',
+            type: 'string',
+            description: 'Freeform, e.g. "42 min".',
+        },
+        {
+            name: 'note',
+            title: 'Your Note (optional)',
+            type: 'text',
+            rows: 2,
+            description: 'A short line on why this episode is worth a listen.',
+        },
+        {
+            name: 'featured',
+            title: 'Pin as the featured episode',
+            type: 'boolean',
+            description: 'Renders this episode as the large player pinned at the top of the page.',
+            initialValue: false,
+        },
+    ],
+    preview: {
+        select: { title: 'title', episodeLabel: 'episodeLabel', duration: 'duration', featured: 'featured' },
+        prepare: ({ title, episodeLabel, duration, featured }) => ({
+            title: [episodeLabel, title].filter(Boolean).join(' · '),
+            subtitle: [featured ? '★ Featured' : null, duration].filter(Boolean).join(' — ') || 'Episode',
+        }),
+    },
+}
+
 // The shared `of` array for every rich-content field. One definition reused
 // across about/education/collegeCourses/internships/professionalExperience/
 // projects so the custom marks and block objects never drift out of sync.
@@ -220,6 +289,7 @@ export const richContentOf = [
     { type: 'imageRow' },
     { type: 'divider' },
     { type: 'youtube' },
+    { type: 'podcastEpisode' },
     // Syntax-highlighted code block (from @sanity/code-input). Stores the raw
     // source, a language, an optional filename, and highlighted line numbers;
     // the frontend renders it with a pre-made Prism highlighter.

@@ -121,6 +121,47 @@ export const hubEntry = {
             hidden: ({ parent }) => parent?.kind !== 'channel',
         },
         {
+            name: 'platforms',
+            type: 'array',
+            title: 'Listen On',
+            description: 'Platform links shown as brand pills in the podcast header (Spotify, Apple, YouTube, etc.).',
+            hidden: ({ parent }) => parent?.kind !== 'podcast',
+            of: [
+                {
+                    type: 'object',
+                    fields: [
+                        {
+                            name: 'platform',
+                            title: 'Platform',
+                            type: 'string',
+                            options: {
+                                list: [
+                                    { title: 'Spotify', value: 'spotify' },
+                                    { title: 'Apple Podcasts', value: 'apple' },
+                                    { title: 'YouTube', value: 'youtube' },
+                                    { title: 'SoundCloud', value: 'soundcloud' },
+                                    { title: 'Anghami', value: 'anghami' },
+                                    { title: 'RSS Feed', value: 'rss' },
+                                    { title: 'Website', value: 'website' },
+                                ],
+                            },
+                            validation: Rule => Rule.required(),
+                        },
+                        {
+                            name: 'url',
+                            title: 'URL',
+                            type: 'url',
+                            validation: Rule => Rule.required().uri({ scheme: ['http', 'https'] }),
+                        },
+                    ],
+                    preview: {
+                        select: { platform: 'platform', url: 'url' },
+                        prepare: ({ platform, url }) => ({ title: platform, subtitle: url }),
+                    },
+                },
+            ],
+        },
+        {
             name: 'sourceThumbnail',
             type: 'url',
             title: 'Source Thumbnail URL',

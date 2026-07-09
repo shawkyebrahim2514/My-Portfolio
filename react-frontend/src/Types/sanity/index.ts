@@ -13,5 +13,6 @@ export {
     type HubEntryKind,
     type HubContentLanguage,
     type HubEntryCategoryRef,
+    type HubPlatformLink,
 } from './hubEntry';
 export { type SanityHubCategory, type SanityIconManagerValue } from './hubCategory';

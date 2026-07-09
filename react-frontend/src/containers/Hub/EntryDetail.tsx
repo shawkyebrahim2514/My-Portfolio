@@ -8,14 +8,28 @@ import {
     faArrowUpRightFromSquare,
     faStar,
     faTv,
+    faRss,
+    faMusic,
+    faGlobe,
 } from '@fortawesome/free-solid-svg-icons';
+import { faSpotify, faApple, faYoutube, faSoundcloud } from '@fortawesome/free-brands-svg-icons';
+import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import Text from '../../components/Text';
 import ListButtons from '../../components/ListButtons';
 import RichContent from '../../components/RichContent';
 import StarBorder from '../../components/StarBorder';
+import PodcastEpisode from '../../components/RichContent/PodcastEpisode';
 import buttonStyles from '../../components/Button/Button.module.css';
 import { cx } from '../../utils/cx';
-import type { SanityHubEntry, HubEntryKind, HubEntryCategoryRef, HubContentLanguage } from '../../Types';
+import type {
+    SanityHubEntry,
+    HubEntryKind,
+    HubEntryCategoryRef,
+    HubContentLanguage,
+    HubPlatformLink,
+    RichContentNode,
+    RichPodcastEpisode,
+} from '../../Types';
 import styles from './EntryDetail.module.css';
 
 const KIND_META: Record<HubEntryKind, { icon: typeof faNewspaper; label: string }> = {
@@ -24,6 +38,16 @@ const KIND_META: Record<HubEntryKind, { icon: typeof faNewspaper; label: string 
     podcast: { icon: faPodcast, label: 'Podcast' },
     read: { icon: faBookOpen, label: 'Read' },
     book: { icon: faBook, label: 'Book' },
+};
+
+const PLATFORM_META: Record<HubPlatformLink['platform'], { icon: IconDefinition; label: string }> = {
+    spotify: { icon: faSpotify, label: 'Spotify' },
+    apple: { icon: faApple, label: 'Apple Podcasts' },
+    youtube: { icon: faYoutube, label: 'YouTube' },
+    soundcloud: { icon: faSoundcloud, label: 'SoundCloud' },
+    anghami: { icon: faMusic, label: 'Anghami' },
+    rss: { icon: faRss, label: 'RSS' },
+    website: { icon: faGlobe, label: 'Website' },
 };
 
 function formatDate(iso: string, language: HubContentLanguage) {
@@ -40,6 +64,7 @@ function EntryDetail(entry: SanityHubEntry) {
         sourceThumbnail,
         sourceName,
         channelHandle,
+        platforms,
         externalUrl,
         durationLabel,
         publishedAt,
@@ -53,7 +78,22 @@ function EntryDetail(entry: SanityHubEntry) {
     const image = coverImage ?? sourceThumbnail;
     const isRTL = language === 'ar';
     const isChannel = kind === 'channel';
-    const hasBody = Boolean(body && body.length > 0);
+    const isPodcast = kind === 'podcast';
+
+    // For podcasts, pull the first top-level episode flagged `featured` out of
+    // the body so it can be pinned as a large player above the rest, and hide
+    // it from the regular episode list below.
+    const featuredEpisode = isPodcast
+        ? (body?.find(
+              (node): node is RichPodcastEpisode => node._type === 'podcastEpisode' && Boolean(node.featured),
+          ) ?? undefined)
+        : undefined;
+    const displayBody: RichContentNode[] = featuredEpisode
+        ? (body ?? []).filter((node) => node !== featuredEpisode)
+        : (body ?? []);
+    const resolvedPlatforms = (platforms ?? []).filter((p) => PLATFORM_META[p.platform]);
+
+    const hasBody = Boolean(displayBody && displayBody.length > 0);
     const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef => Boolean(category));
 
     return (
@@ -101,6 +141,38 @@ function EntryDetail(entry: SanityHubEntry) {
                         )}
                     </div>
                 </div>
+            ) : isPodcast ? (
+                <div className={styles.podcastHero}>
+                    {image && (
+                        <img className={styles.podcastCover} src={image} alt="" />
+                    )}
+                    <div className={styles.podcastInfo}>
+                        <Text variant="h1" className={styles.podcastName}>
+                            {title}
+                        </Text>
+                        {sourceName && <Text className={styles.podcastHost}>{sourceName}</Text>}
+                        {excerpt && <Text className={styles.podcastTagline}>{excerpt}</Text>}
+                        {resolvedPlatforms.length > 0 && (
+                            <div className={styles.platforms}>
+                                {resolvedPlatforms.map((platform) => {
+                                    const meta = PLATFORM_META[platform.platform];
+                                    return (
+                                        <a
+                                            key={platform.platform + platform.url}
+                                            href={platform.url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className={styles.platformPill}
+                                        >
+                                            <FontAwesomeIcon icon={meta.icon} />
+                                            <span>{meta.label}</span>
+                                        </a>
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </div>
+                </div>
             ) : (
                 <>
                     <Text variant="h1">{title}</Text>
@@ -112,13 +184,13 @@ function EntryDetail(entry: SanityHubEntry) {
                 <ListButtons elements={resolvedCategories.map((category) => category.title)} />
             )}
 
-            {!isChannel && image && (
+            {!isChannel && !isPodcast && image && (
                 <div className={styles.imageFrame}>
                     <img className={styles.image} src={image} alt="" />
                 </div>
             )}
 
-            {!isChannel && externalUrl && (
+            {!isChannel && !isPodcast && externalUrl && (
                 <StarBorder>
                     <a
                         href={externalUrl}
@@ -132,13 +204,21 @@ function EntryDetail(entry: SanityHubEntry) {
                 </StarBorder>
             )}
 
+            {isPodcast && featuredEpisode && <PodcastEpisode value={featuredEpisode} />}
+
             {isChannel && hasBody && (
                 <Text variant="h3" className={styles.channelBodyHeading}>
                     Videos worth watching
                 </Text>
             )}
 
-            {hasBody && <RichContent value={body} />}
+            {isPodcast && hasBody && (
+                <Text variant="h3" className={styles.channelBodyHeading}>
+                    Episodes
+                </Text>
+            )}
+
+            {hasBody && <RichContent value={displayBody} />}
 
             {tags && tags.length > 0 && <ListButtons elements={tags} />}
         </article>

@@ -13,6 +13,7 @@ export {
     type HubEntryKind,
     type HubContentLanguage,
     type HubEntryCategoryRef,
+    type HubPlatformLink,
     type SanityHubCategory,
 } from './sanity';
 
@@ -28,6 +29,7 @@ export {
     type RichCallout,
     type RichCode,
     type RichYouTube,
+    type RichPodcastEpisode,
 } from './sanity/richContent';
 
 export { type Theme, type PortfolioPathes, type ColorLevels } from './contexts';

@@ -89,4 +89,27 @@ export type RichYouTube = {
     thumbnail?: string;
 };
 
-export type RichContentNode = RichBlock | RichImageRow | RichDivider | RichCallout | RichCode | RichYouTube;
+// A single podcast episode (block-level), the audio analogue of RichYouTube.
+// The provider + inline embed are derived from `url` on the client (Spotify
+// and YouTube links play inline; anything else links out), so no build-time
+// enrichment is needed — all display metadata is authored by hand.
+export type RichPodcastEpisode = {
+    _type: 'podcastEpisode';
+    _key: string;
+    title: string;
+    url: string;
+    episodeLabel?: string;
+    date?: string;
+    duration?: string;
+    note?: string;
+    featured?: boolean;
+};
+
+export type RichContentNode =
+    | RichBlock
+    | RichImageRow
+    | RichDivider
+    | RichCallout
+    | RichCode
+    | RichYouTube
+    | RichPodcastEpisode;

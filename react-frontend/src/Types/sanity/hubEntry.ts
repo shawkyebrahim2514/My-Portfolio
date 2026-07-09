@@ -12,6 +12,12 @@ export type HubEntryCategoryRef = {
     slug: string;
 };
 
+// A "Listen On" platform link shown as a brand pill in the Podcast header.
+export type HubPlatformLink = {
+    platform: 'spotify' | 'apple' | 'youtube' | 'soundcloud' | 'anghami' | 'rss' | 'website';
+    url: string;
+};
+
 // Fields needed to render a card/list item — used by the /hub index,
 // /hub/category/[slug] listing, and the About-page "See what I share"
 // teaser. Deliberately excludes `body`/`tags` (only needed on the detail
@@ -42,5 +48,7 @@ export type SanityHubEntry = SanityHubEntrySummary & {
     tags?: string[];
     // Optional @handle shown in the Channel-kind hero, e.g. "@fireship".
     channelHandle?: string;
+    // "Listen On" platform links shown as brand pills in the Podcast hero.
+    platforms?: HubPlatformLink[];
     body: RichContentNode[];
 };

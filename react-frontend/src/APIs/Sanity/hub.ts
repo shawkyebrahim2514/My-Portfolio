@@ -58,6 +58,7 @@ const getHubEntryBySlug = async (slug: string) => {
         featured,
         featuredInCategory,
         channelHandle,
+        platforms,
         tags,
         body,
         "categories": categories[]->{ title, "slug": slug.current }
