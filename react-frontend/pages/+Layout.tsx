@@ -13,7 +13,7 @@ import Loader from '../src/components/Loader';
 import ErrorBoundary from '../src/components/ErrorBoundary';
 import ShapeGridBackground from '../src/components/ShapeGridBackground';
 import ClickSpark from '../src/components/ClickSpark';
-import { themeStyle, kindAmbient } from '../src/containers/Hub/kindAccent';
+import { themeStyle, kindAmbient, KIND_ACCENT } from '../src/containers/Hub/kindAccent';
 import type { HubEntryKind } from '../src/Types';
 import '../src/styles/tokens.css';
 import '../src/index.css';
@@ -38,7 +38,10 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
                 <div className={styles.inner}>
                     <Suspense fallback={<Loader />}>
                         <header className={styles.banner}>
-                            <Navbar />
+                            <Navbar
+                                readingProgress
+                                progressAccent={kind ? KIND_ACCENT[kind] : undefined}
+                            />
                         </header>
                         <main id="main-content" tabIndex={-1} className={styles.main}>
                             <ErrorBoundary>

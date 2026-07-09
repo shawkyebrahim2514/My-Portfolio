@@ -20,7 +20,6 @@ import StarBorder from '../../components/StarBorder';
 import PodcastEpisode from '../../components/RichContent/PodcastEpisode';
 import YouTube from '../../components/RichContent/YouTube';
 import ReadingItem from '../../components/RichContent/ReadingItem';
-import ReadingProgress from '../../components/ReadingProgress';
 import ArticleToc, { type TocHeading } from '../../components/ArticleToc';
 import buttonStyles from '../../components/Button/Button.module.css';
 import { accentStyle } from './kindAccent';
@@ -266,7 +265,6 @@ function EntryDetail(entry: SanityHubEntry) {
                 </div>
             ) : isArticle ? (
                 <>
-                    <ReadingProgress />
                     <Text variant="h1">{title}</Text>
                     <div className={styles.byline}>
                         <span className={styles.bylineAvatar} aria-hidden="true">

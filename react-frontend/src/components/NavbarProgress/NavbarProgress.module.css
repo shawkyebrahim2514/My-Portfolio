@@ -1,0 +1,26 @@
+/* Reading-progress ring overlaid on the sticky navbar. The <svg> covers the
+   navbar's box (its positioned parent) and never intercepts clicks. The track
+   is a faint hairline on the dark navbar; the bar fills the perimeter clockwise
+   via stroke-dashoffset (set imperatively on scroll — see index.tsx). */
+.svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+}
+
+.track {
+    stroke: rgba(255, 255, 255, 0.14);
+}
+
+.bar {
+    transition: stroke-dashoffset 0.12s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bar {
+        transition: none;
+    }
+}
