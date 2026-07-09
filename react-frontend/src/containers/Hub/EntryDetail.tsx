@@ -49,7 +49,7 @@ function EntryDetail(entry: SanityHubEntry) {
         featuredInCategory,
         language = 'en',
     } = entry;
-    const { icon, label } = KIND_META[kind];
+    const { icon, label } = KIND_META[kind] ?? KIND_META.article;
     const image = coverImage ?? sourceThumbnail;
     const isRTL = language === 'ar';
     const isChannel = kind === 'channel';

@@ -29,8 +29,8 @@ export type HubCardProps = {
 };
 
 function HubCard({ title, slug, kind, excerpt, coverImage, sourceThumbnail, durationLabel, categories, language = 'en' }: HubCardProps) {
+    const { icon, label } = KIND_META[kind] ?? KIND_META.article;
     const image = coverImage ?? sourceThumbnail;
-    const { icon, label } = KIND_META[kind];
     const isRTL = language === 'ar';
     const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef => Boolean(category));
 
