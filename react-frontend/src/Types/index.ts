@@ -30,6 +30,7 @@ export {
     type RichCode,
     type RichYouTube,
     type RichPodcastEpisode,
+    type RichReadingItem,
 } from './sanity/richContent';
 
 export { type Theme, type PortfolioPathes, type ColorLevels } from './contexts';

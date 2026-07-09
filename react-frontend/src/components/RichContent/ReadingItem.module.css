@@ -1,0 +1,80 @@
+/* One recommended external article inside a reading-list (Read-kind) body.
+   A full-width link-out row: title + source + optional note on the left, an
+   external-link glyph on the right. The whole card is the link. */
+.card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    align-self: stretch;
+    min-width: 0;
+    margin: 0;
+    padding: var(--space-3);
+    background-color: var(--color-base-50);
+    background-image: linear-gradient(135deg, var(--color-base-100) 0%, var(--color-base-0) 55%, var(--color-base-100) 100%);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.card:hover,
+.card:focus-visible {
+    transform: translateY(-2px);
+    border-color: var(--color-secondary-500);
+    box-shadow: 0 6px 18px rgb(0 0 0 / 0.08);
+}
+
+.body {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.title {
+    margin: 0;
+}
+
+.card:hover .title,
+.card:focus-visible .title {
+    color: var(--color-secondary-700);
+}
+
+.source {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-secondary-700);
+}
+
+.note {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-base-700);
+    line-height: 1.6;
+}
+
+/* External-link glyph, right-aligned, nudges on hover. */
+.icon {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--color-secondary-500) 12%, transparent);
+    color: var(--color-secondary-700);
+    font-size: 0.9rem;
+    transition: transform 0.2s ease-out, background-color 0.2s ease-out, color 0.2s ease-out;
+}
+
+.card:hover .icon,
+.card:focus-visible .icon {
+    transform: translate(2px, -2px);
+    background-color: var(--color-secondary-500);
+    color: var(--color-base-0);
+}

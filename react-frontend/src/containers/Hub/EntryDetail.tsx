@@ -4,7 +4,6 @@ import {
     faNewspaper,
     faPodcast,
     faBookOpen,
-    faBook,
     faArrowUpRightFromSquare,
     faStar,
     faTv,
@@ -36,8 +35,7 @@ const KIND_META: Record<HubEntryKind, { icon: typeof faNewspaper; label: string 
     article: { icon: faNewspaper, label: 'Article' },
     channel: { icon: faTv, label: 'Channel' },
     podcast: { icon: faPodcast, label: 'Podcast' },
-    read: { icon: faBookOpen, label: 'Read' },
-    book: { icon: faBook, label: 'Book' },
+    read: { icon: faBookOpen, label: 'Reading List' },
 };
 
 const PLATFORM_META: Record<HubPlatformLink['platform'], { icon: IconDefinition; label: string }> = {
@@ -79,6 +77,7 @@ function EntryDetail(entry: SanityHubEntry) {
     const isRTL = language === 'ar';
     const isChannel = kind === 'channel';
     const isPodcast = kind === 'podcast';
+    const isRead = kind === 'read';
 
     // For podcasts, pull the first top-level episode flagged `featured` out of
     // the body so it can be pinned as a large player above the rest, and hide
@@ -184,13 +183,13 @@ function EntryDetail(entry: SanityHubEntry) {
                 <ListButtons elements={resolvedCategories.map((category) => category.title)} />
             )}
 
-            {!isChannel && !isPodcast && image && (
+            {!isChannel && !isPodcast && !isRead && image && (
                 <div className={styles.imageFrame}>
                     <img className={styles.image} src={image} alt="" />
                 </div>
             )}
 
-            {!isChannel && !isPodcast && externalUrl && (
+            {!isChannel && !isPodcast && !isRead && externalUrl && (
                 <StarBorder>
                     <a
                         href={externalUrl}
@@ -215,6 +214,12 @@ function EntryDetail(entry: SanityHubEntry) {
             {isPodcast && hasBody && (
                 <Text variant="h3" className={styles.channelBodyHeading}>
                     Episodes
+                </Text>
+            )}
+
+            {isRead && hasBody && (
+                <Text variant="h3" className={styles.channelBodyHeading}>
+                    Worth reading
                 </Text>
             )}
 

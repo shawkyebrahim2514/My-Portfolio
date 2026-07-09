@@ -8,7 +8,7 @@
 // syntax) with real structured content authored via Studio's rich-text
 // toolbar — see react-frontend's `components/PortableText` for the renderer.
 
-import { FaGripLines, FaImages, FaMessage, FaYoutube, FaMicrophoneLines } from 'react-icons/fa6'
+import { FaGripLines, FaImages, FaMessage, FaYoutube, FaMicrophoneLines, FaBookmark } from 'react-icons/fa6'
 import { HiOutlineArrowsExpand } from 'react-icons/hi'
 
 // Inline object placed inside a block's `children`, alongside plain text
@@ -202,6 +202,48 @@ export const podcastEpisode = {
     },
 }
 
+// Block-level object: a single article/link the author read elsewhere and is
+// recommending. Inserted (repeatedly) in a Read-kind entry's body, turning
+// that entry into a curated reading list. Renders as a compact row that links
+// out to the original — no inline embed, no body of its own.
+export const readingItem = {
+    name: 'readingItem',
+    title: 'Reading Item',
+    type: 'object',
+    icon: FaBookmark,
+    fields: [
+        {
+            name: 'title',
+            title: 'Title',
+            type: 'string',
+            validation: Rule => Rule.required(),
+        },
+        {
+            name: 'url',
+            title: 'URL',
+            type: 'url',
+            validation: Rule => Rule.required().uri({ scheme: ['http', 'https'] }),
+        },
+        {
+            name: 'source',
+            title: 'Source (optional)',
+            type: 'string',
+            description: 'Where it lives, e.g. "freeCodeCamp" or an author name.',
+        },
+        {
+            name: 'note',
+            title: 'Your Note (optional)',
+            type: 'text',
+            rows: 2,
+            description: 'A short line on why it is worth reading.',
+        },
+    ],
+    preview: {
+        select: { title: 'title', source: 'source' },
+        prepare: ({ title, source }) => ({ title, subtitle: source || 'Reading item' }),
+    },
+}
+
 // The shared `of` array for every rich-content field. One definition reused
 // across about/education/collegeCourses/internships/professionalExperience/
 // projects so the custom marks and block objects never drift out of sync.
@@ -290,6 +332,7 @@ export const richContentOf = [
     { type: 'divider' },
     { type: 'youtube' },
     { type: 'podcastEpisode' },
+    { type: 'readingItem' },
     // Syntax-highlighted code block (from @sanity/code-input). Stores the raw
     // source, a language, an optional filename, and highlighted line numbers;
     // the frontend renders it with a pre-made Prism highlighter.

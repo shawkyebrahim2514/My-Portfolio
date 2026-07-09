@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faNewspaper, faPodcast, faBookOpen, faBook, faTv } from '@fortawesome/free-solid-svg-icons';
+import { faNewspaper, faPodcast, faBookOpen, faTv } from '@fortawesome/free-solid-svg-icons';
 import { cx } from '../../utils/cx';
 import Text from '../Text';
 import ListButtons from '../ListButtons';
@@ -12,8 +12,7 @@ const KIND_META: Record<HubEntryKind, { icon: typeof faNewspaper; label: string 
     article: { icon: faNewspaper, label: 'Article' },
     channel: { icon: faTv, label: 'Channel' },
     podcast: { icon: faPodcast, label: 'Podcast' },
-    read: { icon: faBookOpen, label: 'Read' },
-    book: { icon: faBook, label: 'Book' },
+    read: { icon: faBookOpen, label: 'Reading List' },
 };
 
 export type HubCardProps = {

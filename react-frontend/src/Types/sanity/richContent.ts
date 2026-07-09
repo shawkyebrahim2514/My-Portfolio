@@ -105,6 +105,18 @@ export type RichPodcastEpisode = {
     featured?: boolean;
 };
 
+// A single external article the author read and recommends. Rendered as a
+// link-out row inside a Read-kind entry's body, which together form a curated
+// reading list. Never plays inline — always links to the original.
+export type RichReadingItem = {
+    _type: 'readingItem';
+    _key: string;
+    title: string;
+    url: string;
+    source?: string;
+    note?: string;
+};
+
 export type RichContentNode =
     | RichBlock
     | RichImageRow
@@ -112,4 +124,5 @@ export type RichContentNode =
     | RichCallout
     | RichCode
     | RichYouTube
-    | RichPodcastEpisode;
+    | RichPodcastEpisode
+    | RichReadingItem;

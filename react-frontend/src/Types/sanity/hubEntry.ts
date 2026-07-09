@@ -1,7 +1,7 @@
 import { RichContentNode } from './richContent';
 
 // Mirrors sanity-backend/schemas/hub/hubEntry.ts `kind` options.
-export type HubEntryKind = 'article' | 'channel' | 'podcast' | 'read' | 'book';
+export type HubEntryKind = 'article' | 'channel' | 'podcast' | 'read';
 
 // Mirrors the `language` field — drives text direction (LTR/RTL) and the
 // font applied when rendering an entry's title/excerpt/body.

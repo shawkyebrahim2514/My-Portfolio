@@ -8,6 +8,7 @@ import Callout from './Callout';
 import CodeBlock from './CodeBlock';
 import YouTube from './YouTube';
 import PodcastEpisode from './PodcastEpisode';
+import ReadingItem from './ReadingItem';
 import SplitText from '../SplitText';
 import { cx } from '../../utils/cx';
 import type { RichBlock, RichMarkDef, RichSpan } from '../../Types';
@@ -157,6 +158,7 @@ export const components: PortableTextComponents = {
         code: CodeBlock,
         youtube: YouTube,
         podcastEpisode: PodcastEpisode,
+        readingItem: ReadingItem,
         divider: () => <hr className={styles.hr} />,
         spacer: ({ value }) => (
             <span className={value.kind === 'newline' ? styles.newline : styles.gap} />

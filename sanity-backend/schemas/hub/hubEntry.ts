@@ -12,14 +12,15 @@ const KIND_OPTIONS = [
     { title: 'Article (written on the Hub)', value: 'article' },
     { title: 'Channel (a channel you follow + its videos)', value: 'channel' },
     { title: 'Podcast', value: 'podcast' },
-    { title: 'Read (article read elsewhere)', value: 'read' },
-    { title: 'Book', value: 'book' },
+    { title: 'Reading List (articles read elsewhere)', value: 'read' },
 ]
 
-// Every kind except a native `article` points off-site to the original
-// source, so those entries need a source name/link/thumbnail instead of (or
-// alongside) a body.
-const isExternalKind = (kind?: string) => Boolean(kind) && kind !== 'article'
+// Only a `channel` entry points at a single off-site source (the channel page)
+// and so needs a source name + external link. Podcasts carry their own
+// `platforms` links, reading lists keep their links inside body `readingItem`
+// blocks, and articles are written natively — none of those want a single
+// External URL / Source Name.
+const isChannel = (kind?: string) => kind === 'channel'
 
 export const hubEntry = {
     name: 'hubEntry',
@@ -104,12 +105,12 @@ export const hubEntry = {
             type: 'string',
             title: 'Source Name',
             description:
-                'Who/what this was originally published by, e.g. "Fireship — YouTube", "Lex Fridman Podcast". For a Channel, use the platform, e.g. "YouTube".',
-            hidden: ({ parent }) => !isExternalKind(parent?.kind),
+                'Who/what this was originally published by, e.g. the platform for a Channel ("YouTube").',
+            hidden: ({ parent }) => !isChannel(parent?.kind),
             validation: Rule =>
                 Rule.custom((value, context) => {
                     const parent = context.parent as { kind?: string }
-                    if (isExternalKind(parent?.kind) && !value) return 'Required for non-article entries'
+                    if (isChannel(parent?.kind) && !value) return 'Required for channel entries'
                     return true
                 }),
         },
@@ -126,6 +127,14 @@ export const hubEntry = {
             title: 'Listen On',
             description: 'Platform links shown as brand pills in the podcast header (Spotify, Apple, YouTube, etc.).',
             hidden: ({ parent }) => parent?.kind !== 'podcast',
+            validation: Rule =>
+                Rule.custom((value: unknown[] | undefined, context) => {
+                    const parent = context.parent as { kind?: string }
+                    if (parent?.kind === 'podcast' && (!value || value.length === 0)) {
+                        return 'Add at least one platform link for a podcast'
+                    }
+                    return true
+                }),
             of: [
                 {
                     type: 'object',
@@ -167,19 +176,19 @@ export const hubEntry = {
             title: 'Source Thumbnail URL',
             description:
                 'Fallback image URL when no Cover Image is uploaded, e.g. https://img.youtube.com/vi/<id>/hqdefault.jpg.',
-            hidden: ({ parent }) => !isExternalKind(parent?.kind),
+            hidden: ({ parent }) => !isChannel(parent?.kind),
             validation: Rule => Rule.uri({ scheme: ['http', 'https'] }),
         },
         {
             name: 'externalUrl',
             type: 'url',
             title: 'External URL',
-            description: 'Link to the original content — video, podcast episode, article, book page, or the channel page.',
-            hidden: ({ parent }) => !isExternalKind(parent?.kind),
+            description: 'Link to the channel page.',
+            hidden: ({ parent }) => !isChannel(parent?.kind),
             validation: Rule =>
                 Rule.uri({ scheme: ['http', 'https'] }).custom((value, context) => {
                     const parent = context.parent as { kind?: string }
-                    if (isExternalKind(parent?.kind) && !value) return 'Required for non-article entries'
+                    if (isChannel(parent?.kind) && !value) return 'Required for channel entries'
                     return true
                 }),
         },
@@ -197,10 +206,14 @@ export const hubEntry = {
                 'Full write-up for native articles, or your personal notes/take when sharing external content.',
             of: richContentOf,
             validation: Rule =>
-                Rule.custom((value, context) => {
+                Rule.custom((value: { _type?: string }[] | undefined, context) => {
                     const parent = context.parent as { kind?: string }
                     if (parent?.kind === 'article' && (!value || value.length === 0)) {
                         return 'Body is required for articles'
+                    }
+                    if (parent?.kind === 'read') {
+                        const hasReadingItem = Array.isArray(value) && value.some(block => block?._type === 'readingItem')
+                        if (!hasReadingItem) return 'Add at least one reading item to the body'
                     }
                     return true
                 }),
