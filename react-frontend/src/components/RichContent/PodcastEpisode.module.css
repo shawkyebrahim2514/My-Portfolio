@@ -32,8 +32,8 @@
     height: 2.75rem;
     padding: 0 var(--space-2);
     border-radius: 999px;
-    background-color: color-mix(in srgb, var(--color-secondary-500) 14%, transparent);
-    color: var(--color-secondary-700);
+    background-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 14%, transparent);
+    color: var(--entry-accent, var(--color-secondary-700));
     font-weight: 700;
     font-size: var(--font-size-sm);
     letter-spacing: 0.02em;
@@ -52,7 +52,7 @@
     letter-spacing: 0.08em;
     font-size: var(--font-size-xs);
     font-weight: 700;
-    color: var(--color-secondary-700);
+    color: var(--entry-accent, var(--color-secondary-700));
 }
 
 .title {
@@ -84,7 +84,7 @@
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 999px;
-    background-color: var(--color-secondary-500);
+    background-color: var(--entry-accent, var(--color-secondary-500));
     color: var(--color-base-0);
     font-size: var(--font-size-sm);
     font-weight: 600;
@@ -96,7 +96,7 @@
 .play:hover,
 .play:focus-visible {
     transform: translateY(-1px);
-    background-color: var(--color-secondary-700);
+    background-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-700)) 80%, black);
 }
 
 /* Provider glyph pinned to the top-right corner of the card. */
@@ -136,16 +136,36 @@
 /* --- Featured variant --- */
 .featured {
     padding: var(--space-4);
-    border-color: color-mix(in srgb, var(--color-secondary-500) 45%, var(--color-base-100));
-    background-image: linear-gradient(135deg, color-mix(in srgb, var(--color-secondary-500) 12%, var(--color-base-0)) 0%, var(--color-base-0) 60%);
+    border-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 45%, var(--color-base-100));
+    background-image: linear-gradient(135deg, color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 12%, var(--color-base-0)) 0%, var(--color-base-0) 60%);
 }
 
 .featured .badge {
     min-width: 3.25rem;
     height: 3.25rem;
     font-size: var(--font-size-md);
-    background-color: var(--color-secondary-500);
+    background-color: var(--entry-accent, var(--color-secondary-500));
     color: var(--color-base-0);
+}
+
+/* Decorative equaliser strip along the bottom of the featured episode card —
+   pure eye-candy that reinforces the "audio" identity of a podcast entry. */
+.wave {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 28px;
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 20%, transparent);
+}
+
+.wave span {
+    flex: 1 1 0;
+    min-width: 3px;
+    border-radius: 2px;
+    background-color: var(--entry-accent, var(--color-secondary-500));
+    opacity: 0.55;
 }
 
 @media (max-width: 640px) {

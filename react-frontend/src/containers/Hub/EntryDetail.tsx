@@ -18,7 +18,9 @@ import ListButtons from '../../components/ListButtons';
 import RichContent from '../../components/RichContent';
 import StarBorder from '../../components/StarBorder';
 import PodcastEpisode from '../../components/RichContent/PodcastEpisode';
+import ReadingProgress from '../../components/ReadingProgress';
 import buttonStyles from '../../components/Button/Button.module.css';
+import { accentStyle } from './kindAccent';
 import { cx } from '../../utils/cx';
 import type {
     SanityHubEntry,
@@ -78,6 +80,7 @@ function EntryDetail(entry: SanityHubEntry) {
     const isChannel = kind === 'channel';
     const isPodcast = kind === 'podcast';
     const isRead = kind === 'read';
+    const isArticle = kind === 'article';
 
     // For podcasts, pull the first top-level episode flagged `featured` out of
     // the body so it can be pinned as a large player above the rest, and hide
@@ -91,12 +94,23 @@ function EntryDetail(entry: SanityHubEntry) {
         ? (body ?? []).filter((node) => node !== featuredEpisode)
         : (body ?? []);
     const resolvedPlatforms = (platforms ?? []).filter((p) => PLATFORM_META[p.platform]);
+    const readingCount = isRead
+        ? (body ?? []).filter((node) => node._type === 'readingItem').length
+        : 0;
+    const videoCount = isChannel
+        ? (body ?? []).filter((node) => node._type === 'youtube').length
+        : 0;
 
     const hasBody = Boolean(displayBody && displayBody.length > 0);
     const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef => Boolean(category));
 
     return (
-        <article className={cx(styles.article, isRTL && styles.rtl)} dir={isRTL ? 'rtl' : undefined} lang={language}>
+        <article
+            className={cx(styles.article, isRTL && styles.rtl)}
+            style={accentStyle(kind)}
+            dir={isRTL ? 'rtl' : undefined}
+            lang={language}
+        >
             <div className={styles.meta}>
                 <span className={styles.badge}>
                     <FontAwesomeIcon icon={icon} />
@@ -110,34 +124,42 @@ function EntryDetail(entry: SanityHubEntry) {
                 )}
                 <Text className={styles.date}>{formatDate(publishedAt, language)}</Text>
                 {durationLabel && <Text className={styles.date}>{durationLabel}</Text>}
+                {isChannel && videoCount > 0 && (
+                    <Text className={styles.date}>
+                        {videoCount} {videoCount === 1 ? 'video' : 'videos'}
+                    </Text>
+                )}
             </div>
 
             {isChannel ? (
                 <div className={styles.channelHero}>
-                    {image && (
-                        <img className={styles.channelAvatar} src={image} alt="" />
-                    )}
-                    <div className={styles.channelInfo}>
-                        <Text variant="h1" className={styles.channelName}>
-                            {title}
-                        </Text>
-                        {(channelHandle || sourceName) && (
-                            <Text className={styles.channelMeta}>
-                                {[channelHandle, sourceName].filter(Boolean).join(' · ')}
+                    <div className={styles.channelBanner} aria-hidden="true" />
+                    <div className={styles.channelId}>
+                        {image && (
+                            <img className={styles.channelAvatar} src={image} alt="" />
+                        )}
+                        <div className={styles.channelInfo}>
+                            <Text variant="h1" className={styles.channelName}>
+                                {title}
                             </Text>
-                        )}
-                        <Text className={styles.channelTagline}>{excerpt}</Text>
-                        {externalUrl && (
-                            <a
-                                href={externalUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={cx(buttonStyles.button, buttonStyles.md, buttonStyles.pointer, styles.channelCta)}
-                            >
-                                <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                                {sourceName ? `Visit on ${sourceName}` : 'Visit channel'}
-                            </a>
-                        )}
+                            {(channelHandle || sourceName) && (
+                                <Text className={styles.channelMeta}>
+                                    {[channelHandle, sourceName].filter(Boolean).join(' · ')}
+                                </Text>
+                            )}
+                            <Text className={styles.channelTagline}>{excerpt}</Text>
+                            {externalUrl && (
+                                <a
+                                    href={externalUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={cx(buttonStyles.button, buttonStyles.md, buttonStyles.pointer, styles.channelCta)}
+                                >
+                                    <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+                                    {sourceName ? `Visit on ${sourceName}` : 'Visit channel'}
+                                </a>
+                            )}
+                        </div>
                     </div>
                 </div>
             ) : isPodcast ? (
@@ -172,6 +194,33 @@ function EntryDetail(entry: SanityHubEntry) {
                         )}
                     </div>
                 </div>
+            ) : isRead ? (
+                <div className={styles.readHero}>
+                    <Text variant="h1">{title}</Text>
+                    <Text className={styles.excerpt}>{excerpt}</Text>
+                    {readingCount > 0 && (
+                        <span className={styles.readCount}>
+                            {readingCount} {readingCount === 1 ? 'article' : 'articles'}
+                        </span>
+                    )}
+                </div>
+            ) : isArticle ? (
+                <>
+                    <ReadingProgress />
+                    <Text variant="h1">{title}</Text>
+                    <div className={styles.byline}>
+                        <span className={styles.bylineAvatar} aria-hidden="true">
+                            SE
+                        </span>
+                        <div className={styles.bylineText}>
+                            <Text className={styles.bylineName}>Shawky Ebrahim</Text>
+                            <Text className={styles.bylineSub}>
+                                Software Engineer · {formatDate(publishedAt, language)}
+                            </Text>
+                        </div>
+                    </div>
+                    <Text className={styles.lede}>{excerpt}</Text>
+                </>
             ) : (
                 <>
                     <Text variant="h1">{title}</Text>
@@ -223,7 +272,14 @@ function EntryDetail(entry: SanityHubEntry) {
                 </Text>
             )}
 
-            {hasBody && <RichContent value={displayBody} />}
+            {hasBody &&
+                (isArticle ? (
+                    <div className={styles.articleProse}>
+                        <RichContent value={displayBody} />
+                    </div>
+                ) : (
+                    <RichContent value={displayBody} />
+                ))}
 
             {tags && tags.length > 0 && <ListButtons elements={tags} />}
         </article>

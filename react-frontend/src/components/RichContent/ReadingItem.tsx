@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import { faArrowUpRightFromSquare, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import Text from '../Text';
 import type { RichReadingItem } from '../../Types';
 import styles from './ReadingItem.module.css';
@@ -16,6 +16,7 @@ function ReadingItem({ value }: { value: RichReadingItem }) {
         host = undefined;
     }
     const source = value.source ?? host;
+    const favicon = host ? `https://www.google.com/s2/favicons?domain=${host}&sz=64` : undefined;
 
     return (
         <a
@@ -25,6 +26,14 @@ function ReadingItem({ value }: { value: RichReadingItem }) {
             rel="noopener noreferrer"
             dir="auto"
         >
+            <span className={styles.num} aria-hidden="true" />
+            <span className={styles.favicon} aria-hidden="true">
+                {favicon ? (
+                    <img src={favicon} alt="" width={24} height={24} loading="lazy" />
+                ) : (
+                    <FontAwesomeIcon icon={faBookmark} />
+                )}
+            </span>
             <div className={styles.body}>
                 <Text variant="h4" className={styles.title}>
                     {value.title}

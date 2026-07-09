@@ -23,9 +23,52 @@
 
 .card:hover,
 .card:focus-visible {
-    transform: translateY(-2px);
-    border-color: var(--color-secondary-500);
+    transform: translateX(3px);
+    border-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 45%, white);
     box-shadow: 0 6px 18px rgb(0 0 0 / 0.08);
+}
+
+/* Leading "01, 02, 03…" index — a global CSS counter incremented per card and
+   reset on the entry root (see EntryDetail.module.css .article). Gives the
+   reading list its ranked-playlist feel. */
+.num {
+    flex: 0 0 auto;
+    counter-increment: reading-item;
+    font-size: 1.3rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-base-300);
+    min-width: 2ch;
+    text-align: center;
+}
+
+.num::before {
+    content: counter(reading-item, decimal-leading-zero);
+}
+
+.card:hover .num,
+.card:focus-visible .num {
+    color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 60%, var(--color-base-300));
+}
+
+/* Source favicon (or a bookmark fallback) so each row reads as a real link. */
+.favicon {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 6px;
+    background-color: var(--color-base-100);
+    color: var(--color-base-600);
+    font-size: 0.85rem;
+    overflow: hidden;
+}
+
+.favicon img {
+    width: 1.1rem;
+    height: 1.1rem;
+    object-fit: contain;
 }
 
 .body {
@@ -42,13 +85,13 @@
 
 .card:hover .title,
 .card:focus-visible .title {
-    color: var(--color-secondary-700);
+    color: var(--entry-accent, var(--color-secondary-700));
 }
 
 .source {
     font-size: var(--font-size-sm);
     font-weight: 600;
-    color: var(--color-secondary-700);
+    color: var(--entry-accent, var(--color-secondary-700));
 }
 
 .note {
@@ -66,8 +109,8 @@
     width: 2.25rem;
     height: 2.25rem;
     border-radius: 999px;
-    background-color: color-mix(in srgb, var(--color-secondary-500) 12%, transparent);
-    color: var(--color-secondary-700);
+    background-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 12%, transparent);
+    color: var(--entry-accent, var(--color-secondary-700));
     font-size: 0.9rem;
     transition: transform 0.2s ease-out, background-color 0.2s ease-out, color 0.2s ease-out;
 }
@@ -75,6 +118,6 @@
 .card:hover .icon,
 .card:focus-visible .icon {
     transform: translate(2px, -2px);
-    background-color: var(--color-secondary-500);
+    background-color: var(--entry-accent, var(--color-secondary-500));
     color: var(--color-base-0);
 }

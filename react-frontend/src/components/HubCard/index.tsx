@@ -4,6 +4,7 @@ import { faNewspaper, faPodcast, faBookOpen, faTv } from '@fortawesome/free-soli
 import { cx } from '../../utils/cx';
 import Text from '../Text';
 import ListButtons from '../ListButtons';
+import { accentStyle } from '../../containers/Hub/kindAccent';
 import surfaces from '../../styles/surfaces.module.css';
 import type { HubEntryKind, HubEntryCategoryRef, HubContentLanguage } from '../../Types';
 import styles from './HubCard.module.css';
@@ -34,7 +35,7 @@ function HubCard({ title, slug, kind, excerpt, coverImage, sourceThumbnail, dura
     const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef => Boolean(category));
 
     return (
-        <a href={`/hub/${slug}`} className={cx(surfaces.container, styles.card)}>
+        <a href={`/hub/${slug}`} className={cx(surfaces.container, styles.card)} style={accentStyle(kind)}>
             {image && (
                 <div className={styles.imageFrame}>
                     <img className={styles.image} src={image} alt="" loading="lazy" />

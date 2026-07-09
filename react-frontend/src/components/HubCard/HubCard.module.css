@@ -48,8 +48,9 @@
     letter-spacing: 0.04em;
     padding: 0.25rem 0.6rem;
     border-radius: 999px;
-    background-color: var(--color-secondary-100);
-    color: var(--color-secondary-700);
+    background-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-700)) 12%, white);
+    color: var(--entry-accent, var(--color-secondary-700));
+    border: 1px solid color-mix(in srgb, var(--entry-accent, var(--color-secondary-700)) 28%, white);
 }
 
 .imageFrame .badge {
@@ -58,6 +59,7 @@
     left: 0.6rem;
     background-color: var(--color-base-0);
     box-shadow: var(--shadow);
+    border-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-700)) 30%, white);
 }
 
 .excerpt {

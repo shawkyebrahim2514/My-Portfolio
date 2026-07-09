@@ -34,6 +34,7 @@ function PodcastEpisode({ value }: { value: RichPodcastEpisode }) {
     const providerIcon = PROVIDER_ICON[provider];
     const canPlay = Boolean(embedUrl);
     const isVideo = provider === 'youtube';
+    const waveBars = [40, 80, 55, 100, 35, 70, 50, 90, 45, 75, 60, 85, 40, 65];
 
     return (
         <figure className={cx(styles.card, value.featured && styles.featured, playing && styles.playing)} dir="auto">
@@ -49,47 +50,56 @@ function PodcastEpisode({ value }: { value: RichPodcastEpisode }) {
                     />
                 </div>
             ) : (
-                <div className={styles.head}>
-                    {value.episodeLabel && (
-                        <span className={styles.badge} aria-hidden="true">
-                            {value.episodeLabel}
-                        </span>
-                    )}
-                    <div className={styles.info}>
-                        {value.featured && <span className={styles.eyebrow}>Featured episode</span>}
-                        <Text variant={value.featured ? 'h3' : 'h4'} className={styles.title}>
-                            {value.title}
-                        </Text>
-                        {meta && <p className={styles.meta}>{meta}</p>}
-                        {value.note && <p className={styles.note}>{value.note}</p>}
-
-                        {canPlay ? (
-                            <button
-                                type="button"
-                                className={styles.play}
-                                onClick={() => setPlaying(true)}
-                                aria-label={`Play episode: ${value.title}`}
-                            >
-                                <FontAwesomeIcon icon={faPlay} aria-hidden="true" />
-                                <span>Play episode</span>
-                            </button>
-                        ) : (
-                            <a
-                                className={styles.play}
-                                href={value.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <FontAwesomeIcon icon={faUpRightFromSquare} aria-hidden="true" />
-                                <span>Listen</span>
-                            </a>
+                <>
+                    <div className={styles.head}>
+                        {value.episodeLabel && (
+                            <span className={styles.badge} aria-hidden="true">
+                                {value.episodeLabel}
+                            </span>
                         )}
+                        <div className={styles.info}>
+                            {value.featured && <span className={styles.eyebrow}>Featured episode</span>}
+                            <Text variant={value.featured ? 'h3' : 'h4'} className={styles.title}>
+                                {value.title}
+                            </Text>
+                            {meta && <p className={styles.meta}>{meta}</p>}
+                            {value.note && <p className={styles.note}>{value.note}</p>}
 
-                        <span className={styles.provider} aria-hidden="true">
-                            <FontAwesomeIcon icon={providerIcon} />
-                        </span>
+                            {canPlay ? (
+                                <button
+                                    type="button"
+                                    className={styles.play}
+                                    onClick={() => setPlaying(true)}
+                                    aria-label={`Play episode: ${value.title}`}
+                                >
+                                    <FontAwesomeIcon icon={faPlay} aria-hidden="true" />
+                                    <span>Play episode</span>
+                                </button>
+                            ) : (
+                                <a
+                                    className={styles.play}
+                                    href={value.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <FontAwesomeIcon icon={faUpRightFromSquare} aria-hidden="true" />
+                                    <span>Listen</span>
+                                </a>
+                            )}
+
+                            <span className={styles.provider} aria-hidden="true">
+                                <FontAwesomeIcon icon={providerIcon} />
+                            </span>
+                        </div>
                     </div>
-                </div>
+                    {value.featured && (
+                        <div className={styles.wave} aria-hidden="true">
+                            {waveBars.map((height, i) => (
+                                <span key={i} style={{ height: `${height}%` }} />
+                            ))}
+                        </div>
+                    )}
+                </>
             )}
         </figure>
     );

@@ -1,0 +1,23 @@
+/* Fixed reading-progress bar for Article entries. Sits above all content at
+   the very top of the viewport; the inner bar's width is set imperatively on
+   scroll (see index.tsx). Inherits the per-kind accent from the entry root. */
+.track {
+    position: fixed;
+    top: 0;
+    inset-inline: 0;
+    height: 4px;
+    background-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 12%, transparent);
+    z-index: 100;
+    pointer-events: none;
+}
+
+.bar {
+    height: 100%;
+    width: 0;
+    background-image: linear-gradient(
+        90deg,
+        var(--entry-accent, var(--color-secondary-700)),
+        var(--color-secondary-400)
+    );
+    transition: width 0.1s linear;
+}
