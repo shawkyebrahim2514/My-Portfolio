@@ -138,23 +138,42 @@
     color: var(--color-base-700);
 }
 
-/* Article body wrapper — restores the flex-gap the entry root gives its
-   direct children (the wrapper takes their place) and adds a drop-cap on the
-   opening paragraph for a magazine feel. */
+/* Article body wrapper — a block flow (not flex) so the floated "On this page"
+   TOC lets the prose wrap around it, matching the editorial mockup. Vertical
+   rhythm comes from margins between children; typography is wider and more
+   generous than the other kinds so the page reads like a magazine article. */
 .articleProse {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
+    display: block;
     width: 100%;
+}
+
+.articleProse > * + * {
+    margin-top: var(--space-3);
+}
+
+.articleProse p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--color-base-800);
+}
+
+.articleProse :is(h2, h3, h4) {
+    margin-top: var(--space-5);
+    /* Clear the sticky navbar when jumped to via a TOC anchor. */
+    scroll-margin-top: 96px;
+}
+
+.articleProse :is(ul, ol) {
+    line-height: 1.8;
 }
 
 .articleProse > p:first-of-type::first-letter {
     float: inline-start;
-    font-size: 3.1rem;
+    font-size: 3.4rem;
     font-weight: 800;
-    line-height: 0.8;
-    padding-inline-end: 0.5rem;
-    padding-top: 0.15rem;
+    line-height: 0.72;
+    margin-inline-end: 0.72rem;
+    margin-top: 0.28rem;
     color: var(--entry-accent);
 }
 
@@ -178,10 +197,11 @@
 
 .channelId {
     display: flex;
-    align-items: flex-end;
-    gap: var(--space-4);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
     padding: 0 var(--space-4) var(--space-4);
-    margin-top: -2rem;
+    margin-top: -3rem;
 }
 
 .channelAvatar {
@@ -205,6 +225,7 @@
 
 .channelName {
     margin: 0;
+    color: var(--color-base-900);
 }
 
 .channelMeta {
@@ -230,6 +251,41 @@
     padding-top: var(--space-3);
     width: 100%;
     border-top: 2px solid color-mix(in srgb, var(--entry-accent) 25%, var(--color-base-100));
+}
+
+/* Adaptive grid of channel videos. auto-fill + minmax lets the column count
+   flow with the available width: a single column on narrow screens, two (or
+   more, on very wide layouts) once each card can hold its ~300px minimum. */
+.videoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-4);
+    width: 100%;
+}
+
+/* Pinned "lead pick" wrapper — the single featured video (channels) or reading
+   item (reading lists), rendered full-width above the grid/list with a small
+   accent eyebrow so it reads as the highlighted item of the entry. */
+.featuredLead {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    width: 100%;
+}
+
+.featuredTag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    align-self: flex-start;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 14%, transparent);
+    color: var(--entry-accent, var(--color-secondary-700));
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
 }
 
 /* --- Podcast hero: square cover art + host + tagline + "Listen on" pills --- */

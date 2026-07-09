@@ -126,10 +126,20 @@ export const youtube = {
             type: 'string',
             description: 'Shown beneath the player, e.g. "Talk: Rethinking React state".',
         },
+        {
+            name: 'featured',
+            title: 'Pin as the featured video',
+            type: 'boolean',
+            description: 'Renders this video large and full-width above the video grid. Only the first featured video is pinned.',
+            initialValue: false,
+        },
     ],
     preview: {
-        select: { url: 'url', caption: 'caption' },
-        prepare: ({ url, caption }) => ({ title: caption || 'YouTube Video', subtitle: url }),
+        select: { url: 'url', caption: 'caption', featured: 'featured' },
+        prepare: ({ url, caption, featured }) => ({
+            title: caption || 'YouTube Video',
+            subtitle: [featured ? '★ Featured' : null, url].filter(Boolean).join(' — '),
+        }),
     },
 }
 
@@ -237,10 +247,20 @@ export const readingItem = {
             rows: 2,
             description: 'A short line on why it is worth reading.',
         },
+        {
+            name: 'featured',
+            title: 'Pin as the featured read',
+            type: 'boolean',
+            description: 'Highlights this article as the lead pick above the rest of the list. Only the first featured item is pinned.',
+            initialValue: false,
+        },
     ],
     preview: {
-        select: { title: 'title', source: 'source' },
-        prepare: ({ title, source }) => ({ title, subtitle: source || 'Reading item' }),
+        select: { title: 'title', source: 'source', featured: 'featured' },
+        prepare: ({ title, source, featured }) => ({
+            title,
+            subtitle: [featured ? '★ Featured' : null, source].filter(Boolean).join(' — ') || 'Reading item',
+        }),
     },
 }
 

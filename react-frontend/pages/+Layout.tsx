@@ -6,22 +6,34 @@
 import { Suspense } from 'react';
 import type { ReactNode } from 'react';
 import { Analytics } from '@vercel/analytics/react';
+import { usePageContext } from 'vike-react/usePageContext';
 import ThemeContext from '../src/contexts/ThemeContext';
 import Navbar from '../src/components/Navbar';
 import Loader from '../src/components/Loader';
 import ErrorBoundary from '../src/components/ErrorBoundary';
 import ShapeGridBackground from '../src/components/ShapeGridBackground';
 import ClickSpark from '../src/components/ClickSpark';
+import { themeStyle, kindAmbient } from '../src/containers/Hub/kindAccent';
+import type { HubEntryKind } from '../src/Types';
 import '../src/styles/tokens.css';
 import '../src/index.css';
 import styles from './Layout.module.css';
 
 export default function Layout({ children }: Readonly<{ children: ReactNode }>) {
+    // On a Hub entry page the page's data carries the entry kind. We promote
+    // that kind's accent to the page's whole `--color-secondary-*` ramp so the
+    // entire shell (navbar/footer included) adopts the hue. Every other page
+    // has no `entry`, so `themeStyle` is skipped and the warm brand stays.
+    const pageContext = usePageContext();
+    const kind = (pageContext.data as { entry?: { kind?: HubEntryKind } } | undefined)?.entry?.kind;
+    const themeVars = kind ? themeStyle(kind) : undefined;
+    const ambient = kind ? kindAmbient(kind) : null;
+
     return (
         <ThemeContext>
-            <div className={styles.page}>
-                <ShapeGridBackground />
-                <ClickSpark />
+            <div className={styles.page} style={themeVars}>
+                <ShapeGridBackground hoverColor={ambient?.gridHover} />
+                <ClickSpark color={ambient?.spark} />
                 <a className={styles.skipLink} href="#main-content">Skip to main content</a>
                 <div className={styles.inner}>
                     <Suspense fallback={<Loader />}>

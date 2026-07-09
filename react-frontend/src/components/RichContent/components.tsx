@@ -90,15 +90,41 @@ function Heading1({ value, children }: BlockProps) {
     );
 }
 
-function makeHeading(tag: 'h2' | 'h3' | 'h4' | 'h5' | 'h6', styleKey: keyof typeof styles) {
+function makeHeading(
+    tag: 'h2' | 'h3' | 'h4' | 'h5' | 'h6',
+    styleKey: keyof typeof styles,
+    headingIds?: Record<string, string>,
+) {
     return function Heading({ value, children }: BlockProps) {
         const block = value as RichBlock;
         const override = singleLinkOverride(block);
+        // When the caller supplies an id map (article kind — for the "On this
+        // page" table of contents), stamp the matching id on the heading so the
+        // TOC anchors + scroll-spy can target it.
+        const id = headingIds?.[block._key];
         return React.createElement(
             tag,
-            { className: cx(styles[styleKey], blockAlignClass(block.children, styles)) },
+            { className: cx(styles[styleKey], blockAlignClass(block.children, styles)), ...(id ? { id } : {}) },
             override ?? children,
         );
+    };
+}
+
+// Build the Portable Text serializer map. `headingIds` (optional) maps a
+// heading block's `_key` to a stable anchor id — supplied only where a TOC is
+// rendered (article entries); everywhere else headings render without ids.
+export function createComponents(headingIds?: Record<string, string>): PortableTextComponents {
+    return {
+        ...components,
+        block: {
+            normal: NormalBlock,
+            h1: Heading1,
+            h2: makeHeading('h2', 'h2', headingIds),
+            h3: makeHeading('h3', 'h3', headingIds),
+            h4: makeHeading('h4', 'h4', headingIds),
+            h5: makeHeading('h5', 'h5', headingIds),
+            h6: makeHeading('h6', 'h6', headingIds),
+        },
     };
 }
 

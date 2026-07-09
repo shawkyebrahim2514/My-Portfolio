@@ -87,6 +87,7 @@ export type RichYouTube = {
     channelTitle?: string;
     channelUrl?: string;
     thumbnail?: string;
+    featured?: boolean;
 };
 
 // A single podcast episode (block-level), the audio analogue of RichYouTube.
@@ -115,6 +116,7 @@ export type RichReadingItem = {
     url: string;
     source?: string;
     note?: string;
+    featured?: boolean;
 };
 
 export type RichContentNode =

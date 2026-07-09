@@ -18,7 +18,10 @@ import ListButtons from '../../components/ListButtons';
 import RichContent from '../../components/RichContent';
 import StarBorder from '../../components/StarBorder';
 import PodcastEpisode from '../../components/RichContent/PodcastEpisode';
+import YouTube from '../../components/RichContent/YouTube';
+import ReadingItem from '../../components/RichContent/ReadingItem';
 import ReadingProgress from '../../components/ReadingProgress';
+import ArticleToc, { type TocHeading } from '../../components/ArticleToc';
 import buttonStyles from '../../components/Button/Button.module.css';
 import { accentStyle } from './kindAccent';
 import { cx } from '../../utils/cx';
@@ -30,6 +33,8 @@ import type {
     HubPlatformLink,
     RichContentNode,
     RichPodcastEpisode,
+    RichYouTube,
+    RichReadingItem,
 } from '../../Types';
 import styles from './EntryDetail.module.css';
 
@@ -53,6 +58,18 @@ const PLATFORM_META: Record<HubPlatformLink['platform'], { icon: IconDefinition;
 function formatDate(iso: string, language: HubContentLanguage) {
     const locale = language === 'ar' ? 'ar' : undefined;
     return new Date(iso).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+// Turn a heading's text into a stable, URL-safe anchor id. Keeps Unicode
+// letters/numbers (so Arabic headings get readable ids too) and falls back to a
+// positional id when a heading has no sluggable characters.
+function slugifyHeading(text: string, index: number) {
+    const base = text
+        .toLowerCase()
+        .trim()
+        .replace(/[^\p{L}\p{N}]+/gu, '-')
+        .replace(/^-+|-+$/g, '');
+    return base || `section-${index + 1}`;
 }
 
 function EntryDetail(entry: SanityHubEntry) {
@@ -90,19 +107,62 @@ function EntryDetail(entry: SanityHubEntry) {
               (node): node is RichPodcastEpisode => node._type === 'podcastEpisode' && Boolean(node.featured),
           ) ?? undefined)
         : undefined;
-    const displayBody: RichContentNode[] = featuredEpisode
-        ? (body ?? []).filter((node) => node !== featuredEpisode)
-        : (body ?? []);
+    // For reading lists, pull the first `featured` reading item out to render it
+    // as an emphasized "lead pick" above the numbered list.
+    const featuredRead = isRead
+        ? (body?.find(
+              (node): node is RichReadingItem => node._type === 'readingItem' && Boolean(node.featured),
+          ) ?? undefined)
+        : undefined;
+    const displayBody: RichContentNode[] = (body ?? []).filter(
+        (node) => node !== featuredEpisode && node !== featuredRead,
+    );
     const resolvedPlatforms = (platforms ?? []).filter((p) => PLATFORM_META[p.platform]);
     const readingCount = isRead
         ? (body ?? []).filter((node) => node._type === 'readingItem').length
         : 0;
-    const videoCount = isChannel
-        ? (body ?? []).filter((node) => node._type === 'youtube').length
-        : 0;
+    // For channels, split the body into embedded videos (rendered in an
+    // adaptive grid below) and any other blocks (an optional intro, shown
+    // above the grid as normal rich content).
+    const channelVideos = isChannel
+        ? (body ?? []).filter((node): node is RichYouTube => node._type === 'youtube')
+        : [];
+    const channelIntro = isChannel ? (body ?? []).filter((node) => node._type !== 'youtube') : [];
+    const videoCount = channelVideos.length;
+    // Pin the first `featured` video full-width above the grid; the rest fill
+    // the adaptive grid.
+    const featuredVideo = channelVideos.find((video) => Boolean(video.featured)) ?? undefined;
+    const gridVideos = featuredVideo
+        ? channelVideos.filter((video) => video !== featuredVideo)
+        : channelVideos;
 
     const hasBody = Boolean(displayBody && displayBody.length > 0);
     const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef => Boolean(category));
+
+    // Article "On this page" TOC: collect h2/h3 headings from the body and give
+    // each a stable anchor id. `headingIds` (keyed by block `_key`) is threaded
+    // into RichContent so the rendered headings carry the same ids the TOC
+    // links/scroll-spy target.
+    const articleHeadings: TocHeading[] = [];
+    const headingIds: Record<string, string> = {};
+    if (isArticle) {
+        const seen = new Map<string, number>();
+        displayBody.forEach((node, index) => {
+            if (node._type !== 'block' || (node.style !== 'h2' && node.style !== 'h3')) return;
+            const text = node.children
+                .filter((child): child is { _type: 'span'; _key: string; text: string } => child._type === 'span')
+                .map((child) => child.text)
+                .join('')
+                .trim();
+            if (!text) return;
+            let id = slugifyHeading(text, index);
+            const count = seen.get(id) ?? 0;
+            seen.set(id, count + 1);
+            if (count > 0) id = `${id}-${count}`;
+            headingIds[node._key] = id;
+            articleHeadings.push({ id, text, level: node.style === 'h3' ? 3 : 2 });
+        });
+    }
 
     return (
         <article
@@ -254,10 +314,31 @@ function EntryDetail(entry: SanityHubEntry) {
 
             {isPodcast && featuredEpisode && <PodcastEpisode value={featuredEpisode} />}
 
-            {isChannel && hasBody && (
-                <Text variant="h3" className={styles.channelBodyHeading}>
-                    Videos worth watching
-                </Text>
+            {isChannel && channelIntro.length > 0 && <RichContent value={channelIntro} />}
+
+            {isChannel && videoCount > 0 && (
+                <>
+                    {featuredVideo && (
+                        <div className={styles.featuredLead}>
+                            <span className={styles.featuredTag}>
+                                <FontAwesomeIcon icon={faStar} /> Featured
+                            </span>
+                            <YouTube value={featuredVideo} variant="row" />
+                        </div>
+                    )}
+                    {gridVideos.length > 0 && (
+                        <>
+                            <Text variant="h3" className={styles.channelBodyHeading}>
+                                Videos worth watching
+                            </Text>
+                            <div className={styles.videoGrid}>
+                                {gridVideos.map((video) => (
+                                    <YouTube key={video._key} value={video} variant="stack" />
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </>
             )}
 
             {isPodcast && hasBody && (
@@ -266,16 +347,31 @@ function EntryDetail(entry: SanityHubEntry) {
                 </Text>
             )}
 
+            {isRead && featuredRead && (
+                <div className={styles.featuredLead}>
+                    <span className={styles.featuredTag}>
+                        <FontAwesomeIcon icon={faStar} /> Featured
+                    </span>
+                    <ReadingItem value={featuredRead} variant="featured" />
+                </div>
+            )}
+
             {isRead && hasBody && (
                 <Text variant="h3" className={styles.channelBodyHeading}>
                     Worth reading
                 </Text>
             )}
 
-            {hasBody &&
+            {!isChannel && hasBody &&
                 (isArticle ? (
                     <div className={styles.articleProse}>
-                        <RichContent value={displayBody} />
+                        {articleHeadings.length > 0 && (
+                            <ArticleToc
+                                headings={articleHeadings}
+                                label={isRTL ? 'في هذه الصفحة' : 'On this page'}
+                            />
+                        )}
+                        <RichContent value={displayBody} headingIds={headingIds} />
                     </div>
                 ) : (
                     <RichContent value={displayBody} />

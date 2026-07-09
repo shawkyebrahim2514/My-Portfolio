@@ -119,7 +119,7 @@
     align-items: center;
     gap: var(--space-3);
     flex-wrap: wrap;
-    border-top: var(--border);
+    border-top: 1px solid color-mix(in srgb, var(--color-secondary-500) 20%, var(--color-base-200));
 }
 
 .channel {
@@ -140,6 +140,18 @@
 }
 
 .playing .posterWrap {
+    flex-basis: auto;
+    max-width: 100%;
+    width: 100%;
+}
+
+/* Stacked variant (used inside the channel video grid): poster on top spanning
+   the full width, body below — so cards read well in a narrow grid column. */
+.stack {
+    flex-direction: column;
+}
+
+.stack .posterWrap {
     flex-basis: auto;
     max-width: 100%;
     width: 100%;

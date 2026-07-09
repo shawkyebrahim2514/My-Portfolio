@@ -15,7 +15,7 @@ const block = (text, style = 'normal') => ({
     markDefs: [],
     children: [{ _type: 'span', _key: key(), text, marks: [] }],
 });
-const youtube = (url, caption) => ({ _type: 'youtube', _key: key(), url, caption });
+const youtube = (url, caption, featured = false) => ({ _type: 'youtube', _key: key(), url, caption, featured });
 
 const OBSOLETE_VIDEO_ENTRIES = [
     'hubEntry-dummy-video-career-growth',
@@ -45,7 +45,7 @@ const channelEntry = {
         block(
             'قناة بأتابعها باهتمام، بتقدم محتوى مهم عن الزواج والتربية بأسلوب بسيط وواقعي. دي مجموعة من الحلقات اللي وقفت عندها وحبيت أشاركها.',
         ),
-        youtube('https://youtu.be/Lu8wbJJi_bM', 'حلقة أثّرت فيا فعلاً — تستاهل المشاهدة بتأنّي.'),
+        youtube('https://youtu.be/Lu8wbJJi_bM', 'حلقة أثّرت فيا فعلاً — تستاهل المشاهدة بتأنّي.', true),
         youtube('https://youtu.be/3d9VyvAqAl4', 'طرح صادق لموضوع بنتجاهله كتير.'),
         youtube('https://youtu.be/ILA80kDn_d4', 'من أكتر الحلقات اللي رجعتلها أكتر من مرة.'),
     ],

@@ -13,7 +13,7 @@ import styles from './YouTube.module.css';
 // card expands to full width. Title/channel/thumbnail are filled at build
 // time via oEmbed (see utils/youtube.ts); this degrades gracefully to
 // thumbnail + play + caption if that enrichment is missing.
-function YouTube({ value }: { value: RichYouTube }) {
+function YouTube({ value, variant = 'row' }: { value: RichYouTube; variant?: 'row' | 'stack' }) {
     const [playing, setPlaying] = useState(false);
     const videoId = value.videoId ?? extractYouTubeId(value.url);
     if (!videoId) return null;
@@ -22,7 +22,7 @@ function YouTube({ value }: { value: RichYouTube }) {
     const title = value.videoTitle ?? value.caption ?? 'YouTube video';
 
     return (
-        <figure className={cx(styles.card, playing && styles.playing)}>
+        <figure className={cx(styles.card, playing && styles.playing, variant === 'stack' && styles.stack)}>
             <div className={styles.posterWrap}>
                 {playing ? (
                     <iframe

@@ -185,7 +185,7 @@ const entries = [
     featured: true,
     featuredInCategory: true,
     body: [
-      block('This is placeholder dummy content used to validate the hubEntry schema end-to-end.'),
+      block('This is placeholder dummy content used to validate the hubEntry schema end-to-end. Clean architecture is less about folders and more about the direction your dependencies point: inward, toward stable business rules, and never outward toward frameworks that churn every release. When a React app respects that boundary, the parts that matter most become the easiest parts to test, reason about, and keep alive across rewrites of the UI layer. The paragraphs that follow walk through the layout I keep returning to, and the small habits that make it hold up under real feature pressure rather than collapsing the first time a deadline appears.'),
       block('Key Takeaways', 'h3'),
       block('Separate data-fetching from presentation. Keep components dumb where possible.'),
       block('A dependency-friendly folder layout I keep reaching for:'),
@@ -268,7 +268,45 @@ export const getEntries: GetEntries = async (client) => {
     excerpt: 'The small set of tools and shortcuts that quietly save me hours every week.',
     publishedAt: new Date(Date.now() - 5 * 86400000).toISOString(),
     featured: false,
-    body: [block('A living list of the tools I actually keep coming back to.')],
+    body: [
+      block(
+        'A living list of the tools I actually keep coming back to. Not the flashiest setup on the internet — just the handful of things that have earned a permanent place in my daily workflow and quietly save me hours every week.',
+      ),
+      block('The terminal', 'h2'),
+      block(
+        'The terminal is where I spend most of my day, so it is the first thing I invest in on any new machine. The goal is a shell that is fast, legible, and gets out of the way.',
+      ),
+      block('The pieces I would not work without:'),
+      bullet('A fast prompt that shows git status and the current directory at a glance.'),
+      bullet('Fuzzy history search — I almost never retype a long command anymore.'),
+      bullet('Sensible aliases for the ten git commands I run a hundred times a day.'),
+      block('A couple of aliases carry more weight than the rest:'),
+      code(
+        `alias gs="git status -sb"
+alias gl="git log --oneline --graph --decorate -20"
+alias gp="git push origin HEAD"`,
+        'bash',
+        '.aliases',
+      ),
+      block('The editor', 'h2'),
+      block(
+        'My editor is tuned for one thing: staying in flow. That means fewer panels, keyboard-first navigation, and a language server doing the heavy lifting so I can think about the problem instead of the syntax.',
+      ),
+      block('Keymaps over menus', 'h3'),
+      block(
+        'Every action I do more than a few times a day gets a key binding. Jumping to a symbol, renaming across a project, toggling the terminal — all a keystroke away, never a mouse hunt.',
+      ),
+      block('Shortcuts that save hours', 'h2'),
+      block('If I had to rebuild everything from scratch, these are the habits I would set up first:'),
+      numbered('Jump to any file by fuzzy name instead of clicking through a tree.'),
+      numbered('Multi-cursor edits for the repetitive changes a regex would be overkill for.'),
+      numbered('Go-to-definition and find-all-references to read code, not just write it.'),
+      numbered('A one-key run/test command wired to whatever project is open.'),
+      block('Takeaways', 'h2'),
+      block(
+        'None of this is about having the perfect setup — it is about removing the small frictions that add up. Invest an afternoon once, then let it pay you back every single day.',
+      ),
+    ],
   },
   {
     _id: 'hubEntry-dummy-read-design-details',
@@ -302,17 +340,19 @@ export const getEntries: GetEntries = async (client) => {
     featuredInCategory: true,
     body: [
       block(
-        'هذا محتوى عربي تجريبي للتأكد من أن الاتجاه من اليمين إلى اليسار (RTL) والخط العربي يعملان بشكل صحيح عبر عنوان المقال ونصه وقوائمه.',
+        'هذا محتوى عربي تجريبي للتأكد من أن الاتجاه من اليمين إلى اليسار (RTL) والخط العربي يعملان بشكل صحيح عبر عنوان المقال ونصه وقوائمه، بالإضافة إلى فهرس المحتويات وشريط تقدّم القراءة.',
       ),
-      block('أهم النقاط', 'h3'),
+      block('المبادئ الأساسية', 'h2'),
       block('عند بناء أنظمة أكبر، أعود دائمًا إلى مجموعة صغيرة من المبادئ الأساسية:'),
       bullet('افصل جلب البيانات عن طبقة العرض قدر الإمكان.'),
       bullet('اجعل المكوّنات بسيطة (dumb components) حيثما أمكن ذلك.'),
       bullet('استعمل الأنواع (types) لتوثيق النوايا وتقليل الأخطاء.'),
+      block('خطوات إضافة ميزة', 'h2'),
       block('وأتبع هذه الخطوات عند إضافة ميزة جديدة:'),
       numbered('أبدأ بكتابة اختبار صغير يصف السلوك المطلوب.'),
       numbered('أكتب أبسط كود يجعل الاختبار ينجح.'),
       numbered('أعيد صياغة الكود (refactor) مع بقاء الاختبارات خضراء.'),
+      block('مثال برمجي', 'h3'),
       block('وحتى داخل نص عربي، تبقى الشيفرة البرمجية بالاتجاه الصحيح من اليسار إلى اليمين:'),
       code(
         `def greet(name: str) -> str:
@@ -320,6 +360,7 @@ export const getEntries: GetEntries = async (client) => {
         'python',
         'greet.py',
       ),
+      block('خلاصة', 'h2'),
       block(
         'الاختبار المبكر يوفّر ساعات من التصحيح لاحقًا، والبساطة تكاد تكون دائمًا الخيار الأصح على المدى الطويل.',
       ),

@@ -2,13 +2,16 @@ import { memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare, faBookmark } from '@fortawesome/free-solid-svg-icons';
 import Text from '../Text';
+import { cx } from '../../utils/cx';
 import type { RichReadingItem } from '../../Types';
 import styles from './ReadingItem.module.css';
 
 // One recommended article inside a Read-kind entry's body. A compact link-out
 // row: title (the link), source, and an optional note. No inline embed — the
-// whole card opens the original in a new tab.
-function ReadingItem({ value }: { value: RichReadingItem }) {
+// whole card opens the original in a new tab. In the `featured` variant it
+// renders larger and without the running list index (used for the pinned
+// "lead pick" above the numbered list).
+function ReadingItem({ value, variant = 'row' }: { value: RichReadingItem; variant?: 'row' | 'featured' }) {
     let host: string | undefined;
     try {
         host = new URL(value.url).hostname.replace(/^www\./, '');
@@ -17,16 +20,17 @@ function ReadingItem({ value }: { value: RichReadingItem }) {
     }
     const source = value.source ?? host;
     const favicon = host ? `https://www.google.com/s2/favicons?domain=${host}&sz=64` : undefined;
+    const isFeatured = variant === 'featured';
 
     return (
         <a
-            className={styles.card}
+            className={cx(styles.card, isFeatured && styles.featured)}
             href={value.url}
             target="_blank"
             rel="noopener noreferrer"
             dir="auto"
         >
-            <span className={styles.num} aria-hidden="true" />
+            {!isFeatured && <span className={styles.num} aria-hidden="true" />}
             <span className={styles.favicon} aria-hidden="true">
                 {favicon ? (
                     <img src={favicon} alt="" width={24} height={24} loading="lazy" />
@@ -35,7 +39,7 @@ function ReadingItem({ value }: { value: RichReadingItem }) {
                 )}
             </span>
             <div className={styles.body}>
-                <Text variant="h4" className={styles.title}>
+                <Text variant={isFeatured ? 'h3' : 'h4'} className={styles.title}>
                     {value.title}
                 </Text>
                 {source && <span className={styles.source}>{source}</span>}
