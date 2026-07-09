@@ -2,6 +2,7 @@ import type { PageContextServer } from 'vike/types';
 import { render } from 'vike/abort';
 import { useConfig } from 'vike-react/useConfig';
 import { getHubEntryBySlug, getHubRecommendations } from '../../../src/APIs';
+import { enrichYouTubeBlocks } from '../../../src/utils/youtube';
 import type { SanityHubEntry, SanityHubEntrySummary, HubEntryCategoryRef } from '../../../src/Types';
 
 export type HubEntryData = {
@@ -23,6 +24,13 @@ export async function data(pageContext: PageContextServer): Promise<HubEntryData
 
     if (!entry) {
         throw render(404, `Hub entry not found: ${slug}`);
+    }
+
+    // Build-time enrichment: fill each embedded YouTube block's title/channel/
+    // thumbnail from the key-free oEmbed endpoint so the rich video card
+    // renders straight from the prerendered HTML (no client fetch, no API key).
+    if (entry.body) {
+        await enrichYouTubeBlocks(entry.body);
     }
 
     config({

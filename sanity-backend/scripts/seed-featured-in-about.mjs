@@ -31,7 +31,7 @@ if (client.config().dataset !== 'staging' && !ALLOW_PRODUCTION) {
 
 const FEATURED_IDS = [
   'hubEntry-dummy-article-clean-architecture',
-  'hubEntry-dummy-video-system-design',
+  'hubEntry-channel-mataa3',
   'hubEntry-dummy-book-atomic-habits',
 ]
 

@@ -1,0 +1,158 @@
+/* Rich horizontal video card embedded in body content. Left: 16:9
+   click-to-play poster. Right: title, caption, channel. Collapses to a
+   vertical stack (poster on top) on narrow screens. */
+.card {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: var(--space-4);
+    width: 100%;
+    align-self: stretch;
+    min-width: 0;
+    margin: 0;
+    padding: var(--space-3);
+    background-color: var(--color-base-50);
+    background-image: linear-gradient(135deg, var(--color-base-100) 0%, var(--color-base-0) 50%, var(--color-base-100) 100%);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+/* --- Poster / player (left) --- */
+.posterWrap {
+    flex: 0 0 44%;
+    max-width: 44%;
+    align-self: flex-start;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background-color: var(--color-base-900);
+}
+
+.poster {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    background: none;
+}
+
+.thumb {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease-out, filter 0.3s ease-out;
+}
+
+.poster:hover .thumb,
+.poster:focus-visible .thumb {
+    transform: scale(1.04);
+    filter: brightness(0.9);
+}
+
+/* Circular play button, centred over the thumbnail. */
+.play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--color-secondary-500) 92%, transparent);
+    color: var(--color-base-0);
+    font-size: 1.1rem;
+    padding-left: 0.15rem; /* optically centre the triangle */
+    box-shadow: var(--shadow);
+    transition: transform 0.2s ease-out, background-color 0.2s ease-out;
+}
+
+.poster:hover .play,
+.poster:focus-visible .play {
+    transform: translate(-50%, -50%) scale(1.1);
+    background-color: var(--color-secondary-500);
+}
+
+.frame {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+/* --- Body (right) --- */
+.body {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.title {
+    margin: 0;
+}
+
+.desc {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-base-700);
+    line-height: 1.6;
+    /* Clamp to keep the card compact regardless of caption length. */
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.footer {
+    margin-top: auto;
+    padding-top: var(--space-2);
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    border-top: var(--border);
+}
+
+.channel {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-secondary-700);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.channel:hover {
+    color: var(--color-secondary-500);
+}
+
+/* When playing, let the player span the full card width for a better view. */
+.playing {
+    flex-direction: column;
+}
+
+.playing .posterWrap {
+    flex-basis: auto;
+    max-width: 100%;
+    width: 100%;
+}
+
+@media (max-width: 640px) {
+    .card {
+        flex-direction: column;
+    }
+
+    .posterWrap {
+        flex-basis: auto;
+        max-width: 100%;
+        width: 100%;
+    }
+}

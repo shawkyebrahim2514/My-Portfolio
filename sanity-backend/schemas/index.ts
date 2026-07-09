@@ -8,7 +8,7 @@ import { contacts } from './units/contacts'
 import { certificates } from './units/certificates'
 import { professionalExperience } from './units/professionalExperience'
 import { portfolio } from './portfolio'
-import { spacer, divider, imageRow, callout } from './objects/richContent'
+import { spacer, divider, imageRow, callout, youtube } from './objects/richContent'
 import { hubPage, hubEntry, hubCategory } from './hub'
 
 export const schemaTypes = [
@@ -30,4 +30,5 @@ export const schemaTypes = [
     divider,
     imageRow,
     callout,
+    youtube,
 ]

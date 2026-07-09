@@ -72,4 +72,21 @@ export type RichCode = {
     highlightedLines?: number[];
 };
 
-export type RichContentNode = RichBlock | RichImageRow | RichDivider | RichCallout | RichCode;
+// Embedded YouTube video (block-level). Authors paste a URL + optional
+// caption. The `video*`/`channel*`/`thumbnail` fields are filled at build
+// time from the URL via YouTube's key-free oEmbed endpoint (see
+// src/utils/youtube.ts, called from the hub detail +data loader) so the rich
+// card renders from the static HTML with no API key or client fetch.
+export type RichYouTube = {
+    _type: 'youtube';
+    _key: string;
+    url: string;
+    caption?: string;
+    videoId?: string;
+    videoTitle?: string;
+    channelTitle?: string;
+    channelUrl?: string;
+    thumbnail?: string;
+};
+
+export type RichContentNode = RichBlock | RichImageRow | RichDivider | RichCallout | RichCode | RichYouTube;

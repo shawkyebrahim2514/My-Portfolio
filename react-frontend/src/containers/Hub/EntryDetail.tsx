@@ -2,12 +2,12 @@ import { memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     faNewspaper,
-    faPlay,
     faPodcast,
     faBookOpen,
     faBook,
     faArrowUpRightFromSquare,
     faStar,
+    faTv,
 } from '@fortawesome/free-solid-svg-icons';
 import Text from '../../components/Text';
 import ListButtons from '../../components/ListButtons';
@@ -20,7 +20,7 @@ import styles from './EntryDetail.module.css';
 
 const KIND_META: Record<HubEntryKind, { icon: typeof faNewspaper; label: string }> = {
     article: { icon: faNewspaper, label: 'Article' },
-    video: { icon: faPlay, label: 'Video' },
+    channel: { icon: faTv, label: 'Channel' },
     podcast: { icon: faPodcast, label: 'Podcast' },
     read: { icon: faBookOpen, label: 'Read' },
     book: { icon: faBook, label: 'Book' },
@@ -39,6 +39,7 @@ function EntryDetail(entry: SanityHubEntry) {
         coverImage,
         sourceThumbnail,
         sourceName,
+        channelHandle,
         externalUrl,
         durationLabel,
         publishedAt,
@@ -51,6 +52,8 @@ function EntryDetail(entry: SanityHubEntry) {
     const { icon, label } = KIND_META[kind];
     const image = coverImage ?? sourceThumbnail;
     const isRTL = language === 'ar';
+    const isChannel = kind === 'channel';
+    const hasBody = Boolean(body && body.length > 0);
     const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef => Boolean(category));
 
     return (
@@ -70,20 +73,52 @@ function EntryDetail(entry: SanityHubEntry) {
                 {durationLabel && <Text className={styles.date}>{durationLabel}</Text>}
             </div>
 
-            <Text variant="h1">{title}</Text>
-            <Text className={styles.excerpt}>{excerpt}</Text>
+            {isChannel ? (
+                <div className={styles.channelHero}>
+                    {image && (
+                        <img className={styles.channelAvatar} src={image} alt="" />
+                    )}
+                    <div className={styles.channelInfo}>
+                        <Text variant="h1" className={styles.channelName}>
+                            {title}
+                        </Text>
+                        {(channelHandle || sourceName) && (
+                            <Text className={styles.channelMeta}>
+                                {[channelHandle, sourceName].filter(Boolean).join(' · ')}
+                            </Text>
+                        )}
+                        <Text className={styles.channelTagline}>{excerpt}</Text>
+                        {externalUrl && (
+                            <a
+                                href={externalUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className={cx(buttonStyles.button, buttonStyles.md, buttonStyles.pointer, styles.channelCta)}
+                            >
+                                <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+                                {sourceName ? `Visit on ${sourceName}` : 'Visit channel'}
+                            </a>
+                        )}
+                    </div>
+                </div>
+            ) : (
+                <>
+                    <Text variant="h1">{title}</Text>
+                    <Text className={styles.excerpt}>{excerpt}</Text>
+                </>
+            )}
 
             {resolvedCategories.length > 0 && (
                 <ListButtons elements={resolvedCategories.map((category) => category.title)} />
             )}
 
-            {image && (
+            {!isChannel && image && (
                 <div className={styles.imageFrame}>
                     <img className={styles.image} src={image} alt="" />
                 </div>
             )}
 
-            {externalUrl && (
+            {!isChannel && externalUrl && (
                 <StarBorder>
                     <a
                         href={externalUrl}
@@ -97,7 +132,13 @@ function EntryDetail(entry: SanityHubEntry) {
                 </StarBorder>
             )}
 
-            {body && body.length > 0 && <RichContent value={body} />}
+            {isChannel && hasBody && (
+                <Text variant="h3" className={styles.channelBodyHeading}>
+                    Videos worth watching
+                </Text>
+            )}
+
+            {hasBody && <RichContent value={body} />}
 
             {tags && tags.length > 0 && <ListButtons elements={tags} />}
         </article>

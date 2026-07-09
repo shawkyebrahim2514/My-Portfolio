@@ -8,7 +8,7 @@
 // syntax) with real structured content authored via Studio's rich-text
 // toolbar — see react-frontend's `components/PortableText` for the renderer.
 
-import { FaGripLines, FaImages, FaMessage } from 'react-icons/fa6'
+import { FaGripLines, FaImages, FaMessage, FaYoutube } from 'react-icons/fa6'
 import { HiOutlineArrowsExpand } from 'react-icons/hi'
 
 // Inline object placed inside a block's `children`, alongside plain text
@@ -94,6 +94,42 @@ export const imageRow = {
             title: `Image row (${images?.length ?? 0}) — ${align ?? 'center'}`,
             media: images?.[0],
         }),
+    },
+}
+
+// Block-level object: an embedded YouTube video. Authors just paste the
+// video URL (any form — watch?v=, youtu.be/, /shorts/, /embed/, /live/); the
+// frontend extracts the ID and renders a lightweight click-to-play player.
+// No API key or enrichment step — the thumbnail (i.ytimg.com) and the
+// youtube-nocookie player both work from the URL alone, so this authors
+// identically from the local or the hosted Studio.
+export const youtube = {
+    name: 'youtube',
+    title: 'YouTube Video',
+    type: 'object',
+    icon: FaYoutube,
+    fields: [
+        {
+            name: 'url',
+            title: 'YouTube URL',
+            type: 'url',
+            description: 'Paste any YouTube link — watch?v=…, youtu.be/…, /shorts/…, /embed/…, or /live/…',
+            validation: Rule =>
+                Rule.required().uri({ scheme: ['http', 'https'] }).custom(value => {
+                    if (!value) return true
+                    return /(?:youtube\.com|youtu\.be)/.test(value) ? true : 'Must be a YouTube URL'
+                }),
+        },
+        {
+            name: 'caption',
+            title: 'Caption (optional)',
+            type: 'string',
+            description: 'Shown beneath the player, e.g. "Talk: Rethinking React state".',
+        },
+    ],
+    preview: {
+        select: { url: 'url', caption: 'caption' },
+        prepare: ({ url, caption }) => ({ title: caption || 'YouTube Video', subtitle: url }),
     },
 }
 
@@ -183,6 +219,7 @@ export const richContentOf = [
     { type: 'callout' },
     { type: 'imageRow' },
     { type: 'divider' },
+    { type: 'youtube' },
     // Syntax-highlighted code block (from @sanity/code-input). Stores the raw
     // source, a language, an optional filename, and highlighted line numbers;
     // the frontend renders it with a pre-made Prism highlighter.

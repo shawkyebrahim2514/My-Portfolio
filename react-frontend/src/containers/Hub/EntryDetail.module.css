@@ -66,3 +66,75 @@
 .externalLink {
     text-decoration: none;
 }
+
+/* --- Channel-kind hero --- profile-style header: circular avatar + channel
+   identity + visit CTA. Flex row auto-reverses under the article's dir="rtl". */
+.channelHero {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    width: 100%;
+    padding: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    background-image: linear-gradient(135deg, var(--color-base-100) 0%, var(--color-base-0) 55%, var(--color-base-100) 100%);
+}
+
+.channelAvatar {
+    flex: 0 0 auto;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 999px;
+    object-fit: cover;
+    border: 2px solid var(--color-base-0);
+    box-shadow: var(--shadow);
+}
+
+.channelInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
+}
+
+.channelName {
+    margin: 0;
+}
+
+.channelMeta {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-secondary-700);
+}
+
+.channelTagline {
+    font-size: var(--font-size-md);
+    color: var(--color-base-700);
+}
+
+.channelCta {
+    align-self: flex-start;
+    margin-top: var(--space-2);
+    text-decoration: none;
+}
+
+/* Section label introducing the embedded videos in a channel's body. */
+.channelBodyHeading {
+    margin: var(--space-3) 0 0;
+    padding-top: var(--space-3);
+    width: 100%;
+    border-top: var(--border);
+}
+
+@media (max-width: 640px) {
+    .channelHero {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .channelCta {
+        align-self: center;
+    }
+}

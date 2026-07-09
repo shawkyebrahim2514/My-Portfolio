@@ -1,7 +1,7 @@
 import { RichContentNode } from './richContent';
 
 // Mirrors sanity-backend/schemas/hub/hubEntry.ts `kind` options.
-export type HubEntryKind = 'article' | 'video' | 'podcast' | 'read' | 'book';
+export type HubEntryKind = 'article' | 'channel' | 'podcast' | 'read' | 'book';
 
 // Mirrors the `language` field — drives text direction (LTR/RTL) and the
 // font applied when rendering an entry's title/excerpt/body.
@@ -40,5 +40,7 @@ export type SanityHubEntrySummary = {
 // Full entry, as fetched for the /hub/[slug] detail page.
 export type SanityHubEntry = SanityHubEntrySummary & {
     tags?: string[];
+    // Optional @handle shown in the Channel-kind hero, e.g. "@fireship".
+    channelHandle?: string;
     body: RichContentNode[];
 };

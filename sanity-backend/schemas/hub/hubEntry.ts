@@ -10,7 +10,7 @@ import { makeIsUniqueSlug } from './utilities'
 // across every kind of thing being shared.
 const KIND_OPTIONS = [
     { title: 'Article (written on the Hub)', value: 'article' },
-    { title: 'Video', value: 'video' },
+    { title: 'Channel (a channel you follow + its videos)', value: 'channel' },
     { title: 'Podcast', value: 'podcast' },
     { title: 'Read (article read elsewhere)', value: 'read' },
     { title: 'Book', value: 'book' },
@@ -104,7 +104,7 @@ export const hubEntry = {
             type: 'string',
             title: 'Source Name',
             description:
-                'Who/what this was originally published by, e.g. "Fireship — YouTube", "Lex Fridman Podcast".',
+                'Who/what this was originally published by, e.g. "Fireship — YouTube", "Lex Fridman Podcast". For a Channel, use the platform, e.g. "YouTube".',
             hidden: ({ parent }) => !isExternalKind(parent?.kind),
             validation: Rule =>
                 Rule.custom((value, context) => {
@@ -112,6 +112,13 @@ export const hubEntry = {
                     if (isExternalKind(parent?.kind) && !value) return 'Required for non-article entries'
                     return true
                 }),
+        },
+        {
+            name: 'channelHandle',
+            type: 'string',
+            title: 'Channel Handle',
+            description: 'Optional @handle shown in the channel header, e.g. "@fireship".',
+            hidden: ({ parent }) => parent?.kind !== 'channel',
         },
         {
             name: 'sourceThumbnail',
@@ -126,7 +133,7 @@ export const hubEntry = {
             name: 'externalUrl',
             type: 'url',
             title: 'External URL',
-            description: 'Link to the original content (video, podcast episode, article, book page, etc.).',
+            description: 'Link to the original content — video, podcast episode, article, book page, or the channel page.',
             hidden: ({ parent }) => !isExternalKind(parent?.kind),
             validation: Rule =>
                 Rule.uri({ scheme: ['http', 'https'] }).custom((value, context) => {

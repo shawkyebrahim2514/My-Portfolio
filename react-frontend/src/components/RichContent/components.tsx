@@ -6,6 +6,7 @@ import ButtonLink from './ButtonLink';
 import ImageRow from './ImageRow';
 import Callout from './Callout';
 import CodeBlock from './CodeBlock';
+import YouTube from './YouTube';
 import SplitText from '../SplitText';
 import { cx } from '../../utils/cx';
 import type { RichBlock, RichMarkDef, RichSpan } from '../../Types';
@@ -153,6 +154,7 @@ export const components: PortableTextComponents = {
         imageRow: ImageRow,
         callout: Callout,
         code: CodeBlock,
+        youtube: YouTube,
         divider: () => <hr className={styles.hr} />,
         spacer: ({ value }) => (
             <span className={value.kind === 'newline' ? styles.newline : styles.gap} />

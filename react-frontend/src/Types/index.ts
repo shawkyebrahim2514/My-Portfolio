@@ -27,6 +27,7 @@ export {
     type RichDivider,
     type RichCallout,
     type RichCode,
+    type RichYouTube,
 } from './sanity/richContent';
 
 export { type Theme, type PortfolioPathes, type ColorLevels } from './contexts';
