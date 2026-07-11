@@ -1,10 +1,47 @@
 .teaser {
     composes: container column from '../../styles/surfaces.module.css';
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 1.5rem;
     padding: 2rem;
     width: 100%;
     margin-top: 2rem;
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+/* When a card is spotlighted, echo its accent in the section frame. */
+.lit {
+    border-color: color-mix(in srgb, var(--spotlight) 40%, var(--color-base-200)) !important;
+    box-shadow:
+        var(--shadow),
+        0 0 0 1px color-mix(in srgb, var(--spotlight) 30%, transparent),
+        0 18px 50px -20px color-mix(in srgb, var(--spotlight) 55%, transparent);
+}
+
+/* Ambient wash behind the content — fades in on the hovered accent. */
+.ambient {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.45s ease, background 0.45s ease;
+    background:
+        radial-gradient(120% 80% at 50% -10%, color-mix(in srgb, var(--spotlight) 26%, transparent), transparent 68%),
+        radial-gradient(80% 60% at 90% 110%, color-mix(in srgb, var(--spotlight) 16%, transparent), transparent 60%);
+}
+
+.lit .ambient {
+    opacity: 1;
+}
+
+.header,
+.bento,
+.cta {
+    position: relative;
+    z-index: 1;
 }
 
 .header {
@@ -34,17 +71,79 @@
     background-color: var(--color-base-200);
 }
 
-.grid {
+/* Bento grid: one large hero cell + smaller satellites. */
+.bento {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(170px, auto);
+    grid-auto-flow: row dense;
     gap: 1.5rem;
     width: 100%;
 }
 
-.grid > * {
+.cell {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    grid-column: span 2;
+    transition: opacity 0.35s ease, filter 0.35s ease, transform 0.35s ease;
+}
+
+.cell > * {
+    width: 100%;
     max-width: none;
+}
+
+.hero {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+/* Non-spotlighted cards recede while another is hovered. */
+.dimmed {
+    opacity: 0.42;
+    filter: saturate(0.55);
+    transform: scale(0.99);
 }
 
 .cta {
     text-decoration: none;
+    align-self: flex-start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .teaser,
+    .ambient,
+    .cell {
+        transition: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .bento {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cell,
+    .hero {
+        grid-column: span 1;
+        grid-row: auto;
+    }
+}
+
+@media (max-width: 560px) {
+    .teaser {
+        padding: 1.5rem;
+    }
+
+    .bento {
+        grid-template-columns: 1fr;
+    }
+
+    /* Touch has no hover — never leave cards dimmed. */
+    .dimmed {
+        opacity: 1;
+        filter: none;
+        transform: none;
+    }
 }
