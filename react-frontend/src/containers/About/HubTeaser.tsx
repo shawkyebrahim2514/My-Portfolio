@@ -1,74 +1,116 @@
 import { memo } from 'react';
+import type { CSSProperties } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faBookOpen } from '@fortawesome/free-solid-svg-icons';
-import Text from '../../components/Text';
+import { faArrowRight, faNewspaper, faPodcast, faBookOpen, faTv, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import StarBorder from '../../components/StarBorder';
-import HubCard from '../../components/HubCard';
 import { filterVisible } from '../Hub/visibility';
+import { KIND_ACCENT } from '../Hub/kindAccent';
 import { useIsPreview } from '../../contexts/PreviewContext';
 import buttonStyles from '../../components/Button/Button.module.css';
 import { cx } from '../../utils/cx';
-import type { SanityHubEntrySummary } from '../../Types';
+import type { HubEntryKind, SanityHubEntrySummary } from '../../Types';
 import styles from './HubTeaser.module.css';
 
 type HubTeaserProps = {
     readonly entries: (SanityHubEntrySummary | null)[];
 };
 
-// Small "Things Worth Sharing" teaser on the About/home page — surfaces a
-// hand-curated list of Hub entries (via about.featuredInAbout, in author order)
-// with a CTA to the full /hub index. Renders nothing when no entries are
-// curated yet. The responsive grid wraps to as many rows as needed, so there's
-// no fixed entry count.
+const KIND_META: Record<HubEntryKind, { icon: typeof faNewspaper; label: string }> = {
+    article: { icon: faNewspaper, label: 'Article' },
+    channel: { icon: faTv, label: 'Channel' },
+    podcast: { icon: faPodcast, label: 'Podcast' },
+    read: { icon: faBookOpen, label: 'Reading List' },
+};
+
+// A per-entry accent wins, otherwise the kind default.
+function entryAccent(entry: SanityHubEntrySummary): string {
+    return entry.accentColor ?? KIND_ACCENT[entry.kind] ?? KIND_ACCENT.article;
+}
+
+// "Things Worth Sharing" home teaser — Magazine Bento. An asymmetric bento grid
+// on a dark editorial canvas: one large featured pick (cover bleed) plus
+// satellite cards, index numerals and per-entry accent rails. Deliberately
+// breaks the light, uniform-grid rhythm of the rest of the site.
 function HubTeaser({ entries }: HubTeaserProps) {
     const isPreview = useIsPreview();
-    // Entries come from dereferencing `featuredInAbout` refs; a stale/broken
-    // reference (e.g. the target was deleted, or is temporarily unreadable)
-    // resolves to `null` in the array rather than being dropped, so guard
-    // against that instead of crashing the whole page. Hidden entries are also
-    // filtered unless preview mode is on.
     const resolvedEntries = filterVisible(
         entries.filter((entry): entry is SanityHubEntrySummary => Boolean(entry)),
         isPreview,
     );
     if (resolvedEntries.length === 0) return null;
 
+    // The featured cell shows a cover bleed, so prefer the first entry that has
+    // an image; fall back to the first entry otherwise.
+    const heroIndex = Math.max(
+        0,
+        resolvedEntries.findIndex((e) => Boolean(e.coverImage ?? e.sourceThumbnail)),
+    );
+    const hero = resolvedEntries[heroIndex];
+    const rest = resolvedEntries.filter((_, i) => i !== heroIndex);
+    const ordered = [hero, ...rest];
+
+    const renderCell = (entry: SanityHubEntrySummary, index: number, isFeat: boolean) => {
+        const accent = entryAccent(entry);
+        const { icon, label } = KIND_META[entry.kind] ?? KIND_META.article;
+        const image = entry.coverImage ?? entry.sourceThumbnail;
+        const showBg = isFeat && Boolean(image);
+        const isRTL = entry.language === 'ar';
+
+        return (
+            <a
+                key={entry.slug}
+                href={`/hub/${entry.slug}`}
+                className={cx(styles.cell, isFeat && styles.feat)}
+                style={{ '--a': accent } as CSSProperties}
+            >
+                {showBg ? (
+                    <span className={styles.bg} style={{ backgroundImage: `url(${image})` }} aria-hidden="true" />
+                ) : (
+                    <span className={styles.tint} aria-hidden="true" />
+                )}
+                <span className={styles.rail} aria-hidden="true" />
+                <span className={styles.num}>{String(index + 1).padStart(2, '0')}</span>
+                {entry.hiddenInProduction && (
+                    <span className={styles.hiddenPill} title="Hidden from production — visible only in preview mode">
+                        <FontAwesomeIcon icon={faEyeSlash} />
+                        Hidden
+                    </span>
+                )}
+                <span className={styles.badge}>
+                    <FontAwesomeIcon icon={icon} />
+                    {label}
+                </span>
+                <h4 className={cx(styles.title, isRTL && styles.rtl)} dir={isRTL ? 'rtl' : undefined} lang={entry.language}>
+                    {entry.title}
+                </h4>
+                <p className={cx(styles.excerpt, isRTL && styles.rtl)} dir={isRTL ? 'rtl' : undefined} lang={entry.language}>
+                    {entry.excerpt}
+                </p>
+            </a>
+        );
+    };
+
     return (
         <div className={styles.teaser}>
-            <header className={styles.header}>
-                <div className={styles.titleRow}>
-                    <FontAwesomeIcon icon={faBookOpen} size="xl" className={styles.titleIcon} />
-                    <Text variant="h3">Things Worth Sharing</Text>
-                </div>
-                <hr className={styles.divider} />
-            </header>
-            <div className={styles.grid}>
-                {resolvedEntries.map((entry) => (
-                    <HubCard
-                        key={entry.slug}
-                        title={entry.title}
-                        slug={entry.slug}
-                        kind={entry.kind}
-                        excerpt={entry.excerpt}
-                        coverImage={entry.coverImage}
-                        sourceThumbnail={entry.sourceThumbnail}
-                        durationLabel={entry.durationLabel}
-                        categories={entry.categories}
-                        language={entry.language}
-                        accentColor={entry.accentColor}
-                        hidden={entry.hiddenInProduction}
-                    />
-                ))}
+            <div className={styles.kicker}>
+                <h3 className={styles.kickerTitle}>Things Worth Sharing</h3>
+                <span className={styles.kickerSub}>Curated · Updated often</span>
             </div>
-            <StarBorder>
-                <a href="/hub" className={cx(buttonStyles.button, buttonStyles.md, buttonStyles.pointer, styles.cta)}>
-                    Visit the Hub
-                    <FontAwesomeIcon icon={faArrowRight} />
-                </a>
-            </StarBorder>
+
+            <div className={styles.grid}>
+                {ordered.map((entry, i) => renderCell(entry, i, i === 0))}
+            </div>
+
+            <div className={styles.foot}>
+                <StarBorder>
+                    <a href="/hub" className={cx(buttonStyles.button, buttonStyles.md, buttonStyles.pointer, styles.cta)}>
+                        Visit the Hub
+                        <FontAwesomeIcon icon={faArrowRight} />
+                    </a>
+                </StarBorder>
+            </div>
         </div>
     );
 }
 
 export default memo(HubTeaser);
-
