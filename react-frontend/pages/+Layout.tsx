@@ -13,6 +13,8 @@ import Loader from '../src/components/Loader';
 import ErrorBoundary from '../src/components/ErrorBoundary';
 import ShapeGridBackground from '../src/components/ShapeGridBackground';
 import ClickSpark from '../src/components/ClickSpark';
+import PreviewProvider from '../src/contexts/PreviewContext';
+import PreviewBanner from '../src/components/PreviewBanner';
 import { themeStyle, kindAmbient, KIND_ACCENT } from '../src/containers/Hub/kindAccent';
 import type { HubEntryKind } from '../src/Types';
 import '../src/styles/tokens.css';
@@ -33,26 +35,29 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
 
     return (
         <ThemeContext>
-            <div className={styles.page} style={themeVars}>
-                <ShapeGridBackground hoverColor={ambient?.gridHover} />
-                <ClickSpark color={ambient?.spark} />
-                <a className={styles.skipLink} href="#main-content">Skip to main content</a>
-                <div className={styles.inner}>
-                    <Suspense fallback={<Loader />}>
-                        <header className={styles.banner}>
-                            <Navbar
-                                readingProgress
-                                progressAccent={kind ? (accentColor ?? KIND_ACCENT[kind]) : undefined}
-                            />
-                        </header>
-                        <main id="main-content" tabIndex={-1} className={styles.main}>
-                            <ErrorBoundary>
-                                {children}
-                            </ErrorBoundary>
-                        </main>
-                    </Suspense>
+            <PreviewProvider>
+                <div className={styles.page} style={themeVars}>
+                    <ShapeGridBackground hoverColor={ambient?.gridHover} />
+                    <ClickSpark color={ambient?.spark} />
+                    <a className={styles.skipLink} href="#main-content">Skip to main content</a>
+                    <div className={styles.inner}>
+                        <Suspense fallback={<Loader />}>
+                            <header className={styles.banner}>
+                                <Navbar
+                                    readingProgress
+                                    progressAccent={kind ? (accentColor ?? KIND_ACCENT[kind]) : undefined}
+                                />
+                            </header>
+                            <main id="main-content" tabIndex={-1} className={styles.main}>
+                                <ErrorBoundary>
+                                    {children}
+                                </ErrorBoundary>
+                            </main>
+                        </Suspense>
+                    </div>
+                    <PreviewBanner />
                 </div>
-            </div>
+            </PreviewProvider>
             <Analytics />
         </ThemeContext>
     );

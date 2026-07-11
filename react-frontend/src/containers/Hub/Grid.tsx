@@ -27,6 +27,7 @@ function Grid({ entries }: GridProps) {
                     categories={entry.categories}
                     language={entry.language}
                     accentColor={entry.accentColor}
+                    hidden={entry.hiddenInProduction}
                 />
             ))}
         </div>

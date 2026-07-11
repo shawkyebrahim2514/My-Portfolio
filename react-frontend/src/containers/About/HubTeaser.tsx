@@ -4,6 +4,8 @@ import { faArrowRight, faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import Text from '../../components/Text';
 import StarBorder from '../../components/StarBorder';
 import HubCard from '../../components/HubCard';
+import { filterVisible } from '../Hub/visibility';
+import { useIsPreview } from '../../contexts/PreviewContext';
 import buttonStyles from '../../components/Button/Button.module.css';
 import { cx } from '../../utils/cx';
 import type { SanityHubEntrySummary } from '../../Types';
@@ -19,11 +21,16 @@ type HubTeaserProps = {
 // curated yet. The responsive grid wraps to as many rows as needed, so there's
 // no fixed entry count.
 function HubTeaser({ entries }: HubTeaserProps) {
+    const isPreview = useIsPreview();
     // Entries come from dereferencing `featuredInAbout` refs; a stale/broken
     // reference (e.g. the target was deleted, or is temporarily unreadable)
     // resolves to `null` in the array rather than being dropped, so guard
-    // against that instead of crashing the whole page.
-    const resolvedEntries = entries.filter((entry): entry is SanityHubEntrySummary => Boolean(entry));
+    // against that instead of crashing the whole page. Hidden entries are also
+    // filtered unless preview mode is on.
+    const resolvedEntries = filterVisible(
+        entries.filter((entry): entry is SanityHubEntrySummary => Boolean(entry)),
+        isPreview,
+    );
     if (resolvedEntries.length === 0) return null;
 
     return (
@@ -49,6 +56,7 @@ function HubTeaser({ entries }: HubTeaserProps) {
                         categories={entry.categories}
                         language={entry.language}
                         accentColor={entry.accentColor}
+                        hidden={entry.hiddenInProduction}
                     />
                 ))}
             </div>
