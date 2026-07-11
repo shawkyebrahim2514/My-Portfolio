@@ -69,12 +69,17 @@ const getHubEntryBySlug = async (slug: string) => {
     return result;
 };
 
-// Latest entries sharing the given category, excluding the current entry —
-// powers the "More in this category" section on the /hub/<slug> detail page.
+// Curated "You might also like" list for the /hub/<slug> detail page. Reads the
+// category's hand-picked `recommendedEntries` in the stored (drag-ordered)
+// order — may include entries from other categories. References resolve to
+// published docs at prerender; deleted/unpublished refs come back null, and the
+// current entry is filtered out. No cap: every curated entry is shown.
 const getHubRecommendations = async (categorySlug: string, excludeSlug: string) => {
-    const query = `*[_type == "hubEntry" && slug.current != $excludeSlug && $categorySlug in categories[]->slug.current] | order(publishedAt desc)[0...5] ${entrySummaryProjection}`;
-    const result: SanityHubEntrySummary[] = await sanityClient.fetch(query, { categorySlug, excludeSlug });
-    return result;
+    const query = `*[_type == "hubCategory" && slug.current == $categorySlug][0].recommendedEntries[]->${entrySummaryProjection}`;
+    const result: (SanityHubEntrySummary | null)[] | null = await sanityClient.fetch(query, { categorySlug });
+    return (result ?? []).filter(
+        (entry): entry is SanityHubEntrySummary => Boolean(entry) && entry!.slug !== excludeSlug,
+    );
 };
 
 // Used by pages/hub/@slug/+onBeforePrerenderStart.ts to enumerate every

@@ -19,7 +19,7 @@ function HubEntryPage() {
             <div className={cx(surfaces.container, surfaces.column)}>
                 <EntryDetail {...entry} />
             </div>
-            <HubRecommendations entries={recommendations} category={recommendationCategory} />
+            <HubRecommendations entries={recommendations} />
         </div>
     );
 }
