@@ -47,9 +47,12 @@
    the single, intentional place for page top/bottom spacing (previously a
    `padding-top: 70px` hack lived in ContainerWrap). Decorative overflow such
    as the About avatar's ring reserves its own halo locally, so this value is
-   about rhythm, not collision-avoidance. */
+   about rhythm, not collision-avoidance. The top gap is intentionally tight
+   (1rem) so it matches the gap between page sections; the bottom keeps a
+   larger footer margin. */
 .main {
-    padding-block: var(--space-6);
+    padding-top: 1rem;
+    padding-bottom: var(--space-6);
 }
 
 .main:focus {
