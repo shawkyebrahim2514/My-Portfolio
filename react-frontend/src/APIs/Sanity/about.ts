@@ -12,6 +12,7 @@ const getAboutPage = async () => {
             "slug": slug.current,
             kind,
             excerpt,
+            language,
             "coverImage": coverImage.asset->url,
             sourceThumbnail,
             sourceName,
@@ -19,6 +20,8 @@ const getAboutPage = async () => {
             externalUrl,
             publishedAt,
             featured,
+            hiddenInProduction,
+            "accentColor": accent.hex,
             "categories": categories[]->{ title, "slug": slug.current }
         },
     }`;

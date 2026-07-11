@@ -15,23 +15,22 @@ type HubTeaserProps = {
     readonly entries: (SanityHubEntrySummary | null)[];
 };
 
-// Small "Things Worth Sharing" teaser on the About/home page — surfaces a
-// hand-curated list of Hub entries (via about.featuredInAbout, in author order)
-// with a CTA to the full /hub index. Renders nothing when no entries are
-// curated yet. The responsive grid wraps to as many rows as needed, so there's
-// no fixed entry count.
+// "Things Worth Sharing" teaser — DESIGN 02: Horizontal Rail + Marquee header.
+// A scrolling ticker headline sits above a horizontal, scroll-snapping rail of
+// cards you can flick through. Curated Hub entries come from about.featuredInAbout
+// (author order); hidden entries are filtered unless preview mode is on.
 function HubTeaser({ entries }: HubTeaserProps) {
     const isPreview = useIsPreview();
-    // Entries come from dereferencing `featuredInAbout` refs; a stale/broken
-    // reference (e.g. the target was deleted, or is temporarily unreadable)
-    // resolves to `null` in the array rather than being dropped, so guard
-    // against that instead of crashing the whole page. Hidden entries are also
-    // filtered unless preview mode is on.
     const resolvedEntries = filterVisible(
         entries.filter((entry): entry is SanityHubEntrySummary => Boolean(entry)),
         isPreview,
     );
     if (resolvedEntries.length === 0) return null;
+
+    // Build a seamless marquee from the entry titles; duplicated so the track
+    // can loop without a visible seam.
+    const tickerItems = resolvedEntries.map((entry) => entry.title);
+    const marqueeItems = [...tickerItems, ...tickerItems];
 
     return (
         <div className={styles.teaser}>
@@ -40,35 +39,51 @@ function HubTeaser({ entries }: HubTeaserProps) {
                     <FontAwesomeIcon icon={faBookOpen} size="xl" className={styles.titleIcon} />
                     <Text variant="h3">Things Worth Sharing</Text>
                 </div>
-                <hr className={styles.divider} />
+                <div className={styles.marquee} aria-hidden="true">
+                    <div className={styles.marqueeTrack}>
+                        {marqueeItems.map((title, i) => (
+                            <span className={styles.marqueeItem} key={`${title}-${i}`}>
+                                <span className={styles.marqueeDot} />
+                                {title}
+                            </span>
+                        ))}
+                    </div>
+                </div>
             </header>
-            <div className={styles.grid}>
-                {resolvedEntries.map((entry) => (
-                    <HubCard
-                        key={entry.slug}
-                        title={entry.title}
-                        slug={entry.slug}
-                        kind={entry.kind}
-                        excerpt={entry.excerpt}
-                        coverImage={entry.coverImage}
-                        sourceThumbnail={entry.sourceThumbnail}
-                        durationLabel={entry.durationLabel}
-                        categories={entry.categories}
-                        language={entry.language}
-                        accentColor={entry.accentColor}
-                        hidden={entry.hiddenInProduction}
-                    />
-                ))}
+
+            <div className={styles.railWrap}>
+                <div className={styles.rail}>
+                    {resolvedEntries.map((entry) => (
+                        <div className={styles.railItem} key={entry.slug}>
+                            <HubCard
+                                title={entry.title}
+                                slug={entry.slug}
+                                kind={entry.kind}
+                                excerpt={entry.excerpt}
+                                coverImage={entry.coverImage}
+                                sourceThumbnail={entry.sourceThumbnail}
+                                durationLabel={entry.durationLabel}
+                                categories={entry.categories}
+                                language={entry.language}
+                                accentColor={entry.accentColor}
+                                hidden={entry.hiddenInProduction}
+                            />
+                        </div>
+                    ))}
+                    <div className={styles.railEnd}>
+                        <StarBorder>
+                            <a href="/hub" className={cx(buttonStyles.button, buttonStyles.md, buttonStyles.pointer, styles.cta)}>
+                                Visit the Hub
+                                <FontAwesomeIcon icon={faArrowRight} />
+                            </a>
+                        </StarBorder>
+                    </div>
+                </div>
+                <span className={styles.fadeLeft} aria-hidden="true" />
+                <span className={styles.fadeRight} aria-hidden="true" />
             </div>
-            <StarBorder>
-                <a href="/hub" className={cx(buttonStyles.button, buttonStyles.md, buttonStyles.pointer, styles.cta)}>
-                    Visit the Hub
-                    <FontAwesomeIcon icon={faArrowRight} />
-                </a>
-            </StarBorder>
         </div>
     );
 }
 
 export default memo(HubTeaser);
-
