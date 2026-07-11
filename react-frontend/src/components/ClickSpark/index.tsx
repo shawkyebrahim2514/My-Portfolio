@@ -25,7 +25,7 @@ const LINE_WIDTH = 3;
 // transitions (see --transition in tokens.css).
 const easeOut = (t: number) => t * (2 - t);
 
-export default function ClickSpark() {
+export default function ClickSpark({ color }: Readonly<{ color?: string }>) {
     const reduceMotion = useReducedMotion();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const sparksRef = useRef<Spark[]>([]);
@@ -49,7 +49,9 @@ export default function ClickSpark() {
         if (!canvas || !ctx) return;
 
         const resolvedColor =
-            getComputedStyle(document.documentElement).getPropertyValue(SPARK_COLOR).trim() || '#d4986c';
+            color ||
+            getComputedStyle(document.documentElement).getPropertyValue(SPARK_COLOR).trim() ||
+            '#d4986c';
 
         let animationId: number;
         const draw = (timestamp: number) => {
@@ -85,7 +87,7 @@ export default function ClickSpark() {
 
         animationId = requestAnimationFrame(draw);
         return () => cancelAnimationFrame(animationId);
-    }, []);
+    }, [color]);
 
     useEffect(() => {
         // Respect prefers-reduced-motion: don't attach the click listener at

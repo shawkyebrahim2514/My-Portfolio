@@ -1,0 +1,386 @@
+.article {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    /* Per-kind accent, set inline on the root (see kindAccent.ts). Falls back
+       to the warm brand secondary so anything unstyled still looks native. */
+    --entry-accent: var(--color-secondary-700);
+    /* Reset the reading-list index counter here; ReadingItem cards increment
+       it (only Reading List entries contain them). */
+    counter-reset: reading-item;
+}
+
+/* Arabic / RTL entries. Direction + text alignment are driven by the
+   dir="rtl" attribute on the <article>; this only swaps in the Arabic
+   font so the whole entry (title, excerpt, body) renders in one face. */
+.rtl {
+    font-family: var(--font-arabic);
+}
+
+.meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--entry-accent) 12%, white);
+    color: var(--entry-accent);
+    border: 1px solid color-mix(in srgb, var(--entry-accent) 28%, white);
+}
+
+.pick {
+    background-color: var(--color-secondary-500);
+    color: var(--color-base-50);
+}
+
+.date {
+    font-size: var(--font-size-sm);
+    color: var(--color-base-600);
+}
+
+.excerpt {
+    font-size: var(--font-size-md);
+    color: var(--color-base-700);
+}
+
+/* --- Reading List hero: title + tagline + an "N articles" count chip --- */
+.readHero {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    width: 100%;
+}
+
+.readCount {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    color: var(--entry-accent);
+    background-color: color-mix(in srgb, var(--entry-accent) 12%, white);
+}
+
+.imageFrame {
+    width: 100%;
+    max-width: 640px;
+    margin-inline: auto;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: var(--border);
+    box-shadow: var(--shadow);
+}
+
+.image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.externalLink {
+    text-decoration: none;
+}
+
+/* --- Article-kind editorial treatment: byline row, lede, drop-cap prose --- */
+.byline {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+}
+
+.bylineAvatar {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    background-color: var(--entry-accent);
+    color: var(--color-base-0);
+    font-weight: 700;
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.02em;
+}
+
+.bylineText {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+
+.bylineName {
+    font-weight: 600;
+}
+
+.bylineSub {
+    font-size: var(--font-size-sm);
+    color: var(--color-base-600);
+}
+
+.lede {
+    font-size: var(--font-size-lg);
+    line-height: 1.6;
+    color: var(--color-base-700);
+}
+
+/* Article body wrapper — a block flow (not flex) so the floated "On this page"
+   TOC lets the prose wrap around it, matching the editorial mockup. Vertical
+   rhythm comes from margins between children; typography is wider and more
+   generous than the other kinds so the page reads like a magazine article. */
+.articleProse {
+    display: block;
+    width: 100%;
+}
+
+.articleProse > * + * {
+    margin-top: var(--space-3);
+}
+
+.articleProse p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--color-base-800);
+}
+
+.articleProse :is(h2, h3, h4) {
+    margin-top: var(--space-5);
+    /* Clear the sticky navbar when jumped to via a TOC anchor. */
+    scroll-margin-top: 96px;
+}
+
+.articleProse :is(ul, ol) {
+    line-height: 1.8;
+}
+
+.articleProse > p:first-of-type::first-letter {
+    float: inline-start;
+    font-size: 3.4rem;
+    font-weight: 800;
+    line-height: 0.72;
+    margin-inline-end: 0.72rem;
+    margin-top: 0.28rem;
+    color: var(--entry-accent);
+}
+
+/* --- Channel-kind hero --- YouTube-style header: a colored banner strip with
+   a circular avatar overlapping it, then channel identity + visit CTA. */
+.channelHero {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    background-color: var(--color-base-0);
+}
+
+.channelBanner {
+    height: 96px;
+    background-image: linear-gradient(120deg, var(--entry-accent) 0%, var(--color-secondary-700) 120%);
+}
+
+.channelId {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: 0 var(--space-4) var(--space-4);
+    margin-top: -3rem;
+}
+
+.channelAvatar {
+    flex: 0 0 auto;
+    width: 6rem;
+    height: 6rem;
+    border-radius: 999px;
+    object-fit: cover;
+    border: 4px solid var(--color-base-0);
+    box-shadow: var(--shadow);
+    background-color: var(--color-base-100);
+}
+
+.channelInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
+    padding-bottom: var(--space-1);
+}
+
+.channelName {
+    margin: 0;
+    color: var(--color-base-900);
+}
+
+.channelMeta {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--entry-accent);
+}
+
+.channelTagline {
+    font-size: var(--font-size-md);
+    color: var(--color-base-700);
+}
+
+.channelCta {
+    align-self: flex-start;
+    margin-top: var(--space-2);
+    text-decoration: none;
+}
+
+/* Section label introducing the embedded videos in a channel's body. */
+.channelBodyHeading {
+    margin: var(--space-3) 0 0;
+    padding-top: var(--space-3);
+    width: 100%;
+    border-top: 2px solid color-mix(in srgb, var(--entry-accent) 25%, var(--color-base-100));
+}
+
+/* Adaptive grid of channel videos. auto-fill + minmax lets the column count
+   flow with the available width: a single column on narrow screens, two (or
+   more, on very wide layouts) once each card can hold its ~300px minimum. */
+.videoGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: var(--space-4);
+    width: 100%;
+}
+
+/* Pinned "lead pick" wrapper — the single featured video (channels) or reading
+   item (reading lists), rendered full-width above the grid/list with a small
+   accent eyebrow so it reads as the highlighted item of the entry. */
+.featuredLead {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    width: 100%;
+}
+
+.featuredTag {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    align-self: flex-start;
+    padding: 0.25rem 0.7rem;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 14%, transparent);
+    color: var(--entry-accent, var(--color-secondary-700));
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+
+/* --- Podcast hero: square cover art + host + tagline + "Listen on" pills --- */
+.podcastHero {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    width: 100%;
+    padding: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    background-image: linear-gradient(135deg, color-mix(in srgb, var(--entry-accent) 12%, var(--color-base-100)) 0%, var(--color-base-0) 60%, var(--color-base-100) 100%);
+}
+
+.podcastCover {
+    flex: 0 0 auto;
+    width: 9rem;
+    height: 9rem;
+    border-radius: var(--radius);
+    object-fit: cover;
+    box-shadow: var(--shadow);
+}
+
+.podcastInfo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+}
+
+.podcastName {
+    margin: 0;
+}
+
+.podcastHost {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--entry-accent);
+}
+
+.podcastTagline {
+    font-size: var(--font-size-md);
+    color: var(--color-base-700);
+    line-height: 1.6;
+}
+
+/* "Listen On" brand pills row. */
+.platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
+}
+
+.platformPill {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.4rem 0.85rem;
+    border: var(--border);
+    border-radius: 999px;
+    background-color: var(--color-base-0);
+    color: var(--color-base-700);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+.platformPill:hover,
+.platformPill:focus-visible {
+    transform: translateY(-1px);
+    color: var(--entry-accent);
+    border-color: var(--entry-accent);
+}
+
+@media (max-width: 640px) {
+    .channelId {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .channelCta {
+        align-self: center;
+    }
+
+    .podcastHero {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .platforms {
+        justify-content: center;
+    }
+}

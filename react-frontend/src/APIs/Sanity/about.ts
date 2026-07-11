@@ -7,6 +7,20 @@ const getAboutPage = async () => {
         circularRingText,
         description,
         resume,
+        "featuredHubEntries": featuredInAbout[]-> {
+            title,
+            "slug": slug.current,
+            kind,
+            excerpt,
+            "coverImage": coverImage.asset->url,
+            sourceThumbnail,
+            sourceName,
+            durationLabel,
+            externalUrl,
+            publishedAt,
+            featured,
+            "categories": categories[]->{ title, "slug": slug.current }
+        },
     }`;
     const result: SanityAboutPage = await sanityClient.fetch(query);
     return result;

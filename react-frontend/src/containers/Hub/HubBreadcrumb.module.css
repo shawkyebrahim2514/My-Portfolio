@@ -1,0 +1,24 @@
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: var(--font-size-sm);
+    color: var(--color-base-600);
+}
+
+.crumb {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    text-decoration: none;
+    color: var(--color-base-600);
+    transition: color 0.3s ease-out;
+}
+
+.crumb:hover {
+    color: var(--color-secondary-600);
+}
+
+.crumbSep {
+    color: var(--color-base-400);
+}

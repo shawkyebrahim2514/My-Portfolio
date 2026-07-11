@@ -1,0 +1,35 @@
+.jacket {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: var(--space-5) 0;
+    cursor: grab;
+    touch-action: pan-y;
+}
+
+.jacket:active {
+    cursor: grabbing;
+}
+
+.svg {
+    width: 100%;
+    aspect-ratio: 1440 / 140;
+    overflow: visible;
+    display: block;
+    user-select: none;
+}
+
+.measure {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.text {
+    font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.75rem);
+    font-weight: var(--font-weight-heading);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    fill: var(--color-secondary-500);
+}

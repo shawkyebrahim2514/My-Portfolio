@@ -27,7 +27,7 @@ export type RichBlock = {
     _type: 'block';
     _key: string;
     style?: 'normal' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-    listItem?: 'bullet';
+    listItem?: 'bullet' | 'number';
     level?: number;
     markDefs?: RichMarkDef[];
     children: Array<RichSpan | RichSpacer>;
@@ -62,4 +62,69 @@ export type RichCallout = {
     body: RichContentNode[];
 };
 
-export type RichContentNode = RichBlock | RichImageRow | RichDivider | RichCallout;
+// Code block from @sanity/code-input.
+export type RichCode = {
+    _type: 'code';
+    _key: string;
+    code: string;
+    language?: string;
+    filename?: string;
+    highlightedLines?: number[];
+};
+
+// Embedded YouTube video (block-level). Authors paste a URL + optional
+// caption. The `video*`/`channel*`/`thumbnail` fields are filled at build
+// time from the URL via YouTube's key-free oEmbed endpoint (see
+// src/utils/youtube.ts, called from the hub detail +data loader) so the rich
+// card renders from the static HTML with no API key or client fetch.
+export type RichYouTube = {
+    _type: 'youtube';
+    _key: string;
+    url: string;
+    caption?: string;
+    videoId?: string;
+    videoTitle?: string;
+    channelTitle?: string;
+    channelUrl?: string;
+    thumbnail?: string;
+    featured?: boolean;
+};
+
+// A single podcast episode (block-level), the audio analogue of RichYouTube.
+// The provider + inline embed are derived from `url` on the client (Spotify
+// and YouTube links play inline; anything else links out), so no build-time
+// enrichment is needed — all display metadata is authored by hand.
+export type RichPodcastEpisode = {
+    _type: 'podcastEpisode';
+    _key: string;
+    title: string;
+    url: string;
+    episodeLabel?: string;
+    date?: string;
+    duration?: string;
+    note?: string;
+    featured?: boolean;
+};
+
+// A single external article the author read and recommends. Rendered as a
+// link-out row inside a Read-kind entry's body, which together form a curated
+// reading list. Never plays inline — always links to the original.
+export type RichReadingItem = {
+    _type: 'readingItem';
+    _key: string;
+    title: string;
+    url: string;
+    source?: string;
+    note?: string;
+    featured?: boolean;
+};
+
+export type RichContentNode =
+    | RichBlock
+    | RichImageRow
+    | RichDivider
+    | RichCallout
+    | RichCode
+    | RichYouTube
+    | RichPodcastEpisode
+    | RichReadingItem;

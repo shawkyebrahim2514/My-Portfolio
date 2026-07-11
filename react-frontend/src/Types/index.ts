@@ -6,7 +6,15 @@ export {
     type CommonTitle,
     type SanityExperiencePage,
     type SanityAboutPage,
-    type SanityNavbarData
+    type SanityNavbarData,
+    type SanityHubPage,
+    type SanityHubEntry,
+    type SanityHubEntrySummary,
+    type HubEntryKind,
+    type HubContentLanguage,
+    type HubEntryCategoryRef,
+    type HubPlatformLink,
+    type SanityHubCategory,
 } from './sanity';
 
 export {
@@ -19,6 +27,10 @@ export {
     type RichImageRow,
     type RichDivider,
     type RichCallout,
+    type RichCode,
+    type RichYouTube,
+    type RichPodcastEpisode,
+    type RichReadingItem,
 } from './sanity/richContent';
 
 export { type Theme, type PortfolioPathes, type ColorLevels } from './contexts';

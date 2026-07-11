@@ -5,12 +5,23 @@
     border: none;
 }
 
-.ul {
-    list-style-type: none;
+.ul,
+.ol {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-inline-start: 1.5em;
 }
 
-.li {
-    list-style-type: none;
+/* Numbered lists need a touch more gutter for two-digit counters. */
+.ol {
+    counter-reset: rc-item;
+    padding-inline-start: 2em;
+}
+
+.li,
+.oli {
     position: relative;
 }
 
@@ -18,8 +29,30 @@
     content: ">";
     position: absolute;
     top: 0;
-    left: calc(-1 * var(--md-bullet-offset));
+    inset-inline-start: -1.25em;
     font-weight: 600;
+    color: var(--color-secondary-500);
+}
+
+/* In RTL the ">" marker should point toward the text (leftward). */
+[dir='rtl'] .li::before {
+    content: "<";
+}
+
+.oli {
+    counter-increment: rc-item;
+}
+
+.oli::before {
+    content: counter(rc-item) ".";
+    position: absolute;
+    top: 0;
+    inset-inline-start: -2em;
+    min-width: 1.75em;
+    text-align: end;
+    font-weight: 600;
+    color: var(--color-secondary-500);
+    font-variant-numeric: tabular-nums;
 }
 
 .h1 {

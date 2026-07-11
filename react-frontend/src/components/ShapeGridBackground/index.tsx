@@ -17,7 +17,7 @@ const HOVER_TRAIL_AMOUNT = 8;
 // Keeps the grid readable but light enough not to compete with real content.
 const GRID_LINE_ALPHA = 0.45;
 
-export default function ShapeGridBackground() {
+export default function ShapeGridBackground({ hoverColor }: Readonly<{ hoverColor?: string }>) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const reduceMotion = useReducedMotion();
 
@@ -28,7 +28,8 @@ export default function ShapeGridBackground() {
 
         const rootStyle = getComputedStyle(document.documentElement);
         const borderColor = rootStyle.getPropertyValue('--color-base-300').trim() || '#bdbdb6';
-        const hoverFillColor = rootStyle.getPropertyValue('--color-secondary-300').trim() || '#f6c29a';
+        const hoverFillColor =
+            hoverColor || rootStyle.getPropertyValue('--color-secondary-300').trim() || '#f6c29a';
 
         const hexHoriz = SQUARE_SIZE * 1.5;
         const hexVert = SQUARE_SIZE * Math.sqrt(3);
@@ -174,7 +175,7 @@ export default function ShapeGridBackground() {
             canvas.removeEventListener('mouseleave', handleMouseLeave);
             cancelAnimationFrame(requestId);
         };
-    }, [reduceMotion]);
+    }, [reduceMotion, hoverColor]);
 
     return <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />;
 }
