@@ -3,12 +3,6 @@
     flex-direction: column;
     align-items: stretch;
     gap: 1rem;
-    /* The shared .main shell adds var(--space-6) top padding for uniform page
-       spacing. On this page the first element is a small breadcrumb, so that
-       large gap above it looks unbalanced against the 1rem gap below it. Pull
-       the column up so the breadcrumb sits 1rem below the navbar, matching the
-       inter-section gap. Token math keeps it in sync with .main's padding. */
-    margin-top: calc(1rem - var(--space-6));
     /* This column is a grid item in the ContainerWrap shell. Grid/flex items
        default to min-width: auto, so a non-wrapping child (e.g. a code block's
        <pre>) can force the whole column wider than the viewport on mobile.

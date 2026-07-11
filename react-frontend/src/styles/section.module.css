@@ -4,4 +4,8 @@
     align-items: stretch;
     justify-content: center;
     gap: 2rem;
+    /* These pages open with a SectionTitle whose highlighted label is rotated
+       (-3deg), so its top corner rises above its box. Add a little clearance so
+       that decoration doesn't crowd the sticky navbar at the tight page top. */
+    padding-top: var(--space-2);
 }
