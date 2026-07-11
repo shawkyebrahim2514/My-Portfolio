@@ -43,6 +43,11 @@ export type SanityHubEntrySummary = {
     // from it); otherwise the entry's kind default is used. Mirrors the Sanity
     // `accent` colour field, projected as `accent.hex`.
     accentColor?: string;
+    // When true, the entry is hidden from every production listing (Hub index,
+    // categories, About teaser, recommendations). Still shown in local dev and
+    // when preview mode is on (?preview=1). Mirrors the Sanity
+    // `hiddenInProduction` boolean; absent/false means publicly visible.
+    hiddenInProduction?: boolean;
     // Items can be `null` if a referenced hubCategory is deleted or
     // temporarily unresolvable — callers must filter before rendering.
     categories: (HubEntryCategoryRef | null)[];

@@ -1,0 +1,51 @@
+.banner {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-bg, #fff);
+    background: color-mix(in srgb, var(--color-text, #000) 85%, transparent);
+    backdrop-filter: blur(8px);
+    box-shadow: var(--shadow);
+    max-width: calc(100vw - 2rem);
+}
+
+.label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.exit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    padding: 0.35rem 0.8rem;
+    border: none;
+    border-radius: 999px;
+    font: inherit;
+    cursor: pointer;
+    color: var(--color-text, #000);
+    background: var(--color-bg, #fff);
+    transition: var(--transition);
+}
+
+.exit:hover,
+.exit:focus-visible {
+    opacity: 0.85;
+}
+
+@media (max-width: 480px) {
+    .banner {
+        font-size: 0.75rem;
+        gap: 0.5rem;
+    }
+}

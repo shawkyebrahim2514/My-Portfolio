@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faNewspaper, faPodcast, faBookOpen, faTv } from '@fortawesome/free-solid-svg-icons';
+import { faNewspaper, faPodcast, faBookOpen, faTv, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { cx } from '../../utils/cx';
 import Text from '../Text';
 import ListButtons from '../ListButtons';
@@ -27,9 +27,13 @@ export type HubCardProps = {
     readonly categories: (HubEntryCategoryRef | null)[];
     readonly language?: HubContentLanguage;
     readonly accentColor?: string;
+    // Marks a card that is hidden from production listings — only ever visible
+    // in local dev or preview mode. Shows a small "Hidden" pill so you can tell
+    // reference/dummy entries apart at a glance.
+    readonly hidden?: boolean;
 };
 
-function HubCard({ title, slug, kind, excerpt, coverImage, sourceThumbnail, durationLabel, categories, language = 'en', accentColor }: HubCardProps) {
+function HubCard({ title, slug, kind, excerpt, coverImage, sourceThumbnail, durationLabel, categories, language = 'en', accentColor, hidden }: HubCardProps) {
     const { icon, label } = KIND_META[kind] ?? KIND_META.article;
     const image = coverImage ?? sourceThumbnail;
     const isRTL = language === 'ar';
@@ -37,6 +41,12 @@ function HubCard({ title, slug, kind, excerpt, coverImage, sourceThumbnail, dura
 
     return (
         <a href={`/hub/${slug}`} className={cx(surfaces.container, styles.card)} style={accentStyle(kind, accentColor)}>
+            {hidden && (
+                <span className={styles.hiddenPill} title="Hidden from production — visible only in preview mode">
+                    <FontAwesomeIcon icon={faEyeSlash} />
+                    Hidden
+                </span>
+            )}
             {image && (
                 <div className={styles.imageFrame}>
                     <img className={styles.image} src={image} alt="" loading="lazy" />

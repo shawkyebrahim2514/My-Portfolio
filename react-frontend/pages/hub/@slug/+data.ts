@@ -1,4 +1,5 @@
 import type { PageContextServer } from 'vike/types';
+import { createElement } from 'react';
 import { render } from 'vike/abort';
 import { useConfig } from 'vike-react/useConfig';
 import { getHubEntryBySlug, getHubRecommendations } from '../../../src/APIs';
@@ -36,6 +37,17 @@ export async function data(pageContext: PageContextServer): Promise<HubEntryData
     config({
         title: `${entry.title} — Hub — Shawky Ebrahim`,
         description: entry.excerpt,
+        // Reference/dummy entries flagged hidden-in-production are still
+        // prerendered (so ?preview=1 can reach them), but must never be indexed
+        // by search engines. Bake a noindex robots meta into their <head>.
+        ...(entry.hiddenInProduction
+            ? {
+                  Head: createElement('meta', {
+                      name: 'robots',
+                      content: 'noindex,nofollow',
+                  }),
+              }
+            : {}),
     });
 
     // Recommendations come from the entry's primary (first resolvable)

@@ -247,6 +247,14 @@ export const hubEntry = {
                 'Highlights this entry as a pick on its detail page (shows an "Editor\'s pick" badge). Independent of the global Hub-index feature flag above.',
             initialValue: false,
         },
+        {
+            name: 'hiddenInProduction',
+            type: 'boolean',
+            title: 'Hide from production (preview-only)',
+            description:
+                'When ON, this entry is hidden from every listing on the live site (Hub index, categories, About teaser, recommendations). It stays fully visible in local development, and can be revealed on the live site by adding ?preview=1 to any URL. Use this to keep reference/dummy entries around without showing them to visitors.',
+            initialValue: false,
+        },
     ],
     orderings: [
         {
@@ -256,10 +264,10 @@ export const hubEntry = {
         },
     ],
     preview: {
-        select: { title: 'title', kind: 'kind', media: 'coverImage' },
-        prepare: ({ title, kind, media }) => ({
-            title,
-            subtitle: kind,
+        select: { title: 'title', kind: 'kind', media: 'coverImage', hidden: 'hiddenInProduction' },
+        prepare: ({ title, kind, media, hidden }) => ({
+            title: hidden ? `🔒 ${title}` : title,
+            subtitle: hidden ? `${kind} · hidden in production` : kind,
             media,
         }),
     },

@@ -5,6 +5,27 @@
     color: inherit;
     transition: var(--transition);
     max-width: 380px;
+    position: relative;
+}
+
+.hiddenPill {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-bg, #fff);
+    background: color-mix(in srgb, var(--color-text, #000) 78%, transparent);
+    backdrop-filter: blur(4px);
+    box-shadow: var(--shadow);
+    pointer-events: none;
 }
 
 .card:hover,
