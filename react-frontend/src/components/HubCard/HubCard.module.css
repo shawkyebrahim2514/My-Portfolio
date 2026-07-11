@@ -1,0 +1,79 @@
+.card {
+    flex-direction: column;
+    align-items: stretch;
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+    max-width: 380px;
+}
+
+.card:hover,
+.card:focus-visible {
+    transform: translateY(-4px);
+}
+
+.imageFrame {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    flex: 0 0 auto;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+}
+
+/* Arabic card content — direction/alignment come from dir="rtl"; this just
+   applies the Arabic font to the title, excerpt, and category chips. */
+.rtl {
+    font-family: var(--font-arabic);
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-700)) 12%, white);
+    color: var(--entry-accent, var(--color-secondary-700));
+    border: 1px solid color-mix(in srgb, var(--entry-accent, var(--color-secondary-700)) 28%, white);
+}
+
+.imageFrame .badge {
+    position: absolute;
+    top: 0.6rem;
+    left: 0.6rem;
+    background-color: var(--color-base-0);
+    box-shadow: var(--shadow);
+    border-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-700)) 30%, white);
+}
+
+.excerpt {
+    font-size: var(--font-size-sm);
+    color: var(--color-base-700);
+}
+
+.duration {
+    font-size: var(--font-size-xs);
+    color: var(--color-base-600);
+}
+
+@media (max-width: 768px) {
+    .card {
+        max-width: 100%;
+    }
+}

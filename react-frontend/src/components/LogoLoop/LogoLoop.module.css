@@ -1,0 +1,50 @@
+.logoloop {
+    position: relative;
+    overflow-x: hidden;
+    width: 100%;
+    min-width: 0;
+
+    --logoloop-gap: 32px;
+}
+
+.track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    user-select: none;
+}
+
+.list {
+    display: flex;
+    align-items: center;
+}
+
+.item {
+    flex: 0 0 auto;
+    margin-right: var(--logoloop-gap);
+}
+
+.item:last-child {
+    margin-right: var(--logoloop-gap);
+}
+
+.fade::before,
+.fade::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(24px, 8%, 120px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.fade::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-base-100) 0%, transparent 100%);
+}
+
+.fade::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-base-100) 0%, transparent 100%);
+}

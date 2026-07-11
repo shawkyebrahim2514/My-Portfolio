@@ -1,0 +1,179 @@
+/* Podcast episode card embedded in body content. A compact row with an
+   optional number badge, title, meta, note and a Play/Listen action; Spotify
+   and YouTube episodes swap in an inline iframe on click. The `.featured`
+   variant is a larger, accented card used for the pinned top episode. */
+.card {
+    position: relative;
+    width: 100%;
+    align-self: stretch;
+    min-width: 0;
+    margin: 0;
+    padding: var(--space-3);
+    background-color: var(--color-base-50);
+    background-image: linear-gradient(135deg, var(--color-base-100) 0%, var(--color-base-0) 50%, var(--color-base-100) 100%);
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.head {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-3);
+}
+
+/* Circular episode-number badge on the left. */
+.badge {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    min-width: 2.75rem;
+    height: 2.75rem;
+    padding: 0 var(--space-2);
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 14%, transparent);
+    color: var(--entry-accent, var(--color-secondary-700));
+    font-weight: 700;
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.02em;
+}
+
+.info {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    color: var(--entry-accent, var(--color-secondary-700));
+}
+
+.title {
+    margin: 0;
+}
+
+.meta {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-base-600);
+    font-weight: 600;
+}
+
+.note {
+    margin: 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-base-700);
+    line-height: 1.6;
+}
+
+/* Play / Listen action — same treatment whether it triggers an inline embed
+   (button) or links out (anchor). */
+.play {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 999px;
+    background-color: var(--entry-accent, var(--color-secondary-500));
+    color: var(--color-base-0);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s ease-out, background-color 0.2s ease-out;
+}
+
+.play:hover,
+.play:focus-visible {
+    transform: translateY(-1px);
+    background-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-700)) 80%, black);
+}
+
+/* Provider glyph pinned to the top-right corner of the card. */
+.provider {
+    position: absolute;
+    top: var(--space-3);
+    right: var(--space-3);
+    font-size: 1.25rem;
+    color: var(--color-base-600);
+    opacity: 0.7;
+}
+
+/* --- Inline player --- */
+.playerWrap {
+    width: 100%;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background-color: var(--color-base-900);
+}
+
+.playerWrap.video {
+    aspect-ratio: 16 / 9;
+}
+
+/* Spotify's episode embed has a fixed comfortable height. */
+.playerWrap.audio {
+    height: 232px;
+}
+
+.frame {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+/* --- Featured variant --- */
+.featured {
+    padding: var(--space-4);
+    border-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 45%, var(--color-base-100));
+    background-image: linear-gradient(135deg, color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 12%, var(--color-base-0)) 0%, var(--color-base-0) 60%);
+}
+
+.featured .badge {
+    min-width: 3.25rem;
+    height: 3.25rem;
+    font-size: var(--font-size-md);
+    background-color: var(--entry-accent, var(--color-secondary-500));
+    color: var(--color-base-0);
+}
+
+/* Decorative equaliser strip along the bottom of the featured episode card —
+   pure eye-candy that reinforces the "audio" identity of a podcast entry. */
+.wave {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    height: 28px;
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 20%, transparent);
+}
+
+.wave span {
+    flex: 1 1 0;
+    min-width: 3px;
+    border-radius: 2px;
+    background-color: var(--entry-accent, var(--color-secondary-500));
+    opacity: 0.55;
+}
+
+@media (max-width: 640px) {
+    .head {
+        flex-direction: column;
+    }
+
+    .provider {
+        display: none;
+    }
+}

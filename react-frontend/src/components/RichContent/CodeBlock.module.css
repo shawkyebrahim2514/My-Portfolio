@@ -1,0 +1,70 @@
+/* Syntax-highlighted code block (see CodeBlock.tsx). The Prism theme colors
+   the tokens; this wrapper adds the card chrome (header bar, border, radius)
+   so it sits consistently among the other rich-content blocks. */
+.wrapper {
+    /* The parent .article is a flex column with align-items: flex-start, so
+       block children shrink to their content. Stretch to the full reading
+       column width; long lines then scroll inside .pre instead of widening
+       the card. min-width:0 stops the pre content forcing an overflow. */
+    width: 100%;
+    align-self: stretch;
+    min-width: 0;
+    margin: 0;
+    border: var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background-color: var(--color-base-0);
+    box-shadow: var(--shadow);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem var(--space-3);
+    background-color: var(--color-base-50);
+    border-bottom: var(--border);
+    font-size: var(--font-size-xs);
+}
+
+.filename {
+    font-family: var(--font-mono);
+    color: var(--color-base-800);
+    font-weight: 600;
+}
+
+.lang {
+    font-family: var(--font-mono);
+    color: var(--color-base-500);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+/* Copy button sits at the end regardless of text direction. */
+.copy {
+    margin-inline-start: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: var(--border);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    background-color: var(--color-base-0);
+    color: var(--color-base-700);
+    font-size: var(--font-size-xs);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.copy:hover,
+.copy:focus-visible {
+    background-color: var(--color-secondary-100);
+    color: var(--color-secondary-700);
+}
+
+/* Emphasised line (from the block's highlightedLines). */
+.highlightedLine {
+    display: block;
+    background-color: var(--color-secondary-100);
+    box-shadow: inset 3px 0 0 var(--color-secondary-500);
+}

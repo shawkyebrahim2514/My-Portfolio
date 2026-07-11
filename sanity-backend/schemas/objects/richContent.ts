@@ -8,7 +8,7 @@
 // syntax) with real structured content authored via Studio's rich-text
 // toolbar — see react-frontend's `components/PortableText` for the renderer.
 
-import { FaGripLines, FaImages, FaMessage } from 'react-icons/fa6'
+import { FaGripLines, FaImages, FaMessage, FaYoutube, FaMicrophoneLines, FaBookmark } from 'react-icons/fa6'
 import { HiOutlineArrowsExpand } from 'react-icons/hi'
 
 // Inline object placed inside a block's `children`, alongside plain text
@@ -97,6 +97,173 @@ export const imageRow = {
     },
 }
 
+// Block-level object: an embedded YouTube video. Authors just paste the
+// video URL (any form — watch?v=, youtu.be/, /shorts/, /embed/, /live/); the
+// frontend extracts the ID and renders a lightweight click-to-play player.
+// No API key or enrichment step — the thumbnail (i.ytimg.com) and the
+// youtube-nocookie player both work from the URL alone, so this authors
+// identically from the local or the hosted Studio.
+export const youtube = {
+    name: 'youtube',
+    title: 'YouTube Video',
+    type: 'object',
+    icon: FaYoutube,
+    fields: [
+        {
+            name: 'url',
+            title: 'YouTube URL',
+            type: 'url',
+            description: 'Paste any YouTube link — watch?v=…, youtu.be/…, /shorts/…, /embed/…, or /live/…',
+            validation: Rule =>
+                Rule.required().uri({ scheme: ['http', 'https'] }).custom(value => {
+                    if (!value) return true
+                    return /(?:youtube\.com|youtu\.be)/.test(value) ? true : 'Must be a YouTube URL'
+                }),
+        },
+        {
+            name: 'caption',
+            title: 'Caption (optional)',
+            type: 'string',
+            description: 'Shown beneath the player, e.g. "Talk: Rethinking React state".',
+        },
+        {
+            name: 'featured',
+            title: 'Pin as the featured video',
+            type: 'boolean',
+            description: 'Renders this video large and full-width above the video grid. Only the first featured video is pinned.',
+            initialValue: false,
+        },
+    ],
+    preview: {
+        select: { url: 'url', caption: 'caption', featured: 'featured' },
+        prepare: ({ url, caption, featured }) => ({
+            title: caption || 'YouTube Video',
+            subtitle: [featured ? '★ Featured' : null, url].filter(Boolean).join(' — '),
+        }),
+    },
+}
+
+// Block-level object: a single podcast episode, meant to be inserted
+// (repeatedly) in a Podcast-kind entry's body — the audio analogue of the
+// `youtube` block. The frontend derives the provider + embed from the URL:
+// a Spotify or YouTube link becomes an inline click-to-play player (both are
+// key-free and self-contained), any other link falls back to a "Listen"
+// button that opens the episode in a new tab. Metadata (number/date/duration)
+// is authored by hand so the card reads well before the player loads.
+export const podcastEpisode = {
+    name: 'podcastEpisode',
+    title: 'Podcast Episode',
+    type: 'object',
+    icon: FaMicrophoneLines,
+    fields: [
+        {
+            name: 'title',
+            title: 'Episode Title',
+            type: 'string',
+            validation: Rule => Rule.required(),
+        },
+        {
+            name: 'url',
+            title: 'Episode URL',
+            type: 'url',
+            description:
+                'Link to the episode. A Spotify or YouTube link plays inline; any other link opens in a new tab.',
+            validation: Rule => Rule.required().uri({ scheme: ['http', 'https'] }),
+        },
+        {
+            name: 'episodeLabel',
+            title: 'Episode Label (optional)',
+            type: 'string',
+            description: 'Short number/label shown as a badge, e.g. "01" or "S2 · E5".',
+        },
+        {
+            name: 'date',
+            title: 'Published Date (optional)',
+            type: 'date',
+            options: { dateFormat: 'MMM YYYY' },
+        },
+        {
+            name: 'duration',
+            title: 'Duration (optional)',
+            type: 'string',
+            description: 'Freeform, e.g. "42 min".',
+        },
+        {
+            name: 'note',
+            title: 'Your Note (optional)',
+            type: 'text',
+            rows: 2,
+            description: 'A short line on why this episode is worth a listen.',
+        },
+        {
+            name: 'featured',
+            title: 'Pin as the featured episode',
+            type: 'boolean',
+            description: 'Renders this episode as the large player pinned at the top of the page.',
+            initialValue: false,
+        },
+    ],
+    preview: {
+        select: { title: 'title', episodeLabel: 'episodeLabel', duration: 'duration', featured: 'featured' },
+        prepare: ({ title, episodeLabel, duration, featured }) => ({
+            title: [episodeLabel, title].filter(Boolean).join(' · '),
+            subtitle: [featured ? '★ Featured' : null, duration].filter(Boolean).join(' — ') || 'Episode',
+        }),
+    },
+}
+
+// Block-level object: a single article/link the author read elsewhere and is
+// recommending. Inserted (repeatedly) in a Read-kind entry's body, turning
+// that entry into a curated reading list. Renders as a compact row that links
+// out to the original — no inline embed, no body of its own.
+export const readingItem = {
+    name: 'readingItem',
+    title: 'Reading Item',
+    type: 'object',
+    icon: FaBookmark,
+    fields: [
+        {
+            name: 'title',
+            title: 'Title',
+            type: 'string',
+            validation: Rule => Rule.required(),
+        },
+        {
+            name: 'url',
+            title: 'URL',
+            type: 'url',
+            validation: Rule => Rule.required().uri({ scheme: ['http', 'https'] }),
+        },
+        {
+            name: 'source',
+            title: 'Source (optional)',
+            type: 'string',
+            description: 'Where it lives, e.g. "freeCodeCamp" or an author name.',
+        },
+        {
+            name: 'note',
+            title: 'Your Note (optional)',
+            type: 'text',
+            rows: 2,
+            description: 'A short line on why it is worth reading.',
+        },
+        {
+            name: 'featured',
+            title: 'Pin as the featured read',
+            type: 'boolean',
+            description: 'Highlights this article as the lead pick above the rest of the list. Only the first featured item is pinned.',
+            initialValue: false,
+        },
+    ],
+    preview: {
+        select: { title: 'title', source: 'source', featured: 'featured' },
+        prepare: ({ title, source, featured }) => ({
+            title,
+            subtitle: [featured ? '★ Featured' : null, source].filter(Boolean).join(' — ') || 'Reading item',
+        }),
+    },
+}
+
 // The shared `of` array for every rich-content field. One definition reused
 // across about/education/collegeCourses/internships/professionalExperience/
 // projects so the custom marks and block objects never drift out of sync.
@@ -121,7 +288,10 @@ export const richContentOf = [
             { title: 'H5', value: 'h5' },
             { title: 'H6', value: 'h6' },
         ],
-        lists: [{ title: 'Bulleted', value: 'bullet' }],
+        lists: [
+            { title: 'Bulleted', value: 'bullet' },
+            { title: 'Numbered', value: 'number' },
+        ],
         marks: {
             decorators: [
                 { title: 'Bold', value: 'strong' },
@@ -180,6 +350,34 @@ export const richContentOf = [
     { type: 'callout' },
     { type: 'imageRow' },
     { type: 'divider' },
+    { type: 'youtube' },
+    { type: 'podcastEpisode' },
+    { type: 'readingItem' },
+    // Syntax-highlighted code block (from @sanity/code-input). Stores the raw
+    // source, a language, an optional filename, and highlighted line numbers;
+    // the frontend renders it with a pre-made Prism highlighter.
+    {
+        type: 'code',
+        title: 'Code Block',
+        options: {
+            withFilename: true,
+            languageAlternatives: [
+                { title: 'Plain text', value: 'text' },
+                { title: 'Bash / Shell', value: 'bash' },
+                { title: 'JavaScript', value: 'javascript' },
+                { title: 'TypeScript', value: 'typescript' },
+                { title: 'JSX', value: 'jsx' },
+                { title: 'TSX', value: 'tsx' },
+                { title: 'JSON', value: 'json' },
+                { title: 'HTML', value: 'markup' },
+                { title: 'CSS', value: 'css' },
+                { title: 'Python', value: 'python' },
+                { title: 'Go', value: 'go' },
+                { title: 'SQL', value: 'sql' },
+                { title: 'Markdown', value: 'markdown' },
+            ],
+        },
+    },
 ]
 
 // Block-level object with a nested Portable Text body. Replaces the
