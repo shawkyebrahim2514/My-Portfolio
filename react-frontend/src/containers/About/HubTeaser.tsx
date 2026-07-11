@@ -1,13 +1,7 @@
 import { memo } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faBookOpen } from '@fortawesome/free-solid-svg-icons';
-import Text from '../../components/Text';
-import StarBorder from '../../components/StarBorder';
-import HubCard from '../../components/HubCard';
-import { filterVisible } from '../Hub/visibility';
-import { useIsPreview } from '../../contexts/PreviewContext';
-import buttonStyles from '../../components/Button/Button.module.css';
-import { cx } from '../../utils/cx';
+import RailTeaser from './variants/RailTeaser';
+import PinboardTeaser from './variants/PinboardTeaser';
+import BentoSpotlightTeaser from './variants/BentoSpotlightTeaser';
 import type { SanityHubEntrySummary } from '../../Types';
 import styles from './HubTeaser.module.css';
 
@@ -15,60 +9,53 @@ type HubTeaserProps = {
     readonly entries: (SanityHubEntrySummary | null)[];
 };
 
-// Small "Things Worth Sharing" teaser on the About/home page — surfaces a
-// hand-curated list of Hub entries (via about.featuredInAbout, in author order)
-// with a CTA to the full /hub index. Renders nothing when no entries are
-// curated yet. The responsive grid wraps to as many rows as needed, so there's
-// no fixed entry count.
-function HubTeaser({ entries }: HubTeaserProps) {
-    const isPreview = useIsPreview();
-    // Entries come from dereferencing `featuredInAbout` refs; a stale/broken
-    // reference (e.g. the target was deleted, or is temporarily unreadable)
-    // resolves to `null` in the array rather than being dropped, so guard
-    // against that instead of crashing the whole page. Hidden entries are also
-    // filtered unless preview mode is on.
-    const resolvedEntries = filterVisible(
-        entries.filter((entry): entry is SanityHubEntrySummary => Boolean(entry)),
-        isPreview,
-    );
-    if (resolvedEntries.length === 0) return null;
+// SHOWCASE build: renders the "Things Worth Sharing" section three times, once
+// per candidate design, each behind a labeled banner — so the three directions
+// can be compared on one page without switching branches. Pick a winner, then
+// this wrapper is replaced by the single chosen variant.
+const VARIANTS: readonly {
+    id: string;
+    label: string;
+    blurb: string;
+    Component: typeof RailTeaser;
+}[] = [
+    {
+        id: '02',
+        label: 'Design 02 · Horizontal Rail + Marquee',
+        blurb: 'Scrolling ticker headline over a flick-through, scroll-snapping rail of cards.',
+        Component: RailTeaser,
+    },
+    {
+        id: '06',
+        label: 'Design 06 · Collage / Pinboard',
+        blurb: 'Cards pinned to a masonry board with tape + tack; hover straightens and lifts.',
+        Component: PinboardTeaser,
+    },
+    {
+        id: '07',
+        label: 'Design 07 · Magazine Bento + Accent Spotlight',
+        blurb: 'Bento grid with a hero cell; hovering a card washes the section in its accent.',
+        Component: BentoSpotlightTeaser,
+    },
+];
 
+function HubTeaser({ entries }: HubTeaserProps) {
     return (
-        <div className={styles.teaser}>
-            <header className={styles.header}>
-                <div className={styles.titleRow}>
-                    <FontAwesomeIcon icon={faBookOpen} size="xl" className={styles.titleIcon} />
-                    <Text variant="h3">Things Worth Sharing</Text>
-                </div>
-                <hr className={styles.divider} />
-            </header>
-            <div className={styles.grid}>
-                {resolvedEntries.map((entry) => (
-                    <HubCard
-                        key={entry.slug}
-                        title={entry.title}
-                        slug={entry.slug}
-                        kind={entry.kind}
-                        excerpt={entry.excerpt}
-                        coverImage={entry.coverImage}
-                        sourceThumbnail={entry.sourceThumbnail}
-                        durationLabel={entry.durationLabel}
-                        categories={entry.categories}
-                        language={entry.language}
-                        accentColor={entry.accentColor}
-                        hidden={entry.hiddenInProduction}
-                    />
-                ))}
-            </div>
-            <StarBorder>
-                <a href="/hub" className={cx(buttonStyles.button, buttonStyles.md, buttonStyles.pointer, styles.cta)}>
-                    Visit the Hub
-                    <FontAwesomeIcon icon={faArrowRight} />
-                </a>
-            </StarBorder>
+        <div className={styles.showcase}>
+            {VARIANTS.map(({ id, label, blurb, Component }) => (
+                <section className={styles.slot} key={id} aria-label={label}>
+                    <div className={styles.banner}>
+                        <span className={styles.badge}>{id}</span>
+                        <div className={styles.bannerText}>
+                            <span className={styles.label}>{label}</span>
+                            <span className={styles.blurb}>{blurb}</span>
+                        </div>
+                    </div>
+                    <Component entries={entries} />
+                </section>
+            ))}
         </div>
     );
 }
 
 export default memo(HubTeaser);
-
