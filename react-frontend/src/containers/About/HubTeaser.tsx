@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import MagazineBentoTeaser from './variants/MagazineBentoTeaser';
 import RailTeaser from './variants/RailTeaser';
 import PinboardTeaser from './variants/PinboardTeaser';
 import BentoSpotlightTeaser from './variants/BentoSpotlightTeaser';
@@ -19,6 +20,12 @@ const VARIANTS: readonly {
     blurb: string;
     Component: typeof RailTeaser;
 }[] = [
+    {
+        id: '01',
+        label: 'Design 01 · Magazine Bento',
+        blurb: 'Asymmetric bento on a dark editorial canvas: one large featured pick + satellite cards, index numerals, accent rails.',
+        Component: MagazineBentoTeaser,
+    },
     {
         id: '02',
         label: 'Design 02 · Horizontal Rail + Marquee',
