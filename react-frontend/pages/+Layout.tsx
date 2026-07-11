@@ -25,9 +25,11 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
     // entire shell (navbar/footer included) adopts the hue. Every other page
     // has no `entry`, so `themeStyle` is skipped and the warm brand stays.
     const pageContext = usePageContext();
-    const kind = (pageContext.data as { entry?: { kind?: HubEntryKind } } | undefined)?.entry?.kind;
-    const themeVars = kind ? themeStyle(kind) : undefined;
-    const ambient = kind ? kindAmbient(kind) : null;
+    const entry = (pageContext.data as { entry?: { kind?: HubEntryKind; accentColor?: string } } | undefined)?.entry;
+    const kind = entry?.kind;
+    const accentColor = entry?.accentColor;
+    const themeVars = kind ? themeStyle(kind, accentColor) : undefined;
+    const ambient = kind ? kindAmbient(kind, accentColor) : null;
 
     return (
         <ThemeContext>
@@ -40,7 +42,7 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
                         <header className={styles.banner}>
                             <Navbar
                                 readingProgress
-                                progressAccent={kind ? KIND_ACCENT[kind] : undefined}
+                                progressAccent={kind ? (accentColor ?? KIND_ACCENT[kind]) : undefined}
                             />
                         </header>
                         <main id="main-content" tabIndex={-1} className={styles.main}>

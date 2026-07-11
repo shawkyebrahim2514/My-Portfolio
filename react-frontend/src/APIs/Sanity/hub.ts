@@ -18,6 +18,7 @@ const entrySummaryProjection = `{
     publishedAt,
     featured,
     featuredInCategory,
+    "accentColor": accent.hex,
     "categories": categories[]->{ title, "slug": slug.current }
 }`;
 
@@ -57,6 +58,7 @@ const getHubEntryBySlug = async (slug: string) => {
         publishedAt,
         featured,
         featuredInCategory,
+        "accentColor": accent.hex,
         channelHandle,
         platforms,
         tags,

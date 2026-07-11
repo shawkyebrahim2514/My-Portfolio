@@ -26,6 +26,7 @@ function Grid({ entries }: GridProps) {
                     durationLabel={entry.durationLabel}
                     categories={entry.categories}
                     language={entry.language}
+                    accentColor={entry.accentColor}
                 />
             ))}
         </div>

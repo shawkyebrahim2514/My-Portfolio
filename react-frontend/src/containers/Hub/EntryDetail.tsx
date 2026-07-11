@@ -88,6 +88,7 @@ function EntryDetail(entry: SanityHubEntry) {
         body,
         categories,
         featuredInCategory,
+        accentColor,
         language = 'en',
     } = entry;
     const { icon, label } = KIND_META[kind] ?? KIND_META.article;
@@ -166,7 +167,7 @@ function EntryDetail(entry: SanityHubEntry) {
     return (
         <article
             className={cx(styles.article, isRTL && styles.rtl)}
-            style={accentStyle(kind)}
+            style={accentStyle(kind, accentColor)}
             dir={isRTL ? 'rtl' : undefined}
             lang={language}
         >

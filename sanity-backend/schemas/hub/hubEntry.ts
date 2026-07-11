@@ -55,6 +55,14 @@ export const hubEntry = {
             validation: Rule => Rule.required(),
         },
         {
+            name: 'accent',
+            type: 'color',
+            title: 'Accent Color',
+            description:
+                'Optional. A single base color for THIS entry — the whole page (navbar, headings, badges, progress ring, ambient effects) is themed from it. A full light-to-dark palette is generated from this one color. Leave empty to use the default color for the entry kind (e.g. violet for podcasts, red for channels).',
+            options: { disableAlpha: true },
+        },
+        {
             name: 'language',
             type: 'string',
             title: 'Content Language',

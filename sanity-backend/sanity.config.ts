@@ -3,6 +3,7 @@ import {visionTool} from '@sanity/vision'
 import {structureTool} from 'sanity/structure'
 import {IconManager} from 'sanity-plugin-icon-manager'
 import {codeInput} from '@sanity/code-input'
+import {colorInput} from '@sanity/color-input'
 import {schemaTypes} from './schemas'
 import {getStartedPlugin} from './plugins/sanity-plugin-tutorial'
 
@@ -29,6 +30,8 @@ export default defineConfig({
     // Adds a `code` block type (used in richContent) with a language dropdown
     // and syntax-highlighted editing in Studio.
     codeInput(),
+    // Adds a `color` field type (used by hubEntry.accent) with a hex picker.
+    colorInput(),
     ...(isDev ? devOnlyPlugins : []),
   ],
 

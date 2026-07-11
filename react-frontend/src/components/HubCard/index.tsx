@@ -26,16 +26,17 @@ export type HubCardProps = {
     readonly durationLabel?: string;
     readonly categories: (HubEntryCategoryRef | null)[];
     readonly language?: HubContentLanguage;
+    readonly accentColor?: string;
 };
 
-function HubCard({ title, slug, kind, excerpt, coverImage, sourceThumbnail, durationLabel, categories, language = 'en' }: HubCardProps) {
+function HubCard({ title, slug, kind, excerpt, coverImage, sourceThumbnail, durationLabel, categories, language = 'en', accentColor }: HubCardProps) {
     const { icon, label } = KIND_META[kind] ?? KIND_META.article;
     const image = coverImage ?? sourceThumbnail;
     const isRTL = language === 'ar';
     const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef => Boolean(category));
 
     return (
-        <a href={`/hub/${slug}`} className={cx(surfaces.container, styles.card)} style={accentStyle(kind)}>
+        <a href={`/hub/${slug}`} className={cx(surfaces.container, styles.card)} style={accentStyle(kind, accentColor)}>
             {image && (
                 <div className={styles.imageFrame}>
                     <img className={styles.image} src={image} alt="" loading="lazy" />

@@ -38,6 +38,11 @@ export type SanityHubEntrySummary = {
     publishedAt: string;
     featured: boolean;
     featuredInCategory?: boolean;
+    // Optional per-entry base accent colour (hex, e.g. "#6d5ae6). When set, the
+    // whole entry page is themed from this one colour (a full ramp is generated
+    // from it); otherwise the entry's kind default is used. Mirrors the Sanity
+    // `accent` colour field, projected as `accent.hex`.
+    accentColor?: string;
     // Items can be `null` if a referenced hubCategory is deleted or
     // temporarily unresolvable — callers must filter before rendering.
     categories: (HubEntryCategoryRef | null)[];
