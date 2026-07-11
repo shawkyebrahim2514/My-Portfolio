@@ -3,6 +3,8 @@
     flex-direction: column;
     gap: 2.5rem;
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .slot {
@@ -10,6 +12,8 @@
     flex-direction: column;
     gap: 0.5rem;
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
 }
 
 /* Label banner marking each candidate design in the comparison scaffold. */

@@ -4,6 +4,8 @@
     gap: 1.25rem;
     padding: 2rem;
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
     margin-top: 2rem;
     overflow: hidden;
 }
@@ -14,6 +16,8 @@
     align-items: stretch;
     gap: 0.85rem;
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .titleRow {
@@ -32,6 +36,8 @@
 .marquee {
     position: relative;
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
     overflow: hidden;
     padding: 0.5rem 0;
     border-top: 1px solid var(--color-base-200);
@@ -80,12 +86,16 @@
 .railWrap {
     position: relative;
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .rail {
     display: flex;
     gap: 1.5rem;
     width: 100%;
+    min-width: 0;
+    max-width: 100%;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     padding: 0.5rem 0.25rem 1rem;
