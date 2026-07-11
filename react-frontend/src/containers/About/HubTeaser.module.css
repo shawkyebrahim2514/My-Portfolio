@@ -1,10 +1,14 @@
 .teaser {
     composes: container column from '../../styles/surfaces.module.css';
     align-items: flex-start;
-    gap: 1rem;
+    gap: 1.5rem;
     padding: 2rem;
     width: 100%;
     margin-top: 2rem;
+    /* Faint pinboard texture layered over the section surface. */
+    background-image:
+        radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--color-base-400) 22%, transparent) 1px, transparent 0);
+    background-size: 22px 22px;
 }
 
 .header {
@@ -34,17 +38,87 @@
     background-color: var(--color-base-200);
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1.5rem;
+/* The board — a masonry-style scatter so cards of different heights nest like
+   pinned notes. */
+.board {
+    width: 100%;
+    column-gap: 2rem;
+    columns: 3 240px;
+    padding: 0.5rem 0.25rem;
+}
+
+.pin {
+    position: relative;
+    break-inside: avoid;
+    margin: 0 0 2rem;
+    transform: rotate(var(--rot, 0deg));
+    transition: transform 0.25s ease, filter 0.25s ease;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.16));
+}
+
+.pin:hover,
+.pin:focus-within {
+    transform: rotate(0deg) translateY(-4px) scale(1.02);
+    filter: drop-shadow(0 12px 22px rgba(0, 0, 0, 0.22));
+    z-index: 2;
+}
+
+.pin > a {
+    max-width: none;
     width: 100%;
 }
 
-.grid > * {
-    max-width: none;
+/* A translucent strip of "tape" holding the card to the board. */
+.tape {
+    position: absolute;
+    top: -0.7rem;
+    left: 50%;
+    transform: translateX(-50%) rotate(calc(var(--rot, 0deg) * -1.4));
+    width: 5rem;
+    height: 1.4rem;
+    z-index: 3;
+    background: color-mix(in srgb, var(--color-base-100) 62%, transparent);
+    border-left: 1px solid rgba(255, 255, 255, 0.5);
+    border-right: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+    pointer-events: none;
+}
+
+/* Accent-tinted tack pin, using the card's own --entry-accent when set. */
+.tack {
+    position: absolute;
+    top: -0.55rem;
+    left: 1.1rem;
+    z-index: 3;
+    font-size: 0.9rem;
+    color: var(--color-secondary-600);
+    transform: rotate(calc(var(--rot, 0deg) * -2));
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.25));
+    pointer-events: none;
 }
 
 .cta {
     text-decoration: none;
+    align-self: flex-start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pin {
+        transition: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .teaser {
+        padding: 1.5rem;
+    }
+
+    .board {
+        columns: 1;
+        column-gap: 0;
+    }
+
+    .pin {
+        transform: rotate(0deg);
+    }
 }
