@@ -461,7 +461,9 @@ export const richContentOf = [
     type: 'block',
     // Extra inline child type allowed within a block's children, next to
     // plain spans — replaces the old inline [gap]/[newline] text markers.
-    of: [{type: 'spacer'}],
+    // Preserve migrated spacer values, but do not offer manual spacer insertion
+    // in new content. Normal paragraph spacing is the authoring default.
+    of: [{type: 'spacer', hidden: true}],
     styles: [
       {title: 'Normal', value: 'normal'},
       {title: 'H1', value: 'h1'},
