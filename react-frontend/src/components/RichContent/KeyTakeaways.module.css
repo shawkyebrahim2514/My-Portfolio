@@ -1,6 +1,6 @@
 .takeaways {
-    width: min(100%, 46rem);
-    margin: var(--space-5) auto;
+    width: 100%;
+    margin: var(--space-5) 0;
     padding: var(--space-4);
     border: 1px solid
         color-mix(

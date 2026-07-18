@@ -96,6 +96,8 @@
 
     .caption {
         flex-direction: column;
+        align-items: center;
         gap: var(--space-2);
+        text-align: center;
     }
 }
