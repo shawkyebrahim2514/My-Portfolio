@@ -115,6 +115,10 @@ export type RichReadingItem = {
     title: string;
     url: string;
     source?: string;
+    author?: string;
+    publishedAt?: string;
+    contentType?: 'article' | 'documentation' | 'paper' | 'book';
+    faviconUrl?: string;
     note?: string;
     featured?: boolean;
 };

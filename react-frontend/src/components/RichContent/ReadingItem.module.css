@@ -10,15 +10,24 @@
     align-self: stretch;
     min-width: 0;
     margin: 0;
+    min-height: 8rem;
     padding: var(--space-3);
     background-color: var(--color-base-50);
-    background-image: linear-gradient(135deg, var(--color-base-100) 0%, var(--color-base-0) 55%, var(--color-base-100) 100%);
+    background-image: linear-gradient(
+        135deg,
+        var(--color-base-100) 0%,
+        var(--color-base-0) 55%,
+        var(--color-base-100) 100%
+    );
     border: var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
     text-decoration: none;
     color: inherit;
-    transition: transform 0.2s ease-out, border-color 0.2s ease-out, box-shadow 0.2s ease-out;
+    transition:
+        transform 0.2s ease-out,
+        border-color 0.2s ease-out,
+        box-shadow 0.2s ease-out;
 }
 
 .card:hover,
@@ -35,11 +44,17 @@
     gap: var(--space-4);
     background-image: linear-gradient(
         135deg,
-        color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 10%, var(--color-base-0)) 0%,
+        color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 10%, var(--color-base-0))
+            0%,
         var(--color-base-0) 60%,
-        color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 8%, var(--color-base-0)) 100%
+        color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 8%, var(--color-base-0))
+            100%
     );
-    border-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 35%, var(--color-base-100));
+    border-color: color-mix(
+        in srgb,
+        var(--entry-accent, var(--color-secondary-500)) 35%,
+        var(--color-base-100)
+    );
     box-shadow: 0 8px 24px rgb(0 0 0 / 0.08);
 }
 
@@ -66,7 +81,8 @@
 .num {
     flex: 0 0 auto;
     counter-increment: reading-item;
-    font-size: 1.3rem;
+    padding-top: 0.3rem;
+    font-size: 1.1rem;
     font-weight: 800;
     font-variant-numeric: tabular-nums;
     color: var(--color-base-300);
@@ -80,7 +96,11 @@
 
 .card:hover .num,
 .card:focus-visible .num {
-    color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 60%, var(--color-base-300));
+    color: color-mix(
+        in srgb,
+        var(--entry-accent, var(--color-secondary-500)) 60%,
+        var(--color-base-300)
+    );
 }
 
 /* Source favicon (or a bookmark fallback) so each row reads as a real link. */
@@ -88,8 +108,8 @@
     flex: 0 0 auto;
     display: grid;
     place-items: center;
-    width: 1.75rem;
-    height: 1.75rem;
+    width: 2.1rem;
+    height: 2.1rem;
     border-radius: 6px;
     background-color: var(--color-base-100);
     color: var(--color-base-600);
@@ -108,16 +128,34 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-1);
+    justify-content: center;
+    gap: 0.3rem;
 }
 
-.title {
+.body > * {
     margin: 0;
+}
+
+.card .title {
+    margin: 0;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.25;
 }
 
 .card:hover .title,
 .card:focus-visible .title {
     color: var(--entry-accent, var(--color-secondary-700));
+}
+
+.meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
+    margin-top: var(--space-1);
 }
 
 .source {
@@ -126,11 +164,23 @@
     color: var(--entry-accent, var(--color-secondary-700));
 }
 
+.details {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--color-base-600);
+    font-size: var(--font-size-xs);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .note {
-    margin: 0;
     font-size: var(--font-size-sm);
     color: var(--color-base-700);
     line-height: 1.6;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 /* External-link glyph, right-aligned, nudges on hover. */
@@ -138,13 +188,35 @@
     flex: 0 0 auto;
     display: grid;
     place-items: center;
-    width: 2.25rem;
-    height: 2.25rem;
+    width: 2.1rem;
+    height: 2.1rem;
     border-radius: 999px;
-    background-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 12%, transparent);
+    background-color: color-mix(
+        in srgb,
+        var(--entry-accent, var(--color-secondary-500)) 12%,
+        transparent
+    );
     color: var(--entry-accent, var(--color-secondary-700));
     font-size: 0.9rem;
-    transition: transform 0.2s ease-out, background-color 0.2s ease-out, color 0.2s ease-out;
+    transition:
+        transform 0.2s ease-out,
+        background-color 0.2s ease-out,
+        color 0.2s ease-out;
+}
+
+@media (max-width: 540px) {
+    .card {
+        gap: var(--space-2);
+        padding: var(--space-3);
+    }
+
+    .num {
+        display: none;
+    }
+
+    .details {
+        display: none;
+    }
 }
 
 .card:hover .icon,

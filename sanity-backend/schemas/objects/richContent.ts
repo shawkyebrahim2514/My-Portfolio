@@ -19,6 +19,7 @@ import {
 } from 'react-icons/fa6'
 import {HiOutlineArrowsExpand} from 'react-icons/hi'
 import {LinkPreviewInput} from '../../components/LinkPreviewInput'
+import {ReadingItemInput} from '../../components/ReadingItemInput'
 
 // Inline object placed inside a block's `children`, alongside plain text
 // spans. Replaces the old inline `[gap]`/`[newline]` text markers.
@@ -239,6 +240,7 @@ export const readingItem = {
   title: 'Reading Item',
   type: 'object',
   icon: FaBookmark,
+  components: {input: ReadingItemInput},
   fields: [
     {
       name: 'title',
@@ -259,6 +261,39 @@ export const readingItem = {
       description: 'Where it lives, e.g. "freeCodeCamp" or an author name.',
     },
     {
+      name: 'author',
+      title: 'Author (optional)',
+      type: 'string',
+      description: 'The person or organization behind the resource.',
+    },
+    {
+      name: 'publishedAt',
+      title: 'Published date (optional)',
+      type: 'date',
+      options: {dateFormat: 'MMM YYYY'},
+    },
+    {
+      name: 'contentType',
+      title: 'Resource type (optional)',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Article', value: 'article'},
+          {title: 'Documentation', value: 'documentation'},
+          {title: 'Paper', value: 'paper'},
+          {title: 'Book', value: 'book'},
+        ],
+      },
+    },
+    {
+      name: 'faviconUrl',
+      title: 'Favicon URL',
+      type: 'url',
+      readOnly: true,
+      description: 'Filled from link metadata; remove it to fall back to the source favicon.',
+      validation: (Rule) => Rule.uri({scheme: ['http', 'https']}),
+    },
+    {
       name: 'note',
       title: 'Your Note (optional)',
       type: 'text',
@@ -275,11 +310,12 @@ export const readingItem = {
     },
   ],
   preview: {
-    select: {title: 'title', source: 'source', featured: 'featured'},
-    prepare: ({title, source, featured}) => ({
+    select: {title: 'title', source: 'source', contentType: 'contentType', featured: 'featured'},
+    prepare: ({title, source, contentType, featured}) => ({
       title,
       subtitle:
-        [featured ? '★ Featured' : null, source].filter(Boolean).join(' — ') || 'Reading item',
+        [featured ? '★ Featured' : null, contentType, source].filter(Boolean).join(' — ') ||
+        'Reading item',
     }),
   },
 }

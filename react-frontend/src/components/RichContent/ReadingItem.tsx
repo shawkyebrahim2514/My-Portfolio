@@ -11,7 +11,13 @@ import styles from './ReadingItem.module.css';
 // whole card opens the original in a new tab. In the `featured` variant it
 // renders larger and without the running list index (used for the pinned
 // "lead pick" above the numbered list).
-function ReadingItem({ value, variant = 'row' }: { value: RichReadingItem; variant?: 'row' | 'featured' }) {
+function ReadingItem({
+    value,
+    variant = 'row',
+}: {
+    value: RichReadingItem;
+    variant?: 'row' | 'featured';
+}) {
     let host: string | undefined;
     try {
         host = new URL(value.url).hostname.replace(/^www\./, '');
@@ -19,8 +25,13 @@ function ReadingItem({ value, variant = 'row' }: { value: RichReadingItem; varia
         host = undefined;
     }
     const source = value.source ?? host;
-    const favicon = host ? `https://www.google.com/s2/favicons?domain=${host}&sz=64` : undefined;
+    const favicon =
+        value.faviconUrl ??
+        (host ? `https://www.google.com/s2/favicons?domain=${host}&sz=64` : undefined);
     const isFeatured = variant === 'featured';
+    const details = [value.contentType, value.author, value.publishedAt]
+        .filter((detail): detail is string => Boolean(detail))
+        .join(' · ');
 
     return (
         <a
@@ -42,8 +53,13 @@ function ReadingItem({ value, variant = 'row' }: { value: RichReadingItem; varia
                 <Text variant={isFeatured ? 'h3' : 'h4'} className={styles.title}>
                     {value.title}
                 </Text>
-                {source && <span className={styles.source}>{source}</span>}
                 {value.note && <p className={styles.note}>{value.note}</p>}
+                {(source || details) && (
+                    <div className={styles.meta}>
+                        {source && <span className={styles.source}>{source}</span>}
+                        {details && <span className={styles.details}>{details}</span>}
+                    </div>
+                )}
             </div>
             <span className={styles.icon} aria-hidden="true">
                 <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
