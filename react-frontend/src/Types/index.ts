@@ -24,13 +24,21 @@ export {
     type RichSpacer,
     type RichMarkDef,
     type RichImage,
+    type RichExternalImage,
+    type RichMediaImage,
     type RichImageRow,
+    type RichFigure,
     type RichDivider,
     type RichCallout,
+    type RichNote,
+    type RichKeyTakeaways,
+    type RichQuote,
+    type RichExpandableDetails,
     type RichCode,
     type RichYouTube,
     type RichPodcastEpisode,
     type RichReadingItem,
+    type RichLinkPreview,
 } from './sanity/richContent';
 
 export { type Theme, type PortfolioPathes, type ColorLevels } from './contexts';

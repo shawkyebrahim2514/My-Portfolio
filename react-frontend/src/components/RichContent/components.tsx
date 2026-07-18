@@ -5,10 +5,16 @@ import Header from '../MainSection/Header';
 import ButtonLink from './ButtonLink';
 import ImageRow from './ImageRow';
 import Callout from './Callout';
+import Note from './Note';
+import KeyTakeaways from './KeyTakeaways';
+import Quote from './Quote';
+import ExpandableDetails from './ExpandableDetails';
 import CodeBlock from './CodeBlock';
 import YouTube from './YouTube';
 import PodcastEpisode from './PodcastEpisode';
 import ReadingItem from './ReadingItem';
+import LinkPreview from './LinkPreview';
+import Figure from './Figure';
 import SplitText from '../SplitText';
 import { cx } from '../../utils/cx';
 import type { RichBlock, RichMarkDef, RichSpan } from '../../Types';
@@ -49,7 +55,11 @@ function singleLinkOverride(value: RichBlock): React.ReactNode | undefined {
             <ButtonLink href={def.href} icon={def.icon} text={child.text} />
         );
     const decoratorMark = marks.find((m) => DECORATOR_MARK_CLASS[m]);
-    return decoratorMark ? <span className={DECORATOR_MARK_CLASS[decoratorMark]}>{content}</span> : content;
+    return decoratorMark ? (
+        <span className={DECORATOR_MARK_CLASS[decoratorMark]}>{content}</span>
+    ) : (
+        content
+    );
 }
 
 // Block-level serializer props carry the raw block JSON (`value`) plus the
@@ -77,8 +87,12 @@ function Heading1({ value, children }: BlockProps) {
     if (override) {
         return <h1 className={cx(styles.h1, alignClass)}>{override}</h1>;
     }
-    const spans = (block.children ?? []).filter((child): child is RichSpan => child._type === 'span');
-    const hasStylingMarks = spans.some((span) => (span.marks ?? []).some((mark) => !ALIGN_MARKS.has(mark)));
+    const spans = (block.children ?? []).filter(
+        (child): child is RichSpan => child._type === 'span'
+    );
+    const hasStylingMarks = spans.some((span) =>
+        (span.marks ?? []).some((mark) => !ALIGN_MARKS.has(mark))
+    );
     if (hasStylingMarks) {
         return <h1 className={cx(styles.h1, alignClass)}>{children}</h1>;
     }
@@ -93,7 +107,7 @@ function Heading1({ value, children }: BlockProps) {
 function makeHeading(
     tag: 'h2' | 'h3' | 'h4' | 'h5' | 'h6',
     styleKey: keyof typeof styles,
-    headingIds?: Record<string, string>,
+    headingIds?: Record<string, string>
 ) {
     return function Heading({ value, children }: BlockProps) {
         const block = value as RichBlock;
@@ -104,8 +118,11 @@ function makeHeading(
         const id = headingIds?.[block._key];
         return React.createElement(
             tag,
-            { className: cx(styles[styleKey], blockAlignClass(block.children, styles)), ...(id ? { id } : {}) },
-            override ?? children,
+            {
+                className: cx(styles[styleKey], blockAlignClass(block.children, styles)),
+                ...(id ? { id } : {}),
+            },
+            override ?? children
         );
     };
 }
@@ -147,11 +164,17 @@ export const components: PortableTextComponents = {
         number: ({ children }) => <li className={styles.oli}>{children}</li>,
     },
     marks: {
-        strong: ({ children }) => <strong className={marksStyles.highlightTextBase}>{children}</strong>,
+        strong: ({ children }) => (
+            <strong className={marksStyles.highlightTextBase}>{children}</strong>
+        ),
         em: ({ children }) => <em>{children}</em>,
         code: ({ children }) => <code className={marksStyles.code}>{children}</code>,
-        highlightSecondary: ({ children }) => <span className={marksStyles.highlightTextSecondary}>{children}</span>,
-        highlightAreaBase: ({ children }) => <span className={marksStyles.highlightAreaBase}>{children}</span>,
+        highlightSecondary: ({ children }) => (
+            <span className={marksStyles.highlightTextSecondary}>{children}</span>
+        ),
+        highlightAreaBase: ({ children }) => (
+            <span className={marksStyles.highlightAreaBase}>{children}</span>
+        ),
         highlightAreaSecondary: ({ children }) => (
             <span className={marksStyles.highlightAreaSecondary}>{children}</span>
         ),
@@ -180,11 +203,17 @@ export const components: PortableTextComponents = {
     },
     types: {
         imageRow: ImageRow,
+        figure: Figure,
         callout: Callout,
+        note: Note,
+        keyTakeaways: KeyTakeaways,
+        quote: Quote,
+        expandableDetails: ExpandableDetails,
         code: CodeBlock,
         youtube: YouTube,
         podcastEpisode: PodcastEpisode,
         readingItem: ReadingItem,
+        linkPreview: LinkPreview,
         divider: () => <hr className={styles.hr} />,
         spacer: ({ value }) => (
             <span className={value.kind === 'newline' ? styles.newline : styles.gap} />

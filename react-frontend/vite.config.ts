@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [react(), vike()],
   server: {
     open: true,
+    port: Number(process.env.PORT) || 3000,
   },
   build: {
     rollupOptions: {

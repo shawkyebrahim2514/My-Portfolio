@@ -26,7 +26,7 @@
 }
 
 .li::before {
-    content: ">";
+    content: '>';
     position: absolute;
     top: 0;
     inset-inline-start: -1.25em;
@@ -36,7 +36,7 @@
 
 /* In RTL the ">" marker should point toward the text (leftward). */
 [dir='rtl'] .li::before {
-    content: "<";
+    content: '<';
 }
 
 .oli {
@@ -44,7 +44,7 @@
 }
 
 .oli::before {
-    content: counter(rc-item) ".";
+    content: counter(rc-item) '.';
     position: absolute;
     top: 0;
     inset-inline-start: -2em;
@@ -88,32 +88,78 @@
 /* Image row layout (imageRow block object). Only per-image pixel dimensions
    are passed inline (as --md-image-max-* custom properties). */
 .imageRow {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    align-items: start;
     gap: var(--md-image-gap);
+    width: 100%;
 }
 
 .imageRowLeft {
-    justify-content: flex-start;
+    justify-items: start;
 }
 
 .imageRowCenter {
-    justify-content: center;
+    justify-items: center;
 }
 
 .imageRowRight {
-    justify-content: flex-end;
+    justify-items: end;
 }
 
 .imageFrame {
+    width: min(100%, var(--md-image-max-w, 100%));
     max-width: var(--md-image-max-w, 100%);
-    max-height: var(--md-image-max-h, 100%);
+    margin: 0;
+    overflow: hidden;
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--color-base-100);
 }
 
 .image {
-    max-width: inherit;
-    max-height: inherit;
+    display: block;
+    width: 100%;
+    height: clamp(12rem, 26vw, 19rem);
+    max-height: var(--md-image-max-h, 100%);
+    object-fit: cover;
+    transition: transform 0.25s ease-out;
+}
+
+.imageFrame:hover .image {
+    transform: scale(1.02);
+}
+
+.imageRow[data-image-count='1'] {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.imageRow[data-image-count='1'] .imageFrame {
+    width: min(100%, var(--md-image-max-w, 42rem));
+}
+
+.imageRow[data-image-count='1'] .image {
+    height: auto;
+    max-height: min(62vh, var(--md-image-max-h, 34rem));
+    object-fit: contain;
+}
+
+.imageCaption,
+.rowCaption {
+    color: var(--color-base-700);
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+}
+
+.imageCaption {
+    padding: var(--space-2);
+    background: var(--color-base-100);
+}
+
+.rowCaption {
+    grid-column: 1 / -1;
+    margin-top: var(--space-1);
+    text-align: center;
 }
 
 /* Inline spacer object and alignment marks. */

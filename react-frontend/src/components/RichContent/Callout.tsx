@@ -28,7 +28,8 @@ export default function Callout({ value }: CalloutProps) {
             className={cx(
                 styles.blockquote,
                 isSecondary ? styles.secondaryBar : styles.baseBar,
-                value.style === 'highlight' && (isSecondary ? styles.highlightSecondary : styles.highlightBase),
+                value.style === 'highlight' &&
+                    (isSecondary ? styles.highlightSecondary : styles.highlightBase)
             )}
         >
             <div className={styles.bar} />

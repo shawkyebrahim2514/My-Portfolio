@@ -19,7 +19,7 @@ function spacer(kind: 'gap' | 'newline'): RichSpacer {
 
 function block(
     children: (RichSpan | RichSpacer)[],
-    opts: { style?: RichBlock['style']; listItem?: 'bullet'; markDefs?: RichMarkDef[] } = {},
+    opts: { style?: RichBlock['style']; listItem?: 'bullet'; markDefs?: RichMarkDef[] } = {}
 ): RichContentNode {
     return {
         _type: 'block',
@@ -140,9 +140,82 @@ describe('RichContent — Portable Text renderer', () => {
         expect(c.textContent).toContain('body text');
     });
 
+    it('note renders its title, tone label, and nested body', () => {
+        const c = renderValue([
+            {
+                _type: 'note',
+                _key: key(),
+                tone: 'tip',
+                title: 'Keep the feedback loop short',
+                body: [block([span('Validate changes while the context is fresh.')])],
+            },
+        ]);
+        expect(c.querySelector('aside')).not.toBeNull();
+        expect(c.textContent).toContain('Tip');
+        expect(c.textContent).toContain('Keep the feedback loop short');
+        expect(c.textContent).toContain('Validate changes while the context is fresh.');
+    });
+
+    it('key takeaways renders its heading and checklist items', () => {
+        const c = renderValue([
+            {
+                _type: 'keyTakeaways',
+                _key: key(),
+                title: 'What to remember',
+                items: [
+                    'Validate the behavior, not only the build.',
+                    'Keep the authoring flow focused.',
+                ],
+            },
+        ]);
+        expect(c.querySelector('section[aria-label="What to remember"]')).not.toBeNull();
+        expect(c.querySelectorAll('li')).toHaveLength(2);
+        expect(c.textContent).toContain('Validate the behavior, not only the build.');
+        expect(c.textContent).toContain('Keep the authoring flow focused.');
+    });
+
+    it('quote renders its attribution with a safe source link', () => {
+        const c = renderValue([
+            {
+                _type: 'quote',
+                _key: key(),
+                text: 'Simplicity is prerequisite for reliability.',
+                author: 'Edsger W. Dijkstra',
+                source: 'EWD 498',
+                sourceUrl: 'https://www.cs.utexas.edu/~EWD/transcriptions/EWD04xx/EWD498.html',
+            },
+        ]);
+        expect(c.querySelector('blockquote')?.textContent).toContain('Simplicity is prerequisite');
+        const source = c.querySelector('a[href*="EWD498.html"]');
+        expect(source?.getAttribute('target')).toBe('_blank');
+        expect(source?.getAttribute('rel')).toBe('noopener noreferrer');
+    });
+
+    it('expandable details renders a native open disclosure with its rich body', () => {
+        const c = renderValue([
+            {
+                _type: 'expandableDetails',
+                _key: key(),
+                summary: 'Implementation notes',
+                openByDefault: true,
+                body: [block([span('This remains available to readers who want more context.')])],
+            },
+        ]);
+        const details = c.querySelector('details');
+        expect(details?.open).toBe(true);
+        expect(details?.querySelector('summary')?.textContent).toContain('Implementation notes');
+        expect(details?.textContent).toContain('This remains available to readers');
+    });
+
     it('popup callout renders via MainSection (no bar element)', () => {
         const c = renderValue([
-            { _type: 'callout', _key: key(), style: 'popup', color: 'base', body: [block([span('popup body')])] },
+            {
+                _type: 'callout',
+                _key: key(),
+                style: 'popup',
+                color: 'base',
+                body: [block([span('popup body')])],
+            },
         ]);
         expect(c.textContent).toContain('popup body');
         expect(c.querySelector('[class*="blockquote"]')).toBeNull();
@@ -151,7 +224,9 @@ describe('RichContent — Portable Text renderer', () => {
     it('buttonLink annotation on a standalone paragraph renders a real anchor with an icon (not a synthetic button)', () => {
         const c = renderValue([
             block([span('Google', ['m1'])], {
-                markDefs: [{ _type: 'buttonLink', _key: 'm1', href: 'https://google.com', icon: 'link' }],
+                markDefs: [
+                    { _type: 'buttonLink', _key: 'm1', href: 'https://google.com', icon: 'link' },
+                ],
             }),
         ]);
         const a = c.querySelector('a');
@@ -179,7 +254,11 @@ describe('RichContent — Portable Text renderer', () => {
     });
 
     it('divider renders a real semantic <hr> element', () => {
-        const c = renderValue([block([span('above')]), { _type: 'divider', _key: key() }, block([span('below')])]);
+        const c = renderValue([
+            block([span('above')]),
+            { _type: 'divider', _key: key() },
+            block([span('below')]),
+        ]);
         expect(c.querySelector('hr')).not.toBeNull();
     });
 
@@ -193,7 +272,10 @@ describe('RichContent — Portable Text renderer', () => {
                     {
                         _type: 'image',
                         _key: key(),
-                        asset: { _type: 'reference', _ref: 'image-abc123def456abc123def456abc123def456ab-100x80-png' },
+                        asset: {
+                            _type: 'reference',
+                            _ref: 'image-abc123def456abc123def456abc123def456ab-100x80-png',
+                        },
                         alt: 'a cat',
                         maxWidth: 100,
                         maxHeight: 80,
@@ -215,5 +297,74 @@ describe('RichContent — Portable Text renderer', () => {
         const frameStyle = frame?.getAttribute('style') ?? '';
         expect(frameStyle).toContain('--md-image-max-w');
         expect(frameStyle).toContain('--md-image-max-h');
+    });
+
+    it('imageRow supports an external image URL with an accessible caption', () => {
+        const c = renderValue([
+            {
+                _type: 'imageRow',
+                _key: key(),
+                images: [
+                    {
+                        _type: 'externalImage',
+                        _key: key(),
+                        url: 'https://example.com/diagram.png',
+                        alt: 'System architecture diagram',
+                        caption: 'Request flow',
+                    },
+                ],
+                caption: 'Architecture overview',
+            },
+        ]);
+        const image = c.querySelector('img');
+        expect(image?.getAttribute('src')).toBe('https://example.com/diagram.png');
+        expect(image?.getAttribute('alt')).toBe('System architecture diagram');
+        expect(c.textContent).toContain('Request flow');
+        expect(c.textContent).toContain('Architecture overview');
+    });
+
+    it('figure renders an external image with its caption and credit', () => {
+        const c = renderValue([
+            {
+                _type: 'figure',
+                _key: key(),
+                sourceType: 'external',
+                externalImage: {
+                    _type: 'externalImage',
+                    _key: key(),
+                    url: 'https://example.com/chart.png',
+                    alt: 'A performance chart',
+                },
+                caption: 'Cold-start time after the optimization.',
+                credit: 'Internal benchmark',
+                creditUrl: 'https://example.com/benchmark',
+            },
+        ]);
+        const image = c.querySelector('img');
+        expect(image?.getAttribute('src')).toBe('https://example.com/chart.png');
+        expect(image?.getAttribute('alt')).toBe('A performance chart');
+        expect(c.textContent).toContain('Cold-start time after the optimization.');
+        expect(c.querySelector('a[href="https://example.com/benchmark"]')).not.toBeNull();
+    });
+
+    it('link previews render a complete external-link card', () => {
+        const c = renderValue([
+            {
+                _type: 'linkPreview',
+                _key: key(),
+                url: 'https://example.com/article',
+                title: 'Useful article',
+                description: 'A concise summary.',
+                siteName: 'Example',
+                imageUrl: 'https://example.com/cover.png',
+            },
+        ]);
+        const link = c.querySelector('a[href="https://example.com/article"]');
+        expect(link).not.toBeNull();
+        expect(link?.textContent).toContain('Useful article');
+        expect(link?.textContent).toContain('A concise summary.');
+        expect(link?.querySelector('img')?.getAttribute('src')).toBe(
+            'https://example.com/cover.png'
+        );
     });
 });

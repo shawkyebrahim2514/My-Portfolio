@@ -38,15 +38,40 @@ export type RichImage = {
     _key: string;
     asset: { _ref: string; _type: 'reference' };
     alt: string;
+    caption?: string;
     maxWidth?: number;
     maxHeight?: number;
 };
 
+export type RichExternalImage = {
+    _type: 'externalImage';
+    _key: string;
+    url: string;
+    alt: string;
+    caption?: string;
+    maxWidth?: number;
+    maxHeight?: number;
+};
+
+export type RichMediaImage = RichImage | RichExternalImage;
+
 export type RichImageRow = {
     _type: 'imageRow';
     _key: string;
-    images: RichImage[];
+    images: RichMediaImage[];
     align?: 'left' | 'center' | 'right';
+    caption?: string;
+};
+
+export type RichFigure = {
+    _type: 'figure';
+    _key: string;
+    sourceType: 'sanity' | 'external';
+    image?: RichImage;
+    externalImage?: RichExternalImage;
+    caption?: string;
+    credit?: string;
+    creditUrl?: string;
 };
 
 export type RichDivider = {
@@ -60,6 +85,38 @@ export type RichCallout = {
     style: 'highlight' | 'popup' | 'plain';
     color?: 'base' | 'secondary';
     body: RichContentNode[];
+};
+
+export type RichNote = {
+    _type: 'note';
+    _key: string;
+    tone: 'note' | 'tip' | 'important' | 'warning';
+    title?: string;
+    body: RichContentNode[];
+};
+
+export type RichKeyTakeaways = {
+    _type: 'keyTakeaways';
+    _key: string;
+    title: string;
+    items: string[];
+};
+
+export type RichQuote = {
+    _type: 'quote';
+    _key: string;
+    text: string;
+    author?: string;
+    source?: string;
+    sourceUrl?: string;
+};
+
+export type RichExpandableDetails = {
+    _type: 'expandableDetails';
+    _key: string;
+    summary: string;
+    body: RichContentNode[];
+    openByDefault?: boolean;
 };
 
 // Code block from @sanity/code-input.
@@ -115,16 +172,37 @@ export type RichReadingItem = {
     title: string;
     url: string;
     source?: string;
+    author?: string;
+    publishedAt?: string;
+    contentType?: 'article' | 'documentation' | 'paper' | 'book';
+    faviconUrl?: string;
     note?: string;
     featured?: boolean;
+};
+
+export type RichLinkPreview = {
+    _type: 'linkPreview';
+    _key: string;
+    url: string;
+    title?: string;
+    description?: string;
+    imageUrl?: string;
+    siteName?: string;
+    faviconUrl?: string;
 };
 
 export type RichContentNode =
     | RichBlock
     | RichImageRow
+    | RichFigure
     | RichDivider
     | RichCallout
+    | RichNote
+    | RichKeyTakeaways
+    | RichQuote
+    | RichExpandableDetails
     | RichCode
     | RichYouTube
     | RichPodcastEpisode
-    | RichReadingItem;
+    | RichReadingItem
+    | RichLinkPreview;

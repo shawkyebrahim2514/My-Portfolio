@@ -1,0 +1,122 @@
+.card {
+    position: relative;
+    display: grid;
+    grid-template-columns: clamp(11rem, 28%, 15rem) minmax(0, 1fr) auto;
+    gap: var(--space-3);
+    align-items: stretch;
+    width: 100%;
+    height: 13rem;
+    margin: var(--space-4) 0;
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+    background: linear-gradient(
+        135deg,
+        var(--color-base-100),
+        var(--color-base-0) 55%,
+        var(--color-secondary-100)
+    );
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition:
+        transform 0.2s ease-out,
+        border-color 0.2s ease-out;
+}
+
+.card:hover,
+.card:focus-visible {
+    transform: translateY(-2px);
+    border-color: color-mix(
+        in srgb,
+        var(--entry-accent, var(--color-secondary-500)) 50%,
+        var(--color-base-200)
+    );
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    object-fit: cover;
+    background: var(--color-base-200);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    padding: var(--space-3) 0;
+    gap: var(--space-1);
+}
+
+.publisher {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--entry-accent, var(--color-secondary-700));
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+}
+
+.publisher img {
+    border-radius: 3px;
+}
+
+.title {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: var(--font-size-lg);
+    line-height: 1.25;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.description {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--color-base-700);
+    font-size: var(--font-size-sm);
+    line-height: 1.55;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.icon {
+    align-self: start;
+    margin: var(--space-3);
+    color: var(--entry-accent, var(--color-secondary-600));
+}
+
+@media (max-width: 540px) {
+    .card {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        height: auto;
+    }
+
+    .image {
+        height: 11rem;
+        min-height: 0;
+        flex: 0 0 auto;
+    }
+
+    .content {
+        justify-content: flex-start;
+        padding: var(--space-3);
+        padding-right: 3.5rem;
+    }
+
+    .description {
+        -webkit-line-clamp: 3;
+    }
+
+    .icon {
+        position: absolute;
+        top: 11rem;
+        right: 0;
+        margin: var(--space-3);
+    }
+}
