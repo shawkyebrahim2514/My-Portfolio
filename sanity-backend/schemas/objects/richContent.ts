@@ -17,6 +17,7 @@ import {
   FaBookmark,
   FaLink,
   FaImage,
+  FaListCheck,
 } from 'react-icons/fa6'
 import {HiOutlineArrowsExpand} from 'react-icons/hi'
 import {LinkPreviewInput} from '../../components/LinkPreviewInput'
@@ -534,6 +535,7 @@ export const richContentOf = [
   },
   {type: 'callout'},
   {type: 'note'},
+  {type: 'keyTakeaways'},
   {type: 'imageRow'},
   {type: 'figure'},
   {type: 'divider'},
@@ -655,5 +657,35 @@ export const note = {
   preview: {
     select: {title: 'title', tone: 'tone'},
     prepare: ({title, tone}) => ({title: title || tone || 'Note', subtitle: tone}),
+  },
+}
+
+export const keyTakeaways = {
+  name: 'keyTakeaways',
+  title: 'Key Takeaways',
+  type: 'object',
+  icon: FaListCheck,
+  fields: [
+    {
+      name: 'title',
+      title: 'Heading',
+      type: 'string',
+      initialValue: 'Key Takeaways',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'items',
+      title: 'Takeaways',
+      type: 'array',
+      of: [{type: 'string'}],
+      validation: (Rule) => Rule.required().min(1).max(6),
+    },
+  ],
+  preview: {
+    select: {title: 'title', items: 'items'},
+    prepare: ({title, items}) => ({
+      title: title || 'Key Takeaways',
+      subtitle: `${items?.length ?? 0} item${items?.length === 1 ? '' : 's'}`,
+    }),
   },
 }

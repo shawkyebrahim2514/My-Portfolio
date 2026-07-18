@@ -6,6 +6,7 @@ import ButtonLink from './ButtonLink';
 import ImageRow from './ImageRow';
 import Callout from './Callout';
 import Note from './Note';
+import KeyTakeaways from './KeyTakeaways';
 import CodeBlock from './CodeBlock';
 import YouTube from './YouTube';
 import PodcastEpisode from './PodcastEpisode';
@@ -203,6 +204,7 @@ export const components: PortableTextComponents = {
         figure: Figure,
         callout: Callout,
         note: Note,
+        keyTakeaways: KeyTakeaways,
         code: CodeBlock,
         youtube: YouTube,
         podcastEpisode: PodcastEpisode,

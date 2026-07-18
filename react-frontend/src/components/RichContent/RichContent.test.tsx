@@ -156,6 +156,24 @@ describe('RichContent — Portable Text renderer', () => {
         expect(c.textContent).toContain('Validate changes while the context is fresh.');
     });
 
+    it('key takeaways renders its heading and checklist items', () => {
+        const c = renderValue([
+            {
+                _type: 'keyTakeaways',
+                _key: key(),
+                title: 'What to remember',
+                items: [
+                    'Validate the behavior, not only the build.',
+                    'Keep the authoring flow focused.',
+                ],
+            },
+        ]);
+        expect(c.querySelector('section[aria-label="What to remember"]')).not.toBeNull();
+        expect(c.querySelectorAll('li')).toHaveLength(2);
+        expect(c.textContent).toContain('Validate the behavior, not only the build.');
+        expect(c.textContent).toContain('Keep the authoring flow focused.');
+    });
+
     it('popup callout renders via MainSection (no bar element)', () => {
         const c = renderValue([
             {

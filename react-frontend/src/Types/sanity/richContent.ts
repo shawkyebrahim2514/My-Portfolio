@@ -95,6 +95,13 @@ export type RichNote = {
     body: RichContentNode[];
 };
 
+export type RichKeyTakeaways = {
+    _type: 'keyTakeaways';
+    _key: string;
+    title: string;
+    items: string[];
+};
+
 // Code block from @sanity/code-input.
 export type RichCode = {
     _type: 'code';
@@ -174,6 +181,7 @@ export type RichContentNode =
     | RichDivider
     | RichCallout
     | RichNote
+    | RichKeyTakeaways
     | RichCode
     | RichYouTube
     | RichPodcastEpisode
