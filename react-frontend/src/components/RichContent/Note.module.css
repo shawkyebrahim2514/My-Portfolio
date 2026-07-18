@@ -1,0 +1,92 @@
+.note {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-3);
+    width: 100%;
+    margin: var(--space-4) 0;
+    padding: var(--space-3);
+    border: 1px solid var(--note-border);
+    border-radius: var(--radius);
+    background: var(--note-background);
+    color: var(--color-base-800);
+}
+
+.icon {
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    border-radius: 0.7rem;
+    color: var(--note-accent);
+    background: color-mix(in srgb, var(--note-accent) 14%, var(--color-base-0));
+}
+
+.content {
+    min-width: 0;
+}
+
+.eyebrow {
+    display: flex;
+    min-height: 2.25rem;
+    align-items: center;
+    margin-bottom: 0.1rem;
+    color: var(--note-accent);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.note .title {
+    margin: 0;
+    color: var(--color-base-900);
+    font-size: var(--font-size-md);
+}
+
+.body > :first-child {
+    margin-top: var(--space-1);
+}
+
+.body > :last-child {
+    margin-bottom: 0;
+}
+
+.toneNote {
+    --note-accent: var(--color-secondary-600);
+    --note-border: color-mix(in srgb, var(--color-secondary-600) 24%, var(--color-base-200));
+    --note-background: color-mix(in srgb, var(--color-secondary-600) 8%, var(--color-base-0));
+}
+
+.toneTip {
+    --note-accent: #198754;
+    --note-border: color-mix(in srgb, #198754 28%, var(--color-base-200));
+    --note-background: color-mix(in srgb, #198754 8%, var(--color-base-0));
+}
+
+.toneImportant {
+    --note-accent: #8a5a00;
+    --note-border: color-mix(in srgb, #8a5a00 28%, var(--color-base-200));
+    --note-background: color-mix(in srgb, #8a5a00 9%, var(--color-base-0));
+}
+
+.toneWarning {
+    --note-accent: #b42318;
+    --note-border: color-mix(in srgb, #b42318 28%, var(--color-base-200));
+    --note-background: color-mix(in srgb, #b42318 8%, var(--color-base-0));
+}
+
+@media (max-width: 540px) {
+    .note {
+        gap: var(--space-2);
+        padding: var(--space-2);
+    }
+
+    .icon {
+        width: 2rem;
+        height: 2rem;
+    }
+
+    .eyebrow {
+        min-height: 2rem;
+    }
+}

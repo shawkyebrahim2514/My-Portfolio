@@ -140,6 +140,22 @@ describe('RichContent — Portable Text renderer', () => {
         expect(c.textContent).toContain('body text');
     });
 
+    it('note renders its title, tone label, and nested body', () => {
+        const c = renderValue([
+            {
+                _type: 'note',
+                _key: key(),
+                tone: 'tip',
+                title: 'Keep the feedback loop short',
+                body: [block([span('Validate changes while the context is fresh.')])],
+            },
+        ]);
+        expect(c.querySelector('aside')).not.toBeNull();
+        expect(c.textContent).toContain('Tip');
+        expect(c.textContent).toContain('Keep the feedback loop short');
+        expect(c.textContent).toContain('Validate changes while the context is fresh.');
+    });
+
     it('popup callout renders via MainSection (no bar element)', () => {
         const c = renderValue([
             {

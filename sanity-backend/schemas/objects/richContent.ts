@@ -41,7 +41,6 @@ export const spacer = {
         ],
       },
       initialValue: 'gap',
-      validation: (Rule) => Rule.required(),
     },
   ],
   preview: {
@@ -532,6 +531,7 @@ export const richContentOf = [
     },
   },
   {type: 'callout'},
+  {type: 'note'},
   {type: 'imageRow'},
   {type: 'figure'},
   {type: 'divider'},
@@ -611,5 +611,47 @@ export const callout = {
   preview: {
     select: {style: 'style', color: 'color'},
     prepare: ({style, color}) => ({title: `Callout — ${style}`, subtitle: color}),
+  },
+}
+
+export const note = {
+  name: 'note',
+  title: 'Note',
+  type: 'object',
+  icon: FaMessage,
+  fields: [
+    {
+      name: 'tone',
+      title: 'Type',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Note', value: 'note'},
+          {title: 'Tip', value: 'tip'},
+          {title: 'Important', value: 'important'},
+          {title: 'Warning', value: 'warning'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'note',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'title',
+      title: 'Title (optional)',
+      type: 'string',
+      description: 'A short label that introduces the note.',
+    },
+    {
+      name: 'body',
+      title: 'Body',
+      type: 'array',
+      of: richContentOf,
+      validation: (Rule) => Rule.required(),
+    },
+  ],
+  preview: {
+    select: {title: 'title', tone: 'tone'},
+    prepare: ({title, tone}) => ({title: title || tone || 'Note', subtitle: tone}),
   },
 }

@@ -87,6 +87,14 @@ export type RichCallout = {
     body: RichContentNode[];
 };
 
+export type RichNote = {
+    _type: 'note';
+    _key: string;
+    tone: 'note' | 'tip' | 'important' | 'warning';
+    title?: string;
+    body: RichContentNode[];
+};
+
 // Code block from @sanity/code-input.
 export type RichCode = {
     _type: 'code';
@@ -165,6 +173,7 @@ export type RichContentNode =
     | RichFigure
     | RichDivider
     | RichCallout
+    | RichNote
     | RichCode
     | RichYouTube
     | RichPodcastEpisode
