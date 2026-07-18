@@ -111,6 +111,14 @@ export type RichQuote = {
     sourceUrl?: string;
 };
 
+export type RichExpandableDetails = {
+    _type: 'expandableDetails';
+    _key: string;
+    summary: string;
+    body: RichContentNode[];
+    openByDefault?: boolean;
+};
+
 // Code block from @sanity/code-input.
 export type RichCode = {
     _type: 'code';
@@ -192,6 +200,7 @@ export type RichContentNode =
     | RichNote
     | RichKeyTakeaways
     | RichQuote
+    | RichExpandableDetails
     | RichCode
     | RichYouTube
     | RichPodcastEpisode

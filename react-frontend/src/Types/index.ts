@@ -33,6 +33,7 @@ export {
     type RichNote,
     type RichKeyTakeaways,
     type RichQuote,
+    type RichExpandableDetails,
     type RichCode,
     type RichYouTube,
     type RichPodcastEpisode,

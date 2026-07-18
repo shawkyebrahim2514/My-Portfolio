@@ -8,6 +8,7 @@ import Callout from './Callout';
 import Note from './Note';
 import KeyTakeaways from './KeyTakeaways';
 import Quote from './Quote';
+import ExpandableDetails from './ExpandableDetails';
 import CodeBlock from './CodeBlock';
 import YouTube from './YouTube';
 import PodcastEpisode from './PodcastEpisode';
@@ -207,6 +208,7 @@ export const components: PortableTextComponents = {
         note: Note,
         keyTakeaways: KeyTakeaways,
         quote: Quote,
+        expandableDetails: ExpandableDetails,
         code: CodeBlock,
         youtube: YouTube,
         podcastEpisode: PodcastEpisode,

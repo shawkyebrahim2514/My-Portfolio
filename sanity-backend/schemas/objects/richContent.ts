@@ -538,6 +538,7 @@ export const richContentOf = [
   {type: 'note'},
   {type: 'keyTakeaways'},
   {type: 'quote'},
+  {type: 'expandableDetails'},
   {type: 'imageRow'},
   {type: 'figure'},
   {type: 'divider'},
@@ -711,5 +712,32 @@ export const quote = {
   preview: {
     select: {title: 'text', subtitle: 'author'},
     prepare: ({title, subtitle}) => ({title: title || 'Quote', subtitle}),
+  },
+}
+
+export const expandableDetails = {
+  name: 'expandableDetails',
+  title: 'Expandable Details',
+  type: 'object',
+  icon: FaGripLines,
+  fields: [
+    {name: 'summary', title: 'Summary', type: 'string', validation: (Rule) => Rule.required()},
+    {
+      name: 'body',
+      title: 'Details',
+      type: 'array',
+      of: richContentOf,
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'openByDefault',
+      title: 'Open by default',
+      type: 'boolean',
+      initialValue: false,
+    },
+  ],
+  preview: {
+    select: {title: 'summary'},
+    prepare: ({title}) => ({title: title || 'Expandable Details'}),
   },
 }

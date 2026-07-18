@@ -191,6 +191,22 @@ describe('RichContent — Portable Text renderer', () => {
         expect(source?.getAttribute('rel')).toBe('noopener noreferrer');
     });
 
+    it('expandable details renders a native open disclosure with its rich body', () => {
+        const c = renderValue([
+            {
+                _type: 'expandableDetails',
+                _key: key(),
+                summary: 'Implementation notes',
+                openByDefault: true,
+                body: [block([span('This remains available to readers who want more context.')])],
+            },
+        ]);
+        const details = c.querySelector('details');
+        expect(details?.open).toBe(true);
+        expect(details?.querySelector('summary')?.textContent).toContain('Implementation notes');
+        expect(details?.textContent).toContain('This remains available to readers');
+    });
+
     it('popup callout renders via MainSection (no bar element)', () => {
         const c = renderValue([
             {
