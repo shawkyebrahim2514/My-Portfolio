@@ -19,6 +19,13 @@ import {
   FaImage,
   FaListCheck,
   FaQuoteLeft,
+  FaHighlighter,
+  FaFillDrip,
+  FaAlignLeft,
+  FaAlignCenter,
+  FaAlignRight,
+  FaSquare,
+  FaArrowUpRightFromSquare,
 } from 'react-icons/fa6'
 import {HiOutlineArrowsExpand} from 'react-icons/hi'
 import {LinkPreviewInput} from '../../components/LinkPreviewInput'
@@ -484,10 +491,10 @@ export const richContentOf = [
         {title: 'Bold', value: 'strong'},
         {title: 'Italic', value: 'em'},
         {title: 'Code', value: 'code'},
-        {title: 'Highlight (secondary)', value: 'highlightSecondary'},
-        {title: 'Highlight area (base)', value: 'highlightAreaBase'},
-        {title: 'Highlight area (secondary)', value: 'highlightAreaSecondary'},
-        {title: 'Button badge', value: 'buttonBadge'},
+        {title: 'Highlight (secondary)', value: 'highlightSecondary', icon: FaHighlighter},
+        {title: 'Highlight area (base)', value: 'highlightAreaBase', icon: FaFillDrip},
+        {title: 'Highlight area (secondary)', value: 'highlightAreaSecondary', icon: FaFillDrip},
+        {title: 'Button badge', value: 'buttonBadge', icon: FaSquare},
         // Sanity's native `block` type has a fixed shape and does not
         // support arbitrary custom `fields` (e.g. a block-level
         // `textAlign` property) — attempting that throws a schema
@@ -496,15 +503,16 @@ export const richContentOf = [
         // decorators applied to every span in the block; the renderer
         // reads the mark off the block's children to align the whole
         // block (see components/PortableText block serializer).
-        {title: 'Align left', value: 'alignLeft'},
-        {title: 'Align center', value: 'alignCenter'},
-        {title: 'Align right', value: 'alignRight'},
+        {title: 'Align left', value: 'alignLeft', icon: FaAlignLeft},
+        {title: 'Align center', value: 'alignCenter', icon: FaAlignCenter},
+        {title: 'Align right', value: 'alignRight', icon: FaAlignRight},
       ],
       annotations: [
         {
           name: 'link',
           type: 'object',
           title: 'Link',
+          icon: FaLink,
           fields: [
             // Plain `string`, not Sanity's `url` type: real content
             // uses relative in-app routes too (e.g. `./contacts`),
@@ -516,6 +524,7 @@ export const richContentOf = [
           name: 'buttonLink',
           type: 'object',
           title: 'Button link',
+          icon: FaArrowUpRightFromSquare,
           fields: [
             {name: 'href', type: 'string', title: 'URL', validation: (Rule) => Rule.required()},
             {
