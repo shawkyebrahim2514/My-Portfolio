@@ -19,7 +19,7 @@ function spacer(kind: 'gap' | 'newline'): RichSpacer {
 
 function block(
     children: (RichSpan | RichSpacer)[],
-    opts: { style?: RichBlock['style']; listItem?: 'bullet'; markDefs?: RichMarkDef[] } = {},
+    opts: { style?: RichBlock['style']; listItem?: 'bullet'; markDefs?: RichMarkDef[] } = {}
 ): RichContentNode {
     return {
         _type: 'block',
@@ -142,7 +142,13 @@ describe('RichContent — Portable Text renderer', () => {
 
     it('popup callout renders via MainSection (no bar element)', () => {
         const c = renderValue([
-            { _type: 'callout', _key: key(), style: 'popup', color: 'base', body: [block([span('popup body')])] },
+            {
+                _type: 'callout',
+                _key: key(),
+                style: 'popup',
+                color: 'base',
+                body: [block([span('popup body')])],
+            },
         ]);
         expect(c.textContent).toContain('popup body');
         expect(c.querySelector('[class*="blockquote"]')).toBeNull();
@@ -151,7 +157,9 @@ describe('RichContent — Portable Text renderer', () => {
     it('buttonLink annotation on a standalone paragraph renders a real anchor with an icon (not a synthetic button)', () => {
         const c = renderValue([
             block([span('Google', ['m1'])], {
-                markDefs: [{ _type: 'buttonLink', _key: 'm1', href: 'https://google.com', icon: 'link' }],
+                markDefs: [
+                    { _type: 'buttonLink', _key: 'm1', href: 'https://google.com', icon: 'link' },
+                ],
             }),
         ]);
         const a = c.querySelector('a');
@@ -179,7 +187,11 @@ describe('RichContent — Portable Text renderer', () => {
     });
 
     it('divider renders a real semantic <hr> element', () => {
-        const c = renderValue([block([span('above')]), { _type: 'divider', _key: key() }, block([span('below')])]);
+        const c = renderValue([
+            block([span('above')]),
+            { _type: 'divider', _key: key() },
+            block([span('below')]),
+        ]);
         expect(c.querySelector('hr')).not.toBeNull();
     });
 
@@ -193,7 +205,10 @@ describe('RichContent — Portable Text renderer', () => {
                     {
                         _type: 'image',
                         _key: key(),
-                        asset: { _type: 'reference', _ref: 'image-abc123def456abc123def456abc123def456ab-100x80-png' },
+                        asset: {
+                            _type: 'reference',
+                            _ref: 'image-abc123def456abc123def456abc123def456ab-100x80-png',
+                        },
                         alt: 'a cat',
                         maxWidth: 100,
                         maxHeight: 80,
@@ -216,4 +231,26 @@ describe('RichContent — Portable Text renderer', () => {
         expect(frameStyle).toContain('--md-image-max-w');
         expect(frameStyle).toContain('--md-image-max-h');
     });
+
+    it('link previews render a complete external-link card', () => {
+        const c = renderValue([
+            {
+                _type: 'linkPreview',
+                _key: key(),
+                url: 'https://example.com/article',
+                title: 'Useful article',
+                description: 'A concise summary.',
+                siteName: 'Example',
+                imageUrl: 'https://example.com/cover.png',
+            },
+        ]);
+        const link = c.querySelector('a[href="https://example.com/article"]');
+        expect(link).not.toBeNull();
+        expect(link?.textContent).toContain('Useful article');
+        expect(link?.textContent).toContain('A concise summary.');
+        expect(link?.querySelector('img')?.getAttribute('src')).toBe(
+            'https://example.com/cover.png'
+        );
+    });
+
 });

@@ -119,6 +119,17 @@ export type RichReadingItem = {
     featured?: boolean;
 };
 
+export type RichLinkPreview = {
+    _type: 'linkPreview';
+    _key: string;
+    url: string;
+    title?: string;
+    description?: string;
+    imageUrl?: string;
+    siteName?: string;
+    faviconUrl?: string;
+};
+
 export type RichContentNode =
     | RichBlock
     | RichImageRow
@@ -127,4 +138,5 @@ export type RichContentNode =
     | RichCode
     | RichYouTube
     | RichPodcastEpisode
-    | RichReadingItem;
+    | RichReadingItem
+    | RichLinkPreview;
