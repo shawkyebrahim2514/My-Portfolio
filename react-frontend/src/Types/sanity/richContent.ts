@@ -38,15 +38,40 @@ export type RichImage = {
     _key: string;
     asset: { _ref: string; _type: 'reference' };
     alt: string;
+    caption?: string;
     maxWidth?: number;
     maxHeight?: number;
 };
 
+export type RichExternalImage = {
+    _type: 'externalImage';
+    _key: string;
+    url: string;
+    alt: string;
+    caption?: string;
+    maxWidth?: number;
+    maxHeight?: number;
+};
+
+export type RichMediaImage = RichImage | RichExternalImage;
+
 export type RichImageRow = {
     _type: 'imageRow';
     _key: string;
-    images: RichImage[];
+    images: RichMediaImage[];
     align?: 'left' | 'center' | 'right';
+    caption?: string;
+};
+
+export type RichFigure = {
+    _type: 'figure';
+    _key: string;
+    sourceType: 'sanity' | 'external';
+    image?: RichImage;
+    externalImage?: RichExternalImage;
+    caption?: string;
+    credit?: string;
+    creditUrl?: string;
 };
 
 export type RichDivider = {
@@ -137,6 +162,7 @@ export type RichLinkPreview = {
 export type RichContentNode =
     | RichBlock
     | RichImageRow
+    | RichFigure
     | RichDivider
     | RichCallout
     | RichCode

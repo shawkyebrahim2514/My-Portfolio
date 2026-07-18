@@ -18,7 +18,7 @@ export function urlForImage(source: SanityImageSource): string {
 // stylesheet — mirrors the old customImage remark plugin's imageFrameVars.
 export function imageFrameVars(maxWidth?: number, maxHeight?: number): React.CSSProperties {
     let width = '100%';
-    let height = '100%';
+    let height = '34rem';
     if (maxWidth && !maxHeight) {
         width = `min(100%, ${maxWidth}px)`;
     } else if (maxHeight && !maxWidth) {
@@ -39,7 +39,7 @@ export const ALIGN_MARKS = new Set(['alignLeft', 'alignCenter', 'alignRight']);
 // apply the matching text-align class to the whole block.
 export function blockAlignClass(
     children: Array<RichSpan | RichSpacer> | undefined,
-    classes: Record<string, string>,
+    classes: Record<string, string>
 ): string | undefined {
     for (const child of children ?? []) {
         if (child._type !== 'span') continue;
@@ -49,7 +49,10 @@ export function blockAlignClass(
     return undefined;
 }
 
-export function imageRowAlignClass(align: string | undefined, classes: Record<string, string>): string {
+export function imageRowAlignClass(
+    align: string | undefined,
+    classes: Record<string, string>
+): string {
     if (align === 'center') return classes.imageRowCenter;
     if (align === 'right') return classes.imageRowRight;
     return classes.imageRowLeft;

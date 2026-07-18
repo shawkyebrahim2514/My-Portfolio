@@ -16,6 +16,7 @@ import {
   FaMicrophoneLines,
   FaBookmark,
   FaLink,
+  FaImage,
 } from 'react-icons/fa6'
 import {HiOutlineArrowsExpand} from 'react-icons/hi'
 import {LinkPreviewInput} from '../../components/LinkPreviewInput'
@@ -65,6 +66,29 @@ export const divider = {
   },
 }
 
+export const externalImage = {
+  name: 'externalImage',
+  title: 'External Image URL',
+  type: 'object',
+  icon: FaImage,
+  fields: [
+    {
+      name: 'url',
+      title: 'Image URL',
+      type: 'url',
+      validation: (Rule) => Rule.required().uri({scheme: ['http', 'https']}),
+    },
+    {name: 'alt', title: 'Alt text', type: 'string', validation: (Rule) => Rule.required()},
+    {name: 'caption', title: 'Caption (optional)', type: 'string'},
+    {name: 'maxWidth', title: 'Max width (px)', type: 'number'},
+    {name: 'maxHeight', title: 'Max height (px)', type: 'number'},
+  ],
+  preview: {
+    select: {title: 'alt', subtitle: 'url'},
+    prepare: ({title, subtitle}) => ({title: title || 'External image', subtitle}),
+  },
+}
+
 // Block-level object. Replaces the `![alt](url =WxH|align)` image DSL with
 // an explicit, authorable list of images instead of relying on markdown
 // image adjacency to infer a "row".
@@ -83,10 +107,12 @@ export const imageRow = {
           type: 'image',
           fields: [
             {name: 'alt', title: 'Alt text', type: 'string', validation: (Rule) => Rule.required()},
+            {name: 'caption', title: 'Caption (optional)', type: 'string'},
             {name: 'maxWidth', title: 'Max width (px)', type: 'number'},
             {name: 'maxHeight', title: 'Max height (px)', type: 'number'},
           ],
         },
+        {type: 'externalImage'},
       ],
       validation: (Rule) => Rule.min(1).required(),
     },
@@ -97,6 +123,7 @@ export const imageRow = {
       options: {list: ['left', 'center', 'right']},
       initialValue: 'center',
     },
+    {name: 'caption', title: 'Overall caption (optional)', type: 'string'},
   ],
   preview: {
     select: {images: 'images', align: 'align'},
@@ -104,6 +131,66 @@ export const imageRow = {
       title: `Image row (${images?.length ?? 0}) — ${align ?? 'center'}`,
       media: images?.[0],
     }),
+  },
+}
+
+// One primary visual with a detailed caption and source credit. Use Image Row
+// when several visuals are intended to be compared together.
+export const figure = {
+  name: 'figure',
+  title: 'Figure',
+  type: 'object',
+  icon: FaImage,
+  fields: [
+    {
+      name: 'sourceType',
+      title: 'Image source',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Upload to Sanity', value: 'sanity'},
+          {title: 'External image URL', value: 'external'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'sanity',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'image',
+      title: 'Image',
+      type: 'image',
+      hidden: ({parent}) => parent?.sourceType === 'external',
+      fields: [
+        {name: 'alt', title: 'Alt text', type: 'string', validation: (Rule) => Rule.required()},
+      ],
+      validation: (Rule) =>
+        Rule.custom((value, context) =>
+          context.parent?.sourceType === 'sanity' && !value ? 'Upload an image' : true,
+        ),
+    },
+    {
+      name: 'externalImage',
+      title: 'External image',
+      type: 'externalImage',
+      hidden: ({parent}) => parent?.sourceType !== 'external',
+      validation: (Rule) =>
+        Rule.custom((value, context) =>
+          context.parent?.sourceType === 'external' && !value ? 'Add an external image URL' : true,
+        ),
+    },
+    {name: 'caption', title: 'Caption (optional)', type: 'text', rows: 2},
+    {name: 'credit', title: 'Credit (optional)', type: 'string'},
+    {
+      name: 'creditUrl',
+      title: 'Credit / source URL (optional)',
+      type: 'url',
+      validation: (Rule) => Rule.uri({scheme: ['http', 'https']}),
+    },
+  ],
+  preview: {
+    select: {caption: 'caption', image: 'image'},
+    prepare: ({caption, image}) => ({title: caption || 'Figure', media: image}),
   },
 }
 
@@ -446,6 +533,7 @@ export const richContentOf = [
   },
   {type: 'callout'},
   {type: 'imageRow'},
+  {type: 'figure'},
   {type: 'divider'},
   {type: 'youtube'},
   {type: 'podcastEpisode'},

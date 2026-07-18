@@ -11,7 +11,9 @@ import {portfolio} from './portfolio'
 import {
   spacer,
   divider,
+  externalImage,
   imageRow,
+  figure,
   callout,
   youtube,
   podcastEpisode,
@@ -37,7 +39,9 @@ export const schemaTypes = [
   // Rich-content object types (Portable Text) used by description fields.
   spacer,
   divider,
+  externalImage,
   imageRow,
+  figure,
   callout,
   youtube,
   podcastEpisode,

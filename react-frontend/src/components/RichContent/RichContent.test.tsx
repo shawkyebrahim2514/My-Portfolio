@@ -232,6 +232,54 @@ describe('RichContent — Portable Text renderer', () => {
         expect(frameStyle).toContain('--md-image-max-h');
     });
 
+    it('imageRow supports an external image URL with an accessible caption', () => {
+        const c = renderValue([
+            {
+                _type: 'imageRow',
+                _key: key(),
+                images: [
+                    {
+                        _type: 'externalImage',
+                        _key: key(),
+                        url: 'https://example.com/diagram.png',
+                        alt: 'System architecture diagram',
+                        caption: 'Request flow',
+                    },
+                ],
+                caption: 'Architecture overview',
+            },
+        ]);
+        const image = c.querySelector('img');
+        expect(image?.getAttribute('src')).toBe('https://example.com/diagram.png');
+        expect(image?.getAttribute('alt')).toBe('System architecture diagram');
+        expect(c.textContent).toContain('Request flow');
+        expect(c.textContent).toContain('Architecture overview');
+    });
+
+    it('figure renders an external image with its caption and credit', () => {
+        const c = renderValue([
+            {
+                _type: 'figure',
+                _key: key(),
+                sourceType: 'external',
+                externalImage: {
+                    _type: 'externalImage',
+                    _key: key(),
+                    url: 'https://example.com/chart.png',
+                    alt: 'A performance chart',
+                },
+                caption: 'Cold-start time after the optimization.',
+                credit: 'Internal benchmark',
+                creditUrl: 'https://example.com/benchmark',
+            },
+        ]);
+        const image = c.querySelector('img');
+        expect(image?.getAttribute('src')).toBe('https://example.com/chart.png');
+        expect(image?.getAttribute('alt')).toBe('A performance chart');
+        expect(c.textContent).toContain('Cold-start time after the optimization.');
+        expect(c.querySelector('a[href="https://example.com/benchmark"]')).not.toBeNull();
+    });
+
     it('link previews render a complete external-link card', () => {
         const c = renderValue([
             {
@@ -252,5 +300,4 @@ describe('RichContent — Portable Text renderer', () => {
             'https://example.com/cover.png'
         );
     });
-
 });

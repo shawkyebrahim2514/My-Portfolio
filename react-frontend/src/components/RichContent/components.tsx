@@ -10,6 +10,7 @@ import YouTube from './YouTube';
 import PodcastEpisode from './PodcastEpisode';
 import ReadingItem from './ReadingItem';
 import LinkPreview from './LinkPreview';
+import Figure from './Figure';
 import SplitText from '../SplitText';
 import { cx } from '../../utils/cx';
 import type { RichBlock, RichMarkDef, RichSpan } from '../../Types';
@@ -198,6 +199,7 @@ export const components: PortableTextComponents = {
     },
     types: {
         imageRow: ImageRow,
+        figure: Figure,
         callout: Callout,
         code: CodeBlock,
         youtube: YouTube,
