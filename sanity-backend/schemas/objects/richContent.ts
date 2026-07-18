@@ -18,6 +18,7 @@ import {
   FaLink,
   FaImage,
   FaListCheck,
+  FaQuoteLeft,
 } from 'react-icons/fa6'
 import {HiOutlineArrowsExpand} from 'react-icons/hi'
 import {LinkPreviewInput} from '../../components/LinkPreviewInput'
@@ -536,6 +537,7 @@ export const richContentOf = [
   {type: 'callout'},
   {type: 'note'},
   {type: 'keyTakeaways'},
+  {type: 'quote'},
   {type: 'imageRow'},
   {type: 'figure'},
   {type: 'divider'},
@@ -687,5 +689,27 @@ export const keyTakeaways = {
       title: title || 'Key Takeaways',
       subtitle: `${items?.length ?? 0} item${items?.length === 1 ? '' : 's'}`,
     }),
+  },
+}
+
+export const quote = {
+  name: 'quote',
+  title: 'Quote / Citation',
+  type: 'object',
+  icon: FaQuoteLeft,
+  fields: [
+    {name: 'text', title: 'Quote', type: 'text', rows: 4, validation: (Rule) => Rule.required()},
+    {name: 'author', title: 'Author or speaker (optional)', type: 'string'},
+    {name: 'source', title: 'Publication or context (optional)', type: 'string'},
+    {
+      name: 'sourceUrl',
+      title: 'Source URL (optional)',
+      type: 'url',
+      validation: (Rule) => Rule.uri({scheme: ['http', 'https']}),
+    },
+  ],
+  preview: {
+    select: {title: 'text', subtitle: 'author'},
+    prepare: ({title, subtitle}) => ({title: title || 'Quote', subtitle}),
   },
 }

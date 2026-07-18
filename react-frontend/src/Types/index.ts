@@ -32,6 +32,7 @@ export {
     type RichCallout,
     type RichNote,
     type RichKeyTakeaways,
+    type RichQuote,
     type RichCode,
     type RichYouTube,
     type RichPodcastEpisode,

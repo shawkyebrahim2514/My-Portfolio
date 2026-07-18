@@ -174,6 +174,23 @@ describe('RichContent — Portable Text renderer', () => {
         expect(c.textContent).toContain('Keep the authoring flow focused.');
     });
 
+    it('quote renders its attribution with a safe source link', () => {
+        const c = renderValue([
+            {
+                _type: 'quote',
+                _key: key(),
+                text: 'Simplicity is prerequisite for reliability.',
+                author: 'Edsger W. Dijkstra',
+                source: 'EWD 498',
+                sourceUrl: 'https://www.cs.utexas.edu/~EWD/transcriptions/EWD04xx/EWD498.html',
+            },
+        ]);
+        expect(c.querySelector('blockquote')?.textContent).toContain('Simplicity is prerequisite');
+        const source = c.querySelector('a[href*="EWD498.html"]');
+        expect(source?.getAttribute('target')).toBe('_blank');
+        expect(source?.getAttribute('rel')).toBe('noopener noreferrer');
+    });
+
     it('popup callout renders via MainSection (no bar element)', () => {
         const c = renderValue([
             {

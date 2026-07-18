@@ -7,6 +7,7 @@ import ImageRow from './ImageRow';
 import Callout from './Callout';
 import Note from './Note';
 import KeyTakeaways from './KeyTakeaways';
+import Quote from './Quote';
 import CodeBlock from './CodeBlock';
 import YouTube from './YouTube';
 import PodcastEpisode from './PodcastEpisode';
@@ -205,6 +206,7 @@ export const components: PortableTextComponents = {
         callout: Callout,
         note: Note,
         keyTakeaways: KeyTakeaways,
+        quote: Quote,
         code: CodeBlock,
         youtube: YouTube,
         podcastEpisode: PodcastEpisode,

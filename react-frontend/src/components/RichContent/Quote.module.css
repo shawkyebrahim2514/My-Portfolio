@@ -1,0 +1,63 @@
+.quote {
+    position: relative;
+    width: min(100%, 44rem);
+    margin: var(--space-5) auto;
+    padding: var(--space-4) var(--space-4) var(--space-4) var(--space-5);
+    border-inline-start: 4px solid var(--entry-accent, var(--color-secondary-600));
+    border-radius: 0 var(--radius) var(--radius) 0;
+    background: color-mix(
+        in srgb,
+        var(--entry-accent, var(--color-secondary-600)) 7%,
+        var(--color-base-0)
+    );
+    box-shadow: 0 8px 24px rgb(0 0 0 / 0.06);
+}
+
+.mark {
+    position: absolute;
+    top: var(--space-3);
+    inset-inline-start: var(--space-3);
+    color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-600)) 35%, transparent);
+    font-size: 1.6rem;
+}
+
+.quote .text {
+    margin: 0;
+    padding-inline-start: var(--space-3);
+    color: var(--color-base-900);
+    font-size: var(--font-size-lg);
+    font-style: italic;
+    line-height: 1.6;
+}
+
+.citation {
+    margin-top: var(--space-3);
+    padding-inline-start: var(--space-3);
+    color: var(--color-base-600);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+}
+
+.citation::before {
+    content: '- ';
+}
+
+.citation a {
+    color: var(--entry-accent, var(--color-secondary-700));
+}
+
+.citation svg {
+    font-size: 0.7em;
+}
+
+@media (max-width: 540px) {
+    .quote {
+        margin: var(--space-4) 0;
+        padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+    }
+
+    .quote .text,
+    .citation {
+        padding-inline-start: var(--space-2);
+    }
+}

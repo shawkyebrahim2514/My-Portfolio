@@ -102,6 +102,15 @@ export type RichKeyTakeaways = {
     items: string[];
 };
 
+export type RichQuote = {
+    _type: 'quote';
+    _key: string;
+    text: string;
+    author?: string;
+    source?: string;
+    sourceUrl?: string;
+};
+
 // Code block from @sanity/code-input.
 export type RichCode = {
     _type: 'code';
@@ -182,6 +191,7 @@ export type RichContentNode =
     | RichCallout
     | RichNote
     | RichKeyTakeaways
+    | RichQuote
     | RichCode
     | RichYouTube
     | RichPodcastEpisode
