@@ -1,3 +1,35 @@
+# Sanity Studio
+
+Content studio for the portfolio and Hub. The Studio runs locally at
+<http://localhost:3333> and is deployed at
+<https://portfolio.sanity.studio>.
+
+## Local development
+
+```bash
+npm install
+npm run dev
+```
+
+The rich-content editor includes Callouts, semantic Notes, uploaded/external
+Image Rows, Figures, Link Previews, Reading Items, Key Takeaways,
+Quote/Citations, and Expandable Details.
+
+Automatic URL metadata uses the frontend's Vercel function. For local testing,
+run `npx vercel dev` from `react-frontend`; Studio automatically calls
+`http://localhost:3000/api/link-preview`.
+
+## Deployment
+
+Set the public Studio build variable shown in `.env.example`, then deploy:
+
+```bash
+npm run deploy
+```
+
+The frontend Vercel project must also define the server-only
+`SANITY_STUDIO_ORIGIN` variable shown in `react-frontend/.env.example`.
+
 ## Structure of Sanity Backend Documents
 
 >Portfolio Document Structure
@@ -185,4 +217,3 @@ contacts: Document{
 ```
 
 ![Portfolio Diagrams](https://github.com/shawkyebrahim2514/My-Portfolio/assets/101745968/821b2239-437a-42c3-90b0-dc13435edde7)
-
