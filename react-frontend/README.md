@@ -90,16 +90,44 @@ paragraphs/headings/bullet lists:
 - **Callout** — a nested rich-text block with `style` (`highlight` /
   `popup` / `plain`) and `color` (`base` / `secondary`) fields; its `body`
   supports the same full rich-content toolset, including a nested callout.
-- **Image row** — one or more images with optional per-image max
-  width/height and a row-level alignment (`left` / `center` / `right`).
+- **Note** — a semantic Note, Tip, Important, or Warning with an optional
+  title and rich-text body.
+- **Image row** — one or more uploaded or external-URL images with alt text,
+  optional captions/dimensions, and row-level alignment.
+- **Figure** — one primary uploaded or external image with alt text,
+  caption, and optional credited source.
+- **Link preview** — resolves and stores title, description, publisher,
+  thumbnail, and favicon metadata from a pasted URL.
+- **Reading item** — an enriched reading recommendation with metadata,
+  author/date/type fields, and an optional note.
+- **Key Takeaways** — a heading plus one to six concise checklist items.
+- **Quote / Citation** — quotation text with optional speaker, context, and
+  source URL.
+- **Expandable Details** — a native disclosure with a summary, rich body,
+  and optional initially-open state.
+- **YouTube video** and **Podcast episode** — rich media embeds.
 - **Divider** — a plain horizontal rule.
-- **Spacer** (inline) — a `gap` (inline horizontal space) or `newline`
-  (line break) placed between text spans.
+
+Legacy inline Spacer values remain renderable for migrated content, but Spacer
+is hidden from new authoring. Use normal paragraphs and layout blocks instead.
+
+### Link-preview configuration
+
+The Studio resolves pasted URLs through the Vercel function at
+`api/link-preview.ts`. Local metadata testing requires `npx vercel dev`; a
+normal `npm run dev` does not serve the function.
+
+- Set the server-only Vercel variable `SANITY_STUDIO_ORIGIN` to the deployed
+  Studio origin.
+- Set the Studio build variable `SANITY_STUDIO_LINK_PREVIEW_ENDPOINT` to the
+  canonical production `/api/link-preview` URL before deploying Studio.
+
+See both workspace `.env.example` files for the current values.
 
 ### Headings & lists
 
-Standard block styles (`H1`–`H6`, `Normal`) and a bulleted list style are
-available from the block-style dropdown, same as any Portable Text editor.
+Standard block styles (`H1`–`H6`, `Normal`) plus bulleted and numbered lists
+are available from the editor toolbar.
 
 ### Example
 
