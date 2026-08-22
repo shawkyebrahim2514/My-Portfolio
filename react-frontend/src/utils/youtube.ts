@@ -1,4 +1,4 @@
-import type { RichContentNode, RichYouTube } from '../Types';
+import type { RichContentNode, RichCuratedVideo, RichYouTube } from '../Types';
 
 // Extracts an 11-char video ID from any common YouTube URL form:
 // watch?v=…, youtu.be/…, /embed/…, /shorts/…, /live/….
@@ -29,7 +29,7 @@ type OEmbedResponse = {
 // detail +data loader — runs in Node, so no CORS and no API key. On any
 // failure the block still has videoId + a fallback thumbnail, so the card
 // degrades gracefully to thumbnail + play + caption.
-async function enrichBlock(node: RichYouTube): Promise<void> {
+async function enrichBlock(node: RichYouTube | RichCuratedVideo): Promise<void> {
     const videoId = extractYouTubeId(node.url);
     if (!videoId) return;
     node.videoId = videoId;
@@ -49,7 +49,7 @@ async function enrichBlock(node: RichYouTube): Promise<void> {
     }
 }
 
-// Walks a Portable Text body (recursing into callout bodies) and enriches
+// Walks a Portable Text body (including nested rich bodies) and enriches
 // every YouTube block. Mutates in place and returns the same array for
 // convenience. Safe to call on any body — a no-op when there are no videos.
 export async function enrichYouTubeBlocks(body: RichContentNode[]): Promise<RichContentNode[]> {
@@ -58,7 +58,17 @@ export async function enrichYouTubeBlocks(body: RichContentNode[]): Promise<Rich
     for (const node of body) {
         if (node._type === 'youtube') {
             tasks.push(enrichBlock(node as RichYouTube));
-        } else if (node._type === 'callout' && Array.isArray(node.body)) {
+        } else if (node._type === 'curatedVideo') {
+            tasks.push(enrichBlock(node));
+            if (Array.isArray(node.companionContent)) {
+                tasks.push(enrichYouTubeBlocks(node.companionContent).then(() => undefined));
+            }
+        } else if (
+            (node._type === 'callout' ||
+                node._type === 'note' ||
+                node._type === 'expandableDetails') &&
+            Array.isArray(node.body)
+        ) {
             tasks.push(enrichYouTubeBlocks(node.body).then(() => undefined));
         }
     }

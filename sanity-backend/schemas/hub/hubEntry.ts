@@ -1,13 +1,11 @@
 import { BsShare } from 'react-icons/bs'
 import { richContentOf } from '../objects/richContent'
 import { makeIsUniqueSlug } from './utilities'
+import {ChannelInput} from '../../components/ChannelInput'
 
-// The single content type behind the whole Hub feature. Rather than a
-// separate schema per content kind (article/video/podcast/read/book), one
-// `hubEntry` document covers all of them via the `kind` discriminator, with
-// kind-specific fields (source/external link/thumbnail) shown conditionally.
-// This keeps the taxonomy, featured/publish flow, and querying uniform
-// across every kind of thing being shared.
+// The single document shell behind the Hub. Taxonomy and publishing fields
+// stay shared, while kinds with distinct semantics keep their own nested
+// object instead of scattering conditional fields across the document.
 const KIND_OPTIONS = [
     { title: 'Article (written on the Hub)', value: 'article' },
     { title: 'Channel (a channel you follow + its videos)', value: 'channel' },
@@ -15,11 +13,6 @@ const KIND_OPTIONS = [
     { title: 'Reading List (articles read elsewhere)', value: 'read' },
 ]
 
-// Only a `channel` entry points at a single off-site source (the channel page)
-// and so needs a source name + external link. Podcasts carry their own
-// `platforms` links, reading lists keep their links inside body `readingItem`
-// blocks, and articles are written natively — none of those want a single
-// External URL / Source Name.
 const isChannel = (kind?: string) => kind === 'channel'
 
 export const hubEntry = {
@@ -27,17 +20,24 @@ export const hubEntry = {
     type: 'document',
     title: 'Hub Entry',
     icon: BsShare,
+    groups: [
+        {name: 'content', title: 'Content', default: true},
+        {name: 'organization', title: 'Organization'},
+        {name: 'publishing', title: 'Publishing'},
+    ],
     fields: [
         {
             name: 'title',
             type: 'string',
             title: 'Title',
+            group: 'content',
             validation: Rule => Rule.required(),
         },
         {
             name: 'slug',
             type: 'slug',
             title: 'Slug',
+            group: 'content',
             description: 'Used in the entry URL: /hub/<slug>.',
             options: {
                 source: 'title',
@@ -50,6 +50,7 @@ export const hubEntry = {
             name: 'kind',
             type: 'string',
             title: 'Kind',
+            group: 'content',
             options: { list: KIND_OPTIONS, layout: 'radio' },
             initialValue: 'article',
             validation: Rule => Rule.required(),
@@ -58,6 +59,7 @@ export const hubEntry = {
             name: 'accent',
             type: 'color',
             title: 'Accent Color',
+            group: 'organization',
             description:
                 'Optional. A single base color for THIS entry — the whole page (navbar, headings, badges, progress ring, ambient effects) is themed from it. A full light-to-dark palette is generated from this one color. Leave empty to use the default color for the entry kind (e.g. violet for podcasts, red for channels).',
             options: { disableAlpha: true },
@@ -66,6 +68,7 @@ export const hubEntry = {
             name: 'language',
             type: 'string',
             title: 'Content Language',
+            group: 'organization',
             description:
                 'Controls text direction and typography on the entry: English renders left-to-right, Arabic renders right-to-left (RTL) with an Arabic font.',
             options: {
@@ -82,6 +85,7 @@ export const hubEntry = {
             name: 'categories',
             type: 'array',
             title: 'Categories',
+            group: 'organization',
             of: [{ type: 'reference', to: [{ type: 'hubCategory' }] }],
             validation: Rule => Rule.min(1).unique().required(),
         },
@@ -89,6 +93,7 @@ export const hubEntry = {
             name: 'tags',
             type: 'array',
             title: 'Tags',
+            group: 'organization',
             of: [{ type: 'string' }],
             options: { layout: 'tags' },
         },
@@ -96,7 +101,9 @@ export const hubEntry = {
             name: 'excerpt',
             type: 'text',
             title: 'Excerpt',
-            description: 'Short summary shown on cards and used as the meta description.',
+            group: 'content',
+            description:
+                'Your short editorial summary shown on cards and used as the meta description. For Channels, explain why you recommend following it rather than copying the official channel bio.',
             rows: 3,
             validation: Rule => Rule.required().max(220),
         },
@@ -104,37 +111,162 @@ export const hubEntry = {
             name: 'coverImage',
             type: 'image',
             title: 'Cover Image',
-            description:
-                'Optional — falls back to the Source Thumbnail (e.g. an auto-derived YouTube thumbnail) if left empty.',
+            group: 'content',
+            description: 'Optional cover artwork for articles, podcasts, and reading lists.',
             options: { hotspot: true },
+            hidden: ({parent}) => isChannel(parent?.kind),
         },
         {
-            name: 'sourceName',
-            type: 'string',
-            title: 'Source Name',
-            description:
-                'Who/what this was originally published by, e.g. the platform for a Channel ("YouTube").',
-            hidden: ({ parent }) => !isChannel(parent?.kind),
+            name: 'channel',
+            type: 'object',
+            title: 'Channel',
+            group: 'content',
+            description: 'Channel identity, destination, artwork, and rich authored content.',
+            hidden: ({parent}) => !isChannel(parent?.kind),
+            components: {input: ChannelInput},
             validation: Rule =>
                 Rule.custom((value, context) => {
-                    const parent = context.parent as { kind?: string }
-                    if (isChannel(parent?.kind) && !value) return 'Required for channel entries'
+                    const document = context.document as {kind?: string}
+                    if (isChannel(document?.kind) && !value) {
+                        return 'Channel details are required for channel entries'
+                    }
                     return true
                 }),
-        },
-        {
-            name: 'channelHandle',
-            type: 'string',
-            title: 'Channel Handle',
-            description: 'Optional @handle shown in the channel header, e.g. "@fireship".',
-            hidden: ({ parent }) => parent?.kind !== 'channel',
+            fields: [
+                {
+                    name: 'platform',
+                    title: 'Platform',
+                    type: 'string',
+                    options: {
+                        list: [
+                            {title: 'YouTube', value: 'youtube'},
+                            {title: 'Vimeo', value: 'vimeo'},
+                            {title: 'Twitch', value: 'twitch'},
+                            {title: 'Other website', value: 'website'},
+                        ],
+                        layout: 'radio',
+                    },
+                    initialValue: 'youtube',
+                    validation: Rule => Rule.required(),
+                },
+                {
+                    name: 'url',
+                    title: 'Channel URL',
+                    type: 'url',
+                    description: 'Canonical public URL visitors should open.',
+                    validation: Rule => Rule.required().uri({scheme: ['http', 'https']}),
+                },
+                {
+                    name: 'name',
+                    title: 'Official Channel Name',
+                    type: 'string',
+                    description:
+                        'The provider-facing channel name. You can keep the Hub entry title more editorial if needed.',
+                    validation: Rule => Rule.required(),
+                },
+                {
+                    name: 'channelId',
+                    title: 'Platform Channel ID (optional)',
+                    type: 'string',
+                    description:
+                        'Stable provider identifier, such as a YouTube UC… channel ID. Useful when a handle changes.',
+                },
+                {
+                    name: 'handle',
+                    title: 'Handle (optional)',
+                    type: 'string',
+                    description: 'Public handle shown in the header, e.g. @fireship.',
+                    validation: Rule =>
+                        Rule.custom((value: string | undefined) =>
+                            !value || value.startsWith('@') ? true : 'Start the handle with @'
+                        ),
+                },
+                {
+                    name: 'avatar',
+                    title: 'Channel Avatar URL',
+                    type: 'url',
+                    description: 'Remote provider image URL. YouTube metadata refresh fills this automatically.',
+                    validation: Rule => Rule.uri({scheme: ['http', 'https']}),
+                },
+                {
+                    name: 'body',
+                    title: 'Channel Body',
+                    type: 'array',
+                    description:
+                        'A rich, ordered canvas for your introduction, Curated Videos, expandable notes, takeaways, quotes, links, figures, code, and other supporting content.',
+                    of: richContentOf,
+                    validation: Rule =>
+                        Rule.custom((value: {_type?: string; featured?: boolean}[] | undefined) => {
+                            if (!value) return true
+                            if (value.some(block => block?._type === 'youtube')) {
+                                return 'Move ordinary YouTube videos to the More Videos field below'
+                            }
+                            const curatedVideos = value.filter(block => block?._type === 'curatedVideo')
+                            if (curatedVideos.filter(video => video.featured).length > 1) {
+                                return 'Only one Curated Video can be featured'
+                            }
+                            return true
+                        }),
+                },
+                {
+                    name: 'moreVideos',
+                    title: 'More Videos',
+                    type: 'array',
+                    description:
+                        'Additional recommendations rendered together as one responsive grid at the end of the Channel page.',
+                    of: [
+                        {
+                            name: 'channelVideo',
+                            title: 'Video',
+                            type: 'object',
+                            fields: [
+                                {
+                                    name: 'url',
+                                    title: 'YouTube URL',
+                                    type: 'url',
+                                    validation: Rule =>
+                                        Rule.required()
+                                            .uri({scheme: ['http', 'https']})
+                                            .custom((value: string | undefined) =>
+                                                !value || /(?:youtube\.com|youtu\.be)/.test(value)
+                                                    ? true
+                                                    : 'Must be a YouTube URL'
+                                            ),
+                                },
+                                {
+                                    name: 'caption',
+                                    title: 'Why it is worth watching (optional)',
+                                    type: 'text',
+                                    rows: 2,
+                                    validation: Rule => Rule.max(280),
+                                },
+                            ],
+                            preview: {
+                                select: {title: 'caption', subtitle: 'url'},
+                                prepare: ({title, subtitle}) => ({
+                                    title: title || 'YouTube Video',
+                                    subtitle,
+                                }),
+                            },
+                        },
+                    ],
+                    validation: Rule =>
+                        Rule.unique().custom((value: {url?: string}[] | undefined) => {
+                            const urls = (value ?? []).map(video => video.url).filter(Boolean)
+                            return new Set(urls).size === urls.length
+                                ? true
+                                : 'Each video URL can only be added once'
+                        }),
+                },
+            ],
         },
         {
             name: 'platforms',
             type: 'array',
             title: 'Listen On',
+            group: 'content',
             description: 'Platform links shown as brand pills in the podcast header (Spotify, Apple, YouTube, etc.).',
-            hidden: ({ parent }) => parent?.kind !== 'podcast',
+            hidden: ({parent}) => parent?.kind !== 'podcast',
             validation: Rule =>
                 Rule.custom((value: unknown[] | undefined, context) => {
                     const parent = context.parent as { kind?: string }
@@ -179,40 +311,22 @@ export const hubEntry = {
             ],
         },
         {
-            name: 'sourceThumbnail',
-            type: 'url',
-            title: 'Source Thumbnail URL',
-            description:
-                'Fallback image URL when no Cover Image is uploaded, e.g. https://img.youtube.com/vi/<id>/hqdefault.jpg.',
-            hidden: ({ parent }) => !isChannel(parent?.kind),
-            validation: Rule => Rule.uri({ scheme: ['http', 'https'] }),
-        },
-        {
-            name: 'externalUrl',
-            type: 'url',
-            title: 'External URL',
-            description: 'Link to the channel page.',
-            hidden: ({ parent }) => !isChannel(parent?.kind),
-            validation: Rule =>
-                Rule.uri({ scheme: ['http', 'https'] }).custom((value, context) => {
-                    const parent = context.parent as { kind?: string }
-                    if (isChannel(parent?.kind) && !value) return 'Required for channel entries'
-                    return true
-                }),
-        },
-        {
             name: 'durationLabel',
             type: 'string',
             title: 'Duration / Reading Time',
+            group: 'content',
             description: 'Freeform label, e.g. "5 min read", "42 min episode", "3 hr audiobook".',
+            hidden: ({parent}) => isChannel(parent?.kind),
         },
         {
             name: 'body',
             type: 'array',
             title: 'Body / Your Notes',
+            group: 'content',
             description:
-                'Full write-up for native articles, or your personal notes/take when sharing external content.',
+                'Full write-up for articles, podcasts, and reading lists. Channels use the rich body inside Channel details.',
             of: richContentOf,
+            hidden: ({parent}) => isChannel(parent?.kind),
             validation: Rule =>
                 Rule.custom((value: { _type?: string }[] | undefined, context) => {
                     const parent = context.parent as { kind?: string }
@@ -230,6 +344,7 @@ export const hubEntry = {
             name: 'publishedAt',
             type: 'datetime',
             title: 'Published At',
+            group: 'publishing',
             initialValue: () => new Date().toISOString(),
             validation: Rule => Rule.required(),
         },
@@ -237,12 +352,14 @@ export const hubEntry = {
             name: 'featured',
             type: 'boolean',
             title: 'Featured on Hub index',
+            group: 'publishing',
             initialValue: false,
         },
         {
             name: 'featuredInCategory',
             type: 'boolean',
             title: "Editor's pick within its category",
+            group: 'publishing',
             description:
                 'Highlights this entry as a pick on its detail page (shows an "Editor\'s pick" badge). Independent of the global Hub-index feature flag above.',
             initialValue: false,
@@ -251,6 +368,7 @@ export const hubEntry = {
             name: 'hiddenInProduction',
             type: 'boolean',
             title: 'Hide from production (preview-only)',
+            group: 'publishing',
             description:
                 'When ON, this entry is hidden from every listing on the live site (Hub index, categories, About teaser, recommendations). It stays fully visible in local development, and can be revealed on the live site by adding ?preview=1 to any URL. Use this to keep reference/dummy entries around without showing them to visitors.',
             initialValue: false,
@@ -264,8 +382,13 @@ export const hubEntry = {
         },
     ],
     preview: {
-        select: { title: 'title', kind: 'kind', media: 'coverImage', hidden: 'hiddenInProduction' },
-        prepare: ({ title, kind, media, hidden }) => ({
+        select: {
+            title: 'title',
+            kind: 'kind',
+            media: 'coverImage',
+            hidden: 'hiddenInProduction',
+        },
+        prepare: ({title, kind, media, hidden}) => ({
             title: hidden ? `🔒 ${title}` : title,
             subtitle: hidden ? `${kind} · hidden in production` : kind,
             media,

@@ -16,7 +16,6 @@ import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import Text from '../../components/Text';
 import ListButtons from '../../components/ListButtons';
 import RichContent from '../../components/RichContent';
-import StarBorder from '../../components/StarBorder';
 import PodcastEpisode from '../../components/RichContent/PodcastEpisode';
 import YouTube from '../../components/RichContent/YouTube';
 import ReadingItem from '../../components/RichContent/ReadingItem';
@@ -32,7 +31,6 @@ import type {
     HubPlatformLink,
     RichContentNode,
     RichPodcastEpisode,
-    RichYouTube,
     RichReadingItem,
 } from '../../Types';
 import styles from './EntryDetail.module.css';
@@ -53,6 +51,13 @@ const PLATFORM_META: Record<HubPlatformLink['platform'], { icon: IconDefinition;
     rss: { icon: faRss, label: 'RSS' },
     website: { icon: faGlobe, label: 'Website' },
 };
+
+const CHANNEL_PLATFORM_LABEL = {
+    youtube: 'YouTube',
+    vimeo: 'Vimeo',
+    twitch: 'Twitch',
+    website: 'Website',
+} as const;
 
 function formatDate(iso: string, language: HubContentLanguage) {
     const locale = language === 'ar' ? 'ar' : undefined;
@@ -77,11 +82,8 @@ function EntryDetail(entry: SanityHubEntry) {
         kind,
         excerpt,
         coverImage,
-        sourceThumbnail,
-        sourceName,
-        channelHandle,
+        channel,
         platforms,
-        externalUrl,
         durationLabel,
         publishedAt,
         tags,
@@ -92,7 +94,7 @@ function EntryDetail(entry: SanityHubEntry) {
         language = 'en',
     } = entry;
     const { icon, label } = KIND_META[kind] ?? KIND_META.article;
-    const image = coverImage ?? sourceThumbnail;
+    const image = channel?.avatar ?? coverImage;
     const isRTL = language === 'ar';
     const isChannel = kind === 'channel';
     const isPodcast = kind === 'podcast';
@@ -121,20 +123,10 @@ function EntryDetail(entry: SanityHubEntry) {
     const readingCount = isRead
         ? (body ?? []).filter((node) => node._type === 'readingItem').length
         : 0;
-    // For channels, split the body into embedded videos (rendered in an
-    // adaptive grid below) and any other blocks (an optional intro, shown
-    // above the grid as normal rich content).
-    const channelVideos = isChannel
-        ? (body ?? []).filter((node): node is RichYouTube => node._type === 'youtube')
-        : [];
-    const channelIntro = isChannel ? (body ?? []).filter((node) => node._type !== 'youtube') : [];
-    const videoCount = channelVideos.length;
-    // Pin the first `featured` video full-width above the grid; the rest fill
-    // the adaptive grid.
-    const featuredVideo = channelVideos.find((video) => Boolean(video.featured)) ?? undefined;
-    const gridVideos = featuredVideo
-        ? channelVideos.filter((video) => video !== featuredVideo)
-        : channelVideos;
+    const videoCount = isChannel
+        ? (body ?? []).filter((node) => node._type === 'curatedVideo').length +
+          (channel?.moreVideos?.length ?? 0)
+        : 0;
 
     const hasBody = Boolean(displayBody && displayBody.length > 0);
     const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef => Boolean(category));
@@ -200,23 +192,31 @@ function EntryDetail(entry: SanityHubEntry) {
                         )}
                         <div className={styles.channelInfo}>
                             <Text variant="h1" className={styles.channelName}>
-                                {title}
+                                {channel?.name ?? title}
                             </Text>
-                            {(channelHandle || sourceName) && (
+                            {(channel?.handle || channel?.platform) && (
                                 <Text className={styles.channelMeta}>
-                                    {[channelHandle, sourceName].filter(Boolean).join(' · ')}
+                                    {channel?.handle && <bdi dir="ltr">{channel.handle}</bdi>}
+                                    {channel?.handle && channel?.platform && (
+                                        <span aria-hidden="true"> · </span>
+                                    )}
+                                    {channel?.platform && (
+                                        <bdi dir="ltr">
+                                            {CHANNEL_PLATFORM_LABEL[channel.platform]}
+                                        </bdi>
+                                    )}
                                 </Text>
                             )}
                             <Text className={styles.channelTagline}>{excerpt}</Text>
-                            {externalUrl && (
+                            {channel?.url && (
                                 <a
-                                    href={externalUrl}
+                                    href={channel.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={cx(buttonStyles.button, buttonStyles.md, buttonStyles.pointer, styles.channelCta)}
                                 >
                                     <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                                    {sourceName ? `Visit on ${sourceName}` : 'Visit channel'}
+                                    Visit on {CHANNEL_PLATFORM_LABEL[channel.platform]}
                                 </a>
                             )}
                         </div>
@@ -231,7 +231,6 @@ function EntryDetail(entry: SanityHubEntry) {
                         <Text variant="h1" className={styles.podcastName}>
                             {title}
                         </Text>
-                        {sourceName && <Text className={styles.podcastHost}>{sourceName}</Text>}
                         {excerpt && <Text className={styles.podcastTagline}>{excerpt}</Text>}
                         {resolvedPlatforms.length > 0 && (
                             <div className={styles.platforms}>
@@ -297,47 +296,25 @@ function EntryDetail(entry: SanityHubEntry) {
                 </div>
             )}
 
-            {!isChannel && !isPodcast && !isRead && externalUrl && (
-                <StarBorder>
-                    <a
-                        href={externalUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={cx(buttonStyles.button, buttonStyles.lg, buttonStyles.pointer, styles.externalLink)}
-                    >
-                        <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                        {sourceName ? `View on ${sourceName}` : 'View original source'}
-                    </a>
-                </StarBorder>
-            )}
-
             {isPodcast && featuredEpisode && <PodcastEpisode value={featuredEpisode} />}
 
-            {isChannel && channelIntro.length > 0 && <RichContent value={channelIntro} />}
+            {isChannel && body && (
+                <div className={styles.channelBody}>
+                    <RichContent value={body} />
+                </div>
+            )}
 
-            {isChannel && videoCount > 0 && (
-                <>
-                    {featuredVideo && (
-                        <div className={styles.featuredLead}>
-                            <span className={styles.featuredTag}>
-                                <FontAwesomeIcon icon={faStar} /> Featured
-                            </span>
-                            <YouTube value={featuredVideo} variant="row" />
-                        </div>
-                    )}
-                    {gridVideos.length > 0 && (
-                        <>
-                            <Text variant="h3" className={styles.channelBodyHeading}>
-                                Videos worth watching
-                            </Text>
-                            <div className={styles.videoGrid}>
-                                {gridVideos.map((video) => (
-                                    <YouTube key={video._key} value={video} variant="stack" />
-                                ))}
-                            </div>
-                        </>
-                    )}
-                </>
+            {isChannel && channel?.moreVideos && channel.moreVideos.length > 0 && (
+                <section className={styles.moreVideos} aria-labelledby="more-videos-heading">
+                    <Text variant="h3" className={styles.channelBodyHeading}>
+                        <span id="more-videos-heading">More videos</span>
+                    </Text>
+                    <div className={styles.moreVideosGrid}>
+                        {channel.moreVideos.map((video) => (
+                            <YouTube key={video._key} value={video} variant="stack" />
+                        ))}
+                    </div>
+                </section>
             )}
 
             {isPodcast && hasBody && (

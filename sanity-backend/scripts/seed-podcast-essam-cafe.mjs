@@ -37,8 +37,13 @@ const podcastEntry = {
     language: 'ar',
     excerpt:
         'بودكاست عربي بيقعد مع ناس شغّالة في التقنية والهندسة والثقافة، وبيتكلم بصراحة عن الشغل والحياة والأفكار — على قهوة.',
-    sourceName: 'بودكاست عربي',
-    sourceThumbnail: 'https://i.scdn.co/image/ab67656300005f1ff85c931441b003e6c98cb1ba',
+    coverImage: {
+        _type: 'image',
+        asset: {
+            _type: 'reference',
+            _ref: 'image-b429b90717ad4479009fa06a79590cfa6bd4f4b8-300x300-jpg',
+        },
+    },
     platforms: [
         {
             _key: key(),

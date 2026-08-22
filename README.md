@@ -96,9 +96,10 @@ npm run dev
 Sanity Studio runs at <http://localhost:3333>.
 
 Copy each workspace's `.env.example` when local overrides are needed. Ordinary
-frontend work uses `npm run dev`. To test automatic URL metadata fetching from
-Studio, run `npx vercel dev` in `react-frontend` so
-`http://localhost:3000/api/link-preview` is available.
+frontend work uses `npm run dev`. To refresh YouTube Channel metadata from a
+local Studio, run `npx vercel dev --listen 3002` in `react-frontend`; Studio
+calls `http://localhost:3002/api/youtube-channel`. The server-only
+`YOUTUBE_DATA_API_KEY` must exist in Vercel's Development environment.
 
 ## Available Scripts
 
@@ -121,7 +122,8 @@ Run these inside `react-frontend/`:
 - **Contact** — ways to get in touch.
 - **Hub** — articles, channels, podcasts, reading lists, and rich authored
   content including link previews, media galleries, figures, notes, key
-  takeaways, quotations, and expandable details.
+  takeaways, quotations, expandable details, and Curated Videos with rich
+  companion content.
 
 All content is editable through the Sanity Studio without touching code.
 

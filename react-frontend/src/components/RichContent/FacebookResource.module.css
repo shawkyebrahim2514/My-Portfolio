@@ -1,0 +1,126 @@
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+    color: inherit;
+    text-decoration: none;
+    background:
+        linear-gradient(
+            145deg,
+            color-mix(in srgb, #1877f2 7%, var(--color-base-0)),
+            var(--color-base-0) 55%,
+            var(--color-base-100)
+        );
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition:
+        transform 0.2s ease-out,
+        border-color 0.2s ease-out,
+        box-shadow 0.2s ease-out;
+}
+
+.card:hover,
+.card:focus-visible {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, #1877f2 45%, var(--color-base-200));
+    box-shadow: 0 8px 22px rgb(0 0 0 / 0.1);
+}
+
+.featured {
+    grid-column: 1 / -1;
+}
+
+.thumbnail {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    background: var(--color-base-100);
+}
+
+.content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+    padding: var(--space-3);
+    padding-inline-end: 3.25rem;
+}
+
+.meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-xs);
+}
+
+.platform {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: #1877f2;
+    font-weight: 800;
+}
+
+.type {
+    padding: 0.15rem 0.45rem;
+    color: var(--color-base-700);
+    background: var(--color-base-100);
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.title {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: var(--font-size-lg);
+    line-height: 1.3;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.creator {
+    color: var(--color-base-600);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+}
+
+.commentary {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--color-base-700);
+    font-size: var(--font-size-sm);
+    line-height: 1.55;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.icon {
+    position: absolute;
+    inset-block-start: var(--space-3);
+    inset-inline-end: var(--space-3);
+    color: #1877f2;
+}
+
+@media (min-width: 700px) {
+    .featured {
+        display: grid;
+        grid-template-columns: minmax(14rem, 36%) minmax(0, 1fr);
+    }
+
+    .featured .thumbnail {
+        height: 100%;
+        aspect-ratio: auto;
+    }
+
+    .featured .content {
+        justify-content: center;
+        min-height: 12rem;
+        padding: var(--space-5);
+        padding-inline-end: 4rem;
+    }
+}

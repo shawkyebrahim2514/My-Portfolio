@@ -24,6 +24,22 @@
         border-color 0.2s ease-out;
 }
 
+.compact {
+    height: 100%;
+    min-height: 10rem;
+    margin: 0;
+}
+
+.noImage {
+    grid-template-columns: minmax(0, 1fr) auto;
+    height: auto;
+    min-height: 7rem;
+}
+
+.noImage .content {
+    padding-inline-start: var(--space-3);
+}
+
 .card:hover,
 .card:focus-visible {
     transform: translateY(-2px);
@@ -116,7 +132,11 @@
     .icon {
         position: absolute;
         top: 11rem;
-        right: 0;
+        inset-inline-end: 0;
         margin: var(--space-3);
+    }
+
+    .noImage .icon {
+        top: 0;
     }
 }

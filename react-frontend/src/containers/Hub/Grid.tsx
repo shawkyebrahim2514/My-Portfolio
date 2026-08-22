@@ -22,7 +22,7 @@ function Grid({ entries }: GridProps) {
                     kind={entry.kind}
                     excerpt={entry.excerpt}
                     coverImage={entry.coverImage}
-                    sourceThumbnail={entry.sourceThumbnail}
+                    channelAvatar={entry.channel?.avatar}
                     durationLabel={entry.durationLabel}
                     categories={entry.categories}
                     language={entry.language}

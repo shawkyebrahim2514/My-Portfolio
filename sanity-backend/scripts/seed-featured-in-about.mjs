@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 /**
- * One-off helper: sets `featuredInAbout` (3 dummy Hub entries) on the
+ * One-off helper: sets `featuredInAbout` (real Hub entries) on the
  * embedded `aboutPage` object inside the `portfolio` singleton, so the
- * About-page "See what I share" teaser has something to render while
- * testing.
+ * About-page "See what I share" teaser points to public-ready content.
  *
  * SAFETY: refuses to run unless the resolved client's dataset is exactly
  * "staging" (pass --dataset=production --i-am-sure to override).
@@ -30,9 +29,9 @@ if (client.config().dataset !== 'staging' && !ALLOW_PRODUCTION) {
 }
 
 const FEATURED_IDS = [
-  'hubEntry-dummy-article-clean-architecture',
+  'hubEntry-reading-developer-mindset',
+  'hubEntry-podcast-essam-cafe',
   'hubEntry-channel-mataa3',
-  'hubEntry-dummy-book-atomic-habits',
 ]
 
 async function run() {

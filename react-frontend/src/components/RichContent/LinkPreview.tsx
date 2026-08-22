@@ -1,9 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare, faLink } from '@fortawesome/free-solid-svg-icons';
 import type { RichLinkPreview } from '../../Types';
+import { cx } from '../../utils/cx';
 import styles from './LinkPreview.module.css';
 
-export default function LinkPreview({ value }: { value: RichLinkPreview }) {
+type LinkPreviewProps = {
+    value: RichLinkPreview;
+    compact?: boolean;
+};
+
+export default function LinkPreview({ value, compact = false }: LinkPreviewProps) {
     const host = (() => {
         try {
             return new URL(value.url).hostname.replace(/^www\./, '');
@@ -15,11 +21,14 @@ export default function LinkPreview({ value }: { value: RichLinkPreview }) {
 
     return (
         <a
-            className={styles.card}
+            className={cx(
+                styles.card,
+                compact && styles.compact,
+                !value.imageUrl && styles.noImage
+            )}
             href={value.url}
             target="_blank"
             rel="noopener noreferrer"
-            dir="auto"
         >
             {value.imageUrl && (
                 <img className={styles.image} src={value.imageUrl} alt="" loading="lazy" />
@@ -33,9 +42,9 @@ export default function LinkPreview({ value }: { value: RichLinkPreview }) {
                     )}
                     {value.siteName ?? host}
                 </span>
-                <strong className={styles.title}>{title}</strong>
+                <strong className={styles.title} dir="auto">{title}</strong>
                 {value.description && (
-                    <span className={styles.description}>{value.description}</span>
+                    <span className={styles.description} dir="auto">{value.description}</span>
                 )}
             </span>
             <FontAwesomeIcon

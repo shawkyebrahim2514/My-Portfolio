@@ -11,10 +11,15 @@ const entrySummaryProjection = `{
     language,
     excerpt,
     "coverImage": coverImage.asset->url,
-    sourceThumbnail,
-    sourceName,
+    "channel": select(kind == "channel" => {
+        "platform": channel.platform,
+        "url": channel.url,
+        "name": channel.name,
+        "channelId": channel.channelId,
+        "handle": channel.handle,
+        "avatar": channel.avatar
+    }),
     durationLabel,
-    externalUrl,
     publishedAt,
     featured,
     featuredInCategory,
@@ -52,19 +57,29 @@ const getHubEntryBySlug = async (slug: string) => {
         language,
         excerpt,
         "coverImage": coverImage.asset->url,
-        sourceThumbnail,
-        sourceName,
+        "channel": select(kind == "channel" => {
+            "platform": channel.platform,
+            "url": channel.url,
+            "name": channel.name,
+            "channelId": channel.channelId,
+            "handle": channel.handle,
+            "avatar": channel.avatar,
+            "moreVideos": channel.moreVideos[]{
+                "_type": "youtube",
+                _key,
+                url,
+                caption
+            }
+        }),
         durationLabel,
-        externalUrl,
         publishedAt,
         featured,
         featuredInCategory,
         "accentColor": accent.hex,
         hiddenInProduction,
-        channelHandle,
         platforms,
         tags,
-        body,
+        "body": select(kind == "channel" => channel.body, body),
         "categories": categories[]->{ title, "slug": slug.current }
     }`;
     const result: SanityHubEntry = await sanityClient.fetch(query, { slug });

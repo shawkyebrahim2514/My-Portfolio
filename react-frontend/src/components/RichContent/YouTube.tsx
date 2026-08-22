@@ -52,7 +52,7 @@ function YouTube({ value, variant = 'row' }: { value: RichYouTube; variant?: 'ro
                 <Text variant="h4" className={styles.title}>
                     {title}
                 </Text>
-                {value.caption && (
+                {value.caption && value.caption !== title && (
                     <p className={styles.desc}>
                         {value.caption}
                     </p>

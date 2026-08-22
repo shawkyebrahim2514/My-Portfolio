@@ -10,7 +10,8 @@
     "build": "sanity build",
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "seed:hub:launch": "sanity exec scripts/seed-hub-launch-baseline.mjs --with-user-token"
   },
   "keywords": [
     "sanity"

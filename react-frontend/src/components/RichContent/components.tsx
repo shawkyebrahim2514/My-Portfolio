@@ -11,9 +11,11 @@ import Quote from './Quote';
 import ExpandableDetails from './ExpandableDetails';
 import CodeBlock from './CodeBlock';
 import YouTube from './YouTube';
+import CuratedVideo from './CuratedVideo';
 import PodcastEpisode from './PodcastEpisode';
 import ReadingItem from './ReadingItem';
 import LinkPreview from './LinkPreview';
+import FacebookResource from './FacebookResource';
 import Figure from './Figure';
 import SplitText from '../SplitText';
 import { cx } from '../../utils/cx';
@@ -211,9 +213,11 @@ export const components: PortableTextComponents = {
         expandableDetails: ExpandableDetails,
         code: CodeBlock,
         youtube: YouTube,
+        curatedVideo: CuratedVideo,
         podcastEpisode: PodcastEpisode,
         readingItem: ReadingItem,
         linkPreview: LinkPreview,
+        facebookResource: FacebookResource,
         divider: () => <hr className={styles.hr} />,
         spacer: ({ value }) => (
             <span className={value.kind === 'newline' ? styles.newline : styles.gap} />

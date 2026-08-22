@@ -26,6 +26,7 @@ import {
   FaAlignRight,
   FaSquare,
   FaArrowUpRightFromSquare,
+  FaFacebook,
 } from 'react-icons/fa6'
 import {HiOutlineArrowsExpand} from 'react-icons/hi'
 import {LinkPreviewInput} from '../../components/LinkPreviewInput'
@@ -456,6 +457,132 @@ export const linkPreview = {
   },
 }
 
+export const facebookResource = {
+  name: 'facebookResource',
+  title: 'Facebook Resource',
+  type: 'object',
+  icon: FaFacebook,
+  fields: [
+    {
+      name: 'url',
+      title: 'Facebook URL',
+      type: 'url',
+      description: 'A Facebook reel, video, post, photo, or article URL.',
+      validation: (Rule) =>
+        Rule.required()
+          .uri({scheme: ['http', 'https']})
+          .custom((value) => {
+            if (!value) return true
+            try {
+              const hostname = new URL(value).hostname.replace(/^www\./, '')
+              return hostname === 'facebook.com' || hostname === 'fb.watch'
+                ? true
+                : 'Must be a Facebook URL'
+            } catch {
+              return 'Must be a valid Facebook URL'
+            }
+          }),
+    },
+    {
+      name: 'resourceType',
+      title: 'Content type',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Reel', value: 'reel'},
+          {title: 'Video', value: 'video'},
+          {title: 'Post', value: 'post'},
+          {title: 'Photo', value: 'photo'},
+          {title: 'Article', value: 'article'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'post',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+      description: 'A clear editorial title; Facebook often does not expose reliable metadata.',
+      validation: (Rule) => Rule.required().max(120),
+    },
+    {
+      name: 'creator',
+      title: 'Creator or page (optional)',
+      type: 'string',
+    },
+    {
+      name: 'commentary',
+      title: 'Why you are sharing it (optional)',
+      type: 'text',
+      rows: 3,
+      validation: (Rule) => Rule.max(320),
+    },
+    {
+      name: 'thumbnailSource',
+      title: 'Thumbnail',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'No thumbnail', value: 'none'},
+          {title: 'Upload to Sanity', value: 'sanity'},
+          {title: 'Remote image URL', value: 'external'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'none',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'thumbnail',
+      title: 'Uploaded thumbnail',
+      type: 'image',
+      options: {hotspot: true},
+      hidden: ({parent}) => parent?.thumbnailSource !== 'sanity',
+      validation: (Rule) =>
+        Rule.custom((value, context) =>
+          context.parent?.thumbnailSource === 'sanity' && !value
+            ? 'Upload a thumbnail'
+            : true,
+        ),
+    },
+    {
+      name: 'thumbnailUrl',
+      title: 'Remote thumbnail URL',
+      type: 'url',
+      hidden: ({parent}) => parent?.thumbnailSource !== 'external',
+      validation: (Rule) =>
+        Rule.uri({scheme: ['http', 'https']}).custom((value, context) =>
+          context.parent?.thumbnailSource === 'external' && !value
+            ? 'Enter a thumbnail URL'
+            : true,
+        ),
+    },
+    {
+      name: 'featured',
+      title: 'Feature this resource',
+      type: 'boolean',
+      description: 'Makes this resource span the full content width.',
+      initialValue: false,
+    },
+  ],
+  preview: {
+    select: {
+      title: 'title',
+      creator: 'creator',
+      resourceType: 'resourceType',
+      featured: 'featured',
+      media: 'thumbnail',
+    },
+    prepare: ({title, creator, resourceType, featured, media}) => ({
+      title: title || 'Facebook Resource',
+      subtitle: [featured ? '★ Featured' : null, resourceType, creator].filter(Boolean).join(' · '),
+      media,
+    }),
+  },
+}
+
 // The shared `of` array for every rich-content field. One definition reused
 // across about/education/collegeCourses/internships/professionalExperience/
 // projects so the custom marks and block objects never drift out of sync.
@@ -552,9 +679,11 @@ export const richContentOf = [
   {type: 'figure'},
   {type: 'divider'},
   {type: 'youtube'},
+  {type: 'curatedVideo'},
   {type: 'podcastEpisode'},
   {type: 'readingItem'},
   {type: 'linkPreview'},
+  {type: 'facebookResource'},
   // Syntax-highlighted code block (from @sanity/code-input). Stores the raw
   // source, a language, an optional filename, and highlighted line numbers;
   // the frontend renders it with a pre-made Prism highlighter.
@@ -748,5 +877,62 @@ export const expandableDetails = {
   preview: {
     select: {title: 'summary'},
     prepare: ({title}) => ({title: title || 'Expandable Details'}),
+  },
+}
+
+// A Channel-focused video block that keeps the video and all authored context
+// together when blocks are reordered. Its companion content uses the same rich
+// block set, so authors can add expandable notes, takeaways, quotes, links,
+// figures, code, or any other supported component directly beneath the video.
+export const curatedVideo = {
+  name: 'curatedVideo',
+  title: 'Curated Video',
+  type: 'object',
+  icon: FaYoutube,
+  fields: [
+    {
+      name: 'url',
+      title: 'YouTube URL',
+      type: 'url',
+      description:
+        'Paste any YouTube link — watch?v=…, youtu.be/…, /shorts/…, /embed/…, or /live/…',
+      validation: (Rule) =>
+        Rule.required()
+          .uri({scheme: ['http', 'https']})
+          .custom((value) => {
+            if (!value) return true
+            return /(?:youtube\.com|youtu\.be)/.test(value) ? true : 'Must be a YouTube URL'
+          }),
+    },
+    {
+      name: 'caption',
+      title: 'Why this video is worth watching (optional)',
+      type: 'text',
+      rows: 3,
+      description: 'A concise editorial note shown with the video.',
+      validation: (Rule) => Rule.max(280),
+    },
+    {
+      name: 'featured',
+      title: 'Feature this video',
+      type: 'boolean',
+      description: 'Adds a prominent featured label. Only one Channel video should be featured.',
+      initialValue: false,
+    },
+    {
+      name: 'companionContent',
+      title: 'Companion Content (optional)',
+      type: 'array',
+      description:
+        'Content kept with this video, such as expandable notes, key moments, takeaways, quotes, links, figures, or code.',
+      of: richContentOf,
+    },
+  ],
+  preview: {
+    select: {url: 'url', caption: 'caption', featured: 'featured'},
+    prepare: ({url, caption, featured}) => ({
+      title: caption || 'Curated Video',
+      subtitle: [featured ? '★ Featured' : null, url].filter(Boolean).join(' — '),
+    }),
   },
 }
