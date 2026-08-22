@@ -15,7 +15,19 @@ const block = (text, style = 'normal') => ({
     markDefs: [],
     children: [{ _type: 'span', _key: key(), text, marks: [] }],
 });
-const youtube = (url, caption, featured = false) => ({ _type: 'youtube', _key: key(), url, caption, featured });
+const curatedVideo = (url, caption, featured = false) => ({
+    _type: 'curatedVideo',
+    _key: key(),
+    url,
+    caption,
+    featured,
+});
+const moreVideo = (url, caption) => ({
+    _type: 'channelVideo',
+    _key: key(),
+    url,
+    caption,
+});
 
 const OBSOLETE_VIDEO_ENTRIES = [
     'hubEntry-dummy-video-career-growth',
@@ -31,24 +43,29 @@ const channelEntry = {
     language: 'ar',
     excerpt:
         'منصة تتناول كل ما يخص الزواج والتربية والأمور المسكوت عنها، من جوانب شرعية ونفسية وتربوية بأسلوب واقعي وبسيط.',
-    sourceName: 'YouTube',
-    channelHandle: '@mataa3',
-    externalUrl: 'https://www.youtube.com/@mataa3',
-    sourceThumbnail:
-        'https://yt3.googleusercontent.com/PVOkhghg6LOE1Vyf17OOD2XXugZmEmtP651bd6xFkQ7-QilUcQfKb3PBnCYtvYZ2hs6_y049=s900-c-k-c0x00ffffff-no-rj',
+    channel: {
+        platform: 'youtube',
+        name: 'متاع - Mataa3',
+        handle: '@mataa3',
+        url: 'https://www.youtube.com/@mataa3',
+        avatar:
+            'https://yt3.googleusercontent.com/PVOkhghg6LOE1Vyf17OOD2XXugZmEmtP651bd6xFkQ7-QilUcQfKb3PBnCYtvYZ2hs6_y049=s800-c-k-c0x00ffffff-no-rj',
+        body: [
+            block(
+                'قناة بأتابعها باهتمام، بتقدم محتوى مهم عن الزواج والتربية بأسلوب بسيط وواقعي. دي مجموعة من الحلقات اللي وقفت عندها وحبيت أشاركها.',
+            ),
+            curatedVideo('https://youtu.be/Lu8wbJJi_bM', 'حلقة أثّرت فيا فعلاً — تستاهل المشاهدة بتأنّي.', true),
+        ],
+        moreVideos: [
+            moreVideo('https://youtu.be/3d9VyvAqAl4', 'طرح صادق لموضوع بنتجاهله كتير.'),
+            moreVideo('https://youtu.be/ILA80kDn_d4', 'من أكتر الحلقات اللي رجعتلها أكتر من مرة.'),
+        ],
+    },
     categories: [
         { _type: 'reference', _key: key(), _ref: 'hubCategory-faith-reflection' },
         { _type: 'reference', _key: key(), _ref: 'hubCategory-humanity-life' },
     ],
     tags: ['الأسرة', 'التربية', 'الزواج'],
-    body: [
-        block(
-            'قناة بأتابعها باهتمام، بتقدم محتوى مهم عن الزواج والتربية بأسلوب بسيط وواقعي. دي مجموعة من الحلقات اللي وقفت عندها وحبيت أشاركها.',
-        ),
-        youtube('https://youtu.be/Lu8wbJJi_bM', 'حلقة أثّرت فيا فعلاً — تستاهل المشاهدة بتأنّي.', true),
-        youtube('https://youtu.be/3d9VyvAqAl4', 'طرح صادق لموضوع بنتجاهله كتير.'),
-        youtube('https://youtu.be/ILA80kDn_d4', 'من أكتر الحلقات اللي رجعتلها أكتر من مرة.'),
-    ],
     publishedAt: new Date().toISOString(),
     featured: false,
     featuredInCategory: true,

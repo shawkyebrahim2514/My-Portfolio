@@ -5,5 +5,5 @@ import type { Config } from 'vike/types';
 // values used if that hook doesn't run (e.g. a 404).
 export default {
   title: 'Hub — Shawky Ebrahim',
-  description: 'Shared articles, videos, podcasts, reads, and books.',
+  description: 'Shared articles, channels, podcasts, and reading lists.',
 } satisfies Config;

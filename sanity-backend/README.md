@@ -13,11 +13,44 @@ npm run dev
 
 The rich-content editor includes Callouts, semantic Notes, uploaded/external
 Image Rows, Figures, Link Previews, Reading Items, Key Takeaways,
-Quote/Citations, and Expandable Details.
+Quote/Citations, Expandable Details, and Curated Videos with nested companion
+content. Facebook-only reels, videos, posts, photos, and articles use the
+dedicated Facebook Resource card rather than an unreliable inline embed.
+
+Hub entries keep shared editorial, taxonomy, and publishing fields at the
+document root. Channel-specific identity and content live under `channel`,
+whose rich body preserves authored order and supports full-width Curated Video
+blocks. Its focused `moreVideos` array renders ordinary recommendations as one
+grid at the end of the page.
 
 Automatic URL metadata uses the frontend's Vercel function. For local testing,
-run `npx vercel dev` from `react-frontend`; Studio automatically calls
-`http://localhost:3000/api/link-preview`.
+run `npx vercel dev --listen 3002` from `react-frontend`. Channel metadata uses
+port 3002; ordinary frontend and link-preview development remains on port 3000.
+
+For YouTube Channels, pasting a channel URL also imports the official name,
+stable channel ID, handle, canonical URL, and remote avatar URL through
+`/api/youtube-channel`. The frontend Vercel project must define a server-only
+`YOUTUBE_DATA_API_KEY` restricted to YouTube Data API v3.
+
+## Hub launch baseline (production-safe starter content)
+
+Run these one-time scripts with a Sanity user token to prepare the Hub with
+real starter content and clean production wiring:
+
+```bash
+npx sanity exec scripts/seed-channel-mataa3.mjs --with-user-token
+npx sanity exec scripts/seed-podcast-essam-cafe.mjs --with-user-token
+npx sanity exec scripts/seed-reading-list.mjs --with-user-token
+npm run seed:hub:launch
+```
+
+`seed:hub:launch` does four things:
+
+- Ensures core Hub categories and the Hub page singleton exist.
+- Adds one public starter article entry (`/hub/shipping-a-content-hub-to-production`).
+- Sets About-page featured Hub references and software-engineering
+  recommendations to real entries that exist in the dataset.
+- Marks all legacy `[DUMMY]` entries as `hiddenInProduction: true`.
 
 ## Deployment
 

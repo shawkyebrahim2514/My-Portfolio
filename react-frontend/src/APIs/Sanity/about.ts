@@ -14,10 +14,15 @@ const getAboutPage = async () => {
             excerpt,
             language,
             "coverImage": coverImage.asset->url,
-            sourceThumbnail,
-            sourceName,
+            "channel": select(kind == "channel" => {
+                "platform": channel.platform,
+                "url": channel.url,
+                "name": channel.name,
+                "channelId": channel.channelId,
+                "handle": channel.handle,
+                "avatar": channel.avatar
+            }),
             durationLabel,
-            externalUrl,
             publishedAt,
             featured,
             hiddenInProduction,

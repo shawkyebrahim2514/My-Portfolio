@@ -43,7 +43,7 @@ function HubTeaser({ entries }: HubTeaserProps) {
     // an image; fall back to the first entry otherwise.
     const heroIndex = Math.max(
         0,
-        resolvedEntries.findIndex((e) => Boolean(e.coverImage ?? e.sourceThumbnail)),
+        resolvedEntries.findIndex((e) => Boolean(e.channel?.avatar ?? e.coverImage)),
     );
     const hero = resolvedEntries[heroIndex];
     const rest = resolvedEntries.filter((_, i) => i !== heroIndex);
@@ -52,7 +52,7 @@ function HubTeaser({ entries }: HubTeaserProps) {
     const renderCell = (entry: SanityHubEntrySummary, index: number, isFeat: boolean) => {
         const accent = entryAccent(entry);
         const { icon, label } = KIND_META[entry.kind] ?? KIND_META.article;
-        const image = entry.coverImage ?? entry.sourceThumbnail;
+        const image = entry.channel?.avatar ?? entry.coverImage;
         const showBg = isFeat && Boolean(image);
         const isRTL = entry.language === 'ar';
 

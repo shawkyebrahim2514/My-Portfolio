@@ -147,6 +147,20 @@ export type RichYouTube = {
     featured?: boolean;
 };
 
+export type RichCuratedVideo = {
+    _type: 'curatedVideo';
+    _key: string;
+    url: string;
+    caption?: string;
+    featured?: boolean;
+    companionContent?: RichContentNode[];
+    videoId?: string;
+    videoTitle?: string;
+    channelTitle?: string;
+    channelUrl?: string;
+    thumbnail?: string;
+};
+
 // A single podcast episode (block-level), the audio analogue of RichYouTube.
 // The provider + inline embed are derived from `url` on the client (Spotify
 // and YouTube links play inline; anything else links out), so no build-time
@@ -191,6 +205,23 @@ export type RichLinkPreview = {
     faviconUrl?: string;
 };
 
+export type RichFacebookResource = {
+    _type: 'facebookResource';
+    _key: string;
+    url: string;
+    resourceType: 'reel' | 'video' | 'post' | 'photo' | 'article';
+    title: string;
+    creator?: string;
+    commentary?: string;
+    thumbnailSource?: 'none' | 'sanity' | 'external';
+    thumbnail?: {
+        _type: 'image';
+        asset: { _ref: string; _type: 'reference' };
+    };
+    thumbnailUrl?: string;
+    featured?: boolean;
+};
+
 export type RichContentNode =
     | RichBlock
     | RichImageRow
@@ -203,6 +234,8 @@ export type RichContentNode =
     | RichExpandableDetails
     | RichCode
     | RichYouTube
+    | RichCuratedVideo
     | RichPodcastEpisode
     | RichReadingItem
-    | RichLinkPreview;
+    | RichLinkPreview
+    | RichFacebookResource;

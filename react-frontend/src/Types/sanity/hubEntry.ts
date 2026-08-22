@@ -1,4 +1,4 @@
-import { RichContentNode } from './richContent';
+import { RichContentNode, RichYouTube } from './richContent';
 
 // Mirrors sanity-backend/schemas/hub/hubEntry.ts `kind` options.
 export type HubEntryKind = 'article' | 'channel' | 'podcast' | 'read';
@@ -18,6 +18,18 @@ export type HubPlatformLink = {
     url: string;
 };
 
+export type HubChannelPlatform = 'youtube' | 'vimeo' | 'twitch' | 'website';
+
+export type HubChannelDetails = {
+    platform: HubChannelPlatform;
+    url: string;
+    name: string;
+    channelId?: string;
+    handle?: string;
+    avatar?: string;
+    moreVideos?: RichYouTube[];
+};
+
 // Fields needed to render a card/list item — used by the /hub index,
 // /hub/category/[slug] listing, and the About-page "See what I share"
 // teaser. Deliberately excludes `body`/`tags` (only needed on the detail
@@ -31,10 +43,8 @@ export type SanityHubEntrySummary = {
     // existed). Controls RTL rendering + Arabic font on cards and detail page.
     language?: HubContentLanguage;
     coverImage?: string;
-    sourceThumbnail?: string;
-    sourceName?: string;
+    channel?: HubChannelDetails;
     durationLabel?: string;
-    externalUrl?: string;
     publishedAt: string;
     featured: boolean;
     featuredInCategory?: boolean;
@@ -56,9 +66,7 @@ export type SanityHubEntrySummary = {
 // Full entry, as fetched for the /hub/[slug] detail page.
 export type SanityHubEntry = SanityHubEntrySummary & {
     tags?: string[];
-    // Optional @handle shown in the Channel-kind hero, e.g. "@fireship".
-    channelHandle?: string;
     // "Listen On" platform links shown as brand pills in the Podcast hero.
     platforms?: HubPlatformLink[];
-    body: RichContentNode[];
+    body?: RichContentNode[];
 };

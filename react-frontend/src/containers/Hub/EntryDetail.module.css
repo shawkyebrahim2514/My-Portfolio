@@ -245,6 +245,13 @@
     text-decoration: none;
 }
 
+.channelBody {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    width: 100%;
+}
+
 /* Section label introducing the embedded videos in a channel's body. */
 .channelBodyHeading {
     margin: var(--space-3) 0 0;
@@ -253,19 +260,21 @@
     border-top: 2px solid color-mix(in srgb, var(--entry-accent) 25%, var(--color-base-100));
 }
 
-/* Adaptive grid of channel videos. auto-fill + minmax lets the column count
-   flow with the available width: a single column on narrow screens, two (or
-   more, on very wide layouts) once each card can hold its ~300px minimum. */
-.videoGrid {
+.moreVideos {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    width: 100%;
+}
+
+.moreVideosGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
     gap: var(--space-4);
     width: 100%;
 }
 
-/* Pinned "lead pick" wrapper — the single featured video (channels) or reading
-   item (reading lists), rendered full-width above the grid/list with a small
-   accent eyebrow so it reads as the highlighted item of the entry. */
+/* Pinned "lead pick" wrapper for the featured item in a reading list. */
 .featuredLead {
     display: flex;
     flex-direction: column;

@@ -34,7 +34,6 @@ const RECOMMENDED_IDS = [
   'hubEntry-reading-developer-mindset', // software-engineering + career
   'hubEntry-podcast-essam-cafe', // software-engineering + career
   'hubEntry-channel-mataa3', // cross-category: faith + humanity
-  'hubEntry-dummy-book-atomic-habits', // cross-category: humanity
 ]
 
 async function run() {

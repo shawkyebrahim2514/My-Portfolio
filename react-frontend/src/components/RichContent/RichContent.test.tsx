@@ -207,6 +207,45 @@ describe('RichContent — Portable Text renderer', () => {
         expect(details?.textContent).toContain('This remains available to readers');
     });
 
+    it('curated video keeps rich companion content attached beneath the video', () => {
+        const c = renderValue([
+            {
+                _type: 'curatedVideo',
+                _key: key(),
+                url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                caption: 'A useful walkthrough.',
+                featured: true,
+                videoTitle: 'System design walkthrough',
+                companionContent: [
+                    {
+                        _type: 'expandableDetails',
+                        _key: key(),
+                        summary: 'My notes',
+                        body: [block([span('Focus on the trade-offs between consistency and availability.')])],
+                    },
+                ],
+            },
+        ]);
+        expect(c.querySelector('section[aria-label*="System design walkthrough"]')).not.toBeNull();
+        expect(c.textContent).toContain('Featured video');
+        expect(c.textContent).toContain('Notes and context');
+        expect(c.querySelector('details')?.textContent).toContain('My notes');
+        expect(c.textContent).toContain('trade-offs between consistency and availability');
+    });
+
+    it('does not duplicate a YouTube caption when metadata is unavailable', () => {
+        const caption = 'Why this video is worth watching.';
+        const c = renderValue([
+            {
+                _type: 'youtube',
+                _key: key(),
+                url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                caption,
+            },
+        ]);
+        expect(c.textContent?.split(caption)).toHaveLength(2);
+    });
+
     it('popup callout renders via MainSection (no bar element)', () => {
         const c = renderValue([
             {
@@ -366,5 +405,56 @@ describe('RichContent — Portable Text renderer', () => {
         expect(link?.querySelector('img')?.getAttribute('src')).toBe(
             'https://example.com/cover.png'
         );
+    });
+
+    it('groups consecutive link previews into a responsive resource grid', () => {
+        const c = renderValue([
+            {
+                _type: 'linkPreview',
+                _key: key(),
+                url: 'https://example.com/one',
+                title: 'First resource',
+            },
+            {
+                _type: 'linkPreview',
+                _key: key(),
+                url: 'https://example.com/two',
+                title: 'Second resource',
+            },
+        ]);
+
+        const grid = c.querySelector('[class*="linkPreviewGrid"]');
+        expect(grid).not.toBeNull();
+        expect(grid?.querySelectorAll('a')).toHaveLength(2);
+    });
+
+    it('renders consecutive Facebook resources in their dedicated grid', () => {
+        const c = renderValue([
+            {
+                _type: 'facebookResource',
+                _key: key(),
+                url: 'https://www.facebook.com/reel/123/',
+                resourceType: 'reel',
+                title: 'A useful parenting lesson',
+                creator: 'Example Creator',
+                commentary: 'Why this is worth sharing.',
+                thumbnailSource: 'none',
+            },
+            {
+                _type: 'facebookResource',
+                _key: key(),
+                url: 'https://www.facebook.com/posts/456/',
+                resourceType: 'post',
+                title: 'A thoughtful post',
+                featured: true,
+            },
+        ]);
+
+        const grid = c.querySelector('[class*="facebookResourceGrid"]');
+        expect(grid).not.toBeNull();
+        expect(grid?.querySelectorAll('a')).toHaveLength(2);
+        expect(grid?.textContent).toContain('Reel');
+        expect(grid?.textContent).toContain('Example Creator');
+        expect(grid?.querySelector('[class*="featured"]')).not.toBeNull();
     });
 });

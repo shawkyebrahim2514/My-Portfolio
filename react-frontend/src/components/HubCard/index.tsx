@@ -22,7 +22,7 @@ export type HubCardProps = {
     readonly kind: HubEntryKind;
     readonly excerpt: string;
     readonly coverImage?: string;
-    readonly sourceThumbnail?: string;
+    readonly channelAvatar?: string;
     readonly durationLabel?: string;
     readonly categories: (HubEntryCategoryRef | null)[];
     readonly language?: HubContentLanguage;
@@ -33,9 +33,9 @@ export type HubCardProps = {
     readonly hidden?: boolean;
 };
 
-function HubCard({ title, slug, kind, excerpt, coverImage, sourceThumbnail, durationLabel, categories, language = 'en', accentColor, hidden }: HubCardProps) {
+function HubCard({ title, slug, kind, excerpt, coverImage, channelAvatar, durationLabel, categories, language = 'en', accentColor, hidden }: HubCardProps) {
     const { icon, label } = KIND_META[kind] ?? KIND_META.article;
-    const image = coverImage ?? sourceThumbnail;
+    const image = channelAvatar ?? coverImage;
     const isRTL = language === 'ar';
     const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef => Boolean(category));
 

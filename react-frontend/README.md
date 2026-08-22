@@ -98,6 +98,9 @@ paragraphs/headings/bullet lists:
   caption, and optional credited source.
 - **Link preview** — resolves and stores title, description, publisher,
   thumbnail, and favicon metadata from a pasted URL.
+- **Facebook Resource** — a reliable outbound card for a Facebook reel, video,
+  post, photo, or article, with an editorial title, creator/page, commentary,
+  optional uploaded or remote thumbnail, and an optional featured layout.
 - **Reading item** — an enriched reading recommendation with metadata,
   author/date/type fields, and an optional note.
 - **Key Takeaways** — a heading plus one to six concise checklist items.
@@ -105,13 +108,20 @@ paragraphs/headings/bullet lists:
   source URL.
 - **Expandable Details** — a native disclosure with a summary, rich body,
   and optional initially-open state.
+- **Curated Video** — a Channel-focused YouTube block that keeps rich
+  companion content (notes, takeaways, quotes, links, figures, code, and
+  expandable sections) attached directly beneath the video.
 - **YouTube video** and **Podcast episode** — rich media embeds.
 - **Divider** — a plain horizontal rule.
 
 Legacy inline Spacer values remain renderable for migrated content, but Spacer
 is hidden from new authoring. Use normal paragraphs and layout blocks instead.
 
-### Link-preview configuration
+Channel entries keep full-width Curated Videos in their rich body. Additional
+ordinary recommendations belong in the dedicated **More Videos** array and
+render together as one responsive grid at the end of the page.
+
+### Metadata endpoint configuration
 
 The Studio resolves pasted URLs through the Vercel function at
 `api/link-preview.ts`. Local metadata testing requires `npx vercel dev`; a
@@ -121,6 +131,16 @@ normal `npm run dev` does not serve the function.
   Studio origin.
 - Set the Studio build variable `SANITY_STUDIO_LINK_PREVIEW_ENDPOINT` to the
   canonical production `/api/link-preview` URL before deploying Studio.
+- Set the server-only Vercel variable `YOUTUBE_DATA_API_KEY` to a Google Cloud
+  key restricted to YouTube Data API v3. The Studio calls
+  `/api/youtube-channel` to import a YouTube channel's official name, stable
+  ID, handle, canonical URL, and remote avatar URL into the nested Channel
+  fields.
+- Set the Studio build variable `SANITY_STUDIO_YOUTUBE_CHANNEL_ENDPOINT` to
+  the canonical production `/api/youtube-channel` URL before deploying Studio.
+
+For local Channel refreshes, run `npx vercel dev --listen 3002`; the local
+Studio fallback calls `http://localhost:3002/api/youtube-channel`.
 
 See both workspace `.env.example` files for the current values.
 

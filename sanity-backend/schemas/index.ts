@@ -20,9 +20,11 @@ import {
   quote,
   expandableDetails,
   youtube,
+  curatedVideo,
   podcastEpisode,
   readingItem,
   linkPreview,
+  facebookResource,
 } from './objects/richContent'
 import {hubPage, hubEntry, hubCategory} from './hub'
 
@@ -35,7 +37,7 @@ export const schemaTypes = [
   certificates,
   skills,
   contacts,
-  // Hub: content-sharing section (articles/videos/podcasts/reads/books),
+  // Hub: content-sharing section (articles/channels/podcasts/reading lists),
   // entered via an About-page teaser rather than a navbar tab.
   hubPage,
   hubEntry,
@@ -52,7 +54,9 @@ export const schemaTypes = [
   quote,
   expandableDetails,
   youtube,
+  curatedVideo,
   podcastEpisode,
   readingItem,
   linkPreview,
+  facebookResource,
 ]

@@ -14,6 +14,8 @@ export {
     type HubContentLanguage,
     type HubEntryCategoryRef,
     type HubPlatformLink,
+    type HubChannelPlatform,
+    type HubChannelDetails,
     type SanityHubCategory,
 } from './sanity';
 
@@ -36,9 +38,11 @@ export {
     type RichExpandableDetails,
     type RichCode,
     type RichYouTube,
+    type RichCuratedVideo,
     type RichPodcastEpisode,
     type RichReadingItem,
     type RichLinkPreview,
+    type RichFacebookResource,
 } from './sanity/richContent';
 
 export { type Theme, type PortfolioPathes, type ColorLevels } from './contexts';

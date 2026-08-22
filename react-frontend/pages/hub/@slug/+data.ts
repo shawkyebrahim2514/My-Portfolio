@@ -33,6 +33,9 @@ export async function data(pageContext: PageContextServer): Promise<HubEntryData
     if (entry.body) {
         await enrichYouTubeBlocks(entry.body);
     }
+    if (entry.channel?.moreVideos) {
+        await enrichYouTubeBlocks(entry.channel.moreVideos);
+    }
 
     config({
         title: `${entry.title} — Hub — Shawky Ebrahim`,
