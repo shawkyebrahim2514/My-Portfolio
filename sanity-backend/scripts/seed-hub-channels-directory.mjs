@@ -110,7 +110,7 @@ const directoryPage = {
       accent: color('#2563eb'),
       featured: true,
       hiddenInProduction: false,
-      categories: [ref('hubCategory-software-engineering')],
+      categories: [ref('hubCategory-curiosity'), ref('hubCategory-hardware')],
       tags: ['electronics', 'engineering'],
     },
     {
@@ -124,7 +124,7 @@ const directoryPage = {
       accent: color('#7c573f'),
       featured: true,
       hiddenInProduction: false,
-      categories: [ref('hubCategory-faith-reflection'), ref('hubCategory-humanity-life')],
+      categories: [ref('hubCategory-humanity-life'), ref('hubCategory-family')],
       tags: ['relationships', 'life'],
     },
     {
@@ -138,7 +138,7 @@ const directoryPage = {
       accent: color('#0f766e'),
       featured: false,
       hiddenInProduction: false,
-      categories: [ref('hubCategory-career-growth')],
+      categories: [ref('hubCategory-money')],
       tags: ['investing', 'finance'],
     },
     {

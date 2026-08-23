@@ -86,9 +86,7 @@
 .coverFrame {
     position: relative;
     margin: -1rem -1rem 0;
-    aspect-ratio: 1707 / 282;
-    display: grid;
-    place-items: center;
+    aspect-ratio: 3 / 1;
     border-bottom: 1px solid color-mix(in srgb, var(--channel-accent) 30%, var(--color-base-200));
     background:
         radial-gradient(
@@ -105,6 +103,8 @@
 }
 
 .cover {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -117,7 +117,7 @@
     gap: 0.7rem;
 }
 
-.avatar,
+.avatarFrame,
 .avatarFallback {
     width: 2.8rem;
     height: 2.8rem;
@@ -125,10 +125,19 @@
     flex: 0 0 auto;
 }
 
-.avatar {
-    object-fit: cover;
+.avatarFrame {
+    position: relative;
+    overflow: hidden;
     border: 2px solid color-mix(in srgb, var(--channel-accent) 35%, white);
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--channel-accent) 24%, transparent);
+}
+
+.avatar {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .avatarFallback {

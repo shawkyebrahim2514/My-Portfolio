@@ -1,0 +1,1062 @@
+[
+  {
+    "handle": "ahmedelhars",
+    "name": "Ahmed Elhars - احمد الحارس",
+    "note": "Family and parenting conversations I come back to. Calm, practical advice on home life without the noise.",
+    "language": "ar",
+    "accent": "#c2410c",
+    "categories": [
+      "hubCategory-family"
+    ],
+    "tags": [
+      "family",
+      "parenting"
+    ]
+  },
+  {
+    "handle": "bta3ektsad",
+    "name": "بتاع اقتصاد",
+    "note": "Simple Arabic explainers on investing and how money actually works. Good when I want the idea without the jargon.",
+    "language": "ar",
+    "accent": "#0f766e",
+    "categories": [
+      "hubCategory-money"
+    ],
+    "tags": [
+      "investing",
+      "economics"
+    ]
+  },
+  {
+    "handle": "Helfeki2025",
+    "name": "The Immigrant المهاجر",
+    "note": "An immigrant’s notes on building a life in Canada — the practical parts and the human ones.",
+    "language": "ar",
+    "accent": "#b45309",
+    "categories": [
+      "hubCategory-humanity-life"
+    ],
+    "tags": [
+      "immigration",
+      "life"
+    ]
+  },
+  {
+    "handle": "GLASSROOMPodcast",
+    "name": "GLASSROOM جلاس روم",
+    "note": "Ziad Aladdin’s long conversations with people behind useful ideas. I listen when I want depth, not clips.",
+    "language": "ar",
+    "accent": "#334155",
+    "categories": [
+      "hubCategory-humanity-life",
+      "hubCategory-career-growth"
+    ],
+    "tags": [
+      "podcast",
+      "ideas"
+    ]
+  },
+  {
+    "handle": "veritasium",
+    "name": "Veritasium",
+    "note": "Derek Muller’s science stories that stick. I watch these when I want curiosity more than a tutorial.",
+    "language": "en",
+    "accent": "#dc2626",
+    "categories": [
+      "hubCategory-curiosity"
+    ],
+    "tags": [
+      "science",
+      "curiosity"
+    ]
+  },
+  {
+    "handle": "Mobizil",
+    "name": "Mobizil",
+    "note": "Clear Arabic phone reviews and comparisons. Useful when I just want the tradeoffs, not the hype.",
+    "language": "ar",
+    "accent": "#2563eb",
+    "categories": [
+      "hubCategory-hardware"
+    ],
+    "tags": [
+      "phones",
+      "reviews"
+    ]
+  },
+  {
+    "handle": "ahmed.hisham.banknote",
+    "name": "Ahmed Hisham Banknote",
+    "note": "Documentary-style Arabic pieces on markets, investing, and how money moves. Slower, and better for it.",
+    "language": "ar",
+    "accent": "#ca8a04",
+    "categories": [
+      "hubCategory-money"
+    ],
+    "tags": [
+      "investing",
+      "markets"
+    ]
+  },
+  {
+    "handle": "MokhbirEqtisadi",
+    "name": "المخبر الاقتصادي - Mokhbir Eqtisadi",
+    "note": "Ashraf Ibrahim makes economics feel readable. I use this when a news headline needs a real explanation.",
+    "language": "ar",
+    "accent": "#0e7490",
+    "categories": [
+      "hubCategory-money"
+    ],
+    "tags": [
+      "economics",
+      "explainers"
+    ]
+  },
+  {
+    "handle": "ahmdelemam",
+    "name": "Ahmed Elemam - أحمد الإمام",
+    "note": "Arabic talks for software engineers — backend, databases, and system design without the fluff.",
+    "language": "ar",
+    "accent": "#4f46e5",
+    "categories": [
+      "hubCategory-software-engineering",
+      "hubCategory-career-growth"
+    ],
+    "tags": [
+      "backend",
+      "system-design"
+    ]
+  },
+  {
+    "handle": "ForeverDansky",
+    "name": "Dansky",
+    "note": "Adobe and branding lessons that are actually usable. I keep this around for design craft, not trends.",
+    "language": "en",
+    "accent": "#db2777",
+    "categories": [
+      "hubCategory-design-ux"
+    ],
+    "tags": [
+      "design",
+      "adobe"
+    ]
+  },
+  {
+    "handle": "FadelSoliman212",
+    "name": "Bridges Foundation",
+    "note": "Fadel Soliman’s calm presentations of Islam to a wider audience. Clear, respectful, and easy to share.",
+    "language": "en",
+    "accent": "#15803d",
+    "categories": [
+      "hubCategory-faith-reflection"
+    ],
+    "tags": [
+      "islam",
+      "dawah"
+    ]
+  },
+  {
+    "handle": "Fireship",
+    "name": "Fireship",
+    "note": "Fast, funny coding videos that still teach something real. Perfect when I want the shape of a topic quickly.",
+    "language": "en",
+    "accent": "#e11d48",
+    "categories": [
+      "hubCategory-software-engineering",
+      "hubCategory-productivity-tools"
+    ],
+    "tags": [
+      "javascript",
+      "web"
+    ]
+  },
+  {
+    "handle": "halasamir",
+    "name": "هالة سمير",
+    "note": "Dr. Hala Samir on family, women, and mental health. Grounded advice I trust more than generic self-help.",
+    "language": "ar",
+    "accent": "#be185d",
+    "categories": [
+      "hubCategory-humanity-life"
+    ],
+    "tags": [
+      "family",
+      "mental-health"
+    ]
+  },
+  {
+    "handle": "LearnEnglishWithTVSeries",
+    "name": "Learn English With TV Series",
+    "note": "Real English from shows I already like. Helps my ear more than another grammar list.",
+    "language": "en",
+    "accent": "#7c3aed",
+    "categories": [
+      "hubCategory-english"
+    ],
+    "tags": [
+      "english",
+      "listening"
+    ]
+  },
+  {
+    "handle": "kurzgesagt",
+    "name": "Kurzgesagt – In a Nutshell",
+    "note": "Beautiful explainers on big questions. I watch when I want the wide view, not a how-to.",
+    "language": "en",
+    "accent": "#2563eb",
+    "categories": [
+      "hubCategory-curiosity"
+    ],
+    "tags": [
+      "science",
+      "animation"
+    ]
+  },
+  {
+    "handle": "rachelsenglish",
+    "name": "Rachel's English",
+    "note": "American English pronunciation, slowly and clearly. I use this when I want my speech to sound more natural.",
+    "language": "en",
+    "accent": "#7c3aed",
+    "categories": [
+      "hubCategory-english"
+    ],
+    "tags": [
+      "english",
+      "pronunciation"
+    ]
+  },
+  {
+    "handle": "hadar.shemesh",
+    "name": "Accent's Way English with Hadar",
+    "note": "Hadar coaches fluency as a non-native speaker. Honest, kind, and useful when I get stuck on how I sound.",
+    "language": "en",
+    "accent": "#a21caf",
+    "categories": [
+      "hubCategory-english"
+    ],
+    "tags": [
+      "english",
+      "fluency"
+    ]
+  },
+  {
+    "handle": "DesoukiEgypt",
+    "name": "محمد الدسوقى - Mohamed El Desouki",
+    "note": "Computer science and databases taught in Arabic, the university way. Solid when I want fundamentals, not hacks.",
+    "language": "ar",
+    "accent": "#1d4ed8",
+    "categories": [
+      "hubCategory-hardware"
+    ],
+    "tags": [
+      "databases",
+      "cs"
+    ]
+  },
+  {
+    "handle": "t3dotgg",
+    "name": "Theo - t3.gg",
+    "note": "Theo’s takes on TypeScript, AI, and shipping web apps. Opinionated, current, and good for spotting what matters.",
+    "language": "en",
+    "accent": "#7c3aed",
+    "categories": [
+      "hubCategory-software-engineering",
+      "hubCategory-career-growth"
+    ],
+    "tags": [
+      "typescript",
+      "web"
+    ]
+  },
+  {
+    "handle": "EnglishClass101",
+    "name": "Learn English with EnglishClass101.com",
+    "note": "Short English lessons I can actually finish. Handy for daily practice without opening a course.",
+    "language": "en",
+    "accent": "#2563eb",
+    "categories": [
+      "hubCategory-english"
+    ],
+    "tags": [
+      "english",
+      "lessons"
+    ]
+  },
+  {
+    "handle": "mustafaelfeki",
+    "name": "Mustafa El-Feki - مصطفى الفقي",
+    "note": "Hardware and tech, explained simply in Arabic. Reviews and teardown-style videos I watch before buying kit.",
+    "language": "ar",
+    "accent": "#ea580c",
+    "categories": [
+      "hubCategory-hardware"
+    ],
+    "tags": [
+      "hardware",
+      "reviews"
+    ]
+  },
+  {
+    "handle": "fouadsidky",
+    "name": "Fouad Sidky - دروس في الفلوس",
+    "note": "Fouad treats money as decisions, not tips. Practical Arabic finance I actually remember later.",
+    "language": "ar",
+    "accent": "#ca8a04",
+    "categories": [
+      "hubCategory-money"
+    ],
+    "tags": [
+      "finance",
+      "money"
+    ]
+  },
+  {
+    "handle": "MSA.official",
+    "name": "MSA",
+    "note": "Animated personal stories. Light to watch, but some of them stay with me longer than I expect.",
+    "language": "en",
+    "accent": "#db2777",
+    "categories": [
+      "hubCategory-curiosity"
+    ],
+    "tags": [
+      "stories",
+      "animation"
+    ]
+  },
+  {
+    "handle": "TomBilyeu",
+    "name": "Tom Bilyeu",
+    "note": "Long interviews on work, money, and how people think. I skip the hype and keep the useful frames.",
+    "language": "en",
+    "accent": "#111827",
+    "categories": [
+      "hubCategory-career-growth",
+      "hubCategory-humanity-life"
+    ],
+    "tags": [
+      "mindset",
+      "interviews"
+    ]
+  },
+  {
+    "handle": "Fahem.Podcast",
+    "name": "فاهم بودكاست",
+    "note": "Arabic conversations that try to wake ideas up, not just fill time. I listen when I want a clearer head.",
+    "language": "ar",
+    "accent": "#365314",
+    "categories": [
+      "hubCategory-faith-reflection",
+      "hubCategory-humanity-life"
+    ],
+    "tags": [
+      "podcast",
+      "awareness"
+    ]
+  },
+  {
+    "handle": "amgad_samir",
+    "name": "أمجد سمير",
+    "note": "Amgad’s reminder that changing yourself is the real work. Quiet, serious, and worth sitting with.",
+    "language": "ar",
+    "accent": "#166534",
+    "categories": [
+      "hubCategory-faith-reflection"
+    ],
+    "tags": [
+      "self-development",
+      "islam"
+    ]
+  },
+  {
+    "handle": "Waie",
+    "name": "وعي",
+    "note": "Hazem, Ahmed, and Sherif talking through ideas out loud. A podcast I put on when I want company with substance.",
+    "language": "ar",
+    "accent": "#3f6212",
+    "categories": [
+      "hubCategory-faith-reflection",
+      "hubCategory-humanity-life"
+    ],
+    "tags": [
+      "podcast",
+      "ideas"
+    ]
+  },
+  {
+    "handle": "basemelewa",
+    "name": "Basem Elewa باسم عليوة",
+    "note": "Money and accounting through a Shariah lens. Helps me think about finance without splitting it from values.",
+    "language": "ar",
+    "accent": "#047857",
+    "categories": [
+      "hubCategory-faith-reflection",
+      "hubCategory-family"
+    ],
+    "tags": [
+      "islamic-finance",
+      "accounting"
+    ]
+  },
+  {
+    "handle": "freecodecamp",
+    "name": "freeCodeCamp.org",
+    "note": "Long, free courses I still send people to. When I want to learn a stack properly, this is the patient option.",
+    "language": "en",
+    "accent": "#0a0a23",
+    "categories": [
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "courses",
+      "programming"
+    ]
+  },
+  {
+    "handle": "Arabic101",
+    "name": "Arabic 101",
+    "note": "Arabic and Quran, taught carefully. I like how they aim for reading with understanding, not just reciting.",
+    "language": "en",
+    "accent": "#15803d",
+    "categories": [
+      "hubCategory-faith-reflection"
+    ],
+    "tags": [
+      "arabic",
+      "quran"
+    ]
+  },
+  {
+    "handle": "EnglishwithLucy",
+    "name": "English with Lucy",
+    "note": "Lucy’s British English lessons — clear, structured, and easy to fit into a week.",
+    "language": "en",
+    "accent": "#7c3aed",
+    "categories": [
+      "hubCategory-english"
+    ],
+    "tags": [
+      "english",
+      "british"
+    ]
+  },
+  {
+    "handle": "3blue1brown",
+    "name": "3Blue1Brown",
+    "note": "Grant Sanderson making math feel visible. I rewatch these when I want intuition, not just formulas.",
+    "language": "en",
+    "accent": "#1d4ed8",
+    "categories": [
+      "hubCategory-curiosity",
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "math",
+      "visual"
+    ]
+  },
+  {
+    "handle": "ByteByteGo",
+    "name": "ByteByteGo",
+    "note": "System design the way the book talks about it — diagrams, tradeoffs, and how big systems actually hold together.",
+    "language": "en",
+    "accent": "#0f766e",
+    "categories": [
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "system-design",
+      "architecture"
+    ]
+  },
+  {
+    "handle": "Shariahaudit",
+    "name": "Shariah audit- شريعة أوديت",
+    "note": "Islamic economics and Shariah audit, explained without making it feel locked in a textbook.",
+    "language": "ar",
+    "accent": "#047857",
+    "categories": [
+      "hubCategory-money",
+      "hubCategory-faith-reflection"
+    ],
+    "tags": [
+      "islamic-finance",
+      "shariah"
+    ]
+  },
+  {
+    "handle": "ehabmes",
+    "name": "Ehab Mesallum",
+    "note": "Dr. Ehab on companies, marketing, and building a healthier Arab business culture. Practical, not slogans.",
+    "language": "ar",
+    "accent": "#b45309",
+    "categories": [
+      "hubCategory-career-growth"
+    ],
+    "tags": [
+      "business",
+      "management"
+    ]
+  },
+  {
+    "handle": "EnglishFluencyJourney",
+    "name": "English Fluency Journey",
+    "note": "Anna learning and teaching English as a non-native speaker. Feels like a study buddy, not a classroom.",
+    "language": "en",
+    "accent": "#7c3aed",
+    "categories": [
+      "hubCategory-english"
+    ],
+    "tags": [
+      "english",
+      "fluency"
+    ]
+  },
+  {
+    "handle": "NetworkChuck",
+    "name": "NetworkChuck",
+    "note": "Networking, Linux, and IT careers with a lot of energy. Good when I want to touch a tool, not just read about it.",
+    "language": "en",
+    "accent": "#16a34a",
+    "categories": [
+      "hubCategory-software-engineering",
+      "hubCategory-productivity-tools"
+    ],
+    "tags": [
+      "networking",
+      "linux"
+    ]
+  },
+  {
+    "handle": "bigdata4756",
+    "name": "بالعربي Big Data",
+    "note": "Big data topics in Arabic, free and straight. I keep it for the vocabulary as much as the ideas.",
+    "language": "ar",
+    "accent": "#1d4ed8",
+    "categories": [
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "big-data",
+      "data"
+    ]
+  },
+  {
+    "handle": "TechVault_",
+    "name": "Tech Vault",
+    "note": "Deeper tech and career talks for Arabic and English viewers. Useful when I want more than a news recap.",
+    "language": "en",
+    "accent": "#334155",
+    "categories": [
+      "hubCategory-software-engineering",
+      "hubCategory-career-growth"
+    ],
+    "tags": [
+      "career",
+      "engineering"
+    ]
+  },
+  {
+    "handle": "GarageEducation",
+    "name": "Garage Education",
+    "note": "Science and engineering education with a community feel. I like how they treat curiosity as a public good.",
+    "language": "ar",
+    "accent": "#b45309",
+    "categories": [
+      "hubCategory-career-growth",
+      "hubCategory-humanity-life"
+    ],
+    "tags": [
+      "science",
+      "engineering"
+    ]
+  },
+  {
+    "handle": "BrianWilesOfficial",
+    "name": "Brian Wiles",
+    "note": "Short educational pieces for any age. Easy to watch, and occasionally they reframe something I thought I knew.",
+    "language": "en",
+    "accent": "#2563eb",
+    "categories": [
+      "hubCategory-humanity-life"
+    ],
+    "tags": [
+      "education",
+      "explainers"
+    ]
+  },
+  {
+    "handle": "mahyoussef",
+    "name": "Mahmoud Youssef - محمود يوسف",
+    "note": "Backend, clean code, and system design in Arabic. One of the channels I open when I want that conversation in my language.",
+    "language": "ar",
+    "accent": "#4f46e5",
+    "categories": [
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "backend",
+      "clean-code"
+    ]
+  },
+  {
+    "handle": "shabdallakamelofficial",
+    "name": "الشيخ عبدالله كامل - Abdallah Kamel",
+    "note": "Quran recitation I put on when I want the room to get quiet. Official channel, nothing extra around it.",
+    "language": "ar",
+    "accent": "#166534",
+    "categories": [
+      "hubCategory-faith-reflection",
+      "hubCategory-family"
+    ],
+    "tags": [
+      "quran",
+      "recitation"
+    ]
+  },
+  {
+    "handle": "cultrepo",
+    "name": "CultRepo",
+    "note": "Human stories behind open source and AI. I watch these when I want the people, not just the repo.",
+    "language": "en",
+    "accent": "#111827",
+    "categories": [
+      "hubCategory-curiosity",
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "open-source",
+      "stories"
+    ]
+  },
+  {
+    "handle": "MichaelSambol",
+    "name": "Michael Sambol",
+    "note": "Data structures and algorithms in a few clean minutes. My go-to when I need a picture of an idea fast.",
+    "language": "en",
+    "accent": "#1d4ed8",
+    "categories": [
+      "hubCategory-software-engineering",
+      "hubCategory-productivity-tools"
+    ],
+    "tags": [
+      "algorithms",
+      "dsa"
+    ]
+  },
+  {
+    "handle": "bakrianoo",
+    "name": "Abu Bakr Soliman",
+    "note": "Abu Bakr on software work and the career around it, in Arabic. Straight talk from someone who’s built things.",
+    "language": "ar",
+    "accent": "#0f766e",
+    "categories": [
+      "hubCategory-software-engineering",
+      "hubCategory-career-growth"
+    ],
+    "tags": [
+      "backend",
+      "career"
+    ]
+  },
+  {
+    "handle": "Storybooth",
+    "name": "storybooth",
+    "note": "Teens telling their own stories. Raw, sometimes heavy, and a reminder that people are more than their highlight reel.",
+    "language": "en",
+    "accent": "#db2777",
+    "categories": [
+      "hubCategory-humanity-life"
+    ],
+    "tags": [
+      "stories",
+      "life"
+    ]
+  },
+  {
+    "handle": "PassionateCoders",
+    "name": "Passionate Coders | محمد المهدي",
+    "note": "Mohamed Elmahdy teaching programming with patience. Arabic lessons I recommend when someone wants to start properly.",
+    "language": "ar",
+    "accent": "#ea580c",
+    "categories": [
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "programming",
+      "tutorials"
+    ]
+  },
+  {
+    "handle": "NetNinja",
+    "name": "Net Ninja",
+    "note": "Shaun’s web dev playlists — the ones I still use when I want a clean path through a library or framework.",
+    "language": "en",
+    "accent": "#e11d48",
+    "categories": [
+      "hubCategory-software-engineering",
+      "hubCategory-productivity-tools"
+    ],
+    "tags": [
+      "javascript",
+      "web"
+    ]
+  },
+  {
+    "handle": "pragma-ar",
+    "name": "pragma",
+    "note": "Yasser Elsayed on software craft after years at big companies. Arabic, senior, and light on theater.",
+    "language": "ar",
+    "accent": "#334155",
+    "categories": [
+      "hubCategory-software-engineering",
+      "hubCategory-career-growth"
+    ],
+    "tags": [
+      "craft",
+      "career"
+    ]
+  },
+  {
+    "handle": "hnasr",
+    "name": "Hussein Nasser",
+    "note": "Hussein making backend, networking, and databases feel concrete. I learn more from his examples than from slides.",
+    "language": "en",
+    "accent": "#0e7490",
+    "categories": [
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "backend",
+      "networking"
+    ]
+  },
+  {
+    "handle": "bashmohandes",
+    "name": "Mohamed Elsherif",
+    "note": "Software engineering talks and the occasional podcast. Mohamed says the quiet part about the job out loud.",
+    "language": "en",
+    "accent": "#1d4ed8",
+    "categories": [
+      "hubCategory-software-engineering",
+      "hubCategory-career-growth"
+    ],
+    "tags": [
+      "engineering",
+      "podcast"
+    ]
+  },
+  {
+    "handle": "codebreakthrough",
+    "name": "Caleb Curry",
+    "note": "Caleb keeps programming simple without talking down. Good beginner-to-middle ground when I want a friendly reset.",
+    "language": "en",
+    "accent": "#2563eb",
+    "categories": [
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "programming",
+      "tutorials"
+    ]
+  },
+  {
+    "handle": "linguamarina",
+    "name": "linguamarina",
+    "note": "Marina’s English-learning vlogs. Casual enough to watch at night, useful enough that phrases stick.",
+    "language": "en",
+    "accent": "#db2777",
+    "categories": [
+      "hubCategory-english"
+    ],
+    "tags": [
+      "english",
+      "vlog"
+    ]
+  },
+  {
+    "handle": "abdul_bari",
+    "name": "Abdul Bari",
+    "note": "Algorithms explained slowly, on a whiteboard. Still one of the best ways I know to actually understand them.",
+    "language": "en",
+    "accent": "#b45309",
+    "categories": [
+      "hubCategory-software-engineering",
+      "hubCategory-productivity-tools"
+    ],
+    "tags": [
+      "algorithms",
+      "cs"
+    ]
+  },
+  {
+    "handle": "ElzeroTube",
+    "name": "Elzero Tube",
+    "note": "Osama Elzero’s second shelf — extra lessons and clips around the main Web School path.",
+    "language": "ar",
+    "accent": "#0075ff",
+    "categories": [
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "web",
+      "tutorials"
+    ]
+  },
+  {
+    "handle": "TheCherno",
+    "name": "The Cherno",
+    "note": "Yan building Hazel and teaching C++ in public. I watch when I want systems-level thinking, not another web stack.",
+    "language": "en",
+    "accent": "#f97316",
+    "categories": [
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "cpp",
+      "game-engine"
+    ]
+  },
+  {
+    "handle": "ChristopherOkhravi",
+    "name": "Christopher Okhravi",
+    "note": "Design patterns and abstractions, taught like he really wants you to get them. Dense, in a good way.",
+    "language": "en",
+    "accent": "#4f46e5",
+    "categories": [
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "design-patterns",
+      "oop"
+    ]
+  },
+  {
+    "handle": "mitocw",
+    "name": "MIT OpenCourseWare",
+    "note": "Full MIT courses, free. I don’t binge this — I open it when I want the real lecture, not a summary.",
+    "language": "en",
+    "accent": "#a31f34",
+    "categories": [
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "courses",
+      "cs"
+    ]
+  },
+  {
+    "handle": "ArabicCompetitiveProgramming",
+    "name": "Arabic Competitive Programming",
+    "note": "Mostafa Saad’s problem-solving path. The channel I point to when someone wants competitive programming done seriously.",
+    "language": "en",
+    "accent": "#1d4ed8",
+    "categories": [
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "algorithms",
+      "competitive-programming"
+    ]
+  },
+  {
+    "handle": "fekraa",
+    "name": "Fekra - Sohaib Aldosoky",
+    "note": "Sohaib on motion design and freelancing. Arabic, generous, and useful if you want to get paid for creative work.",
+    "language": "ar",
+    "accent": "#db2777",
+    "categories": [
+      "hubCategory-design-ux"
+    ],
+    "tags": [
+      "motion",
+      "freelance"
+    ]
+  },
+  {
+    "handle": "AliMuhammadAli",
+    "name": "Ali Muhammad Ali",
+    "note": "Ali sharing whatever useful thing he just learned. Wide range, always aimed at helping someone get through a hard bit.",
+    "language": "ar",
+    "accent": "#0f766e",
+    "categories": [
+      "hubCategory-humanity-life",
+      "hubCategory-career-growth"
+    ],
+    "tags": [
+      "learning",
+      "life"
+    ]
+  },
+  {
+    "handle": "TheEnglishCoach",
+    "name": "The English Coach",
+    "note": "Stefanie coaching independent English learners. Direct, adult, and focused on sounding like yourself.",
+    "language": "en",
+    "accent": "#7c3aed",
+    "categories": [
+      "hubCategory-english"
+    ],
+    "tags": [
+      "english",
+      "speaking"
+    ]
+  },
+  {
+    "handle": "anaHr",
+    "name": "anaHr",
+    "note": "Arabic HR and workplace talk. Helps me see the people side of work, not only the engineering one.",
+    "language": "ar",
+    "accent": "#be185d",
+    "categories": [
+      "hubCategory-career-growth"
+    ],
+    "tags": [
+      "hr",
+      "workplace"
+    ]
+  },
+  {
+    "handle": "BennyProductions",
+    "name": "Benny Productions",
+    "note": "Photoshop and digital art with a lot of craft. I open this when I want to get better at the tool, not collect presets.",
+    "language": "en",
+    "accent": "#2563eb",
+    "categories": [
+      "hubCategory-design-ux"
+    ],
+    "tags": [
+      "photoshop",
+      "design"
+    ]
+  },
+  {
+    "handle": "Arabhardware",
+    "name": "Arabhardware - عرب هاردوير",
+    "note": "The Arabic hardware community I grew up reading. Reviews and PC talk with actual standards.",
+    "language": "ar",
+    "accent": "#dc2626",
+    "categories": [
+      "hubCategory-hardware"
+    ],
+    "tags": [
+      "hardware",
+      "pc"
+    ]
+  },
+  {
+    "handle": "Tahalip",
+    "name": "طحالب",
+    "note": "Egyptian commentary I watch to stay close to the culture and the jokes — not everything has to be a lesson.",
+    "language": "ar",
+    "accent": "#65a30d",
+    "categories": [
+      "hubCategory-humanity-life"
+    ],
+    "tags": [
+      "culture",
+      "commentary"
+    ]
+  },
+  {
+    "handle": "MohKhayal",
+    "name": "محمد خيال - Mohamed Khayal",
+    "note": "Photoshop, Illustrator, and InDesign in Arabic. Practical design lessons I can apply the same day.",
+    "language": "ar",
+    "accent": "#db2777",
+    "categories": [
+      "hubCategory-design-ux"
+    ],
+    "tags": [
+      "design",
+      "adobe"
+    ]
+  },
+  {
+    "handle": "EbtsamAlqadi",
+    "name": "Dr.Ebtsam Alqadi - ابتسام القاضي",
+    "note": "A calm space for Muslim women on identity and living with a quieter heart. Thoughtful more than loud.",
+    "language": "ar",
+    "accent": "#9d174d",
+    "categories": [
+      "hubCategory-faith-reflection",
+      "hubCategory-family"
+    ],
+    "tags": [
+      "identity",
+      "women"
+    ]
+  },
+  {
+    "handle": "ElzeroWebSchool",
+    "name": "Elzero Web School",
+    "note": "Osama Elzero’s main path for web development in Arabic. Still the playlist I send first.",
+    "language": "ar",
+    "accent": "#0075ff",
+    "categories": [
+      "hubCategory-software-engineering"
+    ],
+    "tags": [
+      "web",
+      "html-css-js"
+    ]
+  },
+  {
+    "handle": "ZAmericanEnglish",
+    "name": "zAmericanEnglish",
+    "note": "Ibrahim’s full path from beginner English to fluency. I like that it doesn’t assume you already paid for a course.",
+    "language": "ar",
+    "accent": "#1d4ed8",
+    "categories": [
+      "hubCategory-english"
+    ],
+    "tags": [
+      "english",
+      "beginner"
+    ]
+  },
+  {
+    "handle": "epichardware98",
+    "name": "EPIC HARDWARE",
+    "note": "PC hardware reviews and news in Arabic. Good companion to Arabhardware when I want another honest take.",
+    "language": "ar",
+    "accent": "#ea580c",
+    "categories": [
+      "hubCategory-hardware"
+    ],
+    "tags": [
+      "hardware",
+      "pc"
+    ]
+  },
+  {
+    "handle": "Adjacentnode",
+    "name": "Kevin Nanns",
+    "note": "Enterprise networking from someone who designs those systems. I watch when I want the architecture, not a cert cram.",
+    "language": "en",
+    "accent": "#0e7490",
+    "categories": [
+      "hubCategory-software-engineering",
+      "hubCategory-productivity-tools"
+    ],
+    "tags": [
+      "networking",
+      "architecture"
+    ]
+  },
+  {
+    "handle": "yehiatech",
+    "name": "Yehia Tech",
+    "note": "Yahya on architecture and leadership after years of building. Senior engineering talk without the LinkedIn polish.",
+    "language": "ar",
+    "accent": "#4f46e5",
+    "categories": [
+      "hubCategory-hardware"
+    ],
+    "tags": [
+      "architecture",
+      "leadership"
+    ]
+  }
+]

@@ -10,7 +10,6 @@
 import { getCliClient } from 'sanity/cli'
 
 const client = getCliClient({ apiVersion: '2023-01-01' })
-const DIRECTORY_ID = 'hubChannelsDirectoryPage-singleton'
 
 const FEATURED_URLS = new Set([
   'https://www.youtube.com/@MetwallyLabs',
@@ -19,21 +18,13 @@ const FEATURED_URLS = new Set([
 ])
 
 async function run() {
-  const doc = await client.fetch(
-    `*[_id == $id][0]{ _id, channels[]{ _key, url, featuredInAbout } }`,
-    { id: DIRECTORY_ID },
-  )
-  if (!doc?._id || !Array.isArray(doc.channels)) {
-    console.error('Hub Channels Directory singleton not found.')
-    process.exit(1)
-  }
-
-  const patch = client.patch(doc._id)
+  const follows = await client.fetch(`*[_type == "hubFollow"]{ _id, url, featuredInAbout }`)
+  const tx = client.transaction()
   let changed = 0
-  doc.channels.forEach((item) => {
+  follows.forEach((item) => {
     const next = FEATURED_URLS.has(item.url)
     if (Boolean(item.featuredInAbout) === next) return
-    patch.set({ [`channels[_key=="${item._key}"].featuredInAbout`]: next })
+    tx.patch(item._id, (patch) => patch.set({featuredInAbout: next}))
     changed += 1
   })
 
@@ -42,7 +33,7 @@ async function run() {
     return
   }
 
-  await patch.commit()
+  await tx.commit()
   console.log(`Updated featuredInAbout on ${changed} Follows item(s).`)
 }
 

@@ -5,6 +5,7 @@ import { faBookOpen, faLayerGroup, faMagnifyingGlass, faNewspaper, faPodcast, fa
 import Text from '../../components/Text';
 import CategoryFilters, { countByCategorySlug } from './CategoryFilters';
 import Grid from './Grid';
+import LoadMore, { useLoadMore } from './LoadMore';
 import { cx } from '../../utils/cx';
 import type { HubEntryKind, SanityHubCategory, SanityHubEntrySummary } from '../../Types';
 import styles from './CategoryFilters.module.css';
@@ -91,6 +92,9 @@ function HubPostsListing({ entries, categories, activeSlug }: HubPostsListingPro
                 : entriesInSearchView.filter((entry) => entry.kind === kindFilter),
         [entriesInSearchView, kindFilter],
     );
+
+    const {visibleCount, loadMore} = useLoadMore(`${kindFilter}\0${search}\0${activeSlug ?? ''}`);
+    const visibleEntries = filteredEntries.slice(0, visibleCount);
 
     const categorySource = useMemo(() => {
         const searchMatches = entries.filter((entry) => matchesSearch(entry, normalizedQuery));
@@ -199,12 +203,17 @@ function HubPostsListing({ entries, categories, activeSlug }: HubPostsListingPro
             </section>
 
             <Grid
-                entries={filteredEntries}
+                entries={visibleEntries}
                 empty={
                     entries.length === 0
                         ? 'Nothing here yet. I’ll add more.'
                         : 'Nothing matches that yet.'
                 }
+            />
+            <LoadMore
+                shown={visibleEntries.length}
+                total={filteredEntries.length}
+                onLoadMore={loadMore}
             />
         </>
     );

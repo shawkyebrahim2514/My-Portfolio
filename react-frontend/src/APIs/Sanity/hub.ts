@@ -34,14 +34,15 @@ const entrySummaryProjection = `{
     "categories": categories[]->{ title, "slug": slug.current }
 }`;
 
-const directoryChannelProjection = `{
-    _key,
+const directoryChannelFields = `
     type,
     name,
     platform,
     url,
     avatar,
+    avatarFocus,
     "coverImage": coalesce(coverImage.asset->url, coverImage),
+    coverFocus,
     "accentColor": accent.hex,
     note,
     language,
@@ -52,7 +53,7 @@ const directoryChannelProjection = `{
     "deepDiveSlug": deepDiveEntry->slug.current,
     "deepDiveTitle": deepDiveEntry->title,
     "categories": coalesce(categories[]->{ title, "slug": slug.current }, [])
-}`;
+`;
 
 const getHubPage = async () => {
     const query = `*[_type == "hubPage"][0] {
@@ -67,7 +68,18 @@ const getHubChannelsDirectoryPage = async () => {
     const query = `*[_type == "hubChannelsDirectoryPage"][0] {
         title,
         intro,
-        "channels": channels[] ${directoryChannelProjection}
+        "channels": channels[] {
+            ...select(
+                defined(_ref) => @->{
+                    "_key": coalesce(^._key, _id),
+                    ${directoryChannelFields}
+                },
+                {
+                    _key,
+                    ${directoryChannelFields}
+                }
+            )
+        }
     }`;
     const result: SanityHubChannelsDirectoryPage | null = await sanityClient.fetch(query);
     return result;

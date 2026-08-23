@@ -14,7 +14,11 @@
     "seed:hub:launch": "sanity exec scripts/seed-hub-launch-baseline.mjs --with-user-token",
     "seed:hub:channels": "sanity exec scripts/seed-hub-channels-directory.mjs --with-user-token",
     "migrate:hub:channels:type": "sanity exec scripts/migrate-hub-channels-directory-type.mjs --with-user-token",
-    "mark:hub:follows:about": "sanity exec scripts/mark-follows-featured-in-about.mjs --with-user-token"
+    "mark:hub:follows:about": "sanity exec scripts/mark-follows-featured-in-about.mjs --with-user-token",
+    "add:hub:youtube": "sanity exec scripts/add-youtube-subscriptions.mjs --with-user-token",
+    "sync:hub:taxonomy": "sanity exec scripts/sync-hub-taxonomy.mjs --with-user-token",
+    "add:hub:social": "sanity exec scripts/add-social-creators.mjs --with-user-token",
+    "migrate:hub:follows:docs": "sanity exec scripts/migrate-follows-to-documents.mjs --with-user-token"
   },
   "keywords": [
     "sanity"
