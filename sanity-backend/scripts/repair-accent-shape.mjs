@@ -4,8 +4,8 @@ import { getCliClient } from 'sanity/cli';
 // partial color object ({_type:'color', hex}) with no hsl/hsv/rgb/alpha. The
 // @sanity/color-input widget reads those sub-objects to render its picker, so a
 // partial value makes the field throw and disappear in Studio. This rewrites
-// every stored accent into the full, widget-compatible shape (computed from the
-// hex) so the field renders and stays editable.
+// every stored accent into the full, widget-compatible shape (computed from
+// the hex) so the field renders and stays editable.
 const client = getCliClient({ apiVersion: '2023-01-01' });
 
 const hexToRgb = (hex) => {
@@ -59,27 +59,88 @@ const buildColor = (hex) => {
     };
 };
 
-const run = async () => {
-    // Any entry whose accent is missing the sub-objects the widget needs.
-    const broken = await client.fetch(
+const hasBrokenColorShape = (accent) =>
+    Boolean(accent) &&
+    (!accent.rgb || !accent.hsl || !accent.hsv || typeof accent.alpha !== 'number');
+
+const repairHubEntryAccents = async () => {
+    const brokenEntries = await client.fetch(
         `*[_type=="hubEntry" && defined(accent) && (!defined(accent.rgb) || !defined(accent.hsl) || !defined(accent.hsv) || !defined(accent.alpha))]{_id, title, "hex": accent.hex}`,
     );
-    if (broken.length === 0) {
-        console.log('No partial accent values found — nothing to repair.');
-        return;
-    }
-    console.log(`Repairing ${broken.length} accent value(s):`);
+
+    if (brokenEntries.length === 0) return 0;
+
+    console.log(`Repairing ${brokenEntries.length} hubEntry accent value(s):`);
     let tx = client.transaction();
-    for (const doc of broken) {
+    let patched = 0;
+    for (const doc of brokenEntries) {
         if (!doc.hex) {
             console.log(`  - SKIP ${doc._id} (no hex to rebuild from)`);
             continue;
         }
         console.log(`  - ${doc._id}  ${doc.title}  ${doc.hex}`);
         tx = tx.patch(doc._id, (p) => p.set({ accent: buildColor(doc.hex) }));
+        patched += 1;
     }
-    await tx.commit();
-    console.log('Done.');
+    if (patched > 0) {
+        await tx.commit();
+    }
+    return patched;
+};
+
+const repairDirectoryChannelAccents = async () => {
+    const docs = await client.fetch(
+        `*[_type=="hubChannelsDirectoryPage" && count(channels[defined(accent) && (!defined(accent.rgb) || !defined(accent.hsl) || !defined(accent.hsv) || !defined(accent.alpha))]) > 0]{
+            _id,
+            title,
+            channels
+        }`,
+    );
+
+    if (docs.length === 0) return 0;
+
+    let tx = client.transaction();
+    let patched = 0;
+    console.log(`Repairing channel-card accents in ${docs.length} hubChannelsDirectoryPage document(s):`);
+
+    for (const doc of docs) {
+        let docPatched = 0;
+        const channels = (doc.channels || []).map((channel) => {
+            const accent = channel?.accent;
+            if (!accent?.hex || !hasBrokenColorShape(accent)) return channel;
+            docPatched += 1;
+            patched += 1;
+            return {
+                ...channel,
+                accent: buildColor(accent.hex),
+            };
+        });
+
+        if (docPatched === 0) continue;
+
+        console.log(`  - ${doc._id}  ${doc.title || ''}  (${docPatched} repaired)`);
+        tx = tx.patch(doc._id, (p) => p.set({ channels }));
+    }
+
+    if (patched > 0) {
+        await tx.commit();
+    }
+    return patched;
+};
+
+const run = async () => {
+    const repairedEntryAccents = await repairHubEntryAccents();
+    const repairedDirectoryAccents = await repairDirectoryChannelAccents();
+    const total = repairedEntryAccents + repairedDirectoryAccents;
+
+    if (total === 0) {
+        console.log('No partial accent values found — nothing to repair.');
+        return;
+    }
+
+    console.log(
+        `Done. Repaired ${total} accent value(s) (${repairedEntryAccents} entry accents, ${repairedDirectoryAccents} directory channel accents).`,
+    );
 };
 
 run().catch((err) => {

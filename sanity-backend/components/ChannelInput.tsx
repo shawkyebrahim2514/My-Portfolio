@@ -4,7 +4,7 @@ import {ObjectInputProps, set, unset} from 'sanity'
 
 type ChannelValue = {
   _type?: string
-  platform?: 'youtube' | 'vimeo' | 'twitch' | 'website'
+  platform?: 'youtube' | 'github' | 'linkedin' | 'facebook' | 'podcast' | 'website' | 'twitter'
   url?: string
   name?: string
   channelId?: string

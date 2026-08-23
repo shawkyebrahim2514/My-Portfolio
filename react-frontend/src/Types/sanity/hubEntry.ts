@@ -18,7 +18,14 @@ export type HubPlatformLink = {
     url: string;
 };
 
-export type HubChannelPlatform = 'youtube' | 'vimeo' | 'twitch' | 'website';
+export type HubChannelPlatform =
+    | 'youtube'
+    | 'github'
+    | 'linkedin'
+    | 'facebook'
+    | 'podcast'
+    | 'website'
+    | 'twitter';
 
 export type HubChannelDetails = {
     platform: HubChannelPlatform;

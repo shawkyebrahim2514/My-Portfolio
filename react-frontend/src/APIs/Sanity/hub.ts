@@ -1,4 +1,10 @@
-import { SanityHubPage, SanityHubEntry, SanityHubEntrySummary, SanityHubCategory } from '../../Types';
+import {
+    SanityHubPage,
+    SanityHubEntry,
+    SanityHubEntrySummary,
+    SanityHubCategory,
+    SanityHubChannelsDirectoryPage,
+} from '../../Types';
 import sanityClient from './client';
 
 // Shared projection for card/list rendering — deliberately excludes
@@ -10,7 +16,7 @@ const entrySummaryProjection = `{
     kind,
     language,
     excerpt,
-    "coverImage": coverImage.asset->url,
+    "coverImage": coalesce(coverImage.asset->url, coverImage),
     "channel": select(kind == "channel" => {
         "platform": channel.platform,
         "url": channel.url,
@@ -28,12 +34,42 @@ const entrySummaryProjection = `{
     "categories": categories[]->{ title, "slug": slug.current }
 }`;
 
+const directoryChannelProjection = `{
+    _key,
+    type,
+    name,
+    platform,
+    url,
+    avatar,
+    "coverImage": coalesce(coverImage.asset->url, coverImage),
+    "accentColor": accent.hex,
+    note,
+    language,
+    featured,
+    featuredInAbout,
+    hiddenInProduction,
+    tags,
+    "deepDiveSlug": deepDiveEntry->slug.current,
+    "deepDiveTitle": deepDiveEntry->title,
+    "categories": coalesce(categories[]->{ title, "slug": slug.current }, [])
+}`;
+
 const getHubPage = async () => {
     const query = `*[_type == "hubPage"][0] {
         title,
         intro,
     }`;
     const result: SanityHubPage = await sanityClient.fetch(query);
+    return result;
+};
+
+const getHubChannelsDirectoryPage = async () => {
+    const query = `*[_type == "hubChannelsDirectoryPage"][0] {
+        title,
+        intro,
+        "channels": channels[] ${directoryChannelProjection}
+    }`;
+    const result: SanityHubChannelsDirectoryPage | null = await sanityClient.fetch(query);
     return result;
 };
 
@@ -86,7 +122,7 @@ const getHubEntryBySlug = async (slug: string) => {
     return result;
 };
 
-// Curated "You might also like" list for the /hub/<slug> detail page. Reads the
+// "More like this" list for the /hub/<slug> detail page. Reads the
 // category's hand-picked `recommendedEntries` in the stored (drag-ordered)
 // order — may include entries from other categories. References resolve to
 // published docs at prerender; deleted/unpublished refs come back null, and the
@@ -140,6 +176,7 @@ const getHubCategorySlugs = async () => {
 
 export {
     getHubPage,
+    getHubChannelsDirectoryPage,
     getHubEntries,
     getHubEntriesByCategory,
     getHubEntryBySlug,

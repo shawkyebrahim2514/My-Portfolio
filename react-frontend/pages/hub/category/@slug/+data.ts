@@ -1,6 +1,6 @@
 import type { PageContextServer } from 'vike/types';
 import { render } from 'vike/abort';
-import { getHubCategoryBySlug, getHubEntriesByCategory, getHubCategories } from '../../../../src/APIs';
+import { getHubCategoryBySlug, getHubEntries, getHubCategories } from '../../../../src/APIs';
 import type { SanityHubCategory, SanityHubEntrySummary } from '../../../../src/Types';
 
 export type HubCategoryData = {
@@ -13,7 +13,7 @@ export async function data(pageContext: PageContextServer): Promise<HubCategoryD
     const { slug } = pageContext.routeParams;
     const [category, entries, categories] = await Promise.all([
         getHubCategoryBySlug(slug),
-        getHubEntriesByCategory(slug),
+        getHubEntries(),
         getHubCategories(),
     ]);
 

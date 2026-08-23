@@ -44,6 +44,7 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
                         <Suspense fallback={<Loader />}>
                             <header className={styles.banner}>
                                 <Navbar
+                                    logo={pageContext.navbar?.logo ?? 'SE'}
                                     readingProgress
                                     progressAccent={kind ? (accentColor ?? KIND_ACCENT[kind]) : undefined}
                                 />

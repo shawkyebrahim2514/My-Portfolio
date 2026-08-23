@@ -54,9 +54,12 @@ const PLATFORM_META: Record<HubPlatformLink['platform'], { icon: IconDefinition;
 
 const CHANNEL_PLATFORM_LABEL = {
     youtube: 'YouTube',
-    vimeo: 'Vimeo',
-    twitch: 'Twitch',
+    github: 'GitHub',
+    linkedin: 'LinkedIn',
+    facebook: 'Facebook',
+    podcast: 'Podcasts',
     website: 'Website',
+    twitter: 'Twitter (X)',
 } as const;
 
 function formatDate(iso: string, language: HubContentLanguage) {

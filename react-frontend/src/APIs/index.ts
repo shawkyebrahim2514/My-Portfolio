@@ -7,6 +7,7 @@ export {
     getAboutPage,
     getNavbarData,
     getHubPage,
+    getHubChannelsDirectoryPage,
     getHubEntries,
     getHubEntriesByCategory,
     getHubEntryBySlug,

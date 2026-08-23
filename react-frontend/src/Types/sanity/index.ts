@@ -18,3 +18,9 @@ export {
     type HubChannelDetails,
 } from './hubEntry';
 export { type SanityHubCategory, type SanityIconManagerValue } from './hubCategory';
+export {
+    type HubDirectoryType,
+    type HubDirectoryPlatform,
+    type SanityHubDirectoryChannel,
+    type SanityHubChannelsDirectoryPage,
+} from './hubChannelsDirectory';

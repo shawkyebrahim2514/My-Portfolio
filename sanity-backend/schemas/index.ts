@@ -26,7 +26,7 @@ import {
   linkPreview,
   facebookResource,
 } from './objects/richContent'
-import {hubPage, hubEntry, hubCategory} from './hub'
+import {hubPage, hubEntry, hubCategory, hubChannelsDirectoryPage} from './hub'
 
 export const schemaTypes = [
   portfolio,
@@ -42,6 +42,7 @@ export const schemaTypes = [
   hubPage,
   hubEntry,
   hubCategory,
+  hubChannelsDirectoryPage,
   // Rich-content object types (Portable Text) used by description fields.
   spacer,
   divider,

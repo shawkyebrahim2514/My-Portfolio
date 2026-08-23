@@ -18,14 +18,14 @@ function HubRecommendations({ entries }: HubRecommendationsProps) {
     if (visibleEntries.length === 0) return null;
 
     return (
-        <section className={styles.section} aria-label="You might also like">
+        <section className={styles.section} aria-label="More like this">
             <header className={styles.header}>
                 <div className={styles.titleRow}>
                     <span className={styles.icon}>
                         <FontAwesomeIcon icon={faLayerGroup} />
                     </span>
                     <Text variant="h3">
-                        You might also like
+                        More like this
                     </Text>
                 </div>
                 <hr className={styles.divider} />

@@ -2,10 +2,6 @@ import { describe, it, expect, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
-vi.mock('../../hooks/useSanityQuery', () => ({
-    useSanityQuery: () => ({ data: { logo: 'SE' }, loading: false, error: null }),
-}));
-
 vi.mock('react-responsive', () => ({
     useMediaQuery: () => false,
 }));
@@ -21,7 +17,7 @@ import Navbar from './index';
 
 function renderNavbar(initialPath = '/') {
     usePageContext.mockReturnValue({ urlPathname: initialPath });
-    return render(<Navbar />);
+    return render(<Navbar logo="SE" />);
 }
 
 describe('Navbar — accessibility', () => {

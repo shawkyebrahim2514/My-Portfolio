@@ -83,6 +83,23 @@
     border-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-700)) 30%, white);
 }
 
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+}
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--font-size-xs);
+    border-radius: 999px;
+    padding: 0.22rem 0.58rem;
+    background-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-700)) 12%, white);
+    color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-700)) 82%, black);
+    border: 1px solid color-mix(in srgb, var(--entry-accent, var(--color-secondary-700)) 28%, white);
+}
+
 .excerpt {
     font-size: var(--font-size-sm);
     color: var(--color-base-700);

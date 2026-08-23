@@ -1,8 +1,8 @@
 import { useData } from 'vike-react/useData';
 import ContainerWrap from '../../../../src/components/ContainerWrap';
 import Text from '../../../../src/components/Text';
-import CategoryFilters from '../../../../src/containers/Hub/CategoryFilters';
-import Grid from '../../../../src/containers/Hub/Grid';
+import HubViewsNav from '../../../../src/containers/Hub/ViewsNav';
+import HubPostsListing from '../../../../src/containers/Hub/HubPostsListing';
 import { filterVisible } from '../../../../src/containers/Hub/visibility';
 import { useIsPreview } from '../../../../src/contexts/PreviewContext';
 import { cx } from '../../../../src/utils/cx';
@@ -20,11 +20,15 @@ function HubCategoryPage() {
         <div className={section.section}>
             <Text variant="h1">{category.title}</Text>
             <div className={cx(surfaces.container, surfaces.column)}>
+                <HubViewsNav activeView="entries" />
                 {category.description && (
                     <Text variant="body" className={lede.lede}>{category.description}</Text>
                 )}
-                <CategoryFilters categories={categories} activeSlug={category.slug} />
-                <Grid entries={visibleEntries} />
+                <HubPostsListing
+                    entries={visibleEntries}
+                    categories={categories}
+                    activeSlug={category.slug}
+                />
             </div>
         </div>
     );

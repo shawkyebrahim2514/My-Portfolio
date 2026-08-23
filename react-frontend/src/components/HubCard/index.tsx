@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNewspaper, faPodcast, faBookOpen, faTv, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { cx } from '../../utils/cx';
 import Text from '../Text';
-import ListButtons from '../ListButtons';
 import { accentStyle } from '../../containers/Hub/kindAccent';
 import surfaces from '../../styles/surfaces.module.css';
 import type { HubEntryKind, HubEntryCategoryRef, HubContentLanguage } from '../../Types';
@@ -66,7 +65,13 @@ function HubCard({ title, slug, kind, excerpt, coverImage, channelAvatar, durati
                 <Text variant="h4">{title}</Text>
                 <Text className={styles.excerpt}>{excerpt}</Text>
                 {resolvedCategories.length > 0 && (
-                    <ListButtons elements={resolvedCategories.map((category) => category.title)} />
+                    <div className={styles.tags}>
+                        {resolvedCategories.map((category) => (
+                            <span key={category.slug} className={styles.tag}>
+                                {category.title}
+                            </span>
+                        ))}
+                    </div>
                 )}
                 {durationLabel && <Text className={styles.duration}>{durationLabel}</Text>}
             </div>
