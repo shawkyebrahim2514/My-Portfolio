@@ -17,6 +17,10 @@ export {
     type HubChannelPlatform,
     type HubChannelDetails,
     type SanityHubCategory,
+    type HubDirectoryType,
+    type HubDirectoryPlatform,
+    type SanityHubDirectoryChannel,
+    type SanityHubChannelsDirectoryPage,
 } from './sanity';
 
 export {

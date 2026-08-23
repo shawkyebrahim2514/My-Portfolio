@@ -1,5 +1,6 @@
 import { SanityAboutPage } from '../../Types';
 import sanityClient from './client';
+import { getHubChannelsDirectoryPage } from './hub';
 
 const getAboutPage = async () => {
     const query = `*[_type == "portfolio"][0].pages[_type == "aboutPage"][0] {
@@ -30,8 +31,14 @@ const getAboutPage = async () => {
             "categories": categories[]->{ title, "slug": slug.current }
         },
     }`;
-    const result: SanityAboutPage = await sanityClient.fetch(query);
-    return result;
+    const [about, directory] = await Promise.all([
+        sanityClient.fetch<SanityAboutPage>(query),
+        getHubChannelsDirectoryPage(),
+    ]);
+    return {
+        ...about,
+        featuredFollows: (directory?.channels ?? []).filter((item) => item.featuredInAbout),
+    };
 };
 
 export {

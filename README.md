@@ -122,8 +122,8 @@ Run these inside `react-frontend/`:
 - **Contact** — ways to get in touch.
 - **Hub** — articles, channels, podcasts, reading lists, and rich authored
   content including link previews, media galleries, figures, notes, key
-  takeaways, quotations, expandable details, and Curated Videos with rich
-  companion content.
+  takeaways, quotations, expandable details, Curated Videos with rich companion
+  content,   and a Follows page at `/hub/follows`.
 
 All content is editable through the Sanity Studio without touching code.
 

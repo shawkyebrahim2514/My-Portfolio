@@ -140,9 +140,12 @@ export const hubEntry = {
                     options: {
                         list: [
                             {title: 'YouTube', value: 'youtube'},
-                            {title: 'Vimeo', value: 'vimeo'},
-                            {title: 'Twitch', value: 'twitch'},
-                            {title: 'Other website', value: 'website'},
+                            {title: 'GitHub', value: 'github'},
+                            {title: 'LinkedIn', value: 'linkedin'},
+                            {title: 'Facebook', value: 'facebook'},
+                            {title: 'Podcasts', value: 'podcast'},
+                            {title: 'Website', value: 'website'},
+                            {title: 'Twitter (X)', value: 'twitter'},
                         ],
                         layout: 'radio',
                     },

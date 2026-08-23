@@ -23,6 +23,11 @@ whose rich body preserves authored order and supports full-width Curated Video
 blocks. Its focused `moreVideos` array renders ordinary recommendations as one
 grid at the end of the page.
 
+For quick curation, the **Hub Channels Directory** document powers
+`/hub/follows` (the public **Follows** page): one place to list both Subscriptions and Creators with a short
+note, directory/platform/category filters, optional cover image + per-card
+accent color, and an optional link to a dedicated Channel Hub deep-dive entry.
+
 Automatic URL metadata uses the frontend's Vercel function. For local testing,
 run `npx vercel dev --listen 3002` from `react-frontend`. Channel metadata uses
 port 3002; ordinary frontend and link-preview development remains on port 3000.
@@ -42,6 +47,8 @@ npx sanity exec scripts/seed-channel-mataa3.mjs --with-user-token
 npx sanity exec scripts/seed-podcast-essam-cafe.mjs --with-user-token
 npx sanity exec scripts/seed-reading-list.mjs --with-user-token
 npm run seed:hub:launch
+npm run seed:hub:channels
+npm run migrate:hub:channels:type
 ```
 
 `seed:hub:launch` does four things:
@@ -51,6 +58,17 @@ npm run seed:hub:launch
 - Sets About-page featured Hub references and software-engineering
   recommendations to real entries that exist in the dataset.
 - Marks all legacy `[DUMMY]` entries as `hiddenInProduction: true`.
+
+`seed:hub:channels` seeds the Hub Channels Directory singleton used by
+`/hub/follows`.
+
+`migrate:hub:channels:type` backfills directory item `type` values
+(`subscription` / `creator`) so the two tabs on `/hub/follows` work
+consistently for older data.
+
+Tick **Show on About page** on a Follows item to include it in the
+About-page **Worth Following** teaser. `mark-follows-featured-in-about.mjs`
+can set a starter mix without overwriting the directory.
 
 ## Deployment
 

@@ -121,6 +121,11 @@ Channel entries keep full-width Curated Videos in their rich body. Additional
 ordinary recommendations belong in the dedicated **More Videos** array and
 render together as one responsive grid at the end of the page.
 
+The `/hub/follows` route is the Hub **Follows** page: a shared list of Subscriptions + Creators.
+quick cards with directory/platform/category filters, search, optional cover
+image + custom accent color, and an optional deep-dive link to a dedicated
+Channel Hub entry.
+
 ### Metadata endpoint configuration
 
 The Studio resolves pasted URLs through the Vercel function at

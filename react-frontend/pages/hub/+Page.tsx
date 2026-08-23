@@ -2,8 +2,8 @@ import { useData } from 'vike-react/useData';
 import ContainerWrap from '../../src/components/ContainerWrap';
 import Title from '../../src/containers/Title';
 import RichContent from '../../src/components/RichContent';
-import CategoryFilters from '../../src/containers/Hub/CategoryFilters';
-import Grid from '../../src/containers/Hub/Grid';
+import HubViewsNav from '../../src/containers/Hub/ViewsNav';
+import HubPostsListing from '../../src/containers/Hub/HubPostsListing';
 import { filterVisible } from '../../src/containers/Hub/visibility';
 import { useIsPreview } from '../../src/contexts/PreviewContext';
 import { cx } from '../../src/utils/cx';
@@ -21,11 +21,11 @@ function Hub() {
         <div className={section.section}>
             <Title title={page.title} />
             <div className={cx(surfaces.container, surfaces.column)}>
+                <HubViewsNav activeView="entries" />
                 <div className={lede.lede}>
                     <RichContent value={page.intro} />
                 </div>
-                <CategoryFilters categories={categories} />
-                <Grid entries={visibleEntries} />
+                <HubPostsListing entries={visibleEntries} categories={categories} />
             </div>
         </div>
     );

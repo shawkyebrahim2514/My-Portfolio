@@ -5,11 +5,12 @@ import styles from './Grid.module.css';
 
 type GridProps = {
     readonly entries: SanityHubEntrySummary[];
+    readonly empty?: string;
 };
 
-function Grid({ entries }: GridProps) {
+function Grid({ entries, empty = 'Nothing here yet. I’ll add more.' }: GridProps) {
     if (entries.length === 0) {
-        return <p className={styles.empty}>Nothing here yet — check back soon.</p>;
+        return <p className={styles.empty}>{empty}</p>;
     }
 
     return (

@@ -7,6 +7,7 @@ export { getExperiencePage } from './experience';
 export { getNavbarData } from './navbar';
 export {
     getHubPage,
+    getHubChannelsDirectoryPage,
     getHubEntries,
     getHubEntriesByCategory,
     getHubEntryBySlug,

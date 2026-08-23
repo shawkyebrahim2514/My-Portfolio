@@ -49,7 +49,7 @@ export const hubCategory = {
             type: 'array',
             title: 'Recommended Entries',
             description:
-                "Hand-picked entries shown in the \"You might also like\" section on entry pages of this category. Drag to set the display order. May include entries from other categories. Leave empty to hide the section for this category's entries.",
+                "Hand-picked entries shown in the \"More like this\" section on entry pages of this category. Drag to set the display order. May include entries from other categories. Leave empty to hide the section for this category's entries.",
             of: [{ type: 'reference', to: [{ type: 'hubEntry' }] }],
             validation: Rule => Rule.unique(),
         },

@@ -1,7 +1,5 @@
-/* This wrapper exists purely for the page-enter/leave slide transition. Page
-   spacing (breathing room under the sticky navbar) lives on `.main` in the
-   layout, not here — see pages/Layout.module.css. The grid + centering keeps
-   the animated child laid out consistently during the transition. */
+/* Page wrapper. Spacing under the sticky navbar lives on `.main` in the
+   layout — see pages/Layout.module.css. */
 .container {
     display: grid;
     align-items: center;

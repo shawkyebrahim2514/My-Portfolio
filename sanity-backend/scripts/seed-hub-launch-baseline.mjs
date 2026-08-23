@@ -87,10 +87,7 @@ const hubPage = {
   title: { highlightedText: 'Hub', subText: 'What I share' },
   intro: [
     block(
-      'A place where I share practical engineering lessons, curated resources, and thoughtful recommendations worth revisiting.',
-    ),
-    block(
-      'This collection is intentionally editorial: fewer items, stronger signal, and steady updates over time.',
+      'Notes and posts I keep coming back to — software engineering, faith, and everyday humanity.',
     ),
   ],
 }
