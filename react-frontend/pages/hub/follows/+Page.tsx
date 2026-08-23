@@ -27,9 +27,11 @@ import RichContent from '../../../src/components/RichContent';
 import Title from '../../../src/containers/Title';
 import InlineSvg from '../../../src/components/InlineSvg';
 import HubViewsNav from '../../../src/containers/Hub/ViewsNav';
+import LoadMore, { useLoadMore } from '../../../src/containers/Hub/LoadMore';
 import { filterVisible } from '../../../src/containers/Hub/visibility';
 import { useIsPreview } from '../../../src/contexts/PreviewContext';
 import { cx } from '../../../src/utils/cx';
+import { resolveRemoteImageStyle, resolveYouTubeBannerUrl } from '../../../src/utils/remoteImageCrop';
 import type {
     HubDirectoryType,
     HubDirectoryPlatform,
@@ -271,6 +273,11 @@ function HubChannelsPage() {
             .sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)));
     }, [channelsInPlatformView, categoryFilter]);
 
+    const { visibleCount, loadMore } = useLoadMore(
+        `${directoryTypeFilter}\0${platformFilter}\0${categoryFilter}\0${search}`,
+    );
+    const visibleChannelsPage = filteredChannels.slice(0, visibleCount);
+
     return (
         <div className={section.section}>
             <Title title={page.title} />
@@ -401,8 +408,9 @@ function HubChannelsPage() {
                         Nothing matches that yet.
                     </Text>
                 ) : (
+                    <>
                     <div className={styles.grid}>
-                        {filteredChannels.map((channel) => {
+                        {visibleChannelsPage.map((channel) => {
                             const href = channel.deepDiveSlug ? `/hub/${channel.deepDiveSlug}` : channel.url;
                             if (!href) return null;
                             const isExternal = !channel.deepDiveSlug;
@@ -431,22 +439,26 @@ function HubChannelsPage() {
                                         {channel.coverImage && (
                                             <img
                                                 className={styles.cover}
-                                                src={channel.coverImage}
+                                                src={resolveYouTubeBannerUrl(channel.coverImage)}
                                                 alt=""
                                                 loading="lazy"
                                                 decoding="async"
+                                                style={resolveRemoteImageStyle(channel.coverFocus)}
                                             />
                                         )}
                                     </div>
                                     <header className={styles.header}>
                                         {channel.avatar ? (
-                                            <img
-                                                className={styles.avatar}
-                                                src={channel.avatar}
-                                                alt=""
-                                                loading="lazy"
-                                                decoding="async"
-                                            />
+                                            <span className={styles.avatarFrame}>
+                                                <img
+                                                    className={styles.avatar}
+                                                    src={channel.avatar}
+                                                    alt=""
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                    style={resolveRemoteImageStyle(channel.avatarFocus, 'center')}
+                                                />
+                                            </span>
                                         ) : (
                                             <span className={styles.avatarFallback} aria-hidden="true">
                                                 {channel.name.slice(0, 1).toUpperCase()}
@@ -506,6 +518,12 @@ function HubChannelsPage() {
                             );
                         })}
                     </div>
+                    <LoadMore
+                        shown={visibleChannelsPage.length}
+                        total={filteredChannels.length}
+                        onLoadMore={loadMore}
+                    />
+                    </>
                 )}
             </div>
         </div>

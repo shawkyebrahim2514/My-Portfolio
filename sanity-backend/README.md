@@ -70,6 +70,18 @@ Tick **Show on About page** on a Follows item to include it in the
 About-page **Worth Following** teaser. `mark-follows-featured-in-about.mjs`
 can set a starter mix without overwriting the directory.
 
+`add:hub:youtube` appends curated YouTube subscriptions without replacing
+existing Follows items. Safe to rerun.
+
+`add:hub:social` appends curated Facebook, LinkedIn, and X creators
+without replacing existing Follows items. Safe to rerun.
+
+`sync:hub:taxonomy` updates Hub category titles and the Follows set
+(Software, Career, Tech, Money, English, Hardware, Curiosity, Design,
+Faith, Family, Life), then retags Follows items from
+`scripts/data/follows-category-map.json`. It does not replace the directory
+or wipe recommended entries.
+
 ## Deployment
 
 Set the public Studio build variable shown in `.env.example`, then deploy:

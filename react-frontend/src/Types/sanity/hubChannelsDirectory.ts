@@ -1,3 +1,4 @@
+import type { RemoteImageCrop } from '../../utils/remoteImageCrop';
 import { CommonTitle } from './common';
 import { HubContentLanguage, HubEntryCategoryRef } from './hubEntry';
 import { RichContentNode } from './richContent';
@@ -20,7 +21,9 @@ export type SanityHubDirectoryChannel = {
     platform: HubDirectoryPlatform;
     url: string;
     avatar?: string;
+    avatarFocus?: RemoteImageCrop;
     coverImage?: string;
+    coverFocus?: RemoteImageCrop;
     accentColor?: string;
     note: string;
     language?: HubContentLanguage;
