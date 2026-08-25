@@ -174,9 +174,10 @@ export const hubFollow = {
     {
       name: 'featuredInAbout',
       type: 'boolean',
-      title: 'Show on About page',
+      title: 'Show on About page (legacy)',
       description:
-        'Include this follow in the About-page "Worth Following" teaser. Order follows the directory list.',
+        'Unused. Pick Worth Following items on the About page under Featured Follows.',
+      hidden: true,
       initialValue: false,
     },
     {
@@ -200,16 +201,14 @@ export const hubFollow = {
       platform: 'platform',
       deepDive: 'deepDiveEntry.title',
       featured: 'featured',
-      featuredInAbout: 'featuredInAbout',
       hidden: 'hiddenInProduction',
     },
-    prepare: ({title, subtitle, type, platform, deepDive, featured, featuredInAbout, hidden}) => ({
+    prepare: ({title, subtitle, type, platform, deepDive, featured, hidden}) => ({
       title: hidden ? `🔒 ${title}` : title,
       subtitle: [
         type,
         platform,
         featured ? '★ Featured' : null,
-        featuredInAbout ? 'About' : null,
         deepDive ? `Deep Dive: ${deepDive}` : null,
         subtitle,
       ]

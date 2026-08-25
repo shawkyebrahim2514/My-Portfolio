@@ -37,7 +37,7 @@ const entrySummaryProjection = `{
     "categories": categories[]->{ title, "slug": slug.current }
 }`;
 
-const directoryChannelFields = `
+export const directoryChannelFields = `
     type,
     name,
     platform,
