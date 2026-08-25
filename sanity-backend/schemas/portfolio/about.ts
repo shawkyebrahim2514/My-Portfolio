@@ -54,10 +54,25 @@ export const aboutPage = {
             validation: Rule => Rule.required()
         },
         {
+            name: 'featuredFollows',
+            type: 'array',
+            title: 'Featured Follows',
+            description:
+                'Hand-picked Follows shown in the "Worth Following" teaser on this page. Add as many as you like, in the order you want them displayed.',
+            of: [
+                {
+                    type: 'reference',
+                    name: 'featuredFollow',
+                    to: [{type: 'hubFollow'}],
+                },
+            ],
+            validation: (Rule) => Rule.unique(),
+        },
+        {
             name: 'featuredInAbout',
             type: 'array',
             title: 'Featured Hub Entries',
-            description: 'Hand-picked Hub entries shown in the "See what I share" teaser on this page. Add as many as you like, in the order you want them displayed.',
+            description: 'Hand-picked Hub entries shown in the "Things Worth Sharing" teaser on this page. Add as many as you like, in the order you want them displayed.',
             of: [
                 {
                     type: 'reference',

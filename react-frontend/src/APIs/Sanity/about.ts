@@ -1,6 +1,6 @@
 import { SanityAboutPage } from '../../Types';
 import sanityClient from './client';
-import { getHubChannelsDirectoryPage, withCardCover } from './hub';
+import { directoryChannelFields, withCardCover } from './hub';
 
 const getAboutPage = async () => {
     const query = `*[_type == "portfolio"][0].pages[_type == "aboutPage"][0] {
@@ -8,6 +8,14 @@ const getAboutPage = async () => {
         circularRingText,
         description,
         resume,
+        "featuredFollows": featuredFollows[] {
+            ...select(
+                defined(_ref) => @->{
+                    "_key": coalesce(^._key, _id),
+                    ${directoryChannelFields}
+                }
+            )
+        },
         "featuredHubEntries": featuredInAbout[]-> {
             title,
             "slug": slug.current,
@@ -33,16 +41,13 @@ const getAboutPage = async () => {
             "categories": categories[]->{ title, "slug": slug.current }
         },
     }`;
-    const [about, directory] = await Promise.all([
-        sanityClient.fetch<SanityAboutPage>(query),
-        getHubChannelsDirectoryPage(),
-    ]);
+    const about = await sanityClient.fetch<SanityAboutPage>(query);
     return {
         ...about,
         featuredHubEntries: (about.featuredHubEntries ?? []).map((entry) =>
             entry ? withCardCover(entry) : entry,
         ),
-        featuredFollows: (directory?.channels ?? []).filter((item) => item.featuredInAbout),
+        featuredFollows: about.featuredFollows ?? [],
     };
 };
 

@@ -20,7 +20,8 @@
     "add:hub:social": "sanity exec scripts/add-social-creators.mjs --with-user-token",
     "migrate:hub:follows:docs": "sanity exec scripts/migrate-follows-to-documents.mjs --with-user-token",
     "seed:hub:quran": "sanity exec scripts/seed-article-quran-recitations.mjs --with-user-token",
-    "migrate:hub:covers:urls": "sanity exec scripts/migrate-hub-entry-cover-urls.mjs --with-user-token"
+    "migrate:hub:covers:urls": "sanity exec scripts/migrate-hub-entry-cover-urls.mjs --with-user-token",
+    "migrate:hub:about:follows": "sanity exec scripts/migrate-about-featured-follows.mjs --with-user-token"
   },
   "keywords": [
     "sanity"
