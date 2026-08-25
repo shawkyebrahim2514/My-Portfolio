@@ -6,6 +6,7 @@ import {
     SanityHubChannelsDirectoryPage,
 } from '../../Types';
 import sanityClient from './client';
+import { listenCardCover } from '../../utils/youtube';
 
 // Shared projection for card/list rendering — deliberately excludes
 // `body`/`tags`, which are only needed on the /hub/[slug] detail page, to
@@ -17,6 +18,8 @@ const entrySummaryProjection = `{
     language,
     excerpt,
     "coverImage": coalesce(coverImage.asset->url, coverImage),
+    coverFocus,
+    "listenPreviewUrl": select(kind == "listen" => body[_type == "listeningItem" && defined(url)][0].url),
     "channel": select(kind == "channel" => {
         "platform": channel.platform,
         "url": channel.url,
@@ -85,16 +88,28 @@ const getHubChannelsDirectoryPage = async () => {
     return result;
 };
 
+type HubEntrySummaryRow = SanityHubEntrySummary & { listenPreviewUrl?: string };
+
+// Listening lists can omit a custom cover; Hub cards then use the first clip
+// thumbnail so the grid is not a text-only row.
+export function withCardCover(entry: HubEntrySummaryRow): SanityHubEntrySummary {
+    const { listenPreviewUrl, ...rest } = entry;
+    return {
+        ...rest,
+        coverImage: listenCardCover(entry.kind, entry.coverImage, listenPreviewUrl),
+    };
+}
+
 const getHubEntries = async () => {
     const query = `*[_type == "hubEntry"] | order(publishedAt desc) ${entrySummaryProjection}`;
-    const result: SanityHubEntrySummary[] = await sanityClient.fetch(query);
-    return result;
+    const result: HubEntrySummaryRow[] = await sanityClient.fetch(query);
+    return result.map(withCardCover);
 };
 
 const getHubEntriesByCategory = async (categorySlug: string) => {
     const query = `*[_type == "hubEntry" && $categorySlug in categories[]->slug.current] | order(publishedAt desc) ${entrySummaryProjection}`;
-    const result: SanityHubEntrySummary[] = await sanityClient.fetch(query, { categorySlug });
-    return result;
+    const result: HubEntrySummaryRow[] = await sanityClient.fetch(query, { categorySlug });
+    return result.map(withCardCover);
 };
 
 const getHubEntryBySlug = async (slug: string) => {
@@ -104,7 +119,8 @@ const getHubEntryBySlug = async (slug: string) => {
         kind,
         language,
         excerpt,
-        "coverImage": coverImage.asset->url,
+        "coverImage": coalesce(coverImage.asset->url, coverImage),
+        coverFocus,
         "channel": select(kind == "channel" => {
             "platform": channel.platform,
             "url": channel.url,
@@ -141,10 +157,10 @@ const getHubEntryBySlug = async (slug: string) => {
 // current entry is filtered out. No cap: every curated entry is shown.
 const getHubRecommendations = async (categorySlug: string, excludeSlug: string) => {
     const query = `*[_type == "hubCategory" && slug.current == $categorySlug][0].recommendedEntries[]->${entrySummaryProjection}`;
-    const result: (SanityHubEntrySummary | null)[] | null = await sanityClient.fetch(query, { categorySlug });
-    return (result ?? []).filter(
-        (entry): entry is SanityHubEntrySummary => Boolean(entry) && entry!.slug !== excludeSlug,
-    );
+    const result: (HubEntrySummaryRow | null)[] | null = await sanityClient.fetch(query, { categorySlug });
+    return (result ?? [])
+        .filter((entry): entry is HubEntrySummaryRow => entry != null && entry.slug !== excludeSlug)
+        .map(withCardCover);
 };
 
 // Used by pages/hub/@slug/+onBeforePrerenderStart.ts to enumerate every

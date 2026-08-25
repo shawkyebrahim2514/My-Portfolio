@@ -23,6 +23,7 @@ function Grid({ entries, empty = 'Nothing here yet. I’ll add more.' }: GridPro
                     kind={entry.kind}
                     excerpt={entry.excerpt}
                     coverImage={entry.coverImage}
+                    coverFocus={entry.coverFocus}
                     channelAvatar={entry.channel?.avatar}
                     durationLabel={entry.durationLabel}
                     categories={entry.categories}

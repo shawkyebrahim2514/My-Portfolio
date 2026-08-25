@@ -11,6 +11,7 @@ const KIND_OPTIONS = [
     { title: 'Channel (a channel you follow + its videos)', value: 'channel' },
     { title: 'Podcast', value: 'podcast' },
     { title: 'Reading List (articles read elsewhere)', value: 'read' },
+    { title: 'Listening List (clips worth returning to)', value: 'listen' },
 ]
 
 const isChannel = (kind?: string) => kind === 'channel'
@@ -109,12 +110,25 @@ export const hubEntry = {
         },
         {
             name: 'coverImage',
-            type: 'image',
-            title: 'Cover Image',
+            type: 'url',
+            title: 'Cover image URL',
             group: 'content',
-            description: 'Optional cover artwork for articles, podcasts, and reading lists.',
-            options: { hotspot: true },
+            description:
+                'Optional remote cover shown on Hub cards and the entry page. Listening lists use the first clip thumbnail when this is empty.',
             hidden: ({parent}) => isChannel(parent?.kind),
+            validation: Rule => Rule.uri({scheme: ['http', 'https']}),
+        },
+        {
+            name: 'coverFocus',
+            type: 'remoteImageCrop',
+            title: 'Cover crop',
+            group: 'content',
+            hidden: ({parent}) => isChannel(parent?.kind) || !parent?.coverImage,
+            options: {
+                imageField: 'coverImage',
+                previewAspect: '16 / 9',
+                defaultPreset: 'center',
+            },
         },
         {
             name: 'channel',
@@ -318,7 +332,7 @@ export const hubEntry = {
             type: 'string',
             title: 'Duration / Reading Time',
             group: 'content',
-            description: 'Freeform label, e.g. "5 min read", "42 min episode", "3 hr audiobook".',
+            description: 'Freeform label, e.g. "5 min read", "42 min episode", "12 clips".',
             hidden: ({parent}) => isChannel(parent?.kind),
         },
         {
@@ -327,7 +341,7 @@ export const hubEntry = {
             title: 'Body / Your Notes',
             group: 'content',
             description:
-                'Full write-up for articles, podcasts, and reading lists. Channels use the rich body inside Channel details.',
+                'Full write-up for articles, podcasts, reading lists, and listening lists. Channels use the rich body inside Channel details.',
             of: richContentOf,
             hidden: ({parent}) => isChannel(parent?.kind),
             validation: Rule =>
@@ -339,6 +353,11 @@ export const hubEntry = {
                     if (parent?.kind === 'read') {
                         const hasReadingItem = Array.isArray(value) && value.some(block => block?._type === 'readingItem')
                         if (!hasReadingItem) return 'Add at least one reading item to the body'
+                    }
+                    if (parent?.kind === 'listen') {
+                        const hasListeningItem =
+                            Array.isArray(value) && value.some(block => block?._type === 'listeningItem')
+                        if (!hasListeningItem) return 'Add at least one listening item to the body'
                     }
                     return true
                 }),
@@ -388,13 +407,11 @@ export const hubEntry = {
         select: {
             title: 'title',
             kind: 'kind',
-            media: 'coverImage',
             hidden: 'hiddenInProduction',
         },
-        prepare: ({title, kind, media, hidden}) => ({
+        prepare: ({title, kind, hidden}) => ({
             title: hidden ? `🔒 ${title}` : title,
             subtitle: hidden ? `${kind} · hidden in production` : kind,
-            media,
         }),
     },
 }

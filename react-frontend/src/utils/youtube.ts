@@ -1,4 +1,4 @@
-import type { RichContentNode, RichCuratedVideo, RichYouTube } from '../Types';
+import type { RichContentNode, RichCuratedVideo, RichListeningItem, RichYouTube } from '../Types';
 
 // Extracts an 11-char video ID from any common YouTube URL form:
 // watch?v=…, youtu.be/…, /embed/…, /shorts/…, /live/….
@@ -15,6 +15,16 @@ export function extractYouTubeId(url: string): string | undefined {
         if (m) return m[1];
     }
     return undefined;
+}
+
+export function youtubeThumbnailUrl(url: string): string | undefined {
+    const videoId = extractYouTubeId(url);
+    return videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : undefined;
+}
+
+export function listenCardCover(kind: string | undefined, coverImage?: string, previewUrl?: string): string | undefined {
+    if (coverImage) return coverImage;
+    return kind === 'listen' ? youtubeThumbnailUrl(previewUrl ?? '') : undefined;
 }
 
 type OEmbedResponse = {
@@ -58,6 +68,13 @@ export async function enrichYouTubeBlocks(body: RichContentNode[]): Promise<Rich
     for (const node of body) {
         if (node._type === 'youtube') {
             tasks.push(enrichBlock(node as RichYouTube));
+        } else if (node._type === 'listeningItem') {
+            const item = node as RichListeningItem;
+            const videoId = extractYouTubeId(item.url);
+            if (videoId) {
+                item.videoId = videoId;
+                item.thumbnail ??= youtubeThumbnailUrl(item.url);
+            }
         } else if (node._type === 'curatedVideo') {
             tasks.push(enrichBlock(node));
             if (Array.isArray(node.companionContent)) {

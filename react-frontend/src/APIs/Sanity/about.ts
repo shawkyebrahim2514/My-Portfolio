@@ -1,6 +1,6 @@
 import { SanityAboutPage } from '../../Types';
 import sanityClient from './client';
-import { getHubChannelsDirectoryPage } from './hub';
+import { getHubChannelsDirectoryPage, withCardCover } from './hub';
 
 const getAboutPage = async () => {
     const query = `*[_type == "portfolio"][0].pages[_type == "aboutPage"][0] {
@@ -14,7 +14,9 @@ const getAboutPage = async () => {
             kind,
             excerpt,
             language,
-            "coverImage": coverImage.asset->url,
+            "coverImage": coalesce(coverImage.asset->url, coverImage),
+            coverFocus,
+            "listenPreviewUrl": select(kind == "listen" => body[_type == "listeningItem" && defined(url)][0].url),
             "channel": select(kind == "channel" => {
                 "platform": channel.platform,
                 "url": channel.url,
@@ -37,6 +39,9 @@ const getAboutPage = async () => {
     ]);
     return {
         ...about,
+        featuredHubEntries: (about.featuredHubEntries ?? []).map((entry) =>
+            entry ? withCardCover(entry) : entry,
+        ),
         featuredFollows: (directory?.channels ?? []).filter((item) => item.featuredInAbout),
     };
 };
