@@ -45,6 +45,7 @@ export {
     type RichCuratedVideo,
     type RichPodcastEpisode,
     type RichReadingItem,
+    type RichListeningItem,
     type RichLinkPreview,
     type RichFacebookResource,
 } from './sanity/richContent';

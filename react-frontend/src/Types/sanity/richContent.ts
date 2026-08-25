@@ -194,6 +194,19 @@ export type RichReadingItem = {
     featured?: boolean;
 };
 
+// A single clip in a Listening List. Title/credit are authored so the card
+// leads with the work and performer, not YouTube's uploader metadata.
+export type RichListeningItem = {
+    _type: 'listeningItem';
+    _key: string;
+    title: string;
+    credit: string;
+    url: string;
+    note?: string;
+    videoId?: string;
+    thumbnail?: string;
+};
+
 export type RichLinkPreview = {
     _type: 'linkPreview';
     _key: string;
@@ -237,5 +250,6 @@ export type RichContentNode =
     | RichCuratedVideo
     | RichPodcastEpisode
     | RichReadingItem
+    | RichListeningItem
     | RichLinkPreview
     | RichFacebookResource;

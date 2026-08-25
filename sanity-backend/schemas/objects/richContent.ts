@@ -27,6 +27,7 @@ import {
   FaSquare,
   FaArrowUpRightFromSquare,
   FaFacebook,
+  FaHeadphones,
 } from 'react-icons/fa6'
 import {HiOutlineArrowsExpand} from 'react-icons/hi'
 import {LinkPreviewInput} from '../../components/LinkPreviewInput'
@@ -416,6 +417,58 @@ export const readingItem = {
   },
 }
 
+// A single clip in a Listening List. Title and credit are authored so the
+// card leads with the work and performer, not the YouTube uploader.
+export const listeningItem = {
+  name: 'listeningItem',
+  title: 'Listening Item',
+  type: 'object',
+  icon: FaHeadphones,
+  fields: [
+    {
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+      description: 'What to listen to, e.g. a surah name or piece title.',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'credit',
+      title: 'Credit',
+      type: 'string',
+      description: 'Who is performing or reciting — not the YouTube channel name.',
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'url',
+      title: 'YouTube URL',
+      type: 'url',
+      description: 'Paste any YouTube link — watch?v=…, youtu.be/…, /shorts/…, /embed/…, or /live/…',
+      validation: (Rule) =>
+        Rule.required()
+          .uri({scheme: ['http', 'https']})
+          .custom((value) => {
+            if (!value) return true
+            return /(?:youtube\.com|youtu\.be)/.test(value) ? true : 'Must be a YouTube URL'
+          }),
+    },
+    {
+      name: 'note',
+      title: 'Note (optional)',
+      type: 'text',
+      rows: 2,
+      description: 'A short line on why this clip is here.',
+    },
+  ],
+  preview: {
+    select: {title: 'title', credit: 'credit'},
+    prepare: ({title, credit}) => ({
+      title: title || 'Listening item',
+      subtitle: credit || 'Clip',
+    }),
+  },
+}
+
 // A rich external-link card. Its object input resolves Open Graph metadata as
 // soon as the author pastes a URL, but each value remains editable for sources
 // that omit or misreport metadata.
@@ -682,6 +735,7 @@ export const richContentOf = [
   {type: 'curatedVideo'},
   {type: 'podcastEpisode'},
   {type: 'readingItem'},
+  {type: 'listeningItem'},
   {type: 'linkPreview'},
   {type: 'facebookResource'},
   // Syntax-highlighted code block (from @sanity/code-input). Stores the raw

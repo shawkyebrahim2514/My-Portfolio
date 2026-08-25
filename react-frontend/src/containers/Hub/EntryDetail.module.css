@@ -77,9 +77,11 @@
 }
 
 .imageFrame {
+    position: relative;
     width: 100%;
     max-width: 640px;
     margin-inline: auto;
+    aspect-ratio: 16 / 9;
     border-radius: var(--radius);
     overflow: hidden;
     border: var(--border);
@@ -87,9 +89,12 @@
 }
 
 .image {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    height: auto;
-    display: block;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
 }
 
 .externalLink {
@@ -310,13 +315,23 @@
     background-image: linear-gradient(135deg, color-mix(in srgb, var(--entry-accent) 12%, var(--color-base-100)) 0%, var(--color-base-0) 60%, var(--color-base-100) 100%);
 }
 
-.podcastCover {
+.podcastCoverFrame {
     flex: 0 0 auto;
+    position: relative;
     width: 9rem;
     height: 9rem;
     border-radius: var(--radius);
-    object-fit: cover;
+    overflow: hidden;
     box-shadow: var(--shadow);
+}
+
+.podcastCover {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
 }
 
 .podcastInfo {

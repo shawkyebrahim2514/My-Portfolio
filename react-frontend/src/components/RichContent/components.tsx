@@ -14,6 +14,7 @@ import YouTube from './YouTube';
 import CuratedVideo from './CuratedVideo';
 import PodcastEpisode from './PodcastEpisode';
 import ReadingItem from './ReadingItem';
+import ListeningItem from './ListeningItem';
 import LinkPreview from './LinkPreview';
 import FacebookResource from './FacebookResource';
 import Figure from './Figure';
@@ -216,6 +217,7 @@ export const components: PortableTextComponents = {
         curatedVideo: CuratedVideo,
         podcastEpisode: PodcastEpisode,
         readingItem: ReadingItem,
+        listeningItem: ListeningItem,
         linkPreview: LinkPreview,
         facebookResource: FacebookResource,
         divider: () => <hr className={styles.hr} />,

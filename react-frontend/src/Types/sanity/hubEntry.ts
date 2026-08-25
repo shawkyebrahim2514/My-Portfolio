@@ -1,7 +1,8 @@
+import type { RemoteImageCrop } from '../../utils/remoteImageCrop';
 import { RichContentNode, RichYouTube } from './richContent';
 
 // Mirrors sanity-backend/schemas/hub/hubEntry.ts `kind` options.
-export type HubEntryKind = 'article' | 'channel' | 'podcast' | 'read';
+export type HubEntryKind = 'article' | 'channel' | 'podcast' | 'read' | 'listen';
 
 // Mirrors the `language` field — drives text direction (LTR/RTL) and the
 // font applied when rendering an entry's title/excerpt/body.
@@ -50,6 +51,7 @@ export type SanityHubEntrySummary = {
     // existed). Controls RTL rendering + Arabic font on cards and detail page.
     language?: HubContentLanguage;
     coverImage?: string;
+    coverFocus?: RemoteImageCrop;
     channel?: HubChannelDetails;
     durationLabel?: string;
     publishedAt: string;

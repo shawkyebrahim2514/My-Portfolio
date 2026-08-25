@@ -10,6 +10,7 @@ import {
     faRss,
     faMusic,
     faGlobe,
+    faHeadphones,
 } from '@fortawesome/free-solid-svg-icons';
 import { faSpotify, faApple, faYoutube, faSoundcloud } from '@fortawesome/free-brands-svg-icons';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
@@ -19,9 +20,11 @@ import RichContent from '../../components/RichContent';
 import PodcastEpisode from '../../components/RichContent/PodcastEpisode';
 import YouTube from '../../components/RichContent/YouTube';
 import ReadingItem from '../../components/RichContent/ReadingItem';
+import ListeningItem from '../../components/RichContent/ListeningItem';
 import ArticleToc, { type TocHeading } from '../../components/ArticleToc';
 import buttonStyles from '../../components/Button/Button.module.css';
 import { accentStyle } from './kindAccent';
+import { resolveRemoteImageStyle, resolveYouTubeBannerUrl } from '../../utils/remoteImageCrop';
 import { cx } from '../../utils/cx';
 import type {
     SanityHubEntry,
@@ -32,6 +35,7 @@ import type {
     RichContentNode,
     RichPodcastEpisode,
     RichReadingItem,
+    RichListeningItem,
 } from '../../Types';
 import styles from './EntryDetail.module.css';
 
@@ -40,6 +44,7 @@ const KIND_META: Record<HubEntryKind, { icon: typeof faNewspaper; label: string 
     channel: { icon: faTv, label: 'Channel' },
     podcast: { icon: faPodcast, label: 'Podcast' },
     read: { icon: faBookOpen, label: 'Reading List' },
+    listen: { icon: faHeadphones, label: 'Listening List' },
 };
 
 const PLATFORM_META: Record<HubPlatformLink['platform'], { icon: IconDefinition; label: string }> = {
@@ -85,6 +90,7 @@ function EntryDetail(entry: SanityHubEntry) {
         kind,
         excerpt,
         coverImage,
+        coverFocus,
         channel,
         platforms,
         durationLabel,
@@ -103,6 +109,7 @@ function EntryDetail(entry: SanityHubEntry) {
     const isPodcast = kind === 'podcast';
     const isRead = kind === 'read';
     const isArticle = kind === 'article';
+    const isListen = kind === 'listen';
 
     // For podcasts, pull the first top-level episode flagged `featured` out of
     // the body so it can be pinned as a large player above the rest, and hide
@@ -119,9 +126,14 @@ function EntryDetail(entry: SanityHubEntry) {
               (node): node is RichReadingItem => node._type === 'readingItem' && Boolean(node.featured),
           ) ?? undefined)
         : undefined;
-    const displayBody: RichContentNode[] = (body ?? []).filter(
-        (node) => node !== featuredEpisode && node !== featuredRead,
-    );
+    const listeningItems = isListen
+        ? (body ?? []).filter((node): node is RichListeningItem => node._type === 'listeningItem')
+        : [];
+    const displayBody: RichContentNode[] = (body ?? []).filter((node) => {
+        if (node === featuredEpisode || node === featuredRead) return false;
+        if (isListen && node._type === 'listeningItem') return false;
+        return true;
+    });
     const resolvedPlatforms = (platforms ?? []).filter((p) => PLATFORM_META[p.platform]);
     const readingCount = isRead
         ? (body ?? []).filter((node) => node._type === 'readingItem').length
@@ -130,6 +142,14 @@ function EntryDetail(entry: SanityHubEntry) {
         ? (body ?? []).filter((node) => node._type === 'curatedVideo').length +
           (channel?.moreVideos?.length ?? 0)
         : 0;
+    const listenCount = listeningItems.length;
+    const listenCountLabel = isRTL
+        ? listenCount === 1
+            ? 'مقطع'
+            : 'مقاطع'
+        : listenCount === 1
+          ? 'clip'
+          : 'clips';
 
     const hasBody = Boolean(displayBody && displayBody.length > 0);
     const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef => Boolean(category));
@@ -228,7 +248,14 @@ function EntryDetail(entry: SanityHubEntry) {
             ) : isPodcast ? (
                 <div className={styles.podcastHero}>
                     {image && (
-                        <img className={styles.podcastCover} src={image} alt="" />
+                        <span className={styles.podcastCoverFrame}>
+                            <img
+                                className={styles.podcastCover}
+                                src={resolveYouTubeBannerUrl(image)}
+                                alt=""
+                                style={resolveRemoteImageStyle(coverFocus, 'center')}
+                            />
+                        </span>
                     )}
                     <div className={styles.podcastInfo}>
                         <Text variant="h1" className={styles.podcastName}>
@@ -266,6 +293,16 @@ function EntryDetail(entry: SanityHubEntry) {
                         </span>
                     )}
                 </div>
+            ) : isListen ? (
+                <div className={styles.readHero}>
+                    <Text variant="h1">{title}</Text>
+                    <Text className={styles.excerpt}>{excerpt}</Text>
+                    {listenCount > 0 && (
+                        <span className={styles.readCount}>
+                            {listenCount} {listenCountLabel}
+                        </span>
+                    )}
+                </div>
             ) : isArticle ? (
                 <>
                     <Text variant="h1">{title}</Text>
@@ -295,7 +332,12 @@ function EntryDetail(entry: SanityHubEntry) {
 
             {!isChannel && !isPodcast && !isRead && image && (
                 <div className={styles.imageFrame}>
-                    <img className={styles.image} src={image} alt="" />
+                    <img
+                        className={styles.image}
+                        src={resolveYouTubeBannerUrl(image)}
+                        alt=""
+                        style={resolveRemoteImageStyle(coverFocus, 'center')}
+                    />
                 </div>
             )}
 
@@ -341,7 +383,21 @@ function EntryDetail(entry: SanityHubEntry) {
                 </Text>
             )}
 
-            {!isChannel && hasBody &&
+            {isListen && listenCount > 0 && (
+                <section className={styles.moreVideos} aria-labelledby="listening-heading">
+                    {hasBody && <RichContent value={displayBody} />}
+                    <Text variant="h3" className={styles.channelBodyHeading}>
+                        <span id="listening-heading">{isRTL ? 'للسماع' : 'Worth listening'}</span>
+                    </Text>
+                    <div className={styles.moreVideosGrid}>
+                        {listeningItems.map((item) => (
+                            <ListeningItem key={item._key} value={item} />
+                        ))}
+                    </div>
+                </section>
+            )}
+
+            {!isChannel && !isListen && hasBody &&
                 (isArticle ? (
                     <div className={styles.articleProse}>
                         {articleHeadings.length > 0 && (

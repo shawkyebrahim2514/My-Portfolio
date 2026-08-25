@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faBookOpen, faLayerGroup, faMagnifyingGlass, faNewspaper, faPodcast, faTv } from '@fortawesome/free-solid-svg-icons';
+import { faBookOpen, faHeadphones, faLayerGroup, faMagnifyingGlass, faNewspaper, faPodcast, faTv } from '@fortawesome/free-solid-svg-icons';
 import Text from '../../components/Text';
 import CategoryFilters, { countByCategorySlug } from './CategoryFilters';
 import Grid from './Grid';
@@ -10,12 +10,13 @@ import { cx } from '../../utils/cx';
 import type { HubEntryKind, SanityHubCategory, SanityHubEntrySummary } from '../../Types';
 import styles from './CategoryFilters.module.css';
 
-const KIND_ORDER: HubEntryKind[] = ['article', 'channel', 'podcast', 'read'];
+const KIND_ORDER: HubEntryKind[] = ['article', 'channel', 'podcast', 'listen', 'read'];
 
 const KIND_META: Record<HubEntryKind, { label: string; icon: IconDefinition }> = {
     article: { label: 'Articles', icon: faNewspaper },
     channel: { label: 'Channels', icon: faTv },
     podcast: { label: 'Podcasts', icon: faPodcast },
+    listen: { label: 'Listening Lists', icon: faHeadphones },
     read: { label: 'Reading Lists', icon: faBookOpen },
 };
 

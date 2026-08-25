@@ -1058,5 +1058,19 @@
       "architecture",
       "leadership"
     ]
+  },
+  {
+    "handle": "shabdallakamelofficial",
+    "name": "Abdallah Kamel - الشيخ عبدالله كامل",
+    "note": "Complete Quran recitations I sit with. Clear, unhurried, and easy to return to a single surah.",
+    "language": "ar",
+    "accent": "#0f766e",
+    "categories": [
+      "hubCategory-faith-reflection"
+    ],
+    "tags": [
+      "quran",
+      "recitation"
+    ]
   }
 ]

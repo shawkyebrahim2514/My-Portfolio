@@ -1,9 +1,10 @@
 import { memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faNewspaper, faPodcast, faBookOpen, faTv, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faNewspaper, faPodcast, faBookOpen, faTv, faHeadphones, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { cx } from '../../utils/cx';
 import Text from '../Text';
 import { accentStyle } from '../../containers/Hub/kindAccent';
+import { resolveRemoteImageStyle, resolveYouTubeBannerUrl, type RemoteImageCrop } from '../../utils/remoteImageCrop';
 import surfaces from '../../styles/surfaces.module.css';
 import type { HubEntryKind, HubEntryCategoryRef, HubContentLanguage } from '../../Types';
 import styles from './HubCard.module.css';
@@ -13,6 +14,7 @@ const KIND_META: Record<HubEntryKind, { icon: typeof faNewspaper; label: string 
     channel: { icon: faTv, label: 'Channel' },
     podcast: { icon: faPodcast, label: 'Podcast' },
     read: { icon: faBookOpen, label: 'Reading List' },
+    listen: { icon: faHeadphones, label: 'Listening List' },
 };
 
 export type HubCardProps = {
@@ -21,6 +23,7 @@ export type HubCardProps = {
     readonly kind: HubEntryKind;
     readonly excerpt: string;
     readonly coverImage?: string;
+    readonly coverFocus?: RemoteImageCrop;
     readonly channelAvatar?: string;
     readonly durationLabel?: string;
     readonly categories: (HubEntryCategoryRef | null)[];
@@ -32,7 +35,7 @@ export type HubCardProps = {
     readonly hidden?: boolean;
 };
 
-function HubCard({ title, slug, kind, excerpt, coverImage, channelAvatar, durationLabel, categories, language = 'en', accentColor, hidden }: HubCardProps) {
+function HubCard({ title, slug, kind, excerpt, coverImage, coverFocus, channelAvatar, durationLabel, categories, language = 'en', accentColor, hidden }: HubCardProps) {
     const { icon, label } = KIND_META[kind] ?? KIND_META.article;
     const image = channelAvatar ?? coverImage;
     const isRTL = language === 'ar';
@@ -48,7 +51,14 @@ function HubCard({ title, slug, kind, excerpt, coverImage, channelAvatar, durati
             )}
             {image && (
                 <div className={styles.imageFrame}>
-                    <img className={styles.image} src={image} alt="" loading="lazy" />
+                    <img
+                        className={styles.image}
+                        src={resolveYouTubeBannerUrl(image)}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                        style={resolveRemoteImageStyle(coverFocus, 'center')}
+                    />
                     <span className={styles.badge}>
                         <FontAwesomeIcon icon={icon} />
                         {label}

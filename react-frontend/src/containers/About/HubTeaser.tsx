@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { faNewspaper, faPodcast, faBookOpen, faTv } from '@fortawesome/free-solid-svg-icons';
+import { faNewspaper, faPodcast, faBookOpen, faTv, faHeadphones } from '@fortawesome/free-solid-svg-icons';
 import { filterVisible } from '../Hub/visibility';
 import { KIND_ACCENT } from '../Hub/kindAccent';
 import { useIsPreview } from '../../contexts/PreviewContext';
@@ -15,6 +15,7 @@ const KIND_META: Record<HubEntryKind, { icon: typeof faNewspaper; label: string 
     channel: { icon: faTv, label: 'Channel' },
     podcast: { icon: faPodcast, label: 'Podcast' },
     read: { icon: faBookOpen, label: 'Reading List' },
+    listen: { icon: faHeadphones, label: 'Listening List' },
 };
 
 function entryAccent(entry: SanityHubEntrySummary): string {

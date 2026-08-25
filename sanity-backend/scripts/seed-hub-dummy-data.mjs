@@ -217,13 +217,8 @@ export const getEntries: GetEntries = async (client) => {
     categories: [{ _type: 'reference', _ref: 'hubCategory-humanity-life', _key: 'cat1' }],
     tags: ['podcast', 'craft'],
     excerpt: 'A conversation about staying curious and humble while building software for decades.',
-    coverImage: {
-      _type: 'image',
-      asset: {
-        _type: 'reference',
-        _ref: 'image-24ca0ed0e641e75cbff9ef84a93bca9116ad2249-480x360-jpg',
-      },
-    },
+    coverImage:
+      'https://cdn.sanity.io/images/h48br789/production/24ca0ed0e641e75cbff9ef84a93bca9116ad2249-480x360.jpg',
     durationLabel: '52 min episode',
     publishedAt: new Date(Date.now() - 2 * 86400000).toISOString(),
     featured: false,

@@ -12,6 +12,7 @@ export const KIND_ACCENT: Record<HubEntryKind, string> = {
     channel: '#e11d48', // broadcast red — creator/video
     podcast: '#6d5ae6', // modern violet — audio
     read: '#2563eb', // cool blue — curated collection
+    listen: '#0f766e', // teal — audio clips without a podcast show
 };
 
 // The base colour that drives WHOLE-PAGE theming for a kind when no per-entry
@@ -23,6 +24,7 @@ const KIND_THEME_DEFAULT: Record<HubEntryKind, string | null> = {
     channel: KIND_ACCENT.channel,
     podcast: KIND_ACCENT.podcast,
     read: KIND_ACCENT.read,
+    listen: KIND_ACCENT.listen,
 };
 
 // Resolve the base colour used for the local `--entry-accent` (kind badge,

@@ -12,7 +12,7 @@ npm run dev
 ```
 
 The rich-content editor includes Callouts, semantic Notes, uploaded/external
-Image Rows, Figures, Link Previews, Reading Items, Key Takeaways,
+Image Rows, Figures, Link Previews, Reading Items, Listening Items, Key Takeaways,
 Quote/Citations, Expandable Details, and Curated Videos with nested companion
 content. Facebook-only reels, videos, posts, photos, and articles use the
 dedicated Facebook Resource card rather than an unreliable inline embed.
@@ -75,6 +75,14 @@ existing Follows items. Safe to rerun.
 
 `add:hub:social` appends curated Facebook, LinkedIn, and X creators
 without replacing existing Follows items. Safe to rerun.
+
+`seed:hub:quran` creates the Faith Listening List of one-off Quran
+recitation clips if it is missing, or migrates an older Article version
+to `listen`. Safe to rerun after the first listen save.
+
+Hub entry covers are remote URLs with the same crop/zoom controls as
+Follows. `migrate:hub:covers:urls` converts leftover uploaded Sanity
+images into those URLs. Safe to rerun.
 
 `sync:hub:taxonomy` updates Hub category titles and the Follows set
 (Software, Career, Tech, Money, English, Hardware, Curiosity, Design,

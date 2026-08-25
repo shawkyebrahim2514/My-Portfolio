@@ -23,6 +23,7 @@ import {
   curatedVideo,
   podcastEpisode,
   readingItem,
+  listeningItem,
   linkPreview,
   facebookResource,
 } from './objects/richContent'
@@ -38,7 +39,7 @@ export const schemaTypes = [
   certificates,
   skills,
   contacts,
-  // Hub: content-sharing section (articles/channels/podcasts/reading lists),
+  // Hub: content-sharing section (articles/channels/podcasts/listen/reading lists),
   // entered via an About-page teaser rather than a navbar tab.
   hubPage,
   hubEntry,
@@ -61,6 +62,7 @@ export const schemaTypes = [
   curatedVideo,
   podcastEpisode,
   readingItem,
+  listeningItem,
   linkPreview,
   facebookResource,
 ]
