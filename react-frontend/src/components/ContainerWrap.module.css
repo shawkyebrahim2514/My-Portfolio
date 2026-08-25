@@ -1,6 +1,6 @@
+/* Page wrapper. Spacing under the sticky navbar lives on `.main` in the
+   layout — see pages/Layout.module.css. */
 .container {
     display: grid;
     align-items: center;
-    padding-top: 70px;
-    padding-bottom: 30px;
 }

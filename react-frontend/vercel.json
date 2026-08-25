@@ -1,5 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "devCommand": "npm run dev",
   "outputDirectory": "dist/client",
   "ignoreCommand": "git diff HEAD^ HEAD --quiet ."
 }

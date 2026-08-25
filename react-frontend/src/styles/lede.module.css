@@ -1,0 +1,14 @@
+/* "Lede" treatment for an intro/description — larger, lighter, muted body copy
+   with a constrained line-length so it reads as an editorial opener rather than
+   a plain paragraph. Works whether the paragraph is the .lede element itself or
+   a <p> nested inside it (e.g. RichContent output). */
+.lede,
+.lede p {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    font-weight: 300;
+    color: var(--color-base-600);
+}

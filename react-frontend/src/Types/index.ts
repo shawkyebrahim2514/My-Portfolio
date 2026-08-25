@@ -6,7 +6,21 @@ export {
     type CommonTitle,
     type SanityExperiencePage,
     type SanityAboutPage,
-    type SanityNavbarData
+    type SanityNavbarData,
+    type SanityHubPage,
+    type SanityHubEntry,
+    type SanityHubEntrySummary,
+    type HubEntryKind,
+    type HubContentLanguage,
+    type HubEntryCategoryRef,
+    type HubPlatformLink,
+    type HubChannelPlatform,
+    type HubChannelDetails,
+    type SanityHubCategory,
+    type HubDirectoryType,
+    type HubDirectoryPlatform,
+    type SanityHubDirectoryChannel,
+    type SanityHubChannelsDirectoryPage,
 } from './sanity';
 
 export {
@@ -16,9 +30,24 @@ export {
     type RichSpacer,
     type RichMarkDef,
     type RichImage,
+    type RichExternalImage,
+    type RichMediaImage,
     type RichImageRow,
+    type RichFigure,
     type RichDivider,
     type RichCallout,
+    type RichNote,
+    type RichKeyTakeaways,
+    type RichQuote,
+    type RichExpandableDetails,
+    type RichCode,
+    type RichYouTube,
+    type RichCuratedVideo,
+    type RichPodcastEpisode,
+    type RichReadingItem,
+    type RichListeningItem,
+    type RichLinkPreview,
+    type RichFacebookResource,
 } from './sanity/richContent';
 
 export { type Theme, type PortfolioPathes, type ColorLevels } from './contexts';

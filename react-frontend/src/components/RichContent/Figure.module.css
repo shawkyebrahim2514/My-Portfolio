@@ -1,0 +1,103 @@
+.figure {
+    width: min(100%, 46rem);
+    margin: var(--space-5) auto;
+}
+
+.media {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: clamp(var(--space-1), 1.5vw, var(--space-3));
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--entry-accent, var(--color-secondary-600)) 16%,
+            var(--color-base-200)
+        );
+    border-radius: calc(var(--radius) * 1.25);
+    background:
+        radial-gradient(
+            circle at top right,
+            color-mix(in srgb, var(--entry-accent, var(--color-secondary-600)) 11%, transparent),
+            transparent 42%
+        ),
+        var(--color-base-100);
+}
+
+.mediaWithCaption {
+    border-bottom-color: transparent;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.image {
+    display: block;
+    width: 100%;
+    max-height: min(62vh, 38rem);
+    border-radius: calc(var(--radius) * 0.8);
+    object-fit: contain;
+    background: var(--color-base-200);
+}
+
+.caption {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin: 0;
+    padding: var(--space-3);
+    border: 1px solid
+        color-mix(
+            in srgb,
+            var(--entry-accent, var(--color-secondary-600)) 18%,
+            var(--color-base-200)
+        );
+    border-radius: 0 0 calc(var(--radius) * 1.25) calc(var(--radius) * 1.25);
+    background: color-mix(
+        in srgb,
+        var(--entry-accent, var(--color-secondary-600)) 9%,
+        var(--color-base-0)
+    );
+    color: var(--color-base-700);
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+}
+
+.captionText {
+    min-width: 0;
+}
+
+.credit {
+    flex: 0 0 auto;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    background: color-mix(
+        in srgb,
+        var(--entry-accent, var(--color-secondary-600)) 12%,
+        var(--color-base-0)
+    );
+    color: var(--color-base-600);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+}
+
+.credit a {
+    color: inherit;
+}
+
+.credit svg {
+    font-size: 0.7em;
+}
+
+@media (max-width: 540px) {
+    .figure {
+        margin: var(--space-4) 0;
+    }
+
+    .caption {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--space-2);
+        text-align: center;
+    }
+}

@@ -1,0 +1,448 @@
+[
+  {
+    "url": "https://www.facebook.com/OmarAhmedx14/",
+    "name": "Omar Ahmed",
+    "platform": "facebook",
+    "note": "Omar’s Arabic posts on Flutter, software paths, and coding with AI. I follow when I want practical teaching, not hype.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["software", "career"],
+    "tags": ["flutter", "teaching"]
+  },
+  {
+    "url": "https://www.facebook.com/MahmoudAdelSec",
+    "name": "Mahmoud Adel",
+    "platform": "facebook",
+    "note": "Straight talk on starting in cybersecurity and programming. Useful when I want a clear next step, not a long course pitch.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["software", "career"],
+    "tags": ["security", "career"]
+  },
+  {
+    "url": "https://www.facebook.com/basem.elewa.5",
+    "name": "Basem Elewa",
+    "platform": "facebook",
+    "note": "The Facebook side of Basem’s Islamic character and self-work. Short reminders I actually sit with.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["faith", "family"],
+    "tags": ["islam", "character"]
+  },
+  {
+    "url": "https://www.facebook.com/followurchild",
+    "name": "Follow Your Child",
+    "platform": "facebook",
+    "note": "Doaa Karsoon’s parenting notes — calm, practical, no shouting-as-a-method. I keep it for home, not theory.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["family"],
+    "tags": ["parenting", "montessori"]
+  },
+  {
+    "url": "https://www.facebook.com/elbadrgroupeg",
+    "name": "El Badr Group",
+    "platform": "facebook",
+    "note": "Egyptian PC and hardware shop updates. Handy when I want local stock, builds, and real prices.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["hardware"],
+    "tags": ["pcs", "egypt"]
+  },
+  {
+    "url": "https://www.facebook.com/20yearofmarriage",
+    "name": "بعد ٢٠ سنة جواز",
+    "platform": "facebook",
+    "note": "Samah Abdelfatah’s marriage notes after twenty years. Everyday, honest, and useful when I want home advice without drama.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["family"],
+    "tags": ["marriage", "home"]
+  },
+  {
+    "url": "https://www.facebook.com/ahmedelharsofficial",
+    "name": "Ahmed Elhars",
+    "platform": "facebook",
+    "note": "Ahmed’s family and parenting posts. Same calm voice I like on YouTube, in shorter Facebook form.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["family"],
+    "tags": ["parenting", "family"]
+  },
+  {
+    "url": "https://www.facebook.com/Adjacentnode",
+    "name": "Kevin Nanns",
+    "platform": "facebook",
+    "note": "Kevin’s programming notes on Facebook. Same Adjacent Node energy — clear, technical, no fluff.",
+    "language": "en",
+    "accent": "#1877F2",
+    "categories": ["software", "tech"],
+    "tags": ["programming"]
+  },
+  {
+    "url": "https://www.facebook.com/epichardwareoffical",
+    "name": "EPIC HARDWARE",
+    "platform": "facebook",
+    "note": "Hardware news and reviews in Arabic. I check it when I want a quick take on phones and PCs.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["hardware"],
+    "tags": ["reviews", "pcs"]
+  },
+  {
+    "url": "https://www.facebook.com/Yasmin.M.Rady",
+    "name": "Yasmin Rady",
+    "platform": "facebook",
+    "note": "English teaching that stays practical. I follow for speaking confidence, not grammar dumps.",
+    "language": "en",
+    "accent": "#1877F2",
+    "categories": ["english"],
+    "tags": ["english", "teaching"]
+  },
+  {
+    "url": "https://www.facebook.com/englishwithhagar",
+    "name": "English with Hagar",
+    "platform": "facebook",
+    "note": "Hagar Raslan’s English tips for Arabic speakers. Short, usable phrases I can actually try.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["english"],
+    "tags": ["english", "arabic-speakers"]
+  },
+  {
+    "url": "https://www.facebook.com/amgadsamirfouad",
+    "name": "Amgad Samir",
+    "platform": "facebook",
+    "note": "Amgad’s Islamic reminders on Facebook. Quiet, clear, and easy to come back to.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["faith"],
+    "tags": ["islam"]
+  },
+  {
+    "url": "https://www.facebook.com/OmarMaherAI",
+    "name": "Omar Maher",
+    "platform": "facebook",
+    "note": "Omar explains enterprise AI in plain language. I follow when I want the business side, not another model demo.",
+    "language": "en",
+    "accent": "#1877F2",
+    "categories": ["software", "tech"],
+    "tags": ["ai", "business"]
+  },
+  {
+    "url": "https://www.facebook.com/ayrageb",
+    "name": "Aya Elgebealy",
+    "platform": "facebook",
+    "note": "Aya’s notes on hiring, talent, and building in tech. Useful when I want the people side of the industry.",
+    "language": "en",
+    "accent": "#1877F2",
+    "categories": ["career"],
+    "tags": ["hiring", "startups"]
+  },
+  {
+    "url": "https://www.facebook.com/bashmohandesx",
+    "name": "Mohamed Elsherif",
+    "platform": "facebook",
+    "note": "Bashmohandes on Facebook — engineering advice with a human voice. I read it when I want career honesty.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["software", "career"],
+    "tags": ["engineering", "career"]
+  },
+  {
+    "url": "https://www.facebook.com/omarshenety",
+    "name": "Omar El-Shenety",
+    "platform": "facebook",
+    "note": "Clear Egyptian economy and investing notes. I follow when I want the money picture without the noise.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["money"],
+    "tags": ["economy", "investing"]
+  },
+  {
+    "url": "https://www.facebook.com/sameh.serag.deabes",
+    "name": "Sameh Deabes",
+    "platform": "facebook",
+    "note": "Long-experience software architecture thoughts. I keep him for the calm senior-engineer view.",
+    "language": "en",
+    "accent": "#1877F2",
+    "categories": ["software"],
+    "tags": ["architecture"]
+  },
+  {
+    "url": "https://www.facebook.com/Zigoo.eg",
+    "name": "Zigoo",
+    "platform": "facebook",
+    "note": "Ebrahem Hegazy’s security and hacking notes. Sharp, hands-on, and good when I want the attacker’s eye.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["software"],
+    "tags": ["security"]
+  },
+  {
+    "url": "https://www.facebook.com/ahmad.alfy",
+    "name": "Ahmad Alfy",
+    "platform": "facebook",
+    "note": "Frontend craft from someone who still ships. I follow for web taste and honest engineering talk.",
+    "language": "en",
+    "accent": "#1877F2",
+    "categories": ["software"],
+    "tags": ["frontend", "web"]
+  },
+  {
+    "url": "https://www.facebook.com/Heba.Raouf.Ezzat",
+    "name": "Heba Raouf Ezzat",
+    "platform": "facebook",
+    "note": "Political thought, faith, and public life. I read her when I want depth, not a hot take.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["life", "faith"],
+    "tags": ["thought", "society"]
+  },
+  {
+    "url": "https://www.facebook.com/abdo.fayed.483810",
+    "name": "Abdo Fayed",
+    "platform": "facebook",
+    "note": "Abdo’s Arabic writing and life notes. I keep the page for the voice more than the news.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["life"],
+    "tags": ["writing"]
+  },
+  {
+    "url": "https://www.facebook.com/ahmed.metwally.official",
+    "name": "Ahmed Metwally",
+    "platform": "facebook",
+    "note": "Metwally’s Facebook notes on engineering and growing up in the field. Same practical tone I already follow elsewhere.",
+    "language": "en",
+    "accent": "#1877F2",
+    "categories": ["software", "career"],
+    "tags": ["engineering", "career"]
+  },
+  {
+    "url": "https://www.facebook.com/mustafaelfeki",
+    "name": "Mustafa El-Feki",
+    "platform": "facebook",
+    "note": "Mustafa’s Facebook posts on building products and tech life. Short takes I skim when I want energy, not a tutorial.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["hardware"],
+    "tags": ["products", "tech"]
+  },
+  {
+    "url": "https://www.facebook.com/OsElzero",
+    "name": "Osama Elzero",
+    "platform": "facebook",
+    "note": "Elzero’s Facebook updates around teaching web and programming. I follow for the community pulse.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["software"],
+    "tags": ["teaching", "web"]
+  },
+  {
+    "url": "https://www.facebook.com/eyadqunaibi",
+    "name": "Eyad Qunaibi",
+    "platform": "facebook",
+    "note": "Dr. Eyad’s Islamic thought and replies to modern doubts. I read slowly — it is not clip content.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["faith"],
+    "tags": ["islam", "thought"]
+  },
+  {
+    "url": "https://www.facebook.com/Halasamirofficial",
+    "name": "Hala Samir",
+    "platform": "facebook",
+    "note": "Hala’s conversations about life and people. I keep her for the human stories.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["life"],
+    "tags": ["conversations"]
+  },
+  {
+    "url": "https://www.facebook.com/eng.azouz",
+    "name": "عزوز للتشطيبات",
+    "platform": "facebook",
+    "note": "Practical home finishing and renovation notes from Egypt. I follow when I want real site talk, not showroom talk.",
+    "language": "ar",
+    "accent": "#1877F2",
+    "categories": ["life"],
+    "tags": ["home", "finishing"]
+  },
+  {
+    "url": "https://www.linkedin.com/in/bassemdghaidy/",
+    "name": "Bassem Dghaidi",
+    "platform": "linkedin",
+    "note": "GitHub Actions, distributed systems, and talks that stay useful. I follow for the senior-engineer craft.",
+    "language": "en",
+    "accent": "#0A66C2",
+    "avatar": "https://media.licdn.com/dms/image/v2/D4E03AQGD2Mcskbsyzg/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1730250601925?e=2147483647&v=beta&t=eTumZ3SDVfATkBFiDrqa-08StcVfOwWAMNdgwSVgGBg",
+    "categories": ["software", "tech"],
+    "tags": ["github", "actions"]
+  },
+  {
+    "url": "https://www.linkedin.com/in/mohamedsweelam/",
+    "name": "Mohamed Sweelam",
+    "platform": "linkedin",
+    "note": "Distributed systems and architecture from someone who still teaches it. I read him for the large-scale view.",
+    "language": "en",
+    "accent": "#0A66C2",
+    "avatar": "https://media.licdn.com/dms/image/v2/D4D03AQGWicOuJOlw7w/profile-displayphoto-scale_200_200/B4DZ4z4kfdGcAc-/0/1778986929579?e=2147483647&v=beta&t=ZGYOB0a3iLNyywOZZVOSJJVhfxP9jXSMNQ2Ct12C5mc",
+    "categories": ["software"],
+    "tags": ["architecture", "systems"]
+  },
+  {
+    "url": "https://www.linkedin.com/in/sameh-deabes/",
+    "name": "Sameh Deabes",
+    "platform": "linkedin",
+    "note": "Almost twenty years in software, written without the buzzwords. I keep his posts for the long view.",
+    "language": "en",
+    "accent": "#0A66C2",
+    "avatar": "https://media.licdn.com/dms/image/v2/C4E03AQF-C37Aax6Z2g/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1660969184268?e=2147483647&v=beta&t=m3H6ML6qTXr_Mw5c5hFIxz5OYVxnz0T5sWWpKCZwMFI",
+    "categories": ["software"],
+    "tags": ["architecture"]
+  },
+  {
+    "url": "https://www.linkedin.com/in/ayaelgebealy/",
+    "name": "Aya Elgebealy",
+    "platform": "linkedin",
+    "note": "Building hiring tools for the region. I follow for how talent and startups actually meet.",
+    "language": "en",
+    "accent": "#0A66C2",
+    "avatar": "https://media.licdn.com/dms/image/v2/D4D03AQGCxvAwqh0khw/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1695707991107?e=2147483647&v=beta&t=Y7Hx9g415tDG1nhOQxuCTI4icQFXC9kVFgOb8L385bI",
+    "categories": ["career"],
+    "tags": ["hiring", "startups"]
+  },
+  {
+    "url": "https://x.com/AhmedShaaban3m",
+    "name": "Ahmed Sha’ban",
+    "platform": "twitter",
+    "note": "Market and business notes from MENA. I read him for context, not as financial advice.",
+    "language": "en",
+    "accent": "#0f1419",
+    "avatar": "https://pbs.twimg.com/profile_images/1977849204425854976/C0Xal8CX_200x200.jpg",
+    "categories": ["money"],
+    "tags": ["markets", "mena"]
+  },
+  {
+    "url": "https://x.com/TheAhmadOsman",
+    "name": "Ahmad Osman",
+    "platform": "twitter",
+    "note": "Local and open-source AI, GPUs, and the unglamorous infra. I follow when I want the real setup, not a demo.",
+    "language": "en",
+    "accent": "#0f1419",
+    "avatar": "https://pbs.twimg.com/profile_images/1831406651829559296/iMbSOxdP_200x200.jpg",
+    "categories": ["software", "tech"],
+    "tags": ["ai", "opensource"]
+  },
+  {
+    "url": "https://x.com/bassemelnour",
+    "name": "Bassem Elnour",
+    "platform": "twitter",
+    "note": "Software for cars, plus a human feed. I keep him for the engineering life outside the usual web bubble.",
+    "language": "en",
+    "accent": "#0f1419",
+    "avatar": "https://pbs.twimg.com/profile_images/1872621238591401984/6dDl03X1_200x200.jpg",
+    "categories": ["software"],
+    "tags": ["embedded", "autos"]
+  },
+  {
+    "url": "https://x.com/m19o__",
+    "name": "AbuMuslim",
+    "platform": "twitter",
+    "note": "Hacking, building, and explaining it on stage. OWASP Egypt energy — I follow for the security craft.",
+    "language": "en",
+    "accent": "#0f1419",
+    "avatar": "https://pbs.twimg.com/profile_images/2091436118415962112/JEOhtENx_200x200.jpg",
+    "categories": ["software"],
+    "tags": ["security", "owasp"]
+  },
+  {
+    "url": "https://x.com/_MoustafaM",
+    "name": "Moustafa A Mahmoud",
+    "platform": "twitter",
+    "note": "Cloud and AI from someone who has been at Microsoft and AWS. I read the career and platform notes.",
+    "language": "en",
+    "accent": "#0f1419",
+    "avatar": "https://pbs.twimg.com/profile_images/2036656191221161984/9NG7ngtA_200x200.jpg",
+    "categories": ["software", "career"],
+    "tags": ["cloud", "ai"]
+  },
+  {
+    "url": "https://x.com/Nadeen_Spirit",
+    "name": "Nadeen",
+    "platform": "twitter",
+    "note": "Linux, cloud, and DevOps from a Microsoft engineer. Short, technical, and worth the follow.",
+    "language": "en",
+    "accent": "#0f1419",
+    "avatar": "https://pbs.twimg.com/profile_images/1899524727686713344/HqP1EUPz_200x200.jpg",
+    "categories": ["software", "tech"],
+    "tags": ["devops", "linux"]
+  },
+  {
+    "url": "https://x.com/esraa_ali",
+    "name": "Esraa Ali",
+    "platform": "twitter",
+    "note": "AI, search, and recommendation systems from a lead ML engineer. I follow for the research-to-product path.",
+    "language": "en",
+    "accent": "#0f1419",
+    "avatar": "https://pbs.twimg.com/profile_images/700669633917915136/vSwTFaX-_200x200.jpg",
+    "categories": ["software"],
+    "tags": ["ai", "ml"]
+  },
+  {
+    "url": "https://x.com/Abdo_Fayed89",
+    "name": "Abdo Fayed",
+    "platform": "twitter",
+    "note": "Arabic writing with a straight spine. I keep the account for the voice, not the timeline noise.",
+    "language": "ar",
+    "accent": "#0f1419",
+    "avatar": "https://pbs.twimg.com/profile_images/2046753773222023168/ZoyvOpln_200x200.jpg",
+    "categories": ["life"],
+    "tags": ["writing"]
+  },
+  {
+    "url": "https://x.com/ahmadalfy",
+    "name": "Ahmad Alfy",
+    "platform": "twitter",
+    "note": "Web UI, htmx, and fatherhood in the same feed. I follow for frontend taste and honest engineering.",
+    "language": "en",
+    "accent": "#0f1419",
+    "avatar": "https://pbs.twimg.com/profile_images/1882883577286733825/jCASSAXf_200x200.jpg",
+    "categories": ["software"],
+    "tags": ["frontend", "web"]
+  },
+  {
+    "url": "https://x.com/me2resh",
+    "name": "Me2resh",
+    "platform": "twitter",
+    "note": "Ahmed builds platforms and writes about shipping AI-assisted work safely. I follow for the craft, and the coffee.",
+    "language": "ar",
+    "accent": "#0f1419",
+    "avatar": "https://pbs.twimg.com/profile_images/2079168391399567360/w1dVfwjc_200x200.jpg",
+    "categories": ["software"],
+    "tags": ["platforms", "ai"]
+  },
+  {
+    "url": "https://x.com/ahmd3ssam",
+    "name": "Ahmed Essam",
+    "platform": "twitter",
+    "note": "Software, a bit of AI, and blunt philosophy. I keep him for the honest asides, not a tutorial feed.",
+    "language": "en",
+    "accent": "#0f1419",
+    "avatar": "https://pbs.twimg.com/profile_images/2082872722607263744/SnuG8P_p_200x200.jpg",
+    "categories": ["software", "life"],
+    "tags": ["software", "notes"]
+  },
+  {
+    "url": "https://x.com/Bashmohandes",
+    "name": "Mohamed Elsherif",
+    "platform": "twitter",
+    "note": "Apple architect, Ask Developer, and بابا المجال. I follow for the career honesty more than the news.",
+    "language": "ar",
+    "accent": "#0f1419",
+    "avatar": "https://pbs.twimg.com/profile_images/2057677645069086721/X92RwQf1_200x200.jpg",
+    "categories": ["software", "career"],
+    "tags": ["engineering", "career"]
+  }
+]

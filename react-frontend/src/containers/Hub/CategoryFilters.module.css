@@ -1,0 +1,108 @@
+.filters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+}
+
+.filterGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+}
+
+.filterLabel {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-base-600);
+}
+
+.search {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid var(--color-base-200);
+    border-radius: var(--radius);
+    background-color: var(--color-base-0);
+    color: var(--color-base-600);
+}
+
+.search input {
+    width: 100%;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--color-base-800);
+    font-size: var(--font-size-sm);
+    font-family: inherit;
+}
+
+.search input::placeholder {
+    color: var(--color-base-500);
+}
+
+.list {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--color-base-100);
+    background-color: var(--color-base-50);
+    color: var(--color-base-700);
+    font-family: inherit;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.chip:hover {
+    border-color: var(--color-secondary-300);
+    color: var(--color-secondary-700);
+    transform: translateY(-1px);
+}
+
+.icon {
+    font-size: 1.1em;
+    color: var(--color-secondary-500);
+    transition: color 0.3s ease-out;
+}
+
+.label {
+    display: inline-block;
+}
+
+.count {
+    font-variant-numeric: tabular-nums;
+    opacity: 0.78;
+}
+
+.active {
+    background-color: var(--color-secondary-500);
+    border-color: var(--color-secondary-500);
+    color: var(--color-base-50);
+}
+
+.active:hover {
+    color: var(--color-base-50);
+    border-color: var(--color-secondary-500);
+}
+
+.active .icon {
+    color: inherit;
+}

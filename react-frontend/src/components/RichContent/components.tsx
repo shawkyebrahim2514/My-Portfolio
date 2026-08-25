@@ -5,6 +5,19 @@ import Header from '../MainSection/Header';
 import ButtonLink from './ButtonLink';
 import ImageRow from './ImageRow';
 import Callout from './Callout';
+import Note from './Note';
+import KeyTakeaways from './KeyTakeaways';
+import Quote from './Quote';
+import ExpandableDetails from './ExpandableDetails';
+import CodeBlock from './CodeBlock';
+import YouTube from './YouTube';
+import CuratedVideo from './CuratedVideo';
+import PodcastEpisode from './PodcastEpisode';
+import ReadingItem from './ReadingItem';
+import ListeningItem from './ListeningItem';
+import LinkPreview from './LinkPreview';
+import FacebookResource from './FacebookResource';
+import Figure from './Figure';
 import SplitText from '../SplitText';
 import { cx } from '../../utils/cx';
 import type { RichBlock, RichMarkDef, RichSpan } from '../../Types';
@@ -45,7 +58,11 @@ function singleLinkOverride(value: RichBlock): React.ReactNode | undefined {
             <ButtonLink href={def.href} icon={def.icon} text={child.text} />
         );
     const decoratorMark = marks.find((m) => DECORATOR_MARK_CLASS[m]);
-    return decoratorMark ? <span className={DECORATOR_MARK_CLASS[decoratorMark]}>{content}</span> : content;
+    return decoratorMark ? (
+        <span className={DECORATOR_MARK_CLASS[decoratorMark]}>{content}</span>
+    ) : (
+        content
+    );
 }
 
 // Block-level serializer props carry the raw block JSON (`value`) plus the
@@ -73,8 +90,12 @@ function Heading1({ value, children }: BlockProps) {
     if (override) {
         return <h1 className={cx(styles.h1, alignClass)}>{override}</h1>;
     }
-    const spans = (block.children ?? []).filter((child): child is RichSpan => child._type === 'span');
-    const hasStylingMarks = spans.some((span) => (span.marks ?? []).some((mark) => !ALIGN_MARKS.has(mark)));
+    const spans = (block.children ?? []).filter(
+        (child): child is RichSpan => child._type === 'span'
+    );
+    const hasStylingMarks = spans.some((span) =>
+        (span.marks ?? []).some((mark) => !ALIGN_MARKS.has(mark))
+    );
     if (hasStylingMarks) {
         return <h1 className={cx(styles.h1, alignClass)}>{children}</h1>;
     }
@@ -86,15 +107,44 @@ function Heading1({ value, children }: BlockProps) {
     );
 }
 
-function makeHeading(tag: 'h2' | 'h3' | 'h4' | 'h5' | 'h6', styleKey: keyof typeof styles) {
+function makeHeading(
+    tag: 'h2' | 'h3' | 'h4' | 'h5' | 'h6',
+    styleKey: keyof typeof styles,
+    headingIds?: Record<string, string>
+) {
     return function Heading({ value, children }: BlockProps) {
         const block = value as RichBlock;
         const override = singleLinkOverride(block);
+        // When the caller supplies an id map (article kind — for the "On this
+        // page" table of contents), stamp the matching id on the heading so the
+        // TOC anchors + scroll-spy can target it.
+        const id = headingIds?.[block._key];
         return React.createElement(
             tag,
-            { className: cx(styles[styleKey], blockAlignClass(block.children, styles)) },
-            override ?? children,
+            {
+                className: cx(styles[styleKey], blockAlignClass(block.children, styles)),
+                ...(id ? { id } : {}),
+            },
+            override ?? children
         );
+    };
+}
+
+// Build the Portable Text serializer map. `headingIds` (optional) maps a
+// heading block's `_key` to a stable anchor id — supplied only where a TOC is
+// rendered (article entries); everywhere else headings render without ids.
+export function createComponents(headingIds?: Record<string, string>): PortableTextComponents {
+    return {
+        ...components,
+        block: {
+            normal: NormalBlock,
+            h1: Heading1,
+            h2: makeHeading('h2', 'h2', headingIds),
+            h3: makeHeading('h3', 'h3', headingIds),
+            h4: makeHeading('h4', 'h4', headingIds),
+            h5: makeHeading('h5', 'h5', headingIds),
+            h6: makeHeading('h6', 'h6', headingIds),
+        },
     };
 }
 
@@ -110,16 +160,24 @@ export const components: PortableTextComponents = {
     },
     list: {
         bullet: ({ children }) => <ul className={styles.ul}>{children}</ul>,
+        number: ({ children }) => <ol className={styles.ol}>{children}</ol>,
     },
     listItem: {
         bullet: ({ children }) => <li className={styles.li}>{children}</li>,
+        number: ({ children }) => <li className={styles.oli}>{children}</li>,
     },
     marks: {
-        strong: ({ children }) => <strong className={marksStyles.highlightTextBase}>{children}</strong>,
+        strong: ({ children }) => (
+            <strong className={marksStyles.highlightTextBase}>{children}</strong>
+        ),
         em: ({ children }) => <em>{children}</em>,
-        code: ({ children }) => <code>{children}</code>,
-        highlightSecondary: ({ children }) => <span className={marksStyles.highlightTextSecondary}>{children}</span>,
-        highlightAreaBase: ({ children }) => <span className={marksStyles.highlightAreaBase}>{children}</span>,
+        code: ({ children }) => <code className={marksStyles.code}>{children}</code>,
+        highlightSecondary: ({ children }) => (
+            <span className={marksStyles.highlightTextSecondary}>{children}</span>
+        ),
+        highlightAreaBase: ({ children }) => (
+            <span className={marksStyles.highlightAreaBase}>{children}</span>
+        ),
         highlightAreaSecondary: ({ children }) => (
             <span className={marksStyles.highlightAreaSecondary}>{children}</span>
         ),
@@ -148,7 +206,20 @@ export const components: PortableTextComponents = {
     },
     types: {
         imageRow: ImageRow,
+        figure: Figure,
         callout: Callout,
+        note: Note,
+        keyTakeaways: KeyTakeaways,
+        quote: Quote,
+        expandableDetails: ExpandableDetails,
+        code: CodeBlock,
+        youtube: YouTube,
+        curatedVideo: CuratedVideo,
+        podcastEpisode: PodcastEpisode,
+        readingItem: ReadingItem,
+        listeningItem: ListeningItem,
+        linkPreview: LinkPreview,
+        facebookResource: FacebookResource,
         divider: () => <hr className={styles.hr} />,
         spacer: ({ value }) => (
             <span className={value.kind === 'newline' ? styles.newline : styles.gap} />

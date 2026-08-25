@@ -1,0 +1,12 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    /* This column is a grid item in the ContainerWrap shell. Grid/flex items
+       default to min-width: auto, so a non-wrapping child (e.g. a code block's
+       <pre>) can force the whole column wider than the viewport on mobile.
+       min-width: 0 lets it shrink to the reading column; long code then scrolls
+       inside its own card. */
+    min-width: 0;
+}

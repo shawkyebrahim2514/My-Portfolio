@@ -1,17 +1,17 @@
 # My Portfolio
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-000000?style=flat&logo=vercel&logoColor=white)](https://shawkyebrahim.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-000000?style=flat&logo=vercel&logoColor=white)](https://www.shawkyebrahim.me)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
-[![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vite.dev)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)](https://vite.dev)
 [![Sanity](https://img.shields.io/badge/Sanity-CMS-F03E2F?logo=sanity&logoColor=white)](https://www.sanity.io)
 
-My personal developer portfolio — a fast, responsive single-page application
-that showcases my skills, experience, education, and projects. Content is
-managed through a Sanity CMS and rendered by a React + TypeScript frontend.
+My personal developer portfolio and curated Hub. Content is managed through
+Sanity Studio and statically pre-rendered by a Vike + React + TypeScript
+frontend.
 
-**🔗 Live site: [shawkyebrahim.vercel.app](https://shawkyebrahim.vercel.app)**
+**Live site: [www.shawkyebrahim.me](https://www.shawkyebrahim.me)**
 
 <!--
   📸 Tip: add a screenshot at docs/screenshot.png and uncomment the line below
@@ -33,13 +33,13 @@ managed through a Sanity CMS and rendered by a React + TypeScript frontend.
 
 **Frontend**
 
-- [React 18](https://react.dev) + [TypeScript](https://www.typescriptlang.org)
-- [Vite](https://vite.dev) — build tool & dev server
-- [React Router](https://reactrouter.com) — client-side routing
-- [Emotion](https://emotion.sh) — CSS-in-JS styling
+- [React 19](https://react.dev) + [TypeScript](https://www.typescriptlang.org)
+- [Vike](https://vike.dev) + [Vite 8](https://vite.dev) — routing, static
+  pre-rendering, and development server
+- CSS Modules and shared design tokens
 - [react-spring](https://www.react-spring.dev) — animations
 - [Font Awesome](https://fontawesome.com) — icons
-- [react-markdown](https://github.com/remarkjs/react-markdown) — Markdown content rendering
+- [Portable Text](https://www.portabletext.org/) — structured rich-content rendering
 - [Vercel Analytics](https://vercel.com/analytics)
 
 **Content / Backend**
@@ -57,13 +57,14 @@ This is a monorepo with two independent workspaces:
 
 ```
 My-Portfolio/
-├── react-frontend/   # React + Vite single-page application
+├── react-frontend/   # Vike + React statically pre-rendered frontend
+│   ├── pages/         # Vike routes, data hooks, and page metadata
 │   └── src/
 │       ├── APIs/         # Sanity data fetching
 │       ├── components/   # Reusable UI components
 │       ├── containers/   # Page-level layout sections
 │       ├── contexts/     # React context providers
-│       └── Portfolio/    # Page composition
+│       └── Types/        # Frontend and Sanity content types
 └── sanity-backend/   # Sanity Studio (content schemas & CMS)
     └── schemas/          # Portfolio content models
 ```
@@ -82,7 +83,7 @@ npm install
 npm run dev
 ```
 
-The app opens automatically at <http://localhost:5173>.
+The app runs at <http://localhost:3000>.
 
 ### Content Studio (`sanity-backend`)
 
@@ -94,6 +95,12 @@ npm run dev
 
 Sanity Studio runs at <http://localhost:3333>.
 
+Copy each workspace's `.env.example` when local overrides are needed. Ordinary
+frontend work uses `npm run dev`. To refresh YouTube Channel metadata from a
+local Studio, run `npx vercel dev --listen 3002` in `react-frontend`; Studio
+calls `http://localhost:3002/api/youtube-channel`. The server-only
+`YOUTUBE_DATA_API_KEY` must exist in Vercel's Development environment.
+
 ## Available Scripts
 
 Run these inside `react-frontend/`:
@@ -101,7 +108,7 @@ Run these inside `react-frontend/`:
 | Script            | Description                              |
 | ----------------- | ---------------------------------------- |
 | `npm run dev`     | Start the Vite dev server                |
-| `npm run build`   | Build for production (outputs to `build/`) |
+| `npm run build`   | Build and pre-render to `dist/client/`      |
 | `npm run preview` | Preview the production build locally     |
 | `npm test`        | Run the test suite with Vitest           |
 
@@ -113,6 +120,10 @@ Run these inside `react-frontend/`:
 - **Experience** — internships and professional training.
 - **Projects** — selected projects I've built.
 - **Contact** — ways to get in touch.
+- **Hub** — articles, channels, podcasts, reading lists, and rich authored
+  content including link previews, media galleries, figures, notes, key
+  takeaways, quotations, expandable details, Curated Videos with rich companion
+  content,   and a Follows page at `/hub/follows`.
 
 All content is editable through the Sanity Studio without touching code.
 
