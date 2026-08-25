@@ -66,9 +66,10 @@ npm run migrate:hub:channels:type
 (`subscription` / `creator`) so the two tabs on `/hub/follows` work
 consistently for older data.
 
-Tick **Show on About page** on a Follows item to include it in the
-About-page **Worth Following** teaser. `mark-follows-featured-in-about.mjs`
-can set a starter mix without overwriting the directory.
+Pick Worth Following items on the **About** page under **Featured
+Follows**, the same way Featured Hub Entries drive Things Worth Sharing.
+`migrate:hub:about:follows` copies older per-Follow flags into that list.
+`mark-follows-featured-in-about.mjs` can set a starter mix on About.
 
 `add:hub:youtube` appends curated YouTube subscriptions without replacing
 existing Follows items. Safe to rerun.
