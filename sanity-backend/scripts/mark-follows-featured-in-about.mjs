@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 /**
- * Sets the About-page Featured Follows list to a starter mix, without
- * replacing the directory. Safe to rerun; pass --force to replace an
- * existing list.
+ * Sets the About-page Featured Follows list to a starter mix.
+ * Safe to rerun; pass --force to replace an existing list.
  *
  * Usage (from sanity-backend/):
  *   npx sanity exec scripts/mark-follows-featured-in-about.mjs --with-user-token

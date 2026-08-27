@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * Copies Follows that were flagged `featuredInAbout` onto the About page
- * Featured Follows list, in Hub Channels Directory order. Skips if that
- * list already has items unless --force is passed.
+ * Featured Follows list. Uses leftover Directory order when present.
+ * Skips if that list already has items unless --force is passed.
  *
  * Usage (from sanity-backend/):
  *   npx sanity exec scripts/migrate-about-featured-follows.mjs --with-user-token

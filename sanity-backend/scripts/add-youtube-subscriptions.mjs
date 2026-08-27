@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Appends curated YouTube subscriptions to the Follows directory.
+ * Creates curated YouTube Follow documents if they are missing.
  * Does not replace existing items. Safe to rerun.
  *
  * Usage (from sanity-backend/):
@@ -11,7 +11,7 @@ import { readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { getCliClient } from 'sanity/cli'
-import { DIRECTORY_ID, followIdForUrl, followRef, normalizeUrl } from './lib/follow-id.mjs'
+import { followIdForUrl, normalizeUrl } from './lib/follow-id.mjs'
 
 const client = getCliClient({ apiVersion: '2023-01-01' })
 const here = dirname(fileURLToPath(import.meta.url))
@@ -90,7 +90,6 @@ const toFollow = (entry) => {
     language: entry.language,
     accent: color(entry.accent),
     featured: false,
-    featuredInAbout: false,
     hiddenInProduction: false,
     categories: entry.categories.map(ref),
     tags: entry.tags,
@@ -98,35 +97,21 @@ const toFollow = (entry) => {
 }
 
 async function run() {
-  const [doc, existingUrls] = await Promise.all([
-    client.fetch(`*[_id == $id][0]{ _id, channels }`, { id: DIRECTORY_ID }),
-    client.fetch(`*[_type == "hubFollow"].url`),
-  ])
-  if (!doc?._id) {
-    console.error('Follows directory singleton not found.')
-    process.exit(1)
-  }
-
+  const existingUrls = await client.fetch(`*[_type == "hubFollow"].url`)
   const existing = new Set((existingUrls ?? []).map(normalizeUrl))
   const nextItems = subscriptions
     .map(toFollow)
     .filter((item) => !existing.has(normalizeUrl(item.url)))
 
   if (nextItems.length === 0) {
-    console.log('All YouTube subscriptions are already in the directory.')
+    console.log('All YouTube subscriptions already exist as Follows.')
     return
   }
 
-  const refs = nextItems.map((item) => followRef(item.url))
   const tx = client.transaction()
   nextItems.forEach((item) => tx.createIfNotExists(item))
-  if ((doc.channels ?? []).length === 0) {
-    tx.patch(doc._id, (patch) => patch.set({ channels: refs }))
-  } else {
-    tx.patch(doc._id, (patch) => patch.insert('after', 'channels[-1]', refs))
-  }
   await tx.commit()
-  console.log(`Added ${nextItems.length} YouTube subscription(s).`)
+  console.log(`Added ${nextItems.length} YouTube Follow(s).`)
 }
 
 run().catch((err) => {

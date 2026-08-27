@@ -28,11 +28,13 @@ export const hubFollow = {
   type: 'document',
   title: 'Follow',
   icon: BsPersonVideo,
+  description:
+    'People and channels on /hub/follows. Featured items sort first. Worth Following on About is a separate list.',
   fields: [
     {
       name: 'type',
       type: 'string',
-      title: 'Directory Type',
+      title: 'Follow type',
       options: {list: DIRECTORY_TYPE_OPTIONS, layout: 'radio'},
       initialValue: 'subscription',
       validation: (Rule) => Rule.required(),
@@ -168,16 +170,7 @@ export const hubFollow = {
       name: 'featured',
       type: 'boolean',
       title: 'Feature this follow',
-      description: 'Shows a Featured badge on the Follows card.',
-      initialValue: false,
-    },
-    {
-      name: 'featuredInAbout',
-      type: 'boolean',
-      title: 'Show on About page (legacy)',
-      description:
-        'Unused. Pick Worth Following items on the About page under Featured Follows.',
-      hidden: true,
+      description: 'Shows a Featured badge on the Follows card and sorts it first.',
       initialValue: false,
     },
     {

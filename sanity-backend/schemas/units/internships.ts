@@ -6,6 +6,9 @@ export const internships = {
     type: 'document',
     title: 'Internships',
     icon: MdFactory,
+    preview: {
+        select: {title: 'title', subtitle: 'subTitle'},
+    },
     fields: [
         {
             name: 'title',
