@@ -35,6 +35,7 @@ function HubTeaser({ entries }: HubTeaserProps) {
             subtitle="Picked by me · New posts land here"
             ctaHref="/hub"
             ctaLabel="Open the Hub"
+            ctaEvent="hubCta"
             items={resolvedEntries.map((entry) => {
                 const meta = KIND_META[entry.kind] ?? KIND_META.article;
                 return {

@@ -32,6 +32,7 @@ type MagazineTeaserProps = {
     readonly subtitle: string;
     readonly ctaHref: string;
     readonly ctaLabel: string;
+    readonly ctaEvent?: string;
     readonly items: MagazineTeaserItem[];
     readonly variant?: 'magazine' | 'people';
 };
@@ -47,6 +48,7 @@ function linkProps(item: MagazineTeaserItem) {
         target: item.external ? '_blank' : undefined,
         rel: item.external ? 'noopener noreferrer' : undefined,
         style: { '--a': item.accent } as CSSProperties,
+        'data-clarity-event': item.external ? 'follow' : undefined,
     };
 }
 
@@ -146,7 +148,7 @@ function EntryRow({ item }: { readonly item: MagazineTeaserItem }) {
     );
 }
 
-function MagazineTeaser({ title, subtitle, ctaHref, ctaLabel, items, variant = 'magazine' }: MagazineTeaserProps) {
+function MagazineTeaser({ title, subtitle, ctaHref, ctaLabel, ctaEvent, items, variant = 'magazine' }: MagazineTeaserProps) {
     if (items.length === 0) return null;
 
     const isPeople = variant === 'people';
@@ -218,6 +220,7 @@ function MagazineTeaser({ title, subtitle, ctaHref, ctaLabel, items, variant = '
                     <a
                         href={ctaHref}
                         className={cx(buttonStyles.button, buttonStyles.md, buttonStyles.pointer, styles.cta)}
+                        data-clarity-event={ctaEvent}
                     >
                         {ctaLabel}
                         <FontAwesomeIcon icon={faArrowRight} />

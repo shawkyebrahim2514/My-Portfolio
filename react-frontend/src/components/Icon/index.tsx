@@ -10,6 +10,8 @@ type IconProps = {
     readonly onClick?: () => void;
     readonly href?: string;
     readonly size?: 'lg' | 'md';
+    readonly clarityEvent?: string;
+    readonly clarityUpgrade?: string;
 };
 
 export default function Icon({
@@ -20,6 +22,8 @@ export default function Icon({
     onClick,
     href,
     size = 'md',
+    clarityEvent,
+    clarityUpgrade,
 }: IconProps) {
     const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (onClick && (event.key === 'Enter' || event.key === ' ')) {
@@ -47,7 +51,9 @@ export default function Icon({
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={text ? `${text} (opens in new tab)` : undefined}>
+                aria-label={text ? `${text} (opens in new tab)` : undefined}
+                data-clarity-event={clarityEvent}
+                data-clarity-upgrade={clarityUpgrade}>
                 {inner}
             </a>
         );

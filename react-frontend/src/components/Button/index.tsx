@@ -12,6 +12,8 @@ type ButtonProps = {
     readonly pointer?: boolean;
     readonly children?: React.ReactNode;
     readonly ariaLabel?: string;
+    readonly clarityEvent?: string;
+    readonly clarityUpgrade?: string;
 };
 
 export default function Button({
@@ -25,11 +27,15 @@ export default function Button({
     pointer,
     children,
     ariaLabel,
+    clarityEvent,
+    clarityUpgrade,
 }: ButtonProps) {
     return (
         <button
             type="button"
             aria-label={ariaLabel}
+            data-clarity-event={clarityEvent}
+            data-clarity-upgrade={clarityUpgrade}
             className={cx(
                 styles.button,
                 styles[size],

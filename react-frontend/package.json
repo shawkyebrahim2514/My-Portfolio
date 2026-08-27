@@ -8,6 +8,7 @@
     "@fortawesome/free-brands-svg-icons": "^7.3.0",
     "@fortawesome/free-solid-svg-icons": "^7.3.0",
     "@fortawesome/react-fontawesome": "^3.3.1",
+    "@microsoft/clarity": "^1.0.2",
     "@portabletext/react": "^6.2.0",
     "@react-spring/web": "^10.1.2",
     "@sanity/client": "^7.23.0",

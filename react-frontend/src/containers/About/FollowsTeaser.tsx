@@ -56,6 +56,7 @@ function FollowsTeaser({ follows }: FollowsTeaserProps) {
             subtitle="Picked by me · People and channels I follow"
             ctaHref="/hub/follows"
             ctaLabel="See who I follow"
+            ctaEvent="followsCta"
             variant="people"
             items={resolvedFollows.map((follow) => {
                 const platform = PLATFORM_META[follow.platform];
