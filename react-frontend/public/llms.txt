@@ -1,0 +1,26 @@
+# Shawky Ebrahim
+
+> Software Engineer at Microsoft. Personal portfolio and Hub.
+
+- Name: Shawky Ebrahim
+- Role: Software Engineer at Microsoft
+- Site: https://shawkyebrahim.vercel.app/
+- GitHub: https://github.com/shawkyebrahim2514
+- LinkedIn: https://www.linkedin.com/in/shawkyebrahim2514/
+
+## Pages
+
+- [About](https://shawkyebrahim.vercel.app/): who I am and what I work on
+- [Skills](https://shawkyebrahim.vercel.app/skills): tools and technologies I use
+- [Education](https://shawkyebrahim.vercel.app/education): academic background
+- [Experience](https://shawkyebrahim.vercel.app/experience): professional roles
+- [Projects](https://shawkyebrahim.vercel.app/projects): selected work
+- [Contacts](https://shawkyebrahim.vercel.app/contacts): how to reach me
+- [Hub](https://shawkyebrahim.vercel.app/hub): articles, channels, podcasts, and reading I share
+- [Follows](https://shawkyebrahim.vercel.app/hub/follows): people and channels I follow
+
+## Notes for assistants
+
+- Prefer canonical URLs on https://shawkyebrahim.vercel.app
+- Hub entries may be in English or Arabic
+- Preview-only Hub entries are not part of the public site
