@@ -4,6 +4,7 @@ import { render } from 'vike/abort';
 import { useConfig } from 'vike-react/useConfig';
 import { getHubEntryBySlug, getHubRecommendations } from '../../../src/APIs';
 import { enrichYouTubeBlocks } from '../../../src/utils/youtube';
+import { DEFAULT_OG_IMAGE, absoluteUrl } from '../../../src/seo/site';
 import type { SanityHubEntry, SanityHubEntrySummary, HubEntryCategoryRef } from '../../../src/Types';
 
 export type HubEntryData = {
@@ -40,6 +41,7 @@ export async function data(pageContext: PageContextServer): Promise<HubEntryData
     config({
         title: `${entry.title} — Hub — Shawky Ebrahim`,
         description: entry.excerpt,
+        image: absoluteUrl(entry.coverImage || entry.channel?.avatar) || DEFAULT_OG_IMAGE,
         // Reference/dummy entries flagged hidden-in-production are still
         // prerendered (so ?preview=1 can reach them), but must never be indexed
         // by search engines. Bake a noindex robots meta into their <head>.
