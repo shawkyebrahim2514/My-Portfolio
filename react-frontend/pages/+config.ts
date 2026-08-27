@@ -11,6 +11,6 @@ export default {
   passToClient: ['navbar'],
   title: 'Shawky Ebrahim — Software Engineer',
   description:
-    'Portfolio of Shawky Ebrahim — Software Engineer at Microsoft. Explore my skills, education, professional experience, and projects.',
+    'Portfolio of Shawky Ebrahim — Software Engineer at Microsoft. Skills, education, experience, projects, and a Hub of articles, channels, and reading I share.',
   image: 'https://shawkyebrahim.vercel.app/og-image.png',
 } satisfies Config;
