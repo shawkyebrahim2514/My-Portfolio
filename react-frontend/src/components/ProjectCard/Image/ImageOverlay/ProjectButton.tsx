@@ -11,6 +11,8 @@ function ProjectButton({ projectLink }: {projectLink: string}) {
             size='md'
             onClick={() => { window.open(projectLink, "_blank") }}
             pointer={true}
+            clarityEvent="projectRepo"
+            clarityUpgrade="projectRepo"
         />
     )
 }

@@ -14,7 +14,9 @@ function Content({ contacts }: Readonly<Pick<SanityContactsPage, "contacts">>) {
                         alt={contact.name}
                         text={contact.name}
                         pointer={true}
-                        href={contact.link} />
+                        href={contact.link}
+                        clarityEvent="contact"
+                        clarityUpgrade="contact" />
                 )
             })}
         </div>

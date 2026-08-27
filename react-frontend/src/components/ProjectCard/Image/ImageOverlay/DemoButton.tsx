@@ -11,6 +11,8 @@ function DemoButton({ demoLink }: {demoLink: string}) {
             size='md'
             onClick={() => { window.open(demoLink, "_blank") }}
             pointer={true}
+            clarityEvent="projectDemo"
+            clarityUpgrade="projectDemo"
         />
     )
 }

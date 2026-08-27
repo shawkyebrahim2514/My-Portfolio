@@ -26,6 +26,8 @@ export default function ButtonLink({ href, icon = 'link', text, size = 'md' }: B
                 target="_blank"
                 rel="noopener noreferrer"
                 className={cx(buttonStyles.button, buttonStyles[size], buttonStyles.pointer, styles.noUnderline)}
+                data-clarity-event={icon === 'doc' ? 'resume' : 'outbound'}
+                data-clarity-upgrade={icon === 'doc' ? 'resume' : undefined}
             >
                 <FontAwesomeIcon icon={icon === 'doc' ? faFileAlt : faLink} />
                 {text}

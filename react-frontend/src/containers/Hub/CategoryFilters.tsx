@@ -38,7 +38,11 @@ function CategoryFilters({ categories, activeSlug, allCount, counts, query = '' 
 
     return (
         <nav className={styles.list} aria-label="Filter by category">
-            <a href={`/hub${query}`} className={cx(styles.chip, !activeSlug && styles.active)}>
+            <a
+                href={`/hub${query}`}
+                className={cx(styles.chip, !activeSlug && styles.active)}
+                data-clarity-event="hubFilter"
+            >
                 <span className={styles.icon}>
                     <FontAwesomeIcon icon={faLayerGroup} />
                 </span>
@@ -53,6 +57,7 @@ function CategoryFilters({ categories, activeSlug, allCount, counts, query = '' 
                         key={category.slug}
                         href={`/hub/category/${category.slug}${query}`}
                         className={cx(styles.chip, activeSlug === category.slug && styles.active)}
+                        data-clarity-event="hubFilter"
                     >
                         {inlineSvg ? <InlineSvg className={styles.icon} svg={inlineSvg} /> : null}
                         <span className={styles.label}>{category.title}</span>
