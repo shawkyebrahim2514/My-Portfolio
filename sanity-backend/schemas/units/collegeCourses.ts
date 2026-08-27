@@ -6,6 +6,9 @@ export const collegeCourses = {
     type: 'document',
     title: 'College Courses',
     icon: PiStudentFill,
+    preview: {
+        select: {title: 'name'},
+    },
     fields: [
         {
             name: 'name',

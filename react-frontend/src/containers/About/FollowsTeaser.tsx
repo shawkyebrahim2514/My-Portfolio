@@ -56,6 +56,7 @@ function FollowsTeaser({ follows }: FollowsTeaserProps) {
             subtitle="Picked by me · People and channels I follow"
             ctaHref="/hub/follows"
             ctaLabel="See who I follow"
+            variant="people"
             items={resolvedFollows.map((follow) => {
                 const platform = PLATFORM_META[follow.platform];
                 const type = TYPE_META[resolveType(follow)];
@@ -66,7 +67,10 @@ function FollowsTeaser({ follows }: FollowsTeaserProps) {
                     external: !follow.deepDiveSlug,
                     title: follow.name,
                     excerpt: follow.note,
-                    image: follow.coverImage ?? follow.avatar,
+                    image: follow.coverImage,
+                    coverFocus: follow.coverFocus,
+                    avatar: follow.avatar,
+                    avatarFocus: follow.avatarFocus,
                     accent: follow.accentColor ?? PLATFORM_ACCENT[follow.platform],
                     badgeIcon: platform?.icon ?? type.icon,
                     badgeLabel: platform?.label ?? type.label,

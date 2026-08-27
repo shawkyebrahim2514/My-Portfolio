@@ -6,6 +6,9 @@ export const projects = {
     type: 'document',
     title: 'Projects',
     icon: BiGitRepoForked,
+    preview: {
+        select: {title: 'name', media: 'image'},
+    },
     fields: [
         {
             name: 'name',

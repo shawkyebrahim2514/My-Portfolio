@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * Appends curated Facebook, LinkedIn, and X creators to the Follows
- * directory. Does not replace existing items. Safe to rerun.
+ * Creates curated Facebook, LinkedIn, and X Follow documents if they
+ * are missing. Does not replace existing items. Safe to rerun.
  *
  * Usage (from sanity-backend/):
  *   npx sanity exec scripts/add-social-creators.mjs --with-user-token
@@ -11,7 +11,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { getCliClient } from 'sanity/cli'
-import { DIRECTORY_ID, followIdForUrl, followRef, normalizeUrl } from './lib/follow-id.mjs'
+import { followIdForUrl, normalizeUrl } from './lib/follow-id.mjs'
 
 const client = getCliClient({ apiVersion: '2023-01-01' })
 const here = dirname(fileURLToPath(import.meta.url))
@@ -100,7 +100,6 @@ const toFollow = (entry) => ({
   language: entry.language,
   accent: color(entry.accent),
   featured: false,
-  featuredInAbout: false,
   hiddenInProduction: false,
   categories: entry.categories.map((name) => ref(CATEGORY_IDS[name])),
   tags: entry.tags,
@@ -116,37 +115,23 @@ function updateCategoryMap() {
 }
 
 async function run() {
-  const [doc, existingUrls] = await Promise.all([
-    client.fetch(`*[_id == $id][0]{ _id, channels }`, { id: DIRECTORY_ID }),
-    client.fetch(`*[_type == "hubFollow"].url`),
-  ])
-  if (!doc?._id) {
-    console.error('Follows directory singleton not found.')
-    process.exit(1)
-  }
-
+  const existingUrls = await client.fetch(`*[_type == "hubFollow"].url`)
   const existing = new Set((existingUrls ?? []).map(normalizeUrl))
   const nextItems = creators
     .map(toFollow)
     .filter((item) => !existing.has(normalizeUrl(item.url)))
 
   if (nextItems.length === 0) {
-    console.log('All social creators are already in the directory.')
+    console.log('All social creators already exist as Follows.')
     updateCategoryMap()
     return
   }
 
-  const refs = nextItems.map((item) => followRef(item.url))
   const tx = client.transaction()
   nextItems.forEach((item) => tx.createIfNotExists(item))
-  if ((doc.channels ?? []).length === 0) {
-    tx.patch(doc._id, (patch) => patch.set({ channels: refs }))
-  } else {
-    tx.patch(doc._id, (patch) => patch.insert('after', 'channels[-1]', refs))
-  }
   await tx.commit()
   updateCategoryMap()
-  console.log(`Added ${nextItems.length} social creator(s).`)
+  console.log(`Added ${nextItems.length} social Follow(s).`)
 }
 
 run().catch((err) => {

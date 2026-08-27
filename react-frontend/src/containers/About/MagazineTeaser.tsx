@@ -6,6 +6,7 @@ import { faArrowRight, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import StarBorder from '../../components/StarBorder';
 import buttonStyles from '../../components/Button/Button.module.css';
 import { cx } from '../../utils/cx';
+import { resolveRemoteImageStyle, resolveYouTubeBannerUrl, type RemoteImageCrop } from '../../utils/remoteImageCrop';
 import type { HubContentLanguage } from '../../Types';
 import styles from './HubTeaser.module.css';
 
@@ -16,6 +17,9 @@ export type MagazineTeaserItem = {
     readonly title: string;
     readonly excerpt: string;
     readonly image?: string;
+    readonly coverFocus?: RemoteImageCrop;
+    readonly avatar?: string;
+    readonly avatarFocus?: RemoteImageCrop;
     readonly accent: string;
     readonly badgeIcon: IconDefinition;
     readonly badgeLabel: string;
@@ -29,21 +33,32 @@ type MagazineTeaserProps = {
     readonly ctaHref: string;
     readonly ctaLabel: string;
     readonly items: MagazineTeaserItem[];
+    readonly variant?: 'magazine' | 'people';
 };
 
-function MagazineTeaser({ title, subtitle, ctaHref, ctaLabel, items }: MagazineTeaserProps) {
+function initialFor(title: string) {
+    const trimmed = title.trim();
+    return trimmed ? trimmed.slice(0, 1).toUpperCase() : '?';
+}
+
+function MagazineTeaser({ title, subtitle, ctaHref, ctaLabel, items, variant = 'magazine' }: MagazineTeaserProps) {
     if (items.length === 0) return null;
 
-    const heroIndex = Math.max(
-        0,
-        items.findIndex((item) => Boolean(item.image)),
-    );
-    const hero = items[heroIndex];
-    const rest = items.filter((_, index) => index !== heroIndex);
-    const ordered = [hero, ...rest];
+    const isPeople = variant === 'people';
+    const ordered = isPeople
+        ? items
+        : (() => {
+              const heroIndex = Math.max(
+                  0,
+                  items.findIndex((item) => Boolean(item.image)),
+              );
+              const hero = items[heroIndex];
+              const rest = items.filter((_, index) => index !== heroIndex);
+              return [hero, ...rest];
+          })();
 
     return (
-        <div className={styles.teaser}>
+        <div className={cx(styles.teaser, isPeople && styles.people)}>
             <div className={styles.kicker}>
                 <h3 className={styles.kickerTitle}>{title}</h3>
                 <span className={styles.kickerSub}>{subtitle}</span>
@@ -52,7 +67,7 @@ function MagazineTeaser({ title, subtitle, ctaHref, ctaLabel, items }: MagazineT
             <div className={styles.grid}>
                 {ordered.map((item, index) => {
                     const isFeat = index === 0;
-                    const showBg = isFeat && Boolean(item.image);
+                    const showCover = isFeat && Boolean(item.image);
                     const isRTL = item.language === 'ar';
 
                     return (
@@ -64,12 +79,24 @@ function MagazineTeaser({ title, subtitle, ctaHref, ctaLabel, items }: MagazineT
                             className={cx(styles.cell, isFeat && styles.feat)}
                             style={{ '--a': item.accent } as CSSProperties}
                         >
-                            {showBg ? (
-                                <span
-                                    className={styles.bg}
-                                    style={{ backgroundImage: `url(${item.image})` }}
-                                    aria-hidden="true"
-                                />
+                            {showCover ? (
+                                isPeople ? (
+                                    <span className={styles.peopleCover} aria-hidden="true">
+                                        <img
+                                            src={resolveYouTubeBannerUrl(item.image!)}
+                                            alt=""
+                                            loading="lazy"
+                                            decoding="async"
+                                            style={resolveRemoteImageStyle(item.coverFocus)}
+                                        />
+                                    </span>
+                                ) : (
+                                    <span
+                                        className={styles.bg}
+                                        style={{ backgroundImage: `url(${item.image})` }}
+                                        aria-hidden="true"
+                                    />
+                                )
                             ) : (
                                 <span className={styles.tint} aria-hidden="true" />
                             )}
@@ -82,6 +109,22 @@ function MagazineTeaser({ title, subtitle, ctaHref, ctaLabel, items }: MagazineT
                                 >
                                     <FontAwesomeIcon icon={faEyeSlash} />
                                     Hidden
+                                </span>
+                            )}
+                            {isPeople && (
+                                <span className={styles.avatarWrap} aria-hidden="true">
+                                    {item.avatar ? (
+                                        <img
+                                            className={styles.avatarImg}
+                                            src={item.avatar}
+                                            alt=""
+                                            loading="lazy"
+                                            decoding="async"
+                                            style={resolveRemoteImageStyle(item.avatarFocus, 'center')}
+                                        />
+                                    ) : (
+                                        <span className={styles.avatarFallback}>{initialFor(item.title)}</span>
+                                    )}
                                 </span>
                             )}
                             <span className={styles.badge}>
