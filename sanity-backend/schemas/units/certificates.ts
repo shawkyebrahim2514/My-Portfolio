@@ -6,6 +6,9 @@ export const certificates = {
     type: 'document',
     title: 'Certificates',
     icon: PiCertificate,
+    preview: {
+        select: {title: 'title', subtitle: 'subTitle'},
+    },
     fields: [
         {
             name: 'title',

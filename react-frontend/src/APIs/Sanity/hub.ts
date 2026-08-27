@@ -50,7 +50,6 @@ export const directoryChannelFields = `
     note,
     language,
     featured,
-    featuredInAbout,
     hiddenInProduction,
     tags,
     "deepDiveSlug": deepDiveEntry->slug.current,
@@ -68,24 +67,27 @@ const getHubPage = async () => {
 };
 
 const getHubChannelsDirectoryPage = async () => {
-    const query = `*[_type == "hubChannelsDirectoryPage"][0] {
-        title,
-        intro,
-        "channels": channels[] {
-            ...select(
-                defined(_ref) => @->{
-                    "_key": coalesce(^._key, _id),
-                    ${directoryChannelFields}
-                },
-                {
-                    _key,
-                    ${directoryChannelFields}
-                }
-            )
+    const query = `{
+        "page": *[_type == "hubChannelsDirectoryPage"][0]{ title, intro },
+        "channels": *[_type == "hubFollow"] | order(coalesce(featured, false) desc, name asc) {
+            "_key": _id,
+            ${directoryChannelFields}
         }
     }`;
-    const result: SanityHubChannelsDirectoryPage | null = await sanityClient.fetch(query);
-    return result;
+    const result: {
+        page: Pick<SanityHubChannelsDirectoryPage, 'title' | 'intro'> | null;
+        channels: SanityHubChannelsDirectoryPage['channels'];
+    } = await sanityClient.fetch(query);
+    const channels = result.channels ?? [];
+    if (!result.page && channels.length === 0) return null;
+    return {
+        title: result.page?.title ?? {
+            highlightedText: 'Follows',
+            subText: 'People and channels I follow',
+        },
+        intro: result.page?.intro ?? [],
+        channels,
+    };
 };
 
 type HubEntrySummaryRow = SanityHubEntrySummary & { listenPreviewUrl?: string };

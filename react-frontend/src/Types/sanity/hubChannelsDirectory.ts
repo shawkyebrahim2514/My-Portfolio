@@ -28,7 +28,6 @@ export type SanityHubDirectoryChannel = {
     note: string;
     language?: HubContentLanguage;
     featured?: boolean;
-    featuredInAbout?: boolean;
     hiddenInProduction?: boolean;
     tags?: string[];
     deepDiveSlug?: string;

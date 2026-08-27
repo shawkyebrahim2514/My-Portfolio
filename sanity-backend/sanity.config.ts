@@ -6,6 +6,7 @@ import {codeInput} from '@sanity/code-input'
 import {colorInput} from '@sanity/color-input'
 import {schemaTypes} from './schemas'
 import {getStartedPlugin} from './plugins/sanity-plugin-tutorial'
+import {singletonTypes, structure} from './structure'
 
 const devOnlyPlugins = [getStartedPlugin()]
 
@@ -20,7 +21,7 @@ export default defineConfig({
   dataset: process.env.SANITY_STUDIO_DATASET || 'production',
 
   plugins: [
-    structureTool(),
+    structureTool({structure}),
     visionTool(),
     // Iconify-powered icon picker. `inlineSvg: true` stores the selected
     // icon's SVG markup directly on the document so the frontend can render
@@ -37,6 +38,14 @@ export default defineConfig({
 
   schema: {
     types: schemaTypes,
+    templates: (templates) =>
+      templates.filter(({schemaType}) => !singletonTypes.has(schemaType)),
+  },
+  document: {
+    actions: (prev, {schemaType}) =>
+      singletonTypes.has(schemaType)
+        ? prev.filter(({action}) => action !== 'delete' && action !== 'duplicate')
+        : prev,
   },
 })
 

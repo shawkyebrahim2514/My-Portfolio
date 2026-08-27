@@ -4,6 +4,11 @@ Content studio for the portfolio and Hub. The Studio runs locally at
 <http://localhost:3333> and is deployed at
 <https://portfolio.sanity.studio>.
 
+Portfolio Pages, Hub index, and Follows page are singletons. Studio
+opens each document directly; you cannot create a second copy. Experience,
+projects, skills, and the other lists live under **Portfolio**. Hub entries
+and Follows live under **Hub**.
+
 ## Local development
 
 ```bash
@@ -23,10 +28,11 @@ whose rich body preserves authored order and supports full-width Curated Video
 blocks. Its focused `moreVideos` array renders ordinary recommendations as one
 grid at the end of the page.
 
-For quick curation, the **Hub Channels Directory** document powers
-`/hub/follows` (the public **Follows** page): one place to list both Subscriptions and Creators with a short
-note, directory/platform/category filters, optional cover image + per-card
-accent color, and an optional link to a dedicated Channel Hub deep-dive entry.
+**Follow** documents power `/hub/follows`: every Follow appears there,
+featured first, then by name. Filter by type, platform, and category.
+Each card can have an avatar, cover, accent color, short note, and an
+optional Channel Hub deep-dive. The **Follows page** document is only
+the title and intro. Pick Worth Following on **About → Featured Follows**.
 
 Automatic URL metadata uses the frontend's Vercel function. For local testing,
 run `npx vercel dev --listen 3002` from `react-frontend`. Channel metadata uses
@@ -59,23 +65,25 @@ npm run migrate:hub:channels:type
   recommendations to real entries that exist in the dataset.
 - Marks all legacy `[DUMMY]` entries as `hiddenInProduction: true`.
 
-`seed:hub:channels` seeds the Hub Channels Directory singleton used by
-`/hub/follows`.
+`seed:hub:channels` creates the Follows page title and intro if they
+are missing. It never replaces Follows or wipes live content.
 
-`migrate:hub:channels:type` backfills directory item `type` values
+`migrate:hub:channels:type` backfills Follow `type` values
 (`subscription` / `creator`) so the two tabs on `/hub/follows` work
 consistently for older data.
 
 Pick Worth Following items on the **About** page under **Featured
 Follows**, the same way Featured Hub Entries drive Things Worth Sharing.
 `migrate:hub:about:follows` copies older per-Follow flags into that list.
-`mark-follows-featured-in-about.mjs` can set a starter mix on About.
+`unset:hub:directory:channels` drops leftover Directory refs and the old
+per-Follow About flag. `mark-follows-featured-in-about.mjs` can set a
+starter mix on About.
 
-`add:hub:youtube` appends curated YouTube subscriptions without replacing
-existing Follows items. Safe to rerun.
+`add:hub:youtube` creates curated YouTube Follows if they are missing.
+Safe to rerun.
 
-`add:hub:social` appends curated Facebook, LinkedIn, and X creators
-without replacing existing Follows items. Safe to rerun.
+`add:hub:social` creates curated Facebook, LinkedIn, and X Follows if
+they are missing. Safe to rerun.
 
 `seed:hub:quran` creates the Faith Listening List of one-off Quran
 recitation clips if it is missing, or migrates an older Article version
@@ -88,8 +96,8 @@ images into those URLs. Safe to rerun.
 `sync:hub:taxonomy` updates Hub category titles and the Follows set
 (Software, Career, Tech, Money, English, Hardware, Curiosity, Design,
 Faith, Family, Life), then retags Follows items from
-`scripts/data/follows-category-map.json`. It does not replace the directory
-or wipe recommended entries.
+`scripts/data/follows-category-map.json`. It does not wipe Follows or
+recommended entries.
 
 ## Deployment
 

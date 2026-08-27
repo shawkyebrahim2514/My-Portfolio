@@ -6,6 +6,9 @@ export const professionalExperience = {
     type: 'document',
     title: 'Professional Experience',
     icon: BsMicrosoft,
+    preview: {
+        select: {title: 'title', subtitle: 'subTitle'},
+    },
     fields: [
         {
             name: 'title',
