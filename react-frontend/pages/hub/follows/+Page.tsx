@@ -302,6 +302,7 @@ function HubChannelsPage() {
                                         directoryTypeFilter === type && chipStyles.active,
                                     )}
                                     onClick={() => setDirectoryTypeFilter(type)}
+                                    data-clarity-event="hubFilter"
                                 >
                                     <span className={chipStyles.icon}>
                                         <FontAwesomeIcon icon={DIRECTORY_TYPE_META[type].icon} />
@@ -334,6 +335,7 @@ function HubChannelsPage() {
                                     platformFilter === 'all' && chipStyles.active,
                                 )}
                                 onClick={() => setPlatformFilter('all')}
+                                data-clarity-event="hubFilter"
                             >
                                 <span className={chipStyles.label}>All</span>
                                 <span className={chipStyles.count}>{channelsInTypeSearchView.length}</span>
@@ -347,6 +349,7 @@ function HubChannelsPage() {
                                         platformFilter === platform && chipStyles.active,
                                     )}
                                     onClick={() => setPlatformFilter(platform)}
+                                    data-clarity-event="hubFilter"
                                 >
                                     <span className={chipStyles.icon}>
                                         <FontAwesomeIcon icon={PLATFORM_META[platform].icon} />
@@ -369,6 +372,7 @@ function HubChannelsPage() {
                                         categoryFilter === 'all' && chipStyles.active,
                                     )}
                                     onClick={() => setCategoryFilter('all')}
+                                    data-clarity-event="hubFilter"
                                 >
                                     <span className={chipStyles.icon}>
                                         <FontAwesomeIcon icon={faLayerGroup} />
@@ -387,6 +391,7 @@ function HubChannelsPage() {
                                                 categoryFilter === category.slug && chipStyles.active,
                                             )}
                                             onClick={() => setCategoryFilter(category.slug)}
+                                            data-clarity-event="hubFilter"
                                         >
                                             {inlineSvg ? (
                                                 <InlineSvg className={chipStyles.icon} svg={inlineSvg} />
@@ -434,6 +439,7 @@ function HubChannelsPage() {
                                     }
                                     dir={isRTL ? 'rtl' : undefined}
                                     lang={channel.language}
+                                    data-clarity-event={isExternal ? 'follow' : undefined}
                                 >
                                     <div className={styles.coverFrame} aria-hidden="true">
                                         {channel.coverImage && (

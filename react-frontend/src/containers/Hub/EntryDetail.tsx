@@ -237,6 +237,7 @@ function EntryDetail(entry: SanityHubEntry) {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className={cx(buttonStyles.button, buttonStyles.md, buttonStyles.pointer, styles.channelCta)}
+                                    data-clarity-event="hubSource"
                                 >
                                     <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
                                     Visit on {CHANNEL_PLATFORM_LABEL[channel.platform]}

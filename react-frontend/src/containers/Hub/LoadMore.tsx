@@ -40,7 +40,12 @@ function LoadMore({
                 Showing {shown} of {total}
             </p>
             {remaining > 0 && (
-                <button type="button" className={styles.loadMore} onClick={onLoadMore}>
+                <button
+                    type="button"
+                    className={styles.loadMore}
+                    onClick={onLoadMore}
+                    data-clarity-event="hubLoadMore"
+                >
                     Load {nextPageSize} more
                 </button>
             )}

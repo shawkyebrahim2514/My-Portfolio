@@ -15,6 +15,7 @@ import ShapeGridBackground from '../src/components/ShapeGridBackground';
 import ClickSpark from '../src/components/ClickSpark';
 import PreviewProvider from '../src/contexts/PreviewContext';
 import PreviewBanner from '../src/components/PreviewBanner';
+import ClarityRoot from '../src/analytics/ClarityRoot';
 import { themeStyle, kindAmbient, KIND_ACCENT } from '../src/containers/Hub/kindAccent';
 import type { HubEntryKind } from '../src/Types';
 import '../src/styles/tokens.css';
@@ -57,6 +58,7 @@ export default function Layout({ children }: Readonly<{ children: ReactNode }>) 
                         </Suspense>
                     </div>
                     <PreviewBanner />
+                    <ClarityRoot />
                 </div>
             </PreviewProvider>
             <Analytics />
