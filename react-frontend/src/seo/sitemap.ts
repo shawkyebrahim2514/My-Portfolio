@@ -3,9 +3,14 @@ import { SITE_URL, STATIC_PATHS, canonicalUrl } from './site';
 export type SitemapPathInput = {
     categorySlugs: string[];
     entrySlugs: string[];
+    libraryCollectionSlugs?: string[];
 };
 
-export function collectSitemapPaths({ categorySlugs, entrySlugs }: SitemapPathInput): string[] {
+export function collectSitemapPaths({
+    categorySlugs,
+    entrySlugs,
+    libraryCollectionSlugs = [],
+}: SitemapPathInput): string[] {
     const seen = new Set<string>();
     const paths: string[] = [];
 
@@ -20,15 +25,20 @@ export function collectSitemapPaths({ categorySlugs, entrySlugs }: SitemapPathIn
     for (const slug of categorySlugs) {
         if (slug) add(`/hub/category/${slug}`);
     }
+    for (const slug of libraryCollectionSlugs) {
+        if (slug) add(`/hub/library/${slug}`);
+    }
     for (const slug of entrySlugs) {
-        if (slug) add(`/hub/${slug}`);
+        if (slug && slug !== 'follows' && slug !== 'library' && slug !== 'category') {
+            add(`/hub/${slug}`);
+        }
     }
     return paths;
 }
 
 export function sitemapPriority(path: string): string {
     if (path === '/') return '1.0';
-    if (path === '/hub' || path === '/hub/follows') return '0.9';
+    if (path === '/hub' || path === '/hub/follows' || path === '/hub/library') return '0.9';
     if (path.startsWith('/hub/')) return '0.7';
     return '0.8';
 }

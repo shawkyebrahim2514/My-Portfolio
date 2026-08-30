@@ -1,18 +1,27 @@
-import {BsCollectionPlay, BsShare} from 'react-icons/bs'
+import {BsBookmark, BsCollectionPlay, BsShare} from 'react-icons/bs'
 import {TbWorldCode} from 'react-icons/tb'
 import type {StructureResolver} from 'sanity/structure'
 
 export const HUB_PAGE_ID = 'hubPage-singleton'
 export const FOLLOWS_PAGE_ID = 'hubChannelsDirectoryPage-singleton'
+export const LIBRARY_PAGE_ID = 'hubLibraryPage-singleton'
 export const PORTFOLIO_ID = '38ff5cc9-0723-4e11-8279-0f7fbb323a33'
 
-export const singletonTypes = new Set(['portfolio', 'hubPage', 'hubChannelsDirectoryPage'])
+export const singletonTypes = new Set([
+  'portfolio',
+  'hubPage',
+  'hubChannelsDirectoryPage',
+  'hubLibraryPage',
+])
 
 const hubTypeIds = new Set([
   'hubPage',
   'hubChannelsDirectoryPage',
+  'hubLibraryPage',
   'hubEntry',
   'hubFollow',
+  'hubLibraryCollection',
+  'hubLibrarySave',
   'hubCategory',
 ])
 
@@ -85,9 +94,21 @@ export const structure: StructureResolver = (S) =>
                     .schemaType('hubChannelsDirectoryPage')
                     .documentId(FOLLOWS_PAGE_ID),
                 ),
+              S.listItem()
+                .title('Library page')
+                .id('library-page')
+                .icon(BsBookmark)
+                .child(
+                  S.document()
+                    .title('Library page')
+                    .schemaType('hubLibraryPage')
+                    .documentId(LIBRARY_PAGE_ID),
+                ),
               S.divider(),
               S.documentTypeListItem('hubEntry').title('Entries'),
               S.documentTypeListItem('hubFollow').title('Follows'),
+              S.documentTypeListItem('hubLibraryCollection').title('Library collections'),
+              S.documentTypeListItem('hubLibrarySave').title('Library saves'),
               S.documentTypeListItem('hubCategory').title('Categories'),
             ]),
         ),

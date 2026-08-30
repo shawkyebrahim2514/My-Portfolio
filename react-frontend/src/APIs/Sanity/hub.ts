@@ -4,6 +4,9 @@ import {
     SanityHubEntrySummary,
     SanityHubCategory,
     SanityHubChannelsDirectoryPage,
+    SanityHubLibraryCollection,
+    SanityHubLibraryPage,
+    SanityHubLibrarySave,
 } from '../../Types';
 import sanityClient from './client';
 import { listenCardCover } from '../../utils/youtube';
@@ -204,6 +207,58 @@ const getHubCategorySlugs = async () => {
     return result;
 };
 
+const librarySaveProjection = `{
+    "_key": _id,
+    title,
+    url,
+    note,
+    language,
+    featured,
+    hiddenInProduction,
+    tags,
+    "collection": collection->{ title, "slug": slug.current }
+}`;
+
+const getHubLibraryPage = async () => {
+    const query = `*[_type == "hubLibraryPage"][0]{ title, intro }`;
+    const result: Pick<SanityHubLibraryPage, 'title' | 'intro'> | null = await sanityClient.fetch(query);
+    return result;
+};
+
+const getHubLibraryCollections = async () => {
+    const query = `*[_type == "hubLibraryCollection"] | order(coalesce(order, 9999) asc, title asc) {
+        title,
+        "slug": slug.current,
+        description,
+        order
+    }`;
+    const result: SanityHubLibraryCollection[] = await sanityClient.fetch(query);
+    return result;
+};
+
+const getHubLibraryCollectionBySlug = async (slug: string) => {
+    const query = `*[_type == "hubLibraryCollection" && slug.current == $slug][0] {
+        title,
+        "slug": slug.current,
+        description,
+        order
+    }`;
+    const result: SanityHubLibraryCollection | null = await sanityClient.fetch(query, { slug });
+    return result;
+};
+
+const getHubLibraryCollectionSlugs = async () => {
+    const query = `*[_type == "hubLibraryCollection"].slug.current`;
+    const result: string[] = await sanityClient.fetch(query);
+    return result;
+};
+
+const getHubLibrarySaves = async () => {
+    const query = `*[_type == "hubLibrarySave"] | order(coalesce(featured, false) desc, title asc) ${librarySaveProjection}`;
+    const result: SanityHubLibrarySave[] = await sanityClient.fetch(query);
+    return result;
+};
+
 export {
     getHubPage,
     getHubChannelsDirectoryPage,
@@ -215,4 +270,9 @@ export {
     getHubCategories,
     getHubCategoryBySlug,
     getHubCategorySlugs,
+    getHubLibraryPage,
+    getHubLibraryCollections,
+    getHubLibraryCollectionBySlug,
+    getHubLibraryCollectionSlugs,
+    getHubLibrarySaves,
 }

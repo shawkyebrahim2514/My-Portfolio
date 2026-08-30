@@ -8,4 +8,5 @@
   <url><loc>https://shawkyebrahim.vercel.app/contacts</loc><priority>0.8</priority></url>
   <url><loc>https://shawkyebrahim.vercel.app/hub</loc><priority>0.9</priority></url>
   <url><loc>https://shawkyebrahim.vercel.app/hub/follows</loc><priority>0.9</priority></url>
+  <url><loc>https://shawkyebrahim.vercel.app/hub/library</loc><priority>0.9</priority></url>
 </urlset>

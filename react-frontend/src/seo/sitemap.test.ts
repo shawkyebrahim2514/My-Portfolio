@@ -6,7 +6,8 @@ describe('collectSitemapPaths', () => {
     it('includes static routes, categories, and public entries once', () => {
         const paths = collectSitemapPaths({
             categorySlugs: ['engineering', 'engineering', ''],
-            entrySlugs: ['clean-architecture', 'notes'],
+            libraryCollectionSlugs: ['career', 'career'],
+            entrySlugs: ['clean-architecture', 'notes', 'library'],
         });
 
         expect(paths).toEqual([
@@ -18,7 +19,9 @@ describe('collectSitemapPaths', () => {
             '/contacts',
             '/hub',
             '/hub/follows',
+            '/hub/library',
             '/hub/category/engineering',
+            '/hub/library/career',
             '/hub/clean-architecture',
             '/hub/notes',
         ]);
@@ -33,6 +36,7 @@ describe('buildSitemapXml', () => {
         expect(xml).toContain('<loc>https://shawkyebrahim.vercel.app/hub</loc>');
         expect(xml).toContain('<loc>https://shawkyebrahim.vercel.app/hub/notes</loc>');
         expect(sitemapPriority('/hub/follows')).toBe('0.9');
+        expect(sitemapPriority('/hub/library')).toBe('0.9');
         expect(sitemapPriority('/skills')).toBe('0.8');
         expect(sitemapPriority('/hub/notes')).toBe('0.7');
     });
@@ -44,6 +48,8 @@ describe('canonicalUrl', () => {
         expect(canonicalUrl('/hub/')).toBe('https://shawkyebrahim.vercel.app/hub');
         expect(isHubEntryPath('/hub/notes')).toBe(true);
         expect(isHubEntryPath('/hub/follows')).toBe(false);
+        expect(isHubEntryPath('/hub/library')).toBe(false);
+        expect(isHubEntryPath('/hub/library/career')).toBe(false);
         expect(isHubEntryPath('/hub/category/eng')).toBe(false);
     });
 });
