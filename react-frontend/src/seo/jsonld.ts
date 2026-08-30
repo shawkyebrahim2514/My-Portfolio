@@ -80,10 +80,25 @@ export function hubEntryJsonLd(entry: Pick<SanityHubEntry, 'title' | 'excerpt' |
     };
 }
 
+export function collectionPageJsonLd(pathname: string, name: string) {
+    const url = canonicalUrl(pathname);
+    return {
+        '@type': 'CollectionPage',
+        '@id': `${url}#collection`,
+        url,
+        name,
+        isPartOf: { '@id': WEBSITE_ID },
+        author: { '@id': PERSON_ID },
+    };
+}
+
 export function siteJsonLdGraph(pathname: string, entry?: Parameters<typeof hubEntryJsonLd>[0]) {
     const graph: object[] = [personJsonLd(), websiteJsonLd()];
     const path = pathname.replace(/\/+$/, '') || '/';
     if (path === '/') graph.push(profilePageJsonLd());
+    if (path === '/hub/library' || path.startsWith('/hub/library/')) {
+        graph.push(collectionPageJsonLd(pathname, path === '/hub/library' ? 'Library' : 'Library collection'));
+    }
     if (entry) graph.push(hubEntryJsonLd(entry, pathname));
     return {
         '@context': 'https://schema.org',

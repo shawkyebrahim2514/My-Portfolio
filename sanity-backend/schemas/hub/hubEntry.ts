@@ -39,13 +39,20 @@ export const hubEntry = {
             type: 'slug',
             title: 'Slug',
             group: 'content',
-            description: 'Used in the entry URL: /hub/<slug>.',
+            description: 'Used in the entry URL: /hub/<slug>. Reserved: follows, library, category.',
             options: {
                 source: 'title',
                 maxLength: 96,
                 isUnique: makeIsUniqueSlug('hubEntry'),
             },
-            validation: Rule => Rule.required(),
+            validation: Rule =>
+                Rule.required().custom((value) => {
+                    const slug = value?.current
+                    if (slug === 'follows' || slug === 'library' || slug === 'category') {
+                        return `"${slug}" is reserved for a Hub view`
+                    }
+                    return true
+                }),
         },
         {
             name: 'kind',

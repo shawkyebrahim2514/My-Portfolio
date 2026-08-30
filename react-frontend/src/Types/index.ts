@@ -21,6 +21,9 @@ export {
     type HubDirectoryPlatform,
     type SanityHubDirectoryChannel,
     type SanityHubChannelsDirectoryPage,
+    type SanityHubLibraryCollection,
+    type SanityHubLibrarySave,
+    type SanityHubLibraryPage,
 } from './sanity';
 
 export {

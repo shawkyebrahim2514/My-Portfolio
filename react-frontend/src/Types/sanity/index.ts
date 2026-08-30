@@ -24,3 +24,8 @@ export {
     type SanityHubDirectoryChannel,
     type SanityHubChannelsDirectoryPage,
 } from './hubChannelsDirectory';
+export {
+    type SanityHubLibraryCollection,
+    type SanityHubLibrarySave,
+    type SanityHubLibraryPage,
+} from './hubLibrary';

@@ -7,6 +7,11 @@ describe('siteJsonLdGraph', () => {
         expect(graph.map((node) => node['@type'])).toEqual(['Person', 'WebSite', 'ProfilePage']);
     });
 
+    it('adds CollectionPage for the library', () => {
+        const graph = siteJsonLdGraph('/hub/library')['@graph'] as { '@type': string }[];
+        expect(graph.map((node) => node['@type'])).toEqual(['Person', 'WebSite', 'CollectionPage']);
+    });
+
     it('adds BlogPosting for article entries', () => {
         const graph = siteJsonLdGraph('/hub/notes', {
             title: 'Notes',

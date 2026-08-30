@@ -16,4 +16,9 @@ export {
     getHubCategories,
     getHubCategoryBySlug,
     getHubCategorySlugs,
+    getHubLibraryPage,
+    getHubLibraryCollections,
+    getHubLibraryCollectionBySlug,
+    getHubLibraryCollectionSlugs,
+    getHubLibrarySaves,
 } from './Sanity';

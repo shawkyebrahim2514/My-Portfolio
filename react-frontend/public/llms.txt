@@ -18,6 +18,7 @@
 - [Contacts](https://shawkyebrahim.vercel.app/contacts): how to reach me
 - [Hub](https://shawkyebrahim.vercel.app/hub): articles, channels, podcasts, and reading I share
 - [Follows](https://shawkyebrahim.vercel.app/hub/follows): people and channels I follow
+- [Library](https://shawkyebrahim.vercel.app/hub/library): bookmarks I keep, with a note on why
 
 ## Notes for assistants
 

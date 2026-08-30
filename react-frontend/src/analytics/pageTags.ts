@@ -6,6 +6,7 @@ export type ClarityPageTags = {
     hub_source?: string;
     hub_type?: string;
     hub_category?: string;
+    hub_collection?: string;
 };
 
 export function pageArea(pathname: string): string {
@@ -13,6 +14,8 @@ export function pageArea(pathname: string): string {
     if (path === '/') return 'about';
     if (path === '/hub') return 'hub';
     if (path === '/hub/follows') return 'hub-follows';
+    if (path === '/hub/library') return 'hub-library';
+    if (path.startsWith('/hub/library/')) return 'hub-library-collection';
     if (path.startsWith('/hub/category/')) return 'hub-category';
     if (path.startsWith('/hub/')) return 'hub-entry';
     return path.slice(1).split('/')[0] || 'about';
@@ -37,5 +40,10 @@ export function buildPageTags(
     if (source) tags.hub_source = source;
     if (type) tags.hub_type = type;
     if (category) tags.hub_category = category;
+
+    const path = pathname.replace(/\/+$/, '') || '/';
+    if (path.startsWith('/hub/library/')) {
+        tags.hub_collection = path.slice('/hub/library/'.length);
+    }
     return tags;
 }
