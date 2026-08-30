@@ -27,6 +27,7 @@ export const STATIC_PATHS = [
     '/contacts',
     '/hub',
     '/hub/follows',
+    '/hub/library',
 ] as const;
 
 /** Absolute canonical URL. Root keeps a trailing slash; every other path does not. */
@@ -43,5 +44,11 @@ export function absoluteUrl(url: string | undefined, siteUrl = SITE_URL): string
 
 export function isHubEntryPath(pathname: string): boolean {
     const path = pathname.replace(/\/+$/, '') || '/';
-    return path.startsWith('/hub/') && path !== '/hub/follows' && !path.startsWith('/hub/category/');
+    return (
+        path.startsWith('/hub/') &&
+        path !== '/hub/follows' &&
+        path !== '/hub/library' &&
+        !path.startsWith('/hub/category/') &&
+        !path.startsWith('/hub/library/')
+    );
 }
