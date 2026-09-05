@@ -21,6 +21,8 @@
     "migrate:hub:follows:docs": "sanity exec scripts/migrate-follows-to-documents.mjs --with-user-token",
     "seed:hub:quran": "sanity exec scripts/seed-article-quran-recitations.mjs --with-user-token",
     "migrate:hub:covers:urls": "sanity exec scripts/migrate-hub-entry-cover-urls.mjs --with-user-token",
+    "migrate:images:persistent": "sanity exec scripts/migrate-persistent-images.mjs --with-user-token",
+    "cleanup:images:legacy": "sanity exec scripts/remove-legacy-image-fields.mjs --with-user-token",
     "migrate:hub:about:follows": "sanity exec scripts/migrate-about-featured-follows.mjs --with-user-token",
     "unset:hub:directory:channels": "sanity exec scripts/unset-directory-channels.mjs --with-user-token"
   },

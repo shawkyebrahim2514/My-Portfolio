@@ -7,9 +7,9 @@ type LinkPreviewValue = {
   url?: string
   title?: string
   description?: string
-  imageUrl?: string
+  image?: {_type?: 'image'; asset?: {_type?: 'reference'; _ref?: string}; sourceUrl?: string}
   siteName?: string
-  faviconUrl?: string
+  favicon?: {_type?: 'image'; asset?: {_type?: 'reference'; _ref?: string}; sourceUrl?: string}
 }
 
 export function LinkPreviewInput(props: ObjectInputProps<LinkPreviewValue>) {
