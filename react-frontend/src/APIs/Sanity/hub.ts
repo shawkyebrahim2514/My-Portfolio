@@ -20,7 +20,7 @@ const entrySummaryProjection = `{
     kind,
     language,
     excerpt,
-    "coverImage": coalesce(coverImage.asset->url, coverImage),
+    "coverImage": coverImageAsset.asset->url,
     coverFocus,
     "listenPreviewUrl": select(kind == "listen" => body[_type == "listeningItem" && defined(url)][0].url),
     "channel": select(kind == "channel" => {
@@ -29,7 +29,7 @@ const entrySummaryProjection = `{
         "name": channel.name,
         "channelId": channel.channelId,
         "handle": channel.handle,
-        "avatar": channel.avatar
+        "avatar": channel.avatarAsset.asset->url
     }),
     durationLabel,
     publishedAt,
@@ -45,9 +45,9 @@ export const directoryChannelFields = `
     name,
     platform,
     url,
-    avatar,
+    "avatar": avatarAsset.asset->url,
     avatarFocus,
-    "coverImage": coalesce(coverImage.asset->url, coverImage),
+    "coverImage": coverImageAsset.asset->url,
     coverFocus,
     "accentColor": accent.hex,
     note,
@@ -124,7 +124,7 @@ const getHubEntryBySlug = async (slug: string) => {
         kind,
         language,
         excerpt,
-        "coverImage": coalesce(coverImage.asset->url, coverImage),
+        "coverImage": coverImageAsset.asset->url,
         coverFocus,
         "channel": select(kind == "channel" => {
             "platform": channel.platform,
@@ -132,7 +132,7 @@ const getHubEntryBySlug = async (slug: string) => {
             "name": channel.name,
             "channelId": channel.channelId,
             "handle": channel.handle,
-            "avatar": channel.avatar,
+            "avatar": channel.avatarAsset.asset->url,
             "moreVideos": channel.moreVideos[]{
                 "_type": "youtube",
                 _key,

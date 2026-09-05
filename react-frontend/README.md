@@ -128,9 +128,13 @@ Channel Hub entry.
 
 ### Metadata endpoint configuration
 
-The Studio resolves pasted URLs through the Vercel function at
-`api/link-preview.ts`. Local metadata testing requires `npx vercel dev`; a
-normal `npm run dev` does not serve the function.
+The Studio resolves pasted URLs through the Vercel functions at
+`api/link-preview.ts` and `api/image-import.ts`. The image importer accepts
+only authenticated Sanity editors and public raster-image URLs, then the
+Studio uploads the downloaded bytes into Sanity Assets. Source URLs are stored
+inside image values for later replacement, not rendered as remote fallbacks.
+Local endpoint testing requires `npx vercel dev`; a normal `npm run dev` does
+not serve the functions.
 
 - Set the server-only Vercel variable `SANITY_STUDIO_ORIGIN` to the deployed
   Studio origin.
@@ -143,6 +147,8 @@ normal `npm run dev` does not serve the function.
   fields.
 - Set the Studio build variable `SANITY_STUDIO_YOUTUBE_CHANNEL_ENDPOINT` to
   the canonical production `/api/youtube-channel` URL before deploying Studio.
+- Set the Studio build variable `SANITY_STUDIO_IMAGE_IMPORT_ENDPOINT` to the
+  canonical production `/api/image-import` URL before deploying Studio.
 
 For local Channel refreshes, run `npx vercel dev --listen 3002`; the local
 Studio fallback calls `http://localhost:3002/api/youtube-channel`.

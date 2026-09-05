@@ -32,6 +32,7 @@ import {
 import {HiOutlineArrowsExpand} from 'react-icons/hi'
 import {LinkPreviewInput} from '../../components/LinkPreviewInput'
 import {ReadingItemInput} from '../../components/ReadingItemInput'
+import {ImportableImageInput} from '../../components/ImportableImageInput'
 
 // Inline object placed inside a block's `children`, alongside plain text
 // spans. Replaces the old inline `[gap]`/`[newline]` text markers.
@@ -78,15 +79,18 @@ export const divider = {
 
 export const externalImage = {
   name: 'externalImage',
-  title: 'External Image URL',
+  title: 'Image from URL',
   type: 'object',
   icon: FaImage,
   fields: [
     {
-      name: 'url',
-      title: 'Image URL',
-      type: 'url',
-      validation: (Rule) => Rule.required().uri({scheme: ['http', 'https']}),
+      name: 'asset',
+      title: 'Image',
+      type: 'image',
+      description: 'Upload an image or paste a URL to import it permanently into Sanity.',
+      components: {input: ImportableImageInput},
+      fields: [{name: 'sourceUrl', type: 'url', hidden: true}],
+      validation: (Rule) => Rule.required(),
     },
     {name: 'alt', title: 'Alt text', type: 'string', validation: (Rule) => Rule.required()},
     {name: 'caption', title: 'Caption (optional)', type: 'string'},
@@ -94,7 +98,7 @@ export const externalImage = {
     {name: 'maxHeight', title: 'Max height (px)', type: 'number'},
   ],
   preview: {
-    select: {title: 'alt', subtitle: 'url'},
+    select: {title: 'alt', subtitle: 'asset.sourceUrl', media: 'asset'},
     prepare: ({title, subtitle}) => ({title: title || 'External image', subtitle}),
   },
 }
@@ -115,7 +119,9 @@ export const imageRow = {
       of: [
         {
           type: 'image',
+          components: {input: ImportableImageInput},
           fields: [
+            {name: 'sourceUrl', type: 'url', hidden: true},
             {name: 'alt', title: 'Alt text', type: 'string', validation: (Rule) => Rule.required()},
             {name: 'caption', title: 'Caption (optional)', type: 'string'},
             {name: 'maxWidth', title: 'Max width (px)', type: 'number'},
@@ -170,8 +176,10 @@ export const figure = {
       name: 'image',
       title: 'Image',
       type: 'image',
+      components: {input: ImportableImageInput},
       hidden: ({parent}) => parent?.sourceType === 'external',
       fields: [
+        {name: 'sourceUrl', type: 'url', hidden: true},
         {name: 'alt', title: 'Alt text', type: 'string', validation: (Rule) => Rule.required()},
       ],
       validation: (Rule) =>
@@ -383,12 +391,11 @@ export const readingItem = {
       },
     },
     {
-      name: 'faviconUrl',
-      title: 'Favicon URL',
-      type: 'url',
-      readOnly: true,
-      description: 'Filled from link metadata; remove it to fall back to the source favicon.',
-      validation: (Rule) => Rule.uri({scheme: ['http', 'https']}),
+      name: 'favicon',
+      title: 'Persistent favicon',
+      type: 'image',
+      components: {input: ImportableImageInput},
+      fields: [{name: 'sourceUrl', type: 'url', hidden: true}],
     },
     {
       name: 'note',
@@ -488,21 +495,23 @@ export const linkPreview = {
     {name: 'title', title: 'Title', type: 'string'},
     {name: 'description', title: 'Description', type: 'text', rows: 3},
     {
-      name: 'imageUrl',
-      title: 'Image URL',
-      type: 'url',
-      validation: (Rule) => Rule.uri({scheme: ['http', 'https']}),
+      name: 'image',
+      title: 'Persistent preview image',
+      type: 'image',
+      components: {input: ImportableImageInput},
+      fields: [{name: 'sourceUrl', type: 'url', hidden: true}],
     },
     {name: 'siteName', title: 'Publisher / Site name', type: 'string'},
     {
-      name: 'faviconUrl',
-      title: 'Favicon URL',
-      type: 'url',
-      validation: (Rule) => Rule.uri({scheme: ['http', 'https']}),
+      name: 'favicon',
+      title: 'Persistent favicon',
+      type: 'image',
+      components: {input: ImportableImageInput},
+      fields: [{name: 'sourceUrl', type: 'url', hidden: true}],
     },
   ],
   preview: {
-    select: {title: 'title', siteName: 'siteName', url: 'url', media: 'imageUrl'},
+    select: {title: 'title', siteName: 'siteName', url: 'url', media: 'image'},
     prepare: ({title, siteName, url}) => ({
       title: title || url || 'Link preview',
       subtitle: siteName || 'Fetching metadata after URL is pasted',
@@ -579,8 +588,7 @@ export const facebookResource = {
       options: {
         list: [
           {title: 'No thumbnail', value: 'none'},
-          {title: 'Upload to Sanity', value: 'sanity'},
-          {title: 'Remote image URL', value: 'external'},
+          {title: 'Image (upload or import URL)', value: 'sanity'},
         ],
         layout: 'radio',
       },
@@ -592,23 +600,13 @@ export const facebookResource = {
       title: 'Uploaded thumbnail',
       type: 'image',
       options: {hotspot: true},
-      hidden: ({parent}) => parent?.thumbnailSource !== 'sanity',
+      components: {input: ImportableImageInput},
+      fields: [{name: 'sourceUrl', type: 'url', hidden: true}],
+      hidden: ({parent}) => parent?.thumbnailSource === 'none',
       validation: (Rule) =>
         Rule.custom((value, context) =>
           context.parent?.thumbnailSource === 'sanity' && !value
             ? 'Upload a thumbnail'
-            : true,
-        ),
-    },
-    {
-      name: 'thumbnailUrl',
-      title: 'Remote thumbnail URL',
-      type: 'url',
-      hidden: ({parent}) => parent?.thumbnailSource !== 'external',
-      validation: (Rule) =>
-        Rule.uri({scheme: ['http', 'https']}).custom((value, context) =>
-          context.parent?.thumbnailSource === 'external' && !value
-            ? 'Enter a thumbnail URL'
             : true,
         ),
     },

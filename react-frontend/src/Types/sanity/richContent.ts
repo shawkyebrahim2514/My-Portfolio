@@ -37,6 +37,7 @@ export type RichImage = {
     _type: 'image';
     _key: string;
     asset: { _ref: string; _type: 'reference' };
+    sourceUrl?: string;
     alt: string;
     caption?: string;
     maxWidth?: number;
@@ -46,7 +47,11 @@ export type RichImage = {
 export type RichExternalImage = {
     _type: 'externalImage';
     _key: string;
-    url: string;
+    asset: {
+        _type: 'image';
+        asset?: { _ref: string; _type: 'reference' };
+        sourceUrl?: string;
+    };
     alt: string;
     caption?: string;
     maxWidth?: number;
@@ -189,7 +194,11 @@ export type RichReadingItem = {
     author?: string;
     publishedAt?: string;
     contentType?: 'article' | 'documentation' | 'paper' | 'book';
-    faviconUrl?: string;
+    favicon?: {
+        _type: 'image';
+        asset?: { _ref: string; _type: 'reference' };
+        sourceUrl?: string;
+    };
     note?: string;
     featured?: boolean;
 };
@@ -213,9 +222,17 @@ export type RichLinkPreview = {
     url: string;
     title?: string;
     description?: string;
-    imageUrl?: string;
+    image?: {
+        _type: 'image';
+        asset?: { _ref: string; _type: 'reference' };
+        sourceUrl?: string;
+    };
     siteName?: string;
-    faviconUrl?: string;
+    favicon?: {
+        _type: 'image';
+        asset?: { _ref: string; _type: 'reference' };
+        sourceUrl?: string;
+    };
 };
 
 export type RichFacebookResource = {
@@ -226,12 +243,12 @@ export type RichFacebookResource = {
     title: string;
     creator?: string;
     commentary?: string;
-    thumbnailSource?: 'none' | 'sanity' | 'external';
+    thumbnailSource?: 'none' | 'sanity';
     thumbnail?: {
         _type: 'image';
-        asset: { _ref: string; _type: 'reference' };
+        asset?: { _ref: string; _type: 'reference' };
+        sourceUrl?: string;
     };
-    thumbnailUrl?: string;
     featured?: boolean;
 };
 

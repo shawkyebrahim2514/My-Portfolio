@@ -1,6 +1,6 @@
 import {Card, Flex, Stack, Text} from '@sanity/ui'
-import {useCallback, type CSSProperties} from 'react'
-import {set, useFormValue, type ObjectInputProps} from 'sanity'
+import {useCallback, useEffect, useState, type CSSProperties} from 'react'
+import {set, useClient, useFormValue, type ObjectInputProps} from 'sanity'
 
 type CropPreset = 'top' | 'center' | 'bottom' | 'custom'
 
@@ -96,14 +96,42 @@ function previewImageStyle(focus: Required<Omit<RemoteImageCropValue, '_type'>>)
 }
 
 export function RemoteImageCropInput(props: ObjectInputProps<RemoteImageCropValue>) {
+  const client = useClient({apiVersion: '2023-01-01'})
   const options = (props.schemaType.options ?? {}) as CropInputOptions
   const imageField = options.imageField ?? 'coverImage'
   const previewAspect = options.previewAspect ?? '3 / 1'
   const previewRadius = options.previewRadius
   const defaultPreset = options.defaultPreset === 'center' ? 'center' : 'top'
-  const imageUrl = useFormValue([...props.path.slice(0, -1), imageField]) as string | undefined
+  const imageValue = useFormValue([...props.path.slice(0, -1), imageField]) as
+    | string
+    | {asset?: {_ref?: string}}
+    | undefined
+  const [assetUrl, setAssetUrl] = useState<string>()
   const focus = normalize(props.value, defaultPreset)
-  const src = imageUrl ? previewSrc(imageUrl) : undefined
+  const assetRef =
+    typeof imageValue === 'object' && imageValue !== null ? imageValue.asset?._ref : undefined
+  const directImageUrl = typeof imageValue === 'string' ? imageValue : undefined
+  const src = assetUrl ?? directImageUrl
+  const previewUrl = src ? previewSrc(src) : undefined
+
+  useEffect(() => {
+    let active = true
+    if (!assetRef) {
+      setAssetUrl(undefined)
+      return
+    }
+    void client
+      .fetch<string | null>(`*[_id == $id][0].url`, {id: assetRef})
+      .then((url) => {
+        if (active) setAssetUrl(url ?? undefined)
+      })
+      .catch(() => {
+        if (active) setAssetUrl(undefined)
+      })
+    return () => {
+      active = false
+    }
+  }, [assetRef, client])
 
   const patch = useCallback(
     (partial: Partial<RemoteImageCropValue>) => {
@@ -188,7 +216,7 @@ export function RemoteImageCropInput(props: ObjectInputProps<RemoteImageCropValu
         />
       </label>
 
-      {src ? (
+      {previewUrl ? (
         <Card overflow="hidden" radius={2} shadow={1}>
           <div
             style={{
@@ -201,7 +229,7 @@ export function RemoteImageCropInput(props: ObjectInputProps<RemoteImageCropValu
               borderRadius: previewRadius,
             }}
           >
-            <img alt="" src={src} style={previewImageStyle(focus)} />
+            <img alt="" src={previewUrl} style={previewImageStyle(focus)} />
           </div>
           <Card padding={2}>
             <Text muted size={1}>

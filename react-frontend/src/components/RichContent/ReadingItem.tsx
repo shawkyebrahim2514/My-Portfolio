@@ -4,6 +4,7 @@ import { faArrowUpRightFromSquare, faBookmark } from '@fortawesome/free-solid-sv
 import Text from '../Text';
 import { cx } from '../../utils/cx';
 import type { RichReadingItem } from '../../Types';
+import { urlForImage } from './utils';
 import styles from './ReadingItem.module.css';
 
 // One recommended article inside a Read-kind entry's body. A compact link-out
@@ -25,9 +26,11 @@ function ReadingItem({
         host = undefined;
     }
     const source = value.source ?? host;
-    const favicon =
-        value.faviconUrl ??
-        (host ? `https://www.google.com/s2/favicons?domain=${host}&sz=64` : undefined);
+    const favicon = value.favicon?.asset?._ref
+        ? urlForImage(value.favicon.asset)
+        : host
+          ? `https://www.google.com/s2/favicons?domain=${host}&sz=64`
+          : undefined;
     const isFeatured = variant === 'featured';
     const details = [value.contentType, value.author, value.publishedAt]
         .filter((detail): detail is string => Boolean(detail))
