@@ -2,6 +2,7 @@ import { BsShare } from 'react-icons/bs'
 import { richContentOf } from '../objects/richContent'
 import { makeIsUniqueSlug } from './utilities'
 import {ChannelInput} from '../../components/ChannelInput'
+import {ImportableImageInput} from '../../components/ImportableImageInput'
 
 // The single document shell behind the Hub. Taxonomy and publishing fields
 // stay shared, while kinds with distinct semantics keep their own nested
@@ -116,23 +117,23 @@ export const hubEntry = {
             validation: Rule => Rule.required().max(220),
         },
         {
-            name: 'coverImage',
-            type: 'url',
-            title: 'Cover image URL',
+            name: 'coverImageAsset',
+            type: 'image',
+            title: 'Cover image',
             group: 'content',
-            description:
-                'Optional remote cover shown on Hub cards and the entry page. Listening lists use the first clip thumbnail when this is empty.',
+            description: 'Upload an image or paste a URL to import it permanently into Sanity.',
             hidden: ({parent}) => isChannel(parent?.kind),
-            validation: Rule => Rule.uri({scheme: ['http', 'https']}),
+            components: {input: ImportableImageInput},
+            fields: [{name: 'sourceUrl', type: 'url', hidden: true}],
         },
         {
             name: 'coverFocus',
             type: 'remoteImageCrop',
             title: 'Cover crop',
             group: 'content',
-            hidden: ({parent}) => isChannel(parent?.kind) || !parent?.coverImage,
+            hidden: ({parent}) => isChannel(parent?.kind) || !parent?.coverImageAsset,
             options: {
-                imageField: 'coverImage',
+                imageField: 'coverImageAsset',
                 previewAspect: '16 / 9',
                 defaultPreset: 'center',
             },
@@ -206,11 +207,13 @@ export const hubEntry = {
                         ),
                 },
                 {
-                    name: 'avatar',
-                    title: 'Channel Avatar URL',
-                    type: 'url',
-                    description: 'Remote provider image URL. YouTube metadata refresh fills this automatically.',
-                    validation: Rule => Rule.uri({scheme: ['http', 'https']}),
+                    name: 'avatarAsset',
+                    title: 'Channel avatar',
+                    type: 'image',
+                    description:
+                        'YouTube metadata can fill the source URL; import it permanently or upload manually.',
+                    components: {input: ImportableImageInput},
+                    fields: [{name: 'sourceUrl', type: 'url', hidden: true}],
                 },
                 {
                     name: 'body',

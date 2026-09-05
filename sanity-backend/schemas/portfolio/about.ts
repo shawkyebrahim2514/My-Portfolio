@@ -1,6 +1,7 @@
 import { changeDocumentPreviewTitle } from "./commanFields";
 import { FaCircleInfo } from "react-icons/fa6";
 import { richContentOf } from "../objects/richContent";
+import { ImportableImageInput } from "../../components/ImportableImageInput";
 
 export const aboutPage = {
     name: 'aboutPage',
@@ -10,12 +11,13 @@ export const aboutPage = {
     ...changeDocumentPreviewTitle("About Page"),
     fields: [
         {
-            name: 'personImage',
-            title: 'Person Image',
-            type: 'url',
-            validation: Rule => Rule.uri({
-                scheme: ['http', 'https']
-            }).required()
+            name: 'personImageAsset',
+            title: 'Person image',
+            type: 'image',
+            description: 'Upload an image or paste a URL to import it permanently into Sanity.',
+            components: { input: ImportableImageInput },
+            fields: [{ name: 'sourceUrl', type: 'url', hidden: true }],
+            validation: Rule => Rule.required()
         },
         {
             name: 'circularRingText',
