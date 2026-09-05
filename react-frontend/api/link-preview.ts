@@ -1,7 +1,6 @@
-import { lookup } from 'node:dns/promises';
 import http from 'node:http';
-import https from 'node:https';
-import net from 'node:net';
+import { fetchPublicResource } from './_fetch-public-resource';
+import { isAllowedStudioOrigin } from './_studio-origin';
 
 type Preview = {
     url: string;
@@ -14,40 +13,6 @@ type Preview = {
 
 const MAX_RESPONSE_BYTES = 750_000;
 const REQUEST_TIMEOUT_MS = 6_000;
-
-function isPublicIp(address: string): boolean {
-    if (net.isIPv4(address)) {
-        const [a, b] = address.split('.').map(Number);
-        return !(
-            a === 0 ||
-            a === 10 ||
-            a === 127 ||
-            (a === 100 && b >= 64 && b <= 127) ||
-            (a === 169 && b === 254) ||
-            (a === 172 && b >= 16 && b <= 31) ||
-            (a === 192 && b === 168) ||
-            (a === 198 && (b === 18 || b === 19)) ||
-            a >= 224
-        );
-    }
-
-    const normalized = address.toLowerCase();
-    return !(
-        normalized === '::' ||
-        normalized === '::1' ||
-        normalized.startsWith('fc') ||
-        normalized.startsWith('fd') ||
-        normalized.startsWith('fe80:')
-    );
-}
-
-async function resolvePublicAddress(hostname: string): Promise<string> {
-    if (net.isIP(hostname)) throw new Error('IP-address URLs are not supported');
-    const addresses = await lookup(hostname, { all: true, verbatim: true });
-    const publicAddress = addresses.find(({ address }) => isPublicIp(address));
-    if (!publicAddress) throw new Error('URL must resolve to a public address');
-    return publicAddress.address;
-}
 
 function getAttribute(tag: string, name: string): string | undefined {
     const match = tag.match(
@@ -108,89 +73,25 @@ function parsePreview(html: string, url: URL): Preview {
     };
 }
 
-async function fetchPage(url: URL, redirects = 0): Promise<Preview> {
-    if (redirects > 4) throw new Error('Too many redirects');
-    if (!['http:', 'https:'].includes(url.protocol))
-        throw new Error('Only HTTP(S) URLs are supported');
-    if (url.port && !['80', '443'].includes(url.port))
-        throw new Error('Only standard web ports are supported');
-
-    const address = await resolvePublicAddress(url.hostname);
-    const request = url.protocol === 'https:' ? https.request : http.request;
-
-    return new Promise<Preview>((resolve, reject) => {
-        const req = request(
-            {
-                protocol: url.protocol,
-                hostname: url.hostname,
-                port: url.port,
-                path: `${url.pathname}${url.search}`,
-                headers: {
-                    Accept: 'text/html,application/xhtml+xml',
-                    'User-Agent': 'ShawkyEbrahim-LinkPreview/1.0',
-                },
-                lookup: (_hostname, options, callback) => {
-                    const family = net.isIP(address) as 4 | 6;
-                    callback(
-                        null,
-                        options.all ? ([{ address, family }] as never) : address,
-                        family
-                    );
-                },
-            },
-            (res) => {
-                const status = res.statusCode ?? 500;
-                const location = res.headers.location;
-                if ([301, 302, 303, 307, 308].includes(status) && location) {
-                    res.resume();
-                    fetchPage(new URL(location, url), redirects + 1).then(resolve, reject);
-                    return;
-                }
-                if (status < 200 || status >= 300) {
-                    res.resume();
-                    reject(new Error(`Source returned HTTP ${status}`));
-                    return;
-                }
-                if (!res.headers['content-type']?.includes('text/html')) {
-                    res.resume();
-                    reject(new Error('URL did not return an HTML page'));
-                    return;
-                }
-
-                const chunks: Buffer[] = [];
-                let size = 0;
-                res.on('data', (chunk: Buffer) => {
-                    size += chunk.length;
-                    if (size > MAX_RESPONSE_BYTES) {
-                        req.destroy(new Error('Page is too large to preview'));
-                        return;
-                    }
-                    chunks.push(chunk);
-                });
-                res.on('end', () =>
-                    resolve(parsePreview(Buffer.concat(chunks).toString('utf8'), url))
-                );
-            }
-        );
-        req.setTimeout(REQUEST_TIMEOUT_MS, () =>
-            req.destroy(new Error('Preview request timed out'))
-        );
-        req.on('error', reject);
-        req.end();
+async function fetchPage(url: URL): Promise<Preview> {
+    const resource = await fetchPublicResource(url, {
+        accept: 'text/html,application/xhtml+xml',
+        allowedContentType: (contentType) => contentType === 'text/html',
+        maxBytes: MAX_RESPONSE_BYTES,
+        timeoutMs: REQUEST_TIMEOUT_MS,
+        userAgent: 'ShawkyEbrahim-LinkPreview/1.0',
     });
+    return parsePreview(resource.body.toString('utf8'), resource.finalUrl);
 }
 
 export default async function handler(req: http.IncomingMessage, res: http.ServerResponse) {
-    const studioOrigin = process.env.SANITY_STUDIO_ORIGIN;
     const origin = req.headers.origin;
-    const isLocalStudio = Boolean(origin && /^http:\/\/localhost(?::\d+)?$/.test(origin));
-    const isConfiguredStudio = Boolean(origin && studioOrigin && origin === studioOrigin);
-    if (origin && !isLocalStudio && !isConfiguredStudio) {
+    if (!isAllowedStudioOrigin(origin, { allowMissing: true })) {
         res.writeHead(403, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Origin is not allowed' }));
         return;
     }
-    if (origin && (isLocalStudio || isConfiguredStudio)) res.setHeader('Access-Control-Allow-Origin', origin);
+    if (origin) res.setHeader('Access-Control-Allow-Origin', origin);
     res.setHeader('Vary', 'Origin');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');

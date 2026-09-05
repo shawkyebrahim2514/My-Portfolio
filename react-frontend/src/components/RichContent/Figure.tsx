@@ -5,14 +5,16 @@ import { urlForImage } from './utils';
 import styles from './Figure.module.css';
 import { cx } from '../../utils/cx';
 
-function imageUrl(image: RichMediaImage): string {
-    return image._type === 'externalImage' ? image.url : urlForImage(image.asset);
+function imageUrl(image: RichMediaImage): string | undefined {
+    if (image._type !== 'externalImage') return urlForImage(image.asset);
+    return image.asset?.asset?._ref ? urlForImage(image.asset.asset) : undefined;
 }
 
 export default function Figure({ value }: { value: RichFigure }) {
     const image = value.sourceType === 'external' ? value.externalImage : value.image;
     if (!image) return null;
     const src = imageUrl(image);
+    if (!src) return null;
     const hasCaption = Boolean(value.caption || value.credit || value.creditUrl);
 
     return (

@@ -19,6 +19,9 @@ export default defineConfig({
   // to point Studio at a non-production dataset, e.g. a staging copy used
   // while developing/testing a schema migration.
   dataset: process.env.SANITY_STUDIO_DATASET || 'production',
+  auth: {
+    loginMethod: 'token',
+  },
 
   plugins: [
     structureTool({structure}),
@@ -48,4 +51,3 @@ export default defineConfig({
         : prev,
   },
 })
-

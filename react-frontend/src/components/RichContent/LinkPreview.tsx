@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare, faLink } from '@fortawesome/free-solid-svg-icons';
 import type { RichLinkPreview } from '../../Types';
 import { cx } from '../../utils/cx';
+import { urlForImage } from './utils';
 import styles from './LinkPreview.module.css';
 
 type LinkPreviewProps = {
@@ -18,25 +19,27 @@ export default function LinkPreview({ value, compact = false }: LinkPreviewProps
         }
     })();
     const title = value.title ?? host;
+    const imageUrl = value.image?.asset?._ref ? urlForImage(value.image.asset) : undefined;
+    const faviconUrl = value.favicon?.asset?._ref ? urlForImage(value.favicon.asset) : undefined;
 
     return (
         <a
             className={cx(
                 styles.card,
                 compact && styles.compact,
-                !value.imageUrl && styles.noImage
+                !imageUrl && styles.noImage
             )}
             href={value.url}
             target="_blank"
             rel="noopener noreferrer"
         >
-            {value.imageUrl && (
-                <img className={styles.image} src={value.imageUrl} alt="" loading="lazy" />
+            {imageUrl && (
+                <img className={styles.image} src={imageUrl} alt="" loading="lazy" />
             )}
             <span className={styles.content}>
                 <span className={styles.publisher}>
-                    {value.faviconUrl ? (
-                        <img src={value.faviconUrl} alt="" width={16} height={16} loading="lazy" />
+                    {faviconUrl ? (
+                        <img src={faviconUrl} alt="" width={16} height={16} loading="lazy" />
                     ) : (
                         <FontAwesomeIcon icon={faLink} />
                     )}

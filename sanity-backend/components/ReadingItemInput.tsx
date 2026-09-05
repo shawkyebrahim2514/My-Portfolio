@@ -7,7 +7,7 @@ type ReadingItemValue = {
   url?: string
   title?: string
   source?: string
-  faviconUrl?: string
+  favicon?: {_type?: 'image'; asset?: {_type?: 'reference'; _ref?: string}; sourceUrl?: string}
 }
 
 export function ReadingItemInput(props: ObjectInputProps<ReadingItemValue>) {

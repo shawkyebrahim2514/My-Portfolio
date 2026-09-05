@@ -1,6 +1,6 @@
 import {Button, Card, Flex, Stack, Text} from '@sanity/ui'
 import {useCallback, useEffect, useRef, useState} from 'react'
-import {ObjectInputProps, set, unset} from 'sanity'
+import {ObjectInputProps, set, setIfMissing, unset} from 'sanity'
 
 type ChannelValue = {
   _type?: string
@@ -9,7 +9,11 @@ type ChannelValue = {
   name?: string
   channelId?: string
   handle?: string
-  avatar?: string
+  avatarAsset?: {
+    _type?: 'image'
+    asset?: {_type?: 'reference'; _ref?: string}
+    sourceUrl?: string
+  }
 }
 
 type ResolvedChannel = {
@@ -33,7 +37,7 @@ export function ChannelInput(props: ObjectInputProps<ChannelValue>) {
   // A changed/pasted URL still resolves automatically.
   const lastAttemptedUrl = useRef<string | undefined>(value?.url)
   const currentUrl = useRef(value?.url)
-  const activeRequest = useRef<AbortController>()
+  const activeRequest = useRef<AbortController | undefined>(undefined)
   const [resolving, setResolving] = useState(false)
   const [error, setError] = useState<string>()
   currentUrl.current = value?.url
@@ -69,7 +73,12 @@ export function ChannelInput(props: ObjectInputProps<ChannelValue>) {
         set(result.channelId, ['channelId']),
         set(result.url, ['url']),
         result.handle ? set(result.handle, ['handle']) : unset(['handle']),
-        result.avatarUrl ? set(result.avatarUrl, ['avatar']) : unset(['avatar']),
+        ...(result.avatarUrl
+          ? [
+              setIfMissing({_type: 'image'}, ['avatarAsset']),
+              set(result.avatarUrl, ['avatarAsset', 'sourceUrl']),
+            ]
+          : []),
       ]
       onChange(patches)
     } catch (reason) {

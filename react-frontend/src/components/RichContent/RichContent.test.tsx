@@ -338,7 +338,7 @@ describe('RichContent — Portable Text renderer', () => {
         expect(frameStyle).toContain('--md-image-max-h');
     });
 
-    it('imageRow supports an external image URL with an accessible caption', () => {
+    it('imageRow supports an imported external image with an accessible caption', () => {
         const c = renderValue([
             {
                 _type: 'imageRow',
@@ -347,7 +347,13 @@ describe('RichContent — Portable Text renderer', () => {
                     {
                         _type: 'externalImage',
                         _key: key(),
-                        url: 'https://example.com/diagram.png',
+                        asset: {
+                            _type: 'image',
+                            asset: {
+                                _type: 'reference',
+                                _ref: 'image-05a17cb2c95b83d85d227b8fe37e8440-1200x800-png',
+                            },
+                        },
                         alt: 'System architecture diagram',
                         caption: 'Request flow',
                     },
@@ -356,7 +362,9 @@ describe('RichContent — Portable Text renderer', () => {
             },
         ]);
         const image = c.querySelector('img');
-        expect(image?.getAttribute('src')).toBe('https://example.com/diagram.png');
+        expect(image?.getAttribute('src')).toContain(
+            '05a17cb2c95b83d85d227b8fe37e8440-1200x800.png'
+        );
         expect(image?.getAttribute('alt')).toBe('System architecture diagram');
         expect(c.textContent).toContain('Request flow');
         expect(c.textContent).toContain('Architecture overview');
@@ -371,7 +379,13 @@ describe('RichContent — Portable Text renderer', () => {
                 externalImage: {
                     _type: 'externalImage',
                     _key: key(),
-                    url: 'https://example.com/chart.png',
+                    asset: {
+                        _type: 'image',
+                        asset: {
+                            _type: 'reference',
+                            _ref: 'image-05a17cb2c95b83d85d227b8fe37e8440-1200x800-png',
+                        },
+                    },
                     alt: 'A performance chart',
                 },
                 caption: 'Cold-start time after the optimization.',
@@ -380,7 +394,9 @@ describe('RichContent — Portable Text renderer', () => {
             },
         ]);
         const image = c.querySelector('img');
-        expect(image?.getAttribute('src')).toBe('https://example.com/chart.png');
+        expect(image?.getAttribute('src')).toContain(
+            '05a17cb2c95b83d85d227b8fe37e8440-1200x800.png'
+        );
         expect(image?.getAttribute('alt')).toBe('A performance chart');
         expect(c.textContent).toContain('Cold-start time after the optimization.');
         expect(c.querySelector('a[href="https://example.com/benchmark"]')).not.toBeNull();
@@ -395,15 +411,21 @@ describe('RichContent — Portable Text renderer', () => {
                 title: 'Useful article',
                 description: 'A concise summary.',
                 siteName: 'Example',
-                imageUrl: 'https://example.com/cover.png',
+                image: {
+                    _type: 'image',
+                    asset: {
+                        _type: 'reference',
+                        _ref: 'image-05a17cb2c95b83d85d227b8fe37e8440-1200x800-png',
+                    },
+                },
             },
         ]);
         const link = c.querySelector('a[href="https://example.com/article"]');
         expect(link).not.toBeNull();
         expect(link?.textContent).toContain('Useful article');
         expect(link?.textContent).toContain('A concise summary.');
-        expect(link?.querySelector('img')?.getAttribute('src')).toBe(
-            'https://example.com/cover.png'
+        expect(link?.querySelector('img')?.getAttribute('src')).toContain(
+            '05a17cb2c95b83d85d227b8fe37e8440-1200x800.png'
         );
     });
 

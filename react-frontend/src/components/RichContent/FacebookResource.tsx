@@ -16,9 +16,11 @@ const TYPE_LABELS: Record<RichFacebookResource['resourceType'], string> = {
 
 export default function FacebookResource({value}: {value: RichFacebookResource}) {
     const thumbnail =
-        value.thumbnailSource === 'sanity' && value.thumbnail
-            ? urlForImage(value.thumbnail.asset)
-            : value.thumbnailUrl;
+        value.thumbnailSource === 'none'
+            ? undefined
+            : value.thumbnail?.asset?._ref
+              ? urlForImage(value.thumbnail.asset)
+              : undefined;
 
     return (
         <a

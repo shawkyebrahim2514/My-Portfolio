@@ -1,5 +1,6 @@
 import { BiGitRepoForked } from "react-icons/bi";
 import { richContentOf } from "../objects/richContent";
+import { ImportableImageInput } from "../../components/ImportableImageInput";
 
 export const projects = {
     name: 'projects',
@@ -49,7 +50,9 @@ export const projects = {
         {
             name: 'image',
             type: 'image',
-            title: 'Image'
+            title: 'Image',
+            components: { input: ImportableImageInput },
+            fields: [{ name: 'sourceUrl', type: 'url', hidden: true }]
         },
         {
             name: 'technologies',

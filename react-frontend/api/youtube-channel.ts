@@ -1,4 +1,5 @@
 import http from 'node:http';
+import { isAllowedStudioOrigin } from './_studio-origin';
 
 type YouTubeChannel = {
     name: string;
@@ -23,20 +24,15 @@ type YouTubeChannelResponse = {
 };
 
 function allowStudioOrigin(req: http.IncomingMessage, res: http.ServerResponse): boolean {
-    const studioOrigin = process.env.SANITY_STUDIO_ORIGIN;
     const origin = req.headers.origin;
-    const isLocalStudio = Boolean(origin && /^http:\/\/localhost(?::\d+)?$/.test(origin));
-    const isConfiguredStudio = Boolean(origin && studioOrigin && origin === studioOrigin);
 
-    if (!origin || (!isLocalStudio && !isConfiguredStudio)) {
+    if (!isAllowedStudioOrigin(origin)) {
         res.writeHead(403, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ error: 'Origin is not allowed' }));
         return false;
     }
 
-    if (origin && (isLocalStudio || isConfiguredStudio)) {
-        res.setHeader('Access-Control-Allow-Origin', origin);
-    }
+    res.setHeader('Access-Control-Allow-Origin', origin!);
     res.setHeader('Vary', 'Origin');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');

@@ -4,7 +4,7 @@ import { directoryChannelFields, withCardCover } from './hub';
 
 const getAboutPage = async () => {
     const query = `*[_type == "portfolio"][0].pages[_type == "aboutPage"][0] {
-        personImage,
+        "personImage": personImageAsset.asset->url,
         circularRingText,
         description,
         resume,
@@ -22,7 +22,7 @@ const getAboutPage = async () => {
             kind,
             excerpt,
             language,
-            "coverImage": coalesce(coverImage.asset->url, coverImage),
+            "coverImage": coverImageAsset.asset->url,
             coverFocus,
             "listenPreviewUrl": select(kind == "listen" => body[_type == "listeningItem" && defined(url)][0].url),
             "channel": select(kind == "channel" => {
@@ -31,7 +31,7 @@ const getAboutPage = async () => {
                 "name": channel.name,
                 "channelId": channel.channelId,
                 "handle": channel.handle,
-                "avatar": channel.avatar
+                "avatar": channel.avatarAsset.asset->url
             }),
             durationLabel,
             publishedAt,
