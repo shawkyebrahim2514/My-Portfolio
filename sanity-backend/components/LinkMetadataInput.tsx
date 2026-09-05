@@ -7,13 +7,23 @@ type LinkMetadataValue = {
   _type?: string
   url?: string
   title?: string
-  faviconUrl?: string
+  image?: ImportableImageValue
+  favicon?: ImportableImageValue
   siteName?: string
   source?: string
 }
 
+type ImportableImageValue = {
+  _type?: 'image'
+  asset?: {_type?: 'reference'; _ref?: string}
+  sourceUrl?: string
+}
+
 type Preview = Required<Pick<LinkMetadataValue, 'url'>> &
-  Pick<LinkMetadataValue, 'title' | 'faviconUrl' | 'siteName'>
+  Pick<LinkMetadataValue, 'title' | 'siteName'> & {
+    imageUrl?: string
+    faviconUrl?: string
+  }
 
 type LinkMetadataInputProps<T extends LinkMetadataValue> = {
   props: ObjectInputProps<T>
@@ -23,6 +33,11 @@ type LinkMetadataInputProps<T extends LinkMetadataValue> = {
 const endpoint =
   process.env.SANITY_STUDIO_LINK_PREVIEW_ENDPOINT ??
   (window.location.hostname === 'localhost' ? 'http://localhost:3000/api/link-preview' : undefined)
+
+function withSourceUrl(image: ImportableImageValue | undefined, sourceUrl: string | undefined) {
+  if (!sourceUrl) return image
+  return {...image, _type: 'image' as const, sourceUrl}
+}
 
 export function LinkMetadataInput<T extends LinkMetadataValue>({
   props,
@@ -60,20 +75,23 @@ export function LinkMetadataInput<T extends LinkMetadataValue>({
       const result = (await response.json()) as Preview & {error?: string}
       if (!response.ok) throw new Error(result.error || 'Unable to resolve the preview')
 
-      const nextValue = {
+      const metadata = {
         ...value,
-        ...(sourceField === 'siteName'
-          ? result
-          : {url: result.url, title: result.title, faviconUrl: result.faviconUrl}),
+        url: result.url,
+        title: result.title,
+        favicon: withSourceUrl(value.favicon, result.faviconUrl),
         [sourceField]: result.siteName ?? value[sourceField],
       }
+      const nextValue =
+        sourceField === 'siteName'
+          ? {...metadata, image: withSourceUrl(value.image, result.imageUrl)}
+          : metadata
       onChange(
         sourceField === 'siteName'
           ? set(nextValue)
           : [
               set(nextValue),
               unset(['description']),
-              unset(['imageUrl']),
               unset(['siteName']),
             ],
       )

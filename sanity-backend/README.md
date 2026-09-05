@@ -38,6 +38,13 @@ Automatic URL metadata uses the frontend's Vercel function. For local testing,
 run `npx vercel dev --listen 3002` from `react-frontend`. Channel metadata uses
 port 3002; ordinary frontend and link-preview development remains on port 3000.
 
+Image fields support **Import from URL**. The Studio asks the frontend's
+`/api/image-import` endpoint to download a public raster image, then uploads it
+to Sanity using the signed-in editor's credentials. Replacing a URL keeps the
+current asset until the new download and upload both succeed. The source URL is
+kept inside the Sanity image for provenance and future replacement; there is no
+separate legacy URL field.
+
 For YouTube Channels, pasting a channel URL also imports the official name,
 stable channel ID, handle, canonical URL, and remote avatar URL through
 `/api/youtube-channel`. The frontend Vercel project must define a server-only

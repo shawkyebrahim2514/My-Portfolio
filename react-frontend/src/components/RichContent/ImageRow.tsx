@@ -7,8 +7,9 @@ type ImageRowProps = {
     readonly value: RichImageRow;
 };
 
-function imageUrl(image: RichMediaImage): string {
-    return image._type === 'externalImage' ? image.url : urlForImage(image.asset);
+function imageUrl(image: RichMediaImage): string | undefined {
+    if (image._type !== 'externalImage') return urlForImage(image.asset);
+    return image.asset?.asset?._ref ? urlForImage(image.asset.asset) : undefined;
 }
 
 // Renders the `imageRow` block object — replaces the old `![alt](url =WxH|align)`
@@ -20,24 +21,28 @@ export default function ImageRow({ value }: ImageRowProps) {
             className={cx(styles.imageRow, imageRowAlignClass(value.align, styles))}
             data-image-count={value.images.length}
         >
-            {value.images.map((image) => (
-                <figure
-                    key={image._key}
-                    className={styles.imageFrame}
-                    style={imageFrameVars(image.maxWidth, image.maxHeight)}
-                >
-                    <img
-                        src={imageUrl(image)}
-                        alt={image.alt}
-                        loading="lazy"
-                        decoding="async"
-                        className={styles.image}
-                    />
-                    {image.caption && (
-                        <figcaption className={styles.imageCaption}>{image.caption}</figcaption>
-                    )}
-                </figure>
-            ))}
+            {value.images.map((image) => {
+                const src = imageUrl(image);
+                if (!src) return null;
+                return (
+                    <figure
+                        key={image._key}
+                        className={styles.imageFrame}
+                        style={imageFrameVars(image.maxWidth, image.maxHeight)}
+                    >
+                        <img
+                            src={src}
+                            alt={image.alt}
+                            loading="lazy"
+                            decoding="async"
+                            className={styles.image}
+                        />
+                        {image.caption && (
+                            <figcaption className={styles.imageCaption}>{image.caption}</figcaption>
+                        )}
+                    </figure>
+                );
+            })}
             {value.caption && <span className={styles.rowCaption}>{value.caption}</span>}
         </div>
     );

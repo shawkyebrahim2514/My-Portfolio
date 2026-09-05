@@ -1,4 +1,5 @@
 import {BsPersonVideo} from 'react-icons/bs'
+import {ImportableImageInput} from '../../components/ImportableImageInput'
 
 export const DIRECTORY_PLATFORM_OPTIONS = [
   {title: 'YouTube', value: 'youtube'},
@@ -84,38 +85,40 @@ export const hubFollow = {
           }),
     },
     {
-      name: 'avatar',
-      type: 'url',
-      title: 'Avatar URL (optional)',
-      description: 'Remote image URL for the channel avatar/logo.',
-      validation: (Rule) => Rule.uri({scheme: ['http', 'https']}),
+      name: 'avatarAsset',
+      type: 'image',
+      title: 'Avatar image (optional)',
+      description: 'Upload an image or paste a URL to import it permanently into Sanity.',
+      components: {input: ImportableImageInput},
+      fields: [{name: 'sourceUrl', type: 'url', hidden: true}],
     },
     {
       name: 'avatarFocus',
       type: 'remoteImageCrop',
       title: 'Avatar crop',
-      hidden: ({parent}) => !parent?.avatar,
+      hidden: ({parent}) => !parent?.avatarAsset,
       options: {
-        imageField: 'avatar',
+        imageField: 'avatarAsset',
         previewAspect: '1 / 1',
         previewRadius: '50%',
         defaultPreset: 'center',
       },
     },
     {
-      name: 'coverImage',
-      type: 'url',
-      title: 'Cover image URL (optional)',
-      description: 'Remote wide image URL shown above the channel details.',
-      validation: (Rule) => Rule.uri({scheme: ['http', 'https']}),
+      name: 'coverImageAsset',
+      type: 'image',
+      title: 'Cover image (optional)',
+      description: 'Upload an image or paste a URL to import it permanently into Sanity.',
+      components: {input: ImportableImageInput},
+      fields: [{name: 'sourceUrl', type: 'url', hidden: true}],
     },
     {
       name: 'coverFocus',
       type: 'remoteImageCrop',
       title: 'Cover crop',
-      hidden: ({parent}) => !parent?.coverImage,
+      hidden: ({parent}) => !parent?.coverImageAsset,
       options: {
-        imageField: 'coverImage',
+        imageField: 'coverImageAsset',
         previewAspect: '3 / 1',
         defaultPreset: 'top',
       },
