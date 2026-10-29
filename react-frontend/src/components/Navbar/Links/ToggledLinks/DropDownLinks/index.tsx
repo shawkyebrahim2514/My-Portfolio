@@ -1,43 +1,38 @@
-import { useEffect } from "react";
-import PortfolioLinks from "../../PortfolioLinks";
-import BlurBackground from "../../../../BlurBackground";
-import ExitButton from "./ExitButton";
-import { cx } from "../../../../../utils/cx";
-import styles from "./DropDownLinks.module.css";
+import { useEffect } from 'react';
+import PortfolioLinks from '../../PortfolioLinks';
+import BlurBackground from '../../../../BlurBackground';
+import ExitButton from './ExitButton';
+import { cx } from '../../../../../utils/cx';
+import styles from './DropDownLinks.module.css';
 
 type DropDownLinksProps = {
-    readonly isMenuOpen: boolean,
-    readonly setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>
-}
+    readonly isMenuOpen: boolean;
+    readonly onClose: () => void;
+};
 
-export default function DropDownLinks({ isMenuOpen, setIsMenuOpen }: DropDownLinksProps) {
-    const linkButtonOnClickHandler = () => {
-        setIsMenuOpen(false);
-    };
-
+export default function DropDownLinks({ isMenuOpen, onClose }: DropDownLinksProps) {
     useEffect(() => {
         if (!isMenuOpen) return;
         const onKeyDown = (event: KeyboardEvent) => {
-            if (event.key === "Escape") {
-                setIsMenuOpen(false);
+            if (event.key === 'Escape') {
+                onClose();
             }
         };
-        document.addEventListener("keydown", onKeyDown);
-        return () => document.removeEventListener("keydown", onKeyDown);
-    }, [isMenuOpen, setIsMenuOpen]);
+        document.addEventListener('keydown', onKeyDown);
+        return () => document.removeEventListener('keydown', onKeyDown);
+    }, [isMenuOpen, onClose]);
 
     return (
         <div
             id="mobile-menu"
             className={cx(styles.overlay, isMenuOpen && styles.overlayOpen)}
-            inert={!isMenuOpen}>
+            inert={!isMenuOpen}
+        >
             <BlurBackground backgroundColor={'var(--color-base-400)'} />
-            <ExitButton setIsMenuOpen={setIsMenuOpen} />
+            <ExitButton onClose={onClose} />
             <div className={styles.panel}>
-                <PortfolioLinks
-                    linkButtonOnClickHandler={linkButtonOnClickHandler}
-                    itemClassName={styles.pill} />
+                <PortfolioLinks linkButtonOnClickHandler={onClose} itemClassName={styles.pill} />
             </div>
         </div>
-    )
+    );
 }

@@ -2,14 +2,6 @@ import { describe, it, expect, vi } from 'vitest';
 import { render } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 
-vi.mock('react-responsive', () => ({
-    useMediaQuery: () => false,
-}));
-
-vi.mock('vike/client/router', () => ({
-    navigate: vi.fn(),
-}));
-
 const { usePageContext } = vi.hoisted(() => ({ usePageContext: vi.fn() }));
 vi.mock('vike-react/usePageContext', () => ({ usePageContext }));
 
@@ -32,6 +24,11 @@ describe('Navbar — accessibility', () => {
         const { container } = renderNavbar();
         const links = container.querySelectorAll('nav a[href]');
         expect(links.length).toBeGreaterThanOrEqual(6);
+    });
+
+    it('renders the home logo as a link that works without JavaScript', () => {
+        const { getByRole } = renderNavbar();
+        expect(getByRole('link', { name: 'SE, go to About' })).toHaveAttribute('href', '/');
     });
 
     it('marks the active page link with aria-current="page"', () => {
