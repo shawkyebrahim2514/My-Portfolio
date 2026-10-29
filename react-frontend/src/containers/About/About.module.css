@@ -1,14 +1,11 @@
 .container {
+    composes: container from '../../styles/surfaces.module.css';
     display: grid;
     grid-template-areas: 'introduction portrait';
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: clamp(2rem, 4vw, 4rem);
     padding: clamp(1.25rem, 3vw, 2.5rem);
-    margin-bottom: var(--space-5);
-    border: 1px solid var(--color-base-200);
-    border-radius: calc(var(--radius) * 2);
-    background-color: var(--color-base-50);
 }
 
 .introduction {

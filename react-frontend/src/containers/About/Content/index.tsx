@@ -21,29 +21,32 @@ function Content({
             {showActions && (
                 <>
                     <p className={styles.summary}>
-                        Cross-platform development with a focus on performance, accessibility, and
-                        developer experience.
+                        I build cross-platform SDKs that help developers ship faster, more
+                        accessible apps.
                     </p>
                     <nav className={styles.actions} aria-label="Portfolio actions">
-                        <a
-                            href="/projects"
-                            className={cx(styles.action, styles.primary)}
-                            data-clarity-event="projects"
-                        >
-                            Explore projects
-                        </a>
                         {resume?.link && (
                             <a
                                 href={resume.link}
-                                className={cx(styles.action, styles.secondary)}
+                                className={cx(styles.action, styles.primary)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 data-clarity-event="resume"
                                 data-clarity-upgrade="resume"
                             >
-                                {resume.text || 'View resume'}
+                                See my resume
                             </a>
                         )}
+                        <a
+                            href="/experience"
+                            className={cx(
+                                styles.action,
+                                resume?.link ? styles.secondary : styles.primary
+                            )}
+                            data-clarity-event="experience"
+                        >
+                            Explore my experience
+                        </a>
                         <a
                             href="/contacts"
                             className={cx(styles.action, styles.contact)}

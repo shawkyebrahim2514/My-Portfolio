@@ -305,11 +305,34 @@ try {
                 const actions = hero.querySelector('nav[aria-label="Portfolio actions"]');
                 const summary = actions.previousElementSibling;
                 const rect = el => el.getBoundingClientRect().toJSON();
+                const ring = hero.querySelector('svg[aria-hidden="true"]');
+                const ringRect = rect(ring);
+                const ringSize = parseFloat(getComputedStyle(ring).width);
+                const ringText = ring.querySelector('text');
+                const firstLetter = ringText.getStartPositionOfChar(0);
+                const lastLetter = ringText.getEndPositionOfChar(ringText.getNumberOfChars() - 1);
+                const sections = [...hero.nextElementSibling.querySelectorAll('h2')]
+                    .slice(0, 2).map(heading => heading.closest('div[class*="_container_"]'));
                 return {
                     title: rect(title), titleAlign: getComputedStyle(title).textAlign,
                     summary: rect(summary), summaryAlign: getComputedStyle(summary).textAlign,
                     portrait: rect(hero.querySelector('img[fetchpriority="high"]')),
-                    ring: rect(hero.querySelector('[aria-hidden="true"]')),
+                    ring: {
+                        centerX: ringRect.x + ringRect.width / 2,
+                        centerY: ringRect.y + ringRect.height / 2,
+                        bottom: ringRect.y + ringRect.height / 2 + ringSize / 2,
+                        closingGap: Math.hypot(lastLetter.x - firstLetter.x, lastLetter.y - firstLetter.y),
+                        baselineRadius: 83 * ringSize / 200,
+                        fontSize: parseFloat(getComputedStyle(ring.querySelector('text')).fontSize) * ringSize / 200
+                    },
+                    sectionGap: rect(sections[0]).y - rect(hero).bottom,
+                    otherSectionGap: rect(sections[1]).y - rect(sections[0]).bottom,
+                    surface: {
+                        hero: getComputedStyle(hero).backgroundImage,
+                        section: getComputedStyle(sections[0]).backgroundImage,
+                        heroDots: getComputedStyle(hero, '::before').backgroundImage,
+                        sectionDots: getComputedStyle(sections[0], '::before').backgroundImage
+                    },
                     actionsBounds: rect(actions),
                     actions: [...actions.querySelectorAll('a')].map(el => ({
                         rect: rect(el), background: getComputedStyle(el).backgroundColor
@@ -326,6 +349,43 @@ try {
         if (!scenario.route) {
             assert.ok(dom.homeVisible, `${label}: visible identity without animation dependence`);
             assert.ok(dom.hero, `${label}: cohesive introduction section`);
+            assert.notEqual(dom.hero.surface.hero, 'none', `${label}: hero gradient`);
+            assert.notEqual(dom.hero.surface.heroDots, 'none', `${label}: hero dotted pattern`);
+            assert.equal(
+                dom.hero.surface.hero,
+                dom.hero.surface.section,
+                `${label}: matching section gradient`
+            );
+            assert.equal(
+                dom.hero.surface.heroDots,
+                dom.hero.surface.sectionDots,
+                `${label}: matching section dots`
+            );
+            assert.ok(
+                Math.abs(dom.hero.sectionGap - dom.hero.otherSectionGap) <= 1,
+                `${label}: hero gap matches the next section gap`
+            );
+            assert.ok(
+                Math.abs(
+                    dom.hero.ring.centerX - dom.hero.portrait.x - dom.hero.portrait.width / 2
+                ) <= 1 &&
+                    Math.abs(
+                        dom.hero.ring.centerY - dom.hero.portrait.y - dom.hero.portrait.height / 2
+                    ) <= 1,
+                `${label}: ring centered on portrait`
+            );
+            assert.ok(
+                dom.hero.ring.fontSize >= 11 && dom.hero.ring.fontSize <= 16.5,
+                `${label}: restrained ring typography at the original visual scale`
+            );
+            assert.ok(
+                dom.hero.ring.baselineRadius > dom.hero.portrait.width / 2 + 12,
+                `${label}: text clears portrait border`
+            );
+            assert.ok(
+                dom.hero.ring.closingGap <= 12,
+                `${label}: lettering distributed around the circular path (${dom.hero.ring.closingGap} closing gap)`
+            );
             assert.ok(
                 dom.hero.summary.bottom <= dom.hero.actionsBounds.y,
                 `${label}: description before actions`

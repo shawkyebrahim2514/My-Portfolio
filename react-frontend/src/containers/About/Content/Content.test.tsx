@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import Content from './index';
 
 describe('Homepage actions', () => {
-    it('provides native project, resume and contact links', () => {
+    it('puts the resume first, followed by experience and contact native links', () => {
         render(
             <Content
                 description={[]}
@@ -12,23 +12,32 @@ describe('Homepage actions', () => {
             />
         );
         const actions = within(screen.getByRole('navigation', { name: 'Portfolio actions' }));
-        expect(actions.getByRole('link', { name: 'Explore projects' })).toHaveAttribute(
+        expect(actions.getByRole('link', { name: 'Explore my experience' })).toHaveAttribute(
             'href',
-            '/projects'
+            '/experience'
         );
         expect(actions.getByRole('link', { name: 'Get in touch' })).toHaveAttribute(
             'href',
             '/contacts'
         );
-        expect(actions.getByRole('link', { name: 'Read my resume' })).toHaveAttribute(
+        expect(actions.getByRole('link', { name: 'See my resume' })).toHaveAttribute(
             'href',
             'https://example.com/resume'
         );
+        expect(actions.getAllByRole('link').map((link) => link.textContent)).toEqual([
+            'See my resume',
+            'Explore my experience',
+            'Get in touch',
+        ]);
     });
 
     it('omits the resume action when no resume is configured', () => {
         render(<Content description={[]} showActions />);
         expect(within(screen.getByRole('navigation')).getAllByRole('link')).toHaveLength(2);
+        expect(within(screen.getByRole('navigation')).getAllByRole('link')[0]).toHaveAttribute(
+            'href',
+            '/experience'
+        );
     });
 
     it('does not repeat the hero actions in the biography', () => {
