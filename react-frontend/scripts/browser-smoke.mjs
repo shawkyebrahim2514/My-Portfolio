@@ -282,7 +282,8 @@ try {
                     : `window.__draws.grid > 2`
             );
         }
-        await sleep(400);
+        // Keyboard activation also emits a click; wait past its 500ms spark burst.
+        await sleep(650);
         const dom = await evaluate(
             sessionId,
             `({
