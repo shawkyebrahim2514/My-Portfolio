@@ -149,6 +149,9 @@ try {
     for (const scenario of [
         { route: '', desktop: true },
         { route: '' },
+        { route: '', width: 960 },
+        { route: '', width: 768 },
+        { route: '', width: 320 },
         { route: '', nojs: true },
         { route: 'hub' },
         { route: 'hub', width: 320 },
@@ -161,7 +164,7 @@ try {
         { route: 'hub/my-terminal-and-editor-setup-2026', nojs: true },
         { route: '', reduced: true },
     ]) {
-        const label = `/${scenario.route} ${scenario.nojs ? 'no-JS' : 'JS'}${scenario.reduced ? ' reduced-motion' : ''}`;
+        const label = `/${scenario.route} ${scenario.desktop ? 1440 : scenario.width || 390}px ${scenario.nojs ? 'no-JS' : 'JS'}${scenario.reduced ? ' reduced-motion' : ''}`;
         const { targetId } = await send('Target.createTarget', { url: 'about:blank' });
         const { sessionId } = await send('Target.attachToTarget', { targetId, flatten: true });
         await send('Target.activateTarget', { targetId });
@@ -293,7 +296,26 @@ try {
                 getComputedStyle(el).visibility !== 'hidden' && getComputedStyle(el).opacity !== '0'),
             nativeLinks: [...document.querySelectorAll('header a')].filter(el => el.getAttribute('href') !== '/' &&
                 el.getBoundingClientRect().width > 0 && el.getBoundingClientRect().height > 0).length,
-            columns: getComputedStyle(document.querySelector('main h1').parentElement.parentElement).gridTemplateColumns,
+            columns: document.querySelector('section[aria-label="Introduction"]') &&
+                getComputedStyle(document.querySelector('section[aria-label="Introduction"]')).gridTemplateColumns,
+            hero: (() => {
+                const hero = document.querySelector('section[aria-label="Introduction"]');
+                if (!hero) return null;
+                const title = hero.querySelector('h1');
+                const actions = hero.querySelector('nav[aria-label="Portfolio actions"]');
+                const summary = actions.previousElementSibling;
+                const rect = el => el.getBoundingClientRect().toJSON();
+                return {
+                    title: rect(title), titleAlign: getComputedStyle(title).textAlign,
+                    summary: rect(summary), summaryAlign: getComputedStyle(summary).textAlign,
+                    portrait: rect(hero.querySelector('img[fetchpriority="high"]')),
+                    ring: rect(hero.querySelector('[aria-hidden="true"]')),
+                    actionsBounds: rect(actions),
+                    actions: [...actions.querySelectorAll('a')].map(el => ({
+                        rect: rect(el), background: getComputedStyle(el).backgroundColor
+                    }))
+                };
+            })(),
             cards: document.querySelectorAll('main a[class*="_card_"]').length,
             dates: [...document.querySelectorAll('time[datetime]')].map(el => [el.dateTime, el.textContent]),
             tokens: document.querySelectorAll('pre .token').length
@@ -303,8 +325,57 @@ try {
         assert.ok(dom.scrollWidth <= dom.width + 1, `${label}: horizontal overflow`);
         if (!scenario.route) {
             assert.ok(dom.homeVisible, `${label}: visible identity without animation dependence`);
-            if (scenario.desktop)
+            assert.ok(dom.hero, `${label}: cohesive introduction section`);
+            assert.ok(
+                dom.hero.summary.bottom <= dom.hero.actionsBounds.y,
+                `${label}: description before actions`
+            );
+            assert.ok(
+                dom.hero.actions.every(
+                    (action) =>
+                        action.rect.x >= 0 &&
+                        action.rect.right <= dom.width &&
+                        action.rect.height >= 44
+                ),
+                `${label}: usable action bounds`
+            );
+            assert.notEqual(
+                dom.hero.actions[0].background,
+                dom.hero.actions[1].background,
+                `${label}: primary action hierarchy`
+            );
+            if (dom.width > 900) {
                 assert.equal(dom.columns.split(' ').length, 2, 'Desktop hero columns');
+                assert.equal(dom.hero.titleAlign, 'left', `${label}: aligned identity`);
+                assert.equal(dom.hero.summaryAlign, 'left', `${label}: aligned description`);
+                assert.ok(
+                    dom.hero.portrait.x > dom.hero.title.right,
+                    `${label}: portrait beside copy`
+                );
+            } else {
+                assert.equal(dom.hero.titleAlign, 'center', `${label}: centered identity`);
+                assert.equal(dom.hero.summaryAlign, 'center', `${label}: centered description`);
+                assert.ok(
+                    dom.hero.ring.bottom < dom.hero.title.y,
+                    `${label}: portrait before identity without overlap`
+                );
+            }
+            if (dom.width <= 540) {
+                assert.ok(
+                    Math.abs(dom.hero.actions[0].rect.width - dom.hero.actionsBounds.width) <= 1,
+                    `${label}: full-width primary action`
+                );
+                if (dom.hero.actions.length > 2)
+                    assert.ok(
+                        Math.abs(dom.hero.actions[1].rect.y - dom.hero.actions[2].rect.y) <= 1,
+                        `${label}: secondary actions share a row`
+                    );
+            }
+            if (dom.width >= 390)
+                assert.ok(
+                    dom.hero.actions.every((action) => action.rect.bottom <= 844),
+                    `${label}: hero actions visible in the first viewport`
+                );
         }
         if (scenario.nojs) {
             assert.ok(dom.nativeLinks > 0, `${label}: native navigation`);

@@ -16,17 +16,21 @@ function About() {
 
     return (
         <>
-            <div className={styles.container}>
-                <Content
-                    description={aboutPage.description.slice(0, introEnd)}
-                    resume={aboutPage.resume}
-                    showActions
-                />
-                <Image
-                    personImage={aboutPage.personImage}
-                    circularRingText={aboutPage.circularRingText}
-                />
-            </div>
+            <section className={styles.container} aria-label="Introduction">
+                <div className={styles.portrait}>
+                    <Image
+                        personImage={aboutPage.personImage}
+                        circularRingText={aboutPage.circularRingText}
+                    />
+                </div>
+                <div className={styles.introduction}>
+                    <Content
+                        description={aboutPage.description.slice(0, introEnd)}
+                        resume={aboutPage.resume}
+                        showActions
+                    />
+                </div>
+            </section>
             <Content description={aboutPage.description.slice(introEnd)} />
             <FollowsTeaser follows={aboutPage.featuredFollows ?? []} />
             <HubTeaser entries={aboutPage.featuredHubEntries ?? []} />

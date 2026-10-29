@@ -8,7 +8,11 @@ export default function ActualImage({
     return (
         <div className={styles.imageFrame}>
             <img
-                {...sanityImageProps(personImage, 640, '(max-width: 552px) 58vw, 320px')}
+                {...sanityImageProps(
+                    personImage,
+                    640,
+                    '(max-width: 900px) 136px, (max-width: 1200px) 20vw, 240px'
+                )}
                 alt="Shawky Ebrahim"
                 width={320}
                 height={320}

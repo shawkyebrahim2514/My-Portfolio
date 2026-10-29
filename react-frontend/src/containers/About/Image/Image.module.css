@@ -1,19 +1,17 @@
 .frame {
-    /* Scales down on narrow viewports so the ring (which extends beyond
-       this box) never gets close to the screen edges. */
-    --avatar-size: clamp(160px, 24vw, 280px);
-    /* The CircularText ring is `--avatar-size * 1.24` centered on this frame,
-       so it overflows every side by ~`--avatar-size * 0.12` (plus ~half a
-       glyph). Reserve that halo as margin where a collision can happen — above
-       (the sticky navbar) and to the sides (horizontal container overflow).
-       The bottom is left to the container's normal `gap`, so the ring's
-       harmless decorative overflow tucks into that gap instead of pushing the
-       name far away. */
+    --avatar-size: clamp(176px, 20vw, 240px);
+    /* Reserve the rotating ring's full halo, including below the portrait. */
     --avatar-halo: calc(var(--avatar-size) * 0.12 + var(--space-2));
     width: var(--avatar-size);
     height: var(--avatar-size);
     position: relative;
-    margin: var(--avatar-halo) var(--avatar-halo) 0;
+    margin: var(--avatar-halo);
+}
+
+@media (max-width: 900px) {
+    .frame {
+        --avatar-size: 136px;
+    }
 }
 
 .ring {
