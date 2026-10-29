@@ -4,8 +4,24 @@
     text-align: left;
 }
 
-@media (max-width: 1124px) {
-    .content {
-        text-align: center;
-    }
+.content {
+    min-width: 0;
+}
+
+.summary {
+    margin-block: var(--space-4);
+    max-width: 48ch;
+    line-height: 1.65;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+}
+
+.actions a {
+    min-height: 44px;
+    text-decoration: none;
 }

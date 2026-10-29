@@ -9,13 +9,20 @@
 
 .char {
     display: inline-block;
-    opacity: 0;
-    transform: translateY(0.6em);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    will-change: transform, opacity;
+    opacity: 1;
 }
 
-.charVisible {
-    opacity: 1;
-    transform: translateY(0);
+@media (prefers-reduced-motion: no-preference) {
+    .char {
+        animation: rise 0.5s ease both;
+    }
+}
+
+@keyframes rise {
+    from {
+        transform: translateY(0.3em);
+    }
+    to {
+        transform: translateY(0);
+    }
 }
