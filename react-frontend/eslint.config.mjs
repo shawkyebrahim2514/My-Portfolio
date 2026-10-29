@@ -10,11 +10,13 @@ export default tseslint.config(
         ignores: ['build', 'dist', 'node_modules', 'coverage'],
     },
     {
+        files: ['scripts/*.mjs'],
+        ...js.configs.recommended,
+        languageOptions: { globals: globals.node },
+    },
+    {
         files: ['**/*.{ts,tsx}'],
-        extends: [
-            js.configs.recommended,
-            ...tseslint.configs.recommended,
-        ],
+        extends: [js.configs.recommended, ...tseslint.configs.recommended],
         languageOptions: {
             ecmaVersion: 2020,
             globals: globals.browser,
@@ -30,10 +32,7 @@ export default tseslint.config(
             // rules, which are intentionally not adopted here.
             'react-hooks/rules-of-hooks': 'error',
             'react-hooks/exhaustive-deps': 'warn',
-            'react-refresh/only-export-components': [
-                'warn',
-                { allowConstantExport: true },
-            ],
+            'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
             '@typescript-eslint/no-unused-vars': [
                 'warn',
                 {

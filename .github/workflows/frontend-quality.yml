@@ -1,0 +1,52 @@
+name: Frontend quality
+
+on:
+  pull_request:
+    branches: [Development, main]
+    paths: ["react-frontend/**", ".github/workflows/frontend-quality.yml"]
+  push:
+    branches: [Development, main]
+    paths: ["react-frontend/**", ".github/workflows/frontend-quality.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: frontend-quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: react-frontend
+    env:
+      TZ: UTC
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: react-frontend/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run format:changed
+        if: github.event_name != 'workflow_dispatch'
+        env:
+          FORMAT_BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+      - run: npm test -- --run
+      - run: npm run build
+      - run: npm run check:build
+      - name: Locate installed Chrome
+        run: |
+          CHROME_BIN="$(command -v google-chrome)"
+          test -x "$CHROME_BIN"
+          echo "CHROME_BIN=$CHROME_BIN" >> "$GITHUB_ENV"
+      - run: npm run test:browser

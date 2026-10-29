@@ -13,6 +13,10 @@ export default defineConfig({
         cssCodeSplit: false,
         rollupOptions: {
             output: {
+                chunkFileNames: (chunk) =>
+                    chunk.moduleIds.some((id) => /[\\/]RichContent[\\/]CodeBlock\.tsx$/.test(id))
+                        ? 'assets/chunks/code-highlighter-[hash].js'
+                        : 'assets/chunks/chunk-[hash].js',
                 manualChunks(id) {
                     if (/[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/.test(id)) {
                         return 'react-vendor';

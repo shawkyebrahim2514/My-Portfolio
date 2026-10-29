@@ -59,6 +59,29 @@ Omnes is still served by the existing third-party font provider with
 webfont/redistribution license before self-hosting or subsetting Omnes. Arabic
 content retains IBM Plex Sans Arabic from Google Fonts.
 
+### Regression gates
+
+Frontend PRs to `Development`/`main` and pushes to those branches run Node 24 CI:
+clean dependency installation, types, lint, changed-file formatting, all tests,
+prerendering, semantic outlines, asset budgets and real Chrome browser checks.
+`npm run format:changed` compares against `origin/Development` locally; CI sets
+`FORMAT_BASE_SHA` to the PR base or previous push. Legacy untouched formatting
+does not block a focused change.
+
+After `npm run build`, run `npm run check:build` and `npm run test:browser`.
+The browser runner starts a fresh local preview on port 4175, uses installed Edge
+on Windows or Google Chrome on Linux (`CHROME_BIN` overrides the executable), and
+cleans up its own browser profile and processes. It checks hydration, first-party
+assets, mobile keyboard/focus behavior, no-JS content/navigation, timezone-stable
+dates, narrow layouts and animation scheduling. Code pages must load highlighting;
+the homepage must not. The Vercel-only analytics script endpoint is explicitly
+excluded locally because the preview server does not serve it.
+
+Budgets are deterministic gzip sizes, not shared-machine/network timing scores:
+20 KiB site CSS and 230 KiB JavaScript actually requested by the homepage,
+including static module dependencies and preloads. Changes that exceed a budget
+need investigation before deliberately revising it.
+
 ---
 
 ## Rich Content (Portable Text)
