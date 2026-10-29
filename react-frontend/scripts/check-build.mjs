@@ -61,3 +61,10 @@ assert.equal(stylesheets.length, 1, 'Home should request one bundled site styles
 const cssBytes = assetBytes(stylesheets);
 assert.ok(cssBytes <= budgets.css, `Site CSS ${cssBytes} exceeds ${budgets.css} gzip bytes`);
 console.log(`PASS site CSS budget: ${cssBytes}/${budgets.css} gzip bytes`);
+
+const codePage = pageDocument('hub/my-terminal-and-editor-setup-2026');
+assert.ok(
+    codePage.querySelector('pre .token'),
+    'Code highlighting must be prerendered, not a cold Suspense fallback'
+);
+console.log('PASS prerendered code highlighting');
