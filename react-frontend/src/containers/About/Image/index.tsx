@@ -1,26 +1,12 @@
 import { memo } from 'react';
-import BackShape from './BackShape';
-import ActualImage from './ActualImage';
-import CircularText from '../../../components/CircularText';
-import { SanityAboutPage } from '../../../Types';
+import ActualImage, { type PortraitProps } from './ActualImage';
 import styles from './Image.module.css';
 
-function Image({
-    personImage,
-    circularRingText,
-}: Readonly<Pick<SanityAboutPage, 'personImage' | 'circularRingText'>>) {
+function Image({ personImage, priority }: PortraitProps) {
     return (
-        <div className={styles.frame}>
-            <div className={styles.ring}>
-                <CircularText
-                    text={circularRingText.repeat(2)}
-                    size="calc(var(--avatar-size) * 1.5)"
-                    spinDuration={24}
-                />
-            </div>
-            <BackShape />
-            <ActualImage personImage={personImage} />
-        </div>
+        <figure className={styles.frame} data-portrait-concept="signature">
+            <ActualImage personImage={personImage} priority={priority} />
+        </figure>
     );
 }
 

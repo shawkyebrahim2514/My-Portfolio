@@ -311,30 +311,21 @@ try {
                 const actions = hero.querySelector('nav[aria-label="Portfolio actions"]');
                 const summary = actions.previousElementSibling;
                 const rect = el => el.getBoundingClientRect().toJSON();
-                const ring = hero.querySelector('svg[aria-hidden="true"]');
-                const ringMetrics = (() => {
-                    if (!ring) return null;
-                    const ringRect = rect(ring);
-                    const ringSize = parseFloat(getComputedStyle(ring).width);
-                    const ringText = ring.querySelector('text');
-                    const firstLetter = ringText.getStartPositionOfChar(0);
-                    const lastLetter = ringText.getEndPositionOfChar(ringText.getNumberOfChars() - 1);
-                    return {
-                        centerX: ringRect.x + ringRect.width / 2,
-                        centerY: ringRect.y + ringRect.height / 2,
-                        bottom: ringRect.y + ringRect.height / 2 + ringSize / 2,
-                        closingGap: Math.hypot(lastLetter.x - firstLetter.x, lastLetter.y - firstLetter.y),
-                        baselineRadius: 83 * ringSize / 200,
-                        fontSize: parseFloat(getComputedStyle(ringText).fontSize) * ringSize / 200
-                    };
-                })();
-                const sections = [...hero.nextElementSibling.querySelectorAll('h2')]
+                const portrait = hero.querySelector('img[fetchpriority="high"]');
+                const biography = hero.nextElementSibling.id === 'portrait-gallery'
+                    ? hero.nextElementSibling.nextElementSibling : hero.nextElementSibling;
+                const sections = [...biography.querySelectorAll('h2')]
                     .slice(0, 2).map(heading => heading.closest('div[class*="_container_"]'));
                 return {
                     title: rect(title), titleAlign: getComputedStyle(title).textAlign,
+                    display: getComputedStyle(hero).display,
                     summary: rect(summary), summaryAlign: getComputedStyle(summary).textAlign,
-                    portrait: rect(hero.querySelector('img[fetchpriority="high"]')),
-                    ring: ringMetrics,
+                    portrait: rect(portrait),
+                    portraitSrc: portrait.currentSrc || portrait.src,
+                    portraitTreatment: portrait.closest('figure')?.dataset.portraitConcept,
+                    portraitRadius: getComputedStyle(portrait.parentElement).borderRadius,
+                    portraitAnimation: getComputedStyle(portrait.parentElement.parentElement).animationName,
+                    hasRing: !!hero.querySelector('textPath'),
                     sectionGap: rect(sections[0]).y - rect(hero).bottom,
                     otherSectionGap: rect(sections[1]).y - rect(sections[0]).bottom,
                     surface: {
@@ -357,54 +348,98 @@ try {
         assert.equal(dom.h1, 1, `${label}: H1`);
         assert.ok(dom.scrollWidth <= dom.width + 1, `${label}: horizontal overflow`);
         if (scenario.route === 'portrait-demo') {
-            await waitFor(
-                sessionId,
-                `document.querySelector('main figure img')?.complete &&
-                document.querySelector('main figure img').naturalWidth > 0`
+            const original = pageDocument('').querySelector(
+                'section[aria-label="Introduction"] img'
             );
-            const demo = await evaluate(
-                sessionId,
-                `(() => {
-                    const image = document.querySelector('main figure img');
-                    const scene = image.parentElement;
-                    const canvas = document.createElement('canvas');
-                    canvas.width = canvas.height = 1;
-                    const context = canvas.getContext('2d');
-                    context.drawImage(image, 0, 0);
+            for (const concept of scenario.nojs
+                ? ['signature']
+                : ['signature', 'editorial', 'geometric']) {
+                if (!scenario.nojs) {
+                    await evaluate(
+                        sessionId,
+                        `document.querySelector('nav[aria-label="Portrait treatments"] button[data-concept="${concept}"]').focus()`
+                    );
+                    await key(sessionId, 'Enter', 13);
+                }
+                await waitFor(
+                    sessionId,
+                    `document.querySelector('section[aria-label="Introduction"] figure')?.dataset.portraitConcept === '${concept}' &&
+                    document.querySelector('section[aria-label="Introduction"] img').complete &&
+                    document.querySelector('section[aria-label="Introduction"] img').naturalWidth > 0`
+                );
+                const demo = await evaluate(
+                    sessionId,
+                    `(() => {
+                    const hero = document.querySelector('section[aria-label="Introduction"]');
+                    const figure = hero.querySelector('figure');
+                    const image = figure.querySelector('img');
                     return {
                         noindex: document.querySelector('meta[name="robots"]')?.content,
-                        notice: document.querySelector('aside[aria-label="Design preview"]').textContent,
-                        compare: document.querySelector('aside[aria-label="Design preview"] a').getAttribute('href'),
-                        credit: document.querySelector('main figcaption').textContent,
-                        backdrop: getComputedStyle(scene, '::before').backgroundImage,
-                        animation: getComputedStyle(scene).animationName,
-                        scene: scene.getBoundingClientRect().toJSON(),
-                        cornerAlpha: context.getImageData(0, 0, 1, 1).data[3]
+                        cards: document.querySelectorAll('#portrait-gallery article').length,
+                        alt: image.alt, src: image.currentSrc,
+                        frame: figure.getBoundingClientRect().toJSON(),
+                        photo: image.getBoundingClientRect().toJSON(),
+                        title: hero.querySelector('h1').getBoundingClientRect().toJSON(),
+                        corners: getComputedStyle(image.parentElement).borderRadius,
+                        clip: getComputedStyle(image.parentElement).clipPath,
+                        backing: getComputedStyle(figure, '::before').transform,
+                        caption: figure.querySelector('figcaption')?.textContent,
+                        overflow: document.documentElement.scrollWidth > innerWidth,
+                        pressed: document.querySelector('nav[aria-label="Portrait treatments"] button[aria-pressed="true"]').dataset.concept
                     };
                 })()`
-            );
-            assert.equal(dom.hero.ring, null, `${label}: cutout replaces the ring`);
-            assert.equal(demo.noindex, 'noindex, nofollow', `${label}: excluded from indexing`);
-            assert.match(
-                demo.notice,
-                /stock placeholder, not Shawky/,
-                `${label}: honest demo label`
-            );
-            assert.equal(demo.compare, '/', `${label}: comparison link`);
-            assert.match(
-                demo.credit,
-                /PNGimg.*CC BY-NC 4.0/,
-                `${label}: source and license credit`
-            );
-            assert.equal(demo.cornerAlpha, 0, `${label}: genuine transparent background`);
-            assert.match(demo.backdrop, /linear-gradient/, `${label}: warm arch backdrop`);
-            assert.equal(demo.animation, 'none', `${label}: static scene`);
-            if (dom.width > 900)
-                assert.ok(
-                    dom.hero.portrait.x > dom.hero.title.right,
-                    `${label}: portrait beside copy`
                 );
-            else assert.ok(demo.scene.bottom < dom.hero.title.y, `${label}: portrait above copy`);
+                assert.equal(demo.noindex, 'noindex, nofollow', `${label}: excluded from indexing`);
+                assert.equal(demo.cards, 3, `${label}: complete static concept gallery`);
+                assert.equal(demo.pressed, concept, `${label}: keyboard-operated selector`);
+                assert.match(demo.alt, /Shawky Ebrahim/, `${label}: personal portrait`);
+                assert.equal(
+                    new URL(demo.src).pathname,
+                    new URL(original.src).pathname,
+                    `${label}: same CMS photo for every concept`
+                );
+                assert.equal(demo.overflow, false, `${label}/${concept}: no overflow`);
+                assert.ok(
+                    Math.abs(demo.photo.width - demo.photo.height) <= 1,
+                    `${label}/${concept}: undistorted photo`
+                );
+                if (concept === 'signature')
+                    assert.match(demo.corners, /80px/, `${label}: generous signature corner`);
+                if (concept === 'editorial') {
+                    assert.notEqual(demo.backing, 'none', `${label}: tilted backing only`);
+                    assert.match(demo.caption, /Software Engineer/, `${label}: print caption`);
+                }
+                if (concept === 'geometric')
+                    assert.match(demo.clip, /url/, `${label}: rounded hexagon mask`);
+                if (dom.width > 900)
+                    assert.ok(
+                        demo.frame.x > demo.title.right,
+                        `${label}/${concept}: portrait beside copy`
+                    );
+                else
+                    assert.ok(
+                        demo.frame.bottom < demo.title.y,
+                        `${label}/${concept}: portrait above copy`
+                    );
+                if (process.env.BROWSER_SCREENSHOT_DIR) {
+                    await mkdir(process.env.BROWSER_SCREENSHOT_DIR, { recursive: true });
+                    await evaluate(sessionId, 'scrollTo(0, 0)');
+                    await waitFor(sessionId, `document.fonts.status === 'loaded'`);
+                    const screenshot = await send(
+                        'Page.captureScreenshot',
+                        { format: 'png' },
+                        sessionId
+                    );
+                    await writeFile(
+                        join(
+                            process.env.BROWSER_SCREENSHOT_DIR,
+                            `portrait-${concept}-${dom.width}${scenario.nojs ? '-nojs' : ''}.png`
+                        ),
+                        Buffer.from(screenshot.data, 'base64')
+                    );
+                }
+            }
+            assert.equal(dom.hero.hasRing, false, `${label}: no surrounding text`);
             assert.ok(
                 dom.hero.actions.every(
                     (action) =>
@@ -414,25 +449,54 @@ try {
                 ),
                 `${label}: usable actions`
             );
-            if (process.env.BROWSER_SCREENSHOT_DIR) {
-                await mkdir(process.env.BROWSER_SCREENSHOT_DIR, { recursive: true });
+            if (process.env.BROWSER_SCREENSHOT_DIR && scenario.desktop) {
+                await evaluate(
+                    sessionId,
+                    `document.querySelector('#portrait-gallery').scrollIntoView()`
+                );
+                await waitFor(
+                    sessionId,
+                    `[...document.querySelectorAll('#portrait-gallery img')].every(image => image.complete && image.naturalWidth > 0)`
+                );
+                await evaluate(sessionId, 'scrollTo(0, 0)');
+                const clip = await evaluate(
+                    sessionId,
+                    `(() => {
+                    const box = document.querySelector('#portrait-gallery').getBoundingClientRect();
+                    return { x: box.x, y: box.y + scrollY, width: box.width, height: box.height, scale: 1 };
+                })()`
+                );
                 const screenshot = await send(
                     'Page.captureScreenshot',
-                    { format: 'png' },
+                    { format: 'png', clip, captureBeyondViewport: true },
                     sessionId
                 );
                 await writeFile(
-                    join(
-                        process.env.BROWSER_SCREENSHOT_DIR,
-                        `portrait-demo-${dom.width}${scenario.nojs ? '-nojs' : ''}.png`
-                    ),
+                    join(process.env.BROWSER_SCREENSHOT_DIR, 'portrait-gallery-1440.png'),
                     Buffer.from(screenshot.data, 'base64')
+                );
+            }
+            if (!scenario.nojs) {
+                await evaluate(
+                    sessionId,
+                    `document.querySelector('#portrait-gallery').scrollIntoView();
+                    document.querySelector('#portrait-gallery article button').click()`
+                );
+                await waitFor(
+                    sessionId,
+                    `document.querySelector('section[aria-label="Introduction"] figure').dataset.portraitConcept === 'signature' &&
+                    scrollY === 0`
                 );
             }
         }
         if (!scenario.route) {
             assert.ok(dom.homeVisible, `${label}: visible identity without animation dependence`);
             assert.ok(dom.hero, `${label}: cohesive introduction section`);
+            assert.equal(
+                dom.hero.display,
+                'grid',
+                `${label}: component layout overrides shared surface`
+            );
             assert.notEqual(dom.hero.surface.hero, 'none', `${label}: hero gradient`);
             assert.notEqual(dom.hero.surface.heroDots, 'none', `${label}: hero dotted pattern`);
             assert.equal(
@@ -449,26 +513,25 @@ try {
                 Math.abs(dom.hero.sectionGap - dom.hero.otherSectionGap) <= 1,
                 `${label}: hero gap matches the next section gap`
             );
+            assert.equal(dom.hero.hasRing, false, `${label}: no surrounding text`);
+            assert.equal(dom.hero.portraitTreatment, 'signature', `${label}: approved portrait`);
+            assert.match(dom.hero.portraitRadius, /80px/, `${label}: signature corner`);
+            assert.equal(dom.hero.portraitAnimation, 'none', `${label}: static portrait`);
             assert.ok(
-                Math.abs(
-                    dom.hero.ring.centerX - dom.hero.portrait.x - dom.hero.portrait.width / 2
-                ) <= 1 &&
-                    Math.abs(
-                        dom.hero.ring.centerY - dom.hero.portrait.y - dom.hero.portrait.height / 2
-                    ) <= 1,
-                `${label}: ring centered on portrait`
+                Math.abs(dom.hero.portrait.width - dom.hero.portrait.height) <= 1,
+                `${label}: undistorted square crop`
+            );
+            const expectedPortrait = pageDocument('').querySelector(
+                'section[aria-label="Introduction"] img'
+            );
+            assert.equal(
+                new URL(dom.hero.portraitSrc).pathname,
+                new URL(expectedPortrait.src).pathname,
+                `${label}: existing data-driven portrait`
             );
             assert.ok(
-                dom.hero.ring.fontSize >= 11 && dom.hero.ring.fontSize <= 16.5,
-                `${label}: restrained ring typography at the original visual scale`
-            );
-            assert.ok(
-                dom.hero.ring.baselineRadius > dom.hero.portrait.width / 2 + 12,
-                `${label}: text clears portrait border`
-            );
-            assert.ok(
-                dom.hero.ring.closingGap <= 12,
-                `${label}: lettering distributed around the circular path (${dom.hero.ring.closingGap} closing gap)`
+                dom.hero.portrait.width >= (dom.width > 900 ? 190 : 150),
+                `${label}: enlarged portrait`
             );
             assert.ok(
                 dom.hero.summary.bottom <= dom.hero.actionsBounds.y,
@@ -500,7 +563,7 @@ try {
                 assert.equal(dom.hero.titleAlign, 'center', `${label}: centered identity`);
                 assert.equal(dom.hero.summaryAlign, 'center', `${label}: centered description`);
                 assert.ok(
-                    dom.hero.ring.bottom < dom.hero.title.y,
+                    dom.hero.portrait.bottom < dom.hero.title.y,
                     `${label}: portrait before identity without overlap`
                 );
             }

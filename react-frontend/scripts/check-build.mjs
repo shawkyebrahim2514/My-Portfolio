@@ -72,10 +72,18 @@ console.log('PASS prerendered code highlighting');
 
 const demoPage = pageDocument('portrait-demo');
 assert.equal(demoPage.querySelector('meta[name="robots"]')?.content, 'noindex, nofollow');
-assert.ok(demoPage.querySelector('figure img[src="/images/portrait-demo.webp"]'));
-assert.match(demoPage.querySelector('figcaption').textContent, /CC BY-NC 4.0/);
-assert.ok(
-    !pageDocument('').querySelector('img[src="/images/portrait-demo.webp"]'),
-    'Stock portrait must not replace the real homepage portrait'
+assert.equal(demoPage.querySelectorAll('#portrait-gallery article').length, 3);
+const originalPortrait = pageDocument('').querySelector('section[aria-label="Introduction"] img');
+const conceptImages = demoPage.querySelectorAll('figure[data-portrait-concept] img');
+assert.equal(conceptImages.length, 4);
+for (const image of conceptImages) {
+    assert.match(image.alt, /Shawky Ebrahim/);
+    assert.equal(new URL(image.src).pathname, new URL(originalPortrait.src).pathname);
+}
+assert.equal(
+    originalPortrait.closest('figure')?.dataset.portraitConcept,
+    'signature',
+    'Homepage must use the approved signature-corner portrait'
 );
-console.log('PASS isolated, credited, noindex portrait demo');
+assert.equal(pageDocument('').querySelector('#portrait-gallery'), null);
+console.log('PASS isolated, noindex three-concept portrait studio');

@@ -8,7 +8,13 @@ import FollowsTeaser from '../../src/containers/About/FollowsTeaser';
 import type { SanityAboutPage } from '../../src/Types';
 import styles from '../../src/containers/About/About.module.css';
 
-export function About({ portrait }: { portrait?: ReactNode }) {
+export function About({
+    portrait,
+    afterIntroduction,
+}: {
+    portrait?: ReactNode;
+    afterIntroduction?: ReactNode;
+}) {
     const aboutPage = useData<SanityAboutPage>();
     const firstBody = aboutPage.description.findIndex(
         (node) => node._type !== 'block' || !node.style?.match(/^h[1-6]$/)
@@ -19,12 +25,7 @@ export function About({ portrait }: { portrait?: ReactNode }) {
         <>
             <section className={styles.container} aria-label="Introduction">
                 <div className={styles.portrait}>
-                    {portrait ?? (
-                        <Image
-                            personImage={aboutPage.personImage}
-                            circularRingText={aboutPage.circularRingText}
-                        />
-                    )}
+                    {portrait ?? <Image personImage={aboutPage.personImage} />}
                 </div>
                 <div className={styles.introduction}>
                     <Content
@@ -34,6 +35,7 @@ export function About({ portrait }: { portrait?: ReactNode }) {
                     />
                 </div>
             </section>
+            {afterIntroduction}
             <Content description={aboutPage.description.slice(introEnd)} />
             <FollowsTeaser follows={aboutPage.featuredFollows ?? []} />
             <HubTeaser entries={aboutPage.featuredHubEntries ?? []} />

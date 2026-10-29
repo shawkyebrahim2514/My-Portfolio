@@ -1,7 +1,7 @@
 import type { Config } from 'vike/types';
 
 export default {
-    title: 'Portrait concept preview - stock placeholder',
+    title: 'Shawky Ebrahim - three portrait concepts',
     description:
-        'Non-commercial design comparison using a credited stock portrait, not a photograph of Shawky.',
+        'Compare signature-corner, editorial-print and rounded-hexagon frames using the same portrait.',
 } satisfies Config;
