@@ -1,0 +1,28 @@
+.links {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+}
+
+.mobile {
+    display: none;
+}
+
+@media (max-width: 974px) {
+    /* Keep real links available until the interactive menu is ready. */
+    .links {
+        width: 100%;
+    }
+
+    .links[data-enhanced] {
+        width: auto;
+    }
+
+    .links[data-enhanced] .desktop {
+        display: none;
+    }
+
+    .links[data-enhanced] .mobile {
+        display: block;
+    }
+}
