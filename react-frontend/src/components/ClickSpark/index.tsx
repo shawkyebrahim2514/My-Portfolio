@@ -28,36 +28,30 @@ const easeOut = (t: number) => t * (2 - t);
 export default function ClickSpark({ color }: Readonly<{ color?: string }>) {
     const reduceMotion = useReducedMotion();
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const sparksRef = useRef<Spark[]>([]);
 
     useEffect(() => {
+        if (reduceMotion) return;
         const canvas = canvasRef.current;
-        if (!canvas) return;
-
+        const ctx = canvas?.getContext('2d');
+        if (!canvas || !ctx) return;
+        let sparks: Spark[] = [];
+        let animationId: number | null = null;
         const resizeCanvas = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         };
         resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-        return () => window.removeEventListener('resize', resizeCanvas);
-    }, []);
-
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        const ctx = canvas?.getContext('2d');
-        if (!canvas || !ctx) return;
 
         const resolvedColor =
             color ||
             getComputedStyle(document.documentElement).getPropertyValue(SPARK_COLOR).trim() ||
             '#d4986c';
 
-        let animationId: number;
         const draw = (timestamp: number) => {
+            animationId = null;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            sparksRef.current = sparksRef.current.filter((spark) => {
+            sparks = sparks.filter((spark) => {
                 const elapsed = timestamp - spark.startTime;
                 if (elapsed >= DURATION) return false;
 
@@ -82,19 +76,11 @@ export default function ClickSpark({ color }: Readonly<{ color?: string }>) {
             });
             ctx.globalAlpha = 1;
 
-            animationId = requestAnimationFrame(draw);
+            if (sparks.length > 0) animationId = requestAnimationFrame(draw);
         };
 
-        animationId = requestAnimationFrame(draw);
-        return () => cancelAnimationFrame(animationId);
-    }, [color]);
-
-    useEffect(() => {
-        // Respect prefers-reduced-motion: don't attach the click listener at
-        // all rather than attaching it and no-op'ing on every click.
-        if (reduceMotion) return;
-
         const handleClick = (event: MouseEvent) => {
+            if (document.hidden) return;
             const now = performance.now();
             const newSparks: Spark[] = Array.from({ length: SPARK_COUNT }, (_, i) => ({
                 x: event.clientX,
@@ -102,12 +88,30 @@ export default function ClickSpark({ color }: Readonly<{ color?: string }>) {
                 angle: (2 * Math.PI * i) / SPARK_COUNT,
                 startTime: now,
             }));
-            sparksRef.current.push(...newSparks);
+            sparks.push(...newSparks);
+            if (animationId === null) animationId = requestAnimationFrame(draw);
         };
 
+        const clear = () => {
+            if (animationId !== null) cancelAnimationFrame(animationId);
+            animationId = null;
+            sparks = [];
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        };
+        const handleVisibility = () => {
+            if (document.hidden) clear();
+        };
+
+        window.addEventListener('resize', resizeCanvas);
         window.addEventListener('click', handleClick);
-        return () => window.removeEventListener('click', handleClick);
-    }, [reduceMotion]);
+        document.addEventListener('visibilitychange', handleVisibility);
+        return () => {
+            clear();
+            window.removeEventListener('resize', resizeCanvas);
+            window.removeEventListener('click', handleClick);
+            document.removeEventListener('visibilitychange', handleVisibility);
+        };
+    }, [color, reduceMotion]);
 
     return <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />;
 }
