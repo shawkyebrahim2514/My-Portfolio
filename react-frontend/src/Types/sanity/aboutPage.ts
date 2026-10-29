@@ -6,8 +6,9 @@ export type SanityAboutPage = {
     personImage: string;
     circularRingText: string;
     description: RichContentNode[];
+    resume?: { link: string; text: string };
     // Items can be `null` if a referenced hubEntry is deleted or temporarily
     // unresolvable — callers must filter before rendering.
     featuredHubEntries: (SanityHubEntrySummary | null)[];
     featuredFollows?: (SanityHubDirectoryChannel | null)[];
-}
+};
