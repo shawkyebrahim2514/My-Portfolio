@@ -31,6 +31,7 @@ for (const route of [
     'hub/follows',
     'hub/library',
     'hub/mataa3',
+    'portrait-demo',
 ]) {
     const document = pageDocument(route);
     const headings = [
@@ -68,3 +69,13 @@ assert.ok(
     'Code highlighting must be prerendered, not a cold Suspense fallback'
 );
 console.log('PASS prerendered code highlighting');
+
+const demoPage = pageDocument('portrait-demo');
+assert.equal(demoPage.querySelector('meta[name="robots"]')?.content, 'noindex, nofollow');
+assert.ok(demoPage.querySelector('figure img[src="/images/portrait-demo.webp"]'));
+assert.match(demoPage.querySelector('figcaption').textContent, /CC BY-NC 4.0/);
+assert.ok(
+    !pageDocument('').querySelector('img[src="/images/portrait-demo.webp"]'),
+    'Stock portrait must not replace the real homepage portrait'
+);
+console.log('PASS isolated, credited, noindex portrait demo');

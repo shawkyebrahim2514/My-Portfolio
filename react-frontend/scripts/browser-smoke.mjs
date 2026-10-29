@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
-import { access, mkdtemp, readFile, rm } from 'node:fs/promises';
+import { access, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
@@ -163,6 +163,12 @@ try {
         { route: 'hub/my-terminal-and-editor-setup-2026' },
         { route: 'hub/my-terminal-and-editor-setup-2026', nojs: true },
         { route: '', reduced: true },
+        { route: 'portrait-demo', desktop: true },
+        { route: 'portrait-demo', width: 960 },
+        { route: 'portrait-demo', width: 768 },
+        { route: 'portrait-demo' },
+        { route: 'portrait-demo', width: 320 },
+        { route: 'portrait-demo', nojs: true },
     ]) {
         const label = `/${scenario.route} ${scenario.desktop ? 1440 : scenario.width || 390}px ${scenario.nojs ? 'no-JS' : 'JS'}${scenario.reduced ? ' reduced-motion' : ''}`;
         const { targetId } = await send('Target.createTarget', { url: 'about:blank' });
@@ -306,25 +312,29 @@ try {
                 const summary = actions.previousElementSibling;
                 const rect = el => el.getBoundingClientRect().toJSON();
                 const ring = hero.querySelector('svg[aria-hidden="true"]');
-                const ringRect = rect(ring);
-                const ringSize = parseFloat(getComputedStyle(ring).width);
-                const ringText = ring.querySelector('text');
-                const firstLetter = ringText.getStartPositionOfChar(0);
-                const lastLetter = ringText.getEndPositionOfChar(ringText.getNumberOfChars() - 1);
+                const ringMetrics = (() => {
+                    if (!ring) return null;
+                    const ringRect = rect(ring);
+                    const ringSize = parseFloat(getComputedStyle(ring).width);
+                    const ringText = ring.querySelector('text');
+                    const firstLetter = ringText.getStartPositionOfChar(0);
+                    const lastLetter = ringText.getEndPositionOfChar(ringText.getNumberOfChars() - 1);
+                    return {
+                        centerX: ringRect.x + ringRect.width / 2,
+                        centerY: ringRect.y + ringRect.height / 2,
+                        bottom: ringRect.y + ringRect.height / 2 + ringSize / 2,
+                        closingGap: Math.hypot(lastLetter.x - firstLetter.x, lastLetter.y - firstLetter.y),
+                        baselineRadius: 83 * ringSize / 200,
+                        fontSize: parseFloat(getComputedStyle(ringText).fontSize) * ringSize / 200
+                    };
+                })();
                 const sections = [...hero.nextElementSibling.querySelectorAll('h2')]
                     .slice(0, 2).map(heading => heading.closest('div[class*="_container_"]'));
                 return {
                     title: rect(title), titleAlign: getComputedStyle(title).textAlign,
                     summary: rect(summary), summaryAlign: getComputedStyle(summary).textAlign,
                     portrait: rect(hero.querySelector('img[fetchpriority="high"]')),
-                    ring: {
-                        centerX: ringRect.x + ringRect.width / 2,
-                        centerY: ringRect.y + ringRect.height / 2,
-                        bottom: ringRect.y + ringRect.height / 2 + ringSize / 2,
-                        closingGap: Math.hypot(lastLetter.x - firstLetter.x, lastLetter.y - firstLetter.y),
-                        baselineRadius: 83 * ringSize / 200,
-                        fontSize: parseFloat(getComputedStyle(ring.querySelector('text')).fontSize) * ringSize / 200
-                    },
+                    ring: ringMetrics,
                     sectionGap: rect(sections[0]).y - rect(hero).bottom,
                     otherSectionGap: rect(sections[1]).y - rect(sections[0]).bottom,
                     surface: {
@@ -346,6 +356,80 @@ try {
         );
         assert.equal(dom.h1, 1, `${label}: H1`);
         assert.ok(dom.scrollWidth <= dom.width + 1, `${label}: horizontal overflow`);
+        if (scenario.route === 'portrait-demo') {
+            await waitFor(
+                sessionId,
+                `document.querySelector('main figure img')?.complete &&
+                document.querySelector('main figure img').naturalWidth > 0`
+            );
+            const demo = await evaluate(
+                sessionId,
+                `(() => {
+                    const image = document.querySelector('main figure img');
+                    const scene = image.parentElement;
+                    const canvas = document.createElement('canvas');
+                    canvas.width = canvas.height = 1;
+                    const context = canvas.getContext('2d');
+                    context.drawImage(image, 0, 0);
+                    return {
+                        noindex: document.querySelector('meta[name="robots"]')?.content,
+                        notice: document.querySelector('aside[aria-label="Design preview"]').textContent,
+                        compare: document.querySelector('aside[aria-label="Design preview"] a').getAttribute('href'),
+                        credit: document.querySelector('main figcaption').textContent,
+                        backdrop: getComputedStyle(scene, '::before').backgroundImage,
+                        animation: getComputedStyle(scene).animationName,
+                        scene: scene.getBoundingClientRect().toJSON(),
+                        cornerAlpha: context.getImageData(0, 0, 1, 1).data[3]
+                    };
+                })()`
+            );
+            assert.equal(dom.hero.ring, null, `${label}: cutout replaces the ring`);
+            assert.equal(demo.noindex, 'noindex, nofollow', `${label}: excluded from indexing`);
+            assert.match(
+                demo.notice,
+                /stock placeholder, not Shawky/,
+                `${label}: honest demo label`
+            );
+            assert.equal(demo.compare, '/', `${label}: comparison link`);
+            assert.match(
+                demo.credit,
+                /PNGimg.*CC BY-NC 4.0/,
+                `${label}: source and license credit`
+            );
+            assert.equal(demo.cornerAlpha, 0, `${label}: genuine transparent background`);
+            assert.match(demo.backdrop, /linear-gradient/, `${label}: warm arch backdrop`);
+            assert.equal(demo.animation, 'none', `${label}: static scene`);
+            if (dom.width > 900)
+                assert.ok(
+                    dom.hero.portrait.x > dom.hero.title.right,
+                    `${label}: portrait beside copy`
+                );
+            else assert.ok(demo.scene.bottom < dom.hero.title.y, `${label}: portrait above copy`);
+            assert.ok(
+                dom.hero.actions.every(
+                    (action) =>
+                        action.rect.height >= 44 &&
+                        action.rect.x >= 0 &&
+                        action.rect.right <= dom.width
+                ),
+                `${label}: usable actions`
+            );
+            if (process.env.BROWSER_SCREENSHOT_DIR) {
+                await mkdir(process.env.BROWSER_SCREENSHOT_DIR, { recursive: true });
+                const screenshot = await send(
+                    'Page.captureScreenshot',
+                    { format: 'png' },
+                    sessionId
+                );
+                await writeFile(
+                    join(
+                        process.env.BROWSER_SCREENSHOT_DIR,
+                        `portrait-demo-${dom.width}${scenario.nojs ? '-nojs' : ''}.png`
+                    ),
+                    Buffer.from(screenshot.data, 'base64')
+                );
+            }
+        }
         if (!scenario.route) {
             assert.ok(dom.homeVisible, `${label}: visible identity without animation dependence`);
             assert.ok(dom.hero, `${label}: cohesive introduction section`);
