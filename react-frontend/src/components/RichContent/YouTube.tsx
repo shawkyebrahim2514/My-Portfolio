@@ -13,7 +13,15 @@ import styles from './YouTube.module.css';
 // card expands to full width. Title/channel/thumbnail are filled at build
 // time via oEmbed (see utils/youtube.ts); this degrades gracefully to
 // thumbnail + play + caption if that enrichment is missing.
-function YouTube({ value, variant = 'row' }: { value: RichYouTube; variant?: 'row' | 'stack' }) {
+function YouTube({
+    value,
+    variant = 'row',
+    headingLevel = 2,
+}: {
+    value: RichYouTube;
+    variant?: 'row' | 'stack';
+    headingLevel?: 2 | 3;
+}) {
     const [playing, setPlaying] = useState(false);
     const videoId = value.videoId ?? extractYouTubeId(value.url);
     if (!videoId) return null;
@@ -22,7 +30,13 @@ function YouTube({ value, variant = 'row' }: { value: RichYouTube; variant?: 'ro
     const title = value.videoTitle ?? value.caption ?? 'YouTube video';
 
     return (
-        <figure className={cx(styles.card, playing && styles.playing, variant === 'stack' && styles.stack)}>
+        <figure
+            className={cx(
+                styles.card,
+                playing && styles.playing,
+                variant === 'stack' && styles.stack
+            )}
+        >
             <div className={styles.posterWrap}>
                 {playing ? (
                     <iframe
@@ -49,13 +63,11 @@ function YouTube({ value, variant = 'row' }: { value: RichYouTube; variant?: 'ro
             </div>
 
             <figcaption className={styles.body} dir="auto">
-                <Text variant="h4" className={styles.title}>
+                <Text variant="h4" as={headingLevel === 2 ? 'h2' : 'h3'} className={styles.title}>
                     {title}
                 </Text>
                 {value.caption && value.caption !== title && (
-                    <p className={styles.desc}>
-                        {value.caption}
-                    </p>
+                    <p className={styles.desc}>{value.caption}</p>
                 )}
                 {value.channelTitle && (
                     <div className={styles.footer}>
@@ -69,9 +81,7 @@ function YouTube({ value, variant = 'row' }: { value: RichYouTube; variant?: 'ro
                                 {value.channelTitle}
                             </a>
                         ) : (
-                            <span className={styles.channel}>
-                                {value.channelTitle}
-                            </span>
+                            <span className={styles.channel}>{value.channelTitle}</span>
                         )}
                     </div>
                 )}

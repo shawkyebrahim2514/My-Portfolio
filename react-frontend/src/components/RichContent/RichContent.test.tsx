@@ -73,6 +73,54 @@ describe('RichContent — Portable Text renderer', () => {
         expect(h1?.className).toMatch(/h1/);
     });
 
+    it('normalizes legacy nested heading levels without changing their typography classes', () => {
+        const { container } = render(
+            <RichContent
+                headingLevel={2}
+                value={[
+                    {
+                        _type: 'callout',
+                        _key: key(),
+                        style: 'popup',
+                        color: 'base',
+                        body: [
+                            block([span('Section')], { style: 'h4' }),
+                            {
+                                _type: 'callout',
+                                _key: key(),
+                                style: 'plain',
+                                color: 'base',
+                                body: [block([span('Detail')], { style: 'h6' })],
+                            },
+                        ],
+                    },
+                ]}
+            />
+        );
+        expect(container.querySelector('h2')?.textContent).toBe('Section');
+        expect(container.querySelector('h2')?.className).toMatch(/h4/);
+        expect(container.querySelector('h3')?.textContent).toBe('Detail');
+        expect(container.querySelector('h3')?.className).toMatch(/h6/);
+        expect(container.querySelector('h4,h5,h6')).toBeNull();
+    });
+
+    it('keeps the identity H1 but renders a styled role line as a paragraph', () => {
+        const { container } = render(
+            <RichContent
+                headingLevel={1}
+                headingsAs="p"
+                value={[
+                    block([span('Identity')], { style: 'h1' }),
+                    block([span('Role')], { style: 'h3' }),
+                ]}
+            />
+        );
+        expect(container.querySelector('h1')?.textContent).toBe('Identity');
+        expect(container.querySelector('p')?.textContent).toBe('Role');
+        expect(container.querySelector('p')?.className).toMatch(/h3/);
+        expect(container.querySelector('h2,h3')).toBeNull();
+    });
+
     it('alignCenter mark keeps BOTH the heading style and the alignment class on the block wrapper', () => {
         const c = renderValue([block([span('My Title', ['alignCenter'])], { style: 'h1' })]);
         const h1 = c.querySelector('h1');
@@ -124,6 +172,7 @@ describe('RichContent — Portable Text renderer', () => {
         ]);
         const heading = c.querySelector('h5');
         expect(heading).not.toBeNull();
+        expect(heading?.querySelector('h1,h2,h3,h4,h5,h6')).toBeNull();
         // The highlight decorator's class must still wrap the link content.
         const highlighted = heading?.querySelector('[class*="highlightAreaSecondary"]');
         expect(highlighted).not.toBeNull();

@@ -181,7 +181,9 @@ function LibraryListing({ collections, saves, activeSlug }: LibraryListingProps)
                                                 </span>
                                             )}
                                         </div>
-                                        <Text variant="h4">{save.title}</Text>
+                                        <Text variant="h4" as="h2">
+                                            {save.title}
+                                        </Text>
                                     </header>
                                     <Text className={styles.note}>{save.note}</Text>
                                     {(save.tags?.length ?? 0) > 0 && (

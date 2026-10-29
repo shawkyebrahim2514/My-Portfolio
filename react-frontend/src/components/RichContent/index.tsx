@@ -1,9 +1,10 @@
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { PortableText } from '@portabletext/react';
 import type { RichContentNode, RichFacebookResource, RichLinkPreview } from '../../Types';
 import { components, createComponents } from './components';
 import LinkPreview from './LinkPreview';
 import FacebookResource from './FacebookResource';
+import { HeadingContext, headingTags } from './headingContext';
 import styles from './RichContent.module.css';
 
 type RichContentProps = {
@@ -12,16 +13,29 @@ type RichContentProps = {
     // entries so the rendered headings carry ids the "On this page" TOC can
     // link to and scroll-spy against. Omitted everywhere else.
     readonly headingIds?: Record<string, string>;
+    readonly headingLevel?: 1 | 2 | 3;
+    readonly headingsAs?: 'p';
 };
 
 // Renders a Sanity Portable Text field (see sanity-backend/schemas/objects/
 // richContent.ts) — replaces the old hand-rolled bracket-DSL markdown
 // pipeline (react-markdown + customPlugins/*). Every custom mark/block
 // object maps 1:1 to a serializer in ./components.
-function RichContent({ value, headingIds }: RichContentProps) {
+function RichContent({ value, headingIds, headingLevel, headingsAs }: RichContentProps) {
+    const inheritedHeadings = useContext(HeadingContext);
+    const headings = useMemo(
+        () => ({
+            tags:
+                headingLevel === undefined
+                    ? inheritedHeadings.tags
+                    : headingTags(value, headingLevel),
+            as: headingsAs ?? inheritedHeadings.as,
+        }),
+        [value, headingLevel, headingsAs, inheritedHeadings]
+    );
     const cmps = useMemo(
         () => (headingIds ? createComponents(headingIds) : components),
-        [headingIds],
+        [headingIds]
     );
     const groups = useMemo(() => {
         const result: RichContentNode[][] = [];
@@ -45,28 +59,32 @@ function RichContent({ value, headingIds }: RichContentProps) {
         return result;
     }, [value]);
 
-    return groups.map((group) => {
-        const first = group[0];
-        if (first._type === 'linkPreview') {
-            return (
-                <div className={styles.linkPreviewGrid} key={first._key}>
-                    {(group as RichLinkPreview[]).map((link) => (
-                        <LinkPreview key={link._key} value={link} compact />
-                    ))}
-                </div>
-            );
-        }
-        if (first._type === 'facebookResource') {
-            return (
-                <div className={styles.facebookResourceGrid} key={first._key}>
-                    {(group as RichFacebookResource[]).map((resource) => (
-                        <FacebookResource key={resource._key} value={resource} />
-                    ))}
-                </div>
-            );
-        }
-        return <PortableText key={first._key} value={group} components={cmps} />;
-    });
+    return (
+        <HeadingContext.Provider value={headings}>
+            {groups.map((group) => {
+                const first = group[0];
+                if (first._type === 'linkPreview') {
+                    return (
+                        <div className={styles.linkPreviewGrid} key={first._key}>
+                            {(group as RichLinkPreview[]).map((link) => (
+                                <LinkPreview key={link._key} value={link} compact />
+                            ))}
+                        </div>
+                    );
+                }
+                if (first._type === 'facebookResource') {
+                    return (
+                        <div className={styles.facebookResourceGrid} key={first._key}>
+                            {(group as RichFacebookResource[]).map((resource) => (
+                                <FacebookResource key={resource._key} value={resource} />
+                            ))}
+                        </div>
+                    );
+                }
+                return <PortableText key={first._key} value={group} components={cmps} />;
+            })}
+        </HeadingContext.Provider>
+    );
 }
 
 export default RichContent;

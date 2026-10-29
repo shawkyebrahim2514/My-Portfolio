@@ -1,6 +1,6 @@
 # My Portfolio
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-000000?style=flat&logo=vercel&logoColor=white)](https://www.shawkyebrahim.me)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-000000?style=flat&logo=vercel&logoColor=white)](https://shawkyebrahim.vercel.app/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-6-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -11,7 +11,13 @@ My personal developer portfolio and curated Hub. Content is managed through
 Sanity Studio and statically pre-rendered by a Vike + React + TypeScript
 frontend.
 
-**Live site: [www.shawkyebrahim.me](https://www.shawkyebrahim.me)**
+**Live site: [shawkyebrahim.vercel.app](https://shawkyebrahim.vercel.app/)**
+
+Changes are developed in focused PRs targeting `Development`, validated, then
+squash-merged there. The protected
+[Development preview](https://shawkyebrahim-git-development-shawky-ebrahims-projects.vercel.app)
+is the integration test site. Releasing to `main`/production is a separate,
+explicit decision.
 
 <!--
   📸 Tip: add a screenshot at docs/screenshot.png and uncomment the line below

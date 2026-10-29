@@ -13,7 +13,11 @@ function Content({
     const actionClass = cx(buttonStyles.button, buttonStyles.lg, buttonStyles.pointer);
     return (
         <div className={styles.content}>
-            <RichContent value={description} />
+            <RichContent
+                value={description}
+                headingLevel={showActions ? 1 : 2}
+                headingsAs={showActions ? 'p' : undefined}
+            />
             {showActions && (
                 <>
                     <p className={styles.summary}>

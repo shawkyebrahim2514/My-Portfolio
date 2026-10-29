@@ -60,7 +60,11 @@ function ReadingItem({
                 )}
             </span>
             <div className={styles.body}>
-                <Text variant={isFeatured ? 'h3' : 'h4'} className={styles.title}>
+                <Text
+                    variant={isFeatured ? 'h3' : 'h4'}
+                    as={isFeatured ? 'h2' : 'h3'}
+                    className={styles.title}
+                >
                     {value.title}
                 </Text>
                 {value.note && <p className={styles.note}>{value.note}</p>}

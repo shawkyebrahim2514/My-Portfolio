@@ -375,25 +375,30 @@ function EntryDetail(entry: SanityHubEntry) {
 
             {isChannel && body && (
                 <div className={styles.channelBody}>
-                    <RichContent value={body} />
+                    <RichContent value={body} headingLevel={2} />
                 </div>
             )}
 
             {isChannel && channel?.moreVideos && channel.moreVideos.length > 0 && (
                 <section className={styles.moreVideos} aria-labelledby="more-videos-heading">
-                    <Text variant="h3" className={styles.channelBodyHeading}>
+                    <Text variant="h3" as="h2" className={styles.channelBodyHeading}>
                         <span id="more-videos-heading">More videos</span>
                     </Text>
                     <div className={styles.moreVideosGrid}>
                         {channel.moreVideos.map((video) => (
-                            <YouTube key={video._key} value={video} variant="stack" />
+                            <YouTube
+                                key={video._key}
+                                value={video}
+                                variant="stack"
+                                headingLevel={3}
+                            />
                         ))}
                     </div>
                 </section>
             )}
 
             {isPodcast && hasBody && (
-                <Text variant="h3" className={styles.channelBodyHeading}>
+                <Text variant="h3" as="h2" className={styles.channelBodyHeading}>
                     Episodes
                 </Text>
             )}
@@ -408,15 +413,15 @@ function EntryDetail(entry: SanityHubEntry) {
             )}
 
             {isRead && hasBody && (
-                <Text variant="h3" className={styles.channelBodyHeading}>
+                <Text variant="h3" as="h2" className={styles.channelBodyHeading}>
                     Worth reading
                 </Text>
             )}
 
             {isListen && listenCount > 0 && (
                 <section className={styles.moreVideos} aria-labelledby="listening-heading">
-                    {hasBody && <RichContent value={displayBody} />}
-                    <Text variant="h3" className={styles.channelBodyHeading}>
+                    {hasBody && <RichContent value={displayBody} headingLevel={2} />}
+                    <Text variant="h3" as="h2" className={styles.channelBodyHeading}>
                         <span id="listening-heading">{isRTL ? 'للسماع' : 'Worth listening'}</span>
                     </Text>
                     <div className={styles.moreVideosGrid}>
@@ -441,7 +446,7 @@ function EntryDetail(entry: SanityHubEntry) {
                         <RichContent value={displayBody} headingIds={headingIds} />
                     </div>
                 ) : (
-                    <RichContent value={displayBody} />
+                    <RichContent value={displayBody} headingLevel={3} />
                 ))}
 
             {tags && tags.length > 0 && <ListButtons elements={tags} />}

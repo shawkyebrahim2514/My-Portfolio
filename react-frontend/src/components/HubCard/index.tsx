@@ -45,6 +45,7 @@ export type HubCardProps = {
     // in local dev or preview mode. Shows a small "Hidden" pill so you can tell
     // reference/dummy entries apart at a glance.
     readonly hidden?: boolean;
+    readonly headingLevel?: 2 | 3;
 };
 
 function HubCard({
@@ -60,6 +61,7 @@ function HubCard({
     language = 'en',
     accentColor,
     hidden,
+    headingLevel = 2,
 }: HubCardProps) {
     const { icon, label } = KIND_META[kind] ?? KIND_META.article;
     const image = channelAvatar ?? coverImage;
@@ -114,7 +116,9 @@ function HubCard({
                         {label}
                     </span>
                 )}
-                <Text variant="h4">{title}</Text>
+                <Text variant="h4" as={headingLevel === 2 ? 'h2' : 'h3'}>
+                    {title}
+                </Text>
                 <Text className={styles.excerpt}>{excerpt}</Text>
                 {resolvedCategories.length > 0 && (
                     <div className={styles.tags}>

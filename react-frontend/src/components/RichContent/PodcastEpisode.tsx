@@ -1,6 +1,11 @@
 import { memo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faUpRightFromSquare, faHeadphones, faMusic } from '@fortawesome/free-solid-svg-icons';
+import {
+    faPlay,
+    faUpRightFromSquare,
+    faHeadphones,
+    faMusic,
+} from '@fortawesome/free-solid-svg-icons';
 import { faSpotify, faYoutube, faApple, faSoundcloud } from '@fortawesome/free-brands-svg-icons';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import Text from '../Text';
@@ -37,7 +42,14 @@ function PodcastEpisode({ value }: { value: RichPodcastEpisode }) {
     const waveBars = [40, 80, 55, 100, 35, 70, 50, 90, 45, 75, 60, 85, 40, 65];
 
     return (
-        <figure className={cx(styles.card, value.featured && styles.featured, playing && styles.playing)} dir="auto">
+        <figure
+            className={cx(
+                styles.card,
+                value.featured && styles.featured,
+                playing && styles.playing
+            )}
+            dir="auto"
+        >
             {playing && embedUrl ? (
                 <div className={cx(styles.playerWrap, isVideo ? styles.video : styles.audio)}>
                     <iframe
@@ -58,8 +70,14 @@ function PodcastEpisode({ value }: { value: RichPodcastEpisode }) {
                             </span>
                         )}
                         <div className={styles.info}>
-                            {value.featured && <span className={styles.eyebrow}>Featured episode</span>}
-                            <Text variant={value.featured ? 'h3' : 'h4'} className={styles.title}>
+                            {value.featured && (
+                                <span className={styles.eyebrow}>Featured episode</span>
+                            )}
+                            <Text
+                                variant={value.featured ? 'h3' : 'h4'}
+                                as={value.featured ? 'h2' : 'h3'}
+                                className={styles.title}
+                            >
                                 {value.title}
                             </Text>
                             {meta && <p className={styles.meta}>{meta}</p>}
@@ -82,7 +100,10 @@ function PodcastEpisode({ value }: { value: RichPodcastEpisode }) {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                 >
-                                    <FontAwesomeIcon icon={faUpRightFromSquare} aria-hidden="true" />
+                                    <FontAwesomeIcon
+                                        icon={faUpRightFromSquare}
+                                        aria-hidden="true"
+                                    />
                                     <span>Listen</span>
                                 </a>
                             )}
