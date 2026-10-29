@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import RichContent from './index';
 import type { RichContentNode, RichBlock, RichSpan, RichSpacer, RichMarkDef } from '../../Types';
 
@@ -34,6 +34,17 @@ function block(
 const renderValue = (value: RichContentNode[]) => render(<RichContent value={value} />).container;
 
 describe('RichContent — Portable Text renderer', () => {
+    it('keeps code readable while loading highlighting on demand', async () => {
+        const code = 'const answer = 42;';
+        const c = renderValue([{ _type: 'code', _key: key(), code, language: 'typescript' }]);
+        expect(c.querySelector('pre')?.textContent).toContain(code);
+        await act(async () => {
+            await import('./CodeBlock');
+        });
+        expect(c.querySelector('button[aria-label="Copy code"]')).not.toBeNull();
+        expect(c.querySelector('pre')?.textContent).toContain(code);
+    });
+
     it('buttonBadge decorator renders a button with the label', () => {
         const c = renderValue([block([span('Click Me', ['buttonBadge'])])]);
         const btn = c.querySelector('button');
@@ -221,7 +232,13 @@ describe('RichContent — Portable Text renderer', () => {
                         _type: 'expandableDetails',
                         _key: key(),
                         summary: 'My notes',
-                        body: [block([span('Focus on the trade-offs between consistency and availability.')])],
+                        body: [
+                            block([
+                                span(
+                                    'Focus on the trade-offs between consistency and availability.'
+                                ),
+                            ]),
+                        ],
                     },
                 ],
             },

@@ -175,7 +175,7 @@
 .articleProse > p:first-of-type::first-letter {
     float: inline-start;
     font-size: 3.4rem;
-    font-weight: 800;
+    font-weight: 700;
     line-height: 0.72;
     margin-inline-end: 0.72rem;
     margin-top: 0.28rem;
@@ -197,7 +197,11 @@
 
 .channelBanner {
     height: 96px;
-    background-image: linear-gradient(120deg, var(--entry-accent) 0%, var(--color-secondary-700) 120%);
+    background-image: linear-gradient(
+        120deg,
+        var(--entry-accent) 0%,
+        var(--color-secondary-700) 120%
+    );
 }
 
 .channelId {
@@ -294,7 +298,11 @@
     align-self: flex-start;
     padding: 0.25rem 0.7rem;
     border-radius: 999px;
-    background-color: color-mix(in srgb, var(--entry-accent, var(--color-secondary-500)) 14%, transparent);
+    background-color: color-mix(
+        in srgb,
+        var(--entry-accent, var(--color-secondary-500)) 14%,
+        transparent
+    );
     color: var(--entry-accent, var(--color-secondary-700));
     font-size: var(--font-size-sm);
     font-weight: 700;
@@ -312,7 +320,12 @@
     border: var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
-    background-image: linear-gradient(135deg, color-mix(in srgb, var(--entry-accent) 12%, var(--color-base-100)) 0%, var(--color-base-0) 60%, var(--color-base-100) 100%);
+    background-image: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--entry-accent) 12%, var(--color-base-100)) 0%,
+        var(--color-base-0) 60%,
+        var(--color-base-100) 100%
+    );
 }
 
 .podcastCoverFrame {
@@ -377,7 +390,10 @@
     font-size: var(--font-size-sm);
     font-weight: 600;
     text-decoration: none;
-    transition: transform 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out;
+    transition:
+        transform 0.2s ease-out,
+        color 0.2s ease-out,
+        border-color 0.2s ease-out;
 }
 
 .platformPill:hover,

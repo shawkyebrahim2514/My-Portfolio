@@ -1,0 +1,64 @@
+/* Keep the existing provider; no font binaries are redistributed. */
+@font-face {
+    font-family: 'Omnes';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.cdnfonts.com/s/93631/Omnes Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Omnes';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('https://fonts.cdnfonts.com/s/93631/Omnes Medium.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Omnes';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('https://fonts.cdnfonts.com/s/93631/Omnes SemiBold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Omnes';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('https://fonts.cdnfonts.com/s/93631/Omnes Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Omnes';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('https://fonts.cdnfonts.com/s/93631/Omnes Italic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Omnes';
+    font-style: italic;
+    font-weight: 500;
+    font-display: swap;
+    src: url('https://fonts.cdnfonts.com/s/93631/Omnes Medium Italic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Omnes';
+    font-style: italic;
+    font-weight: 600;
+    font-display: swap;
+    src: url('https://fonts.cdnfonts.com/s/93631/Omnes SemiBold Italic.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Omnes';
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+    src: url('https://fonts.cdnfonts.com/s/93631/Omnes Bold Italic.woff') format('woff');
+}
