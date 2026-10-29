@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
-import { access, mkdtemp, readFile, rm } from 'node:fs/promises';
+import { access, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
@@ -149,6 +149,9 @@ try {
     for (const scenario of [
         { route: '', desktop: true },
         { route: '' },
+        { route: '', width: 960 },
+        { route: '', width: 768 },
+        { route: '', width: 320 },
         { route: '', nojs: true },
         { route: 'hub' },
         { route: 'hub', width: 320 },
@@ -160,8 +163,14 @@ try {
         { route: 'hub/my-terminal-and-editor-setup-2026' },
         { route: 'hub/my-terminal-and-editor-setup-2026', nojs: true },
         { route: '', reduced: true },
+        { route: 'portrait-demo', desktop: true },
+        { route: 'portrait-demo', width: 960 },
+        { route: 'portrait-demo', width: 768 },
+        { route: 'portrait-demo' },
+        { route: 'portrait-demo', width: 320 },
+        { route: 'portrait-demo', nojs: true },
     ]) {
-        const label = `/${scenario.route} ${scenario.nojs ? 'no-JS' : 'JS'}${scenario.reduced ? ' reduced-motion' : ''}`;
+        const label = `/${scenario.route} ${scenario.desktop ? 1440 : scenario.width || 390}px ${scenario.nojs ? 'no-JS' : 'JS'}${scenario.reduced ? ' reduced-motion' : ''}`;
         const { targetId } = await send('Target.createTarget', { url: 'about:blank' });
         const { sessionId } = await send('Target.attachToTarget', { targetId, flatten: true });
         await send('Target.activateTarget', { targetId });
@@ -293,7 +302,52 @@ try {
                 getComputedStyle(el).visibility !== 'hidden' && getComputedStyle(el).opacity !== '0'),
             nativeLinks: [...document.querySelectorAll('header a')].filter(el => el.getAttribute('href') !== '/' &&
                 el.getBoundingClientRect().width > 0 && el.getBoundingClientRect().height > 0).length,
-            columns: getComputedStyle(document.querySelector('main h1').parentElement.parentElement).gridTemplateColumns,
+            columns: document.querySelector('section[aria-label="Introduction"]') &&
+                getComputedStyle(document.querySelector('section[aria-label="Introduction"]')).gridTemplateColumns,
+            hero: (() => {
+                const hero = document.querySelector('section[aria-label="Introduction"]');
+                if (!hero) return null;
+                const title = hero.querySelector('h1');
+                const actions = hero.querySelector('nav[aria-label="Portfolio actions"]');
+                const summary = actions.previousElementSibling;
+                const rect = el => el.getBoundingClientRect().toJSON();
+                const portrait = hero.querySelector('img[fetchpriority="high"]');
+                const biography = hero.nextElementSibling.id === 'portrait-gallery'
+                    ? hero.nextElementSibling.nextElementSibling : hero.nextElementSibling;
+                const sections = [...biography.querySelectorAll('h2')]
+                    .slice(0, 2).map(heading => heading.closest('div[class*="_container_"]'));
+                return {
+                    title: rect(title), titleAlign: getComputedStyle(title).textAlign,
+                    display: getComputedStyle(hero).display,
+                    summary: rect(summary), summaryAlign: getComputedStyle(summary).textAlign,
+                    portrait: rect(portrait),
+                    portraitSrc: portrait.currentSrc || portrait.src,
+                    portraitTreatment: portrait.closest('figure')?.dataset.portraitConcept,
+                    portraitRadius: getComputedStyle(portrait.parentElement).borderRadius,
+                    portraitAnimation: getComputedStyle(portrait.parentElement.parentElement).animationName,
+                    hasRing: !!hero.querySelector('textPath'),
+                    sectionGap: rect(sections[0]).y - rect(hero).bottom,
+                    otherSectionGap: rect(sections[1]).y - rect(sections[0]).bottom,
+                    surface: {
+                        hero: getComputedStyle(hero).backgroundImage,
+                        heroColor: getComputedStyle(hero).backgroundColor,
+                        titleColor: getComputedStyle(title).color,
+                        roleColor: getComputedStyle(hero.querySelector('p')).color,
+                        roleMarks: [...hero.querySelector('p').querySelectorAll('span, a')]
+                            .map(el => ({
+                                color: getComputedStyle(el).color,
+                                background: getComputedStyle(el).backgroundImage
+                            })),
+                        section: getComputedStyle(sections[0]).backgroundImage,
+                        heroDots: getComputedStyle(hero, '::before').display,
+                        sectionDots: getComputedStyle(sections[0], '::before').backgroundImage
+                    },
+                    actionsBounds: rect(actions),
+                    actions: [...actions.querySelectorAll('a')].map(el => ({
+                        rect: rect(el), background: getComputedStyle(el).backgroundColor
+                    }))
+                };
+            })(),
             cards: document.querySelectorAll('main a[class*="_card_"]').length,
             dates: [...document.querySelectorAll('time[datetime]')].map(el => [el.dateTime, el.textContent]),
             tokens: document.querySelectorAll('pre .token').length
@@ -301,10 +355,256 @@ try {
         );
         assert.equal(dom.h1, 1, `${label}: H1`);
         assert.ok(dom.scrollWidth <= dom.width + 1, `${label}: horizontal overflow`);
+        if (scenario.route === 'portrait-demo') {
+            const original = pageDocument('').querySelector(
+                'section[aria-label="Introduction"] img'
+            );
+            for (const concept of scenario.nojs
+                ? ['signature']
+                : ['signature', 'editorial', 'geometric']) {
+                if (!scenario.nojs) {
+                    await evaluate(
+                        sessionId,
+                        `document.querySelector('nav[aria-label="Portrait treatments"] button[data-concept="${concept}"]').focus()`
+                    );
+                    await key(sessionId, 'Enter', 13);
+                }
+                await waitFor(
+                    sessionId,
+                    `document.querySelector('section[aria-label="Introduction"] figure')?.dataset.portraitConcept === '${concept}' &&
+                    document.querySelector('section[aria-label="Introduction"] img').complete &&
+                    document.querySelector('section[aria-label="Introduction"] img').naturalWidth > 0`
+                );
+                const demo = await evaluate(
+                    sessionId,
+                    `(() => {
+                    const hero = document.querySelector('section[aria-label="Introduction"]');
+                    const figure = hero.querySelector('figure');
+                    const image = figure.querySelector('img');
+                    return {
+                        noindex: document.querySelector('meta[name="robots"]')?.content,
+                        cards: document.querySelectorAll('#portrait-gallery article').length,
+                        alt: image.alt, src: image.currentSrc,
+                        frame: figure.getBoundingClientRect().toJSON(),
+                        photo: image.getBoundingClientRect().toJSON(),
+                        title: hero.querySelector('h1').getBoundingClientRect().toJSON(),
+                        corners: getComputedStyle(image.parentElement).borderRadius,
+                        clip: getComputedStyle(image.parentElement).clipPath,
+                        backing: getComputedStyle(figure, '::before').transform,
+                        caption: figure.querySelector('figcaption')?.textContent,
+                        overflow: document.documentElement.scrollWidth > innerWidth,
+                        pressed: document.querySelector('nav[aria-label="Portrait treatments"] button[aria-pressed="true"]').dataset.concept
+                    };
+                })()`
+                );
+                assert.equal(demo.noindex, 'noindex, nofollow', `${label}: excluded from indexing`);
+                assert.equal(demo.cards, 3, `${label}: complete static concept gallery`);
+                assert.equal(demo.pressed, concept, `${label}: keyboard-operated selector`);
+                assert.match(demo.alt, /Shawky Ebrahim/, `${label}: personal portrait`);
+                assert.equal(
+                    new URL(demo.src).pathname,
+                    new URL(original.src).pathname,
+                    `${label}: same CMS photo for every concept`
+                );
+                assert.equal(demo.overflow, false, `${label}/${concept}: no overflow`);
+                assert.ok(
+                    Math.abs(demo.photo.width - demo.photo.height) <= 1,
+                    `${label}/${concept}: undistorted photo`
+                );
+                if (concept === 'signature')
+                    assert.match(demo.corners, /80px/, `${label}: generous signature corner`);
+                if (concept === 'editorial') {
+                    assert.notEqual(demo.backing, 'none', `${label}: tilted backing only`);
+                    assert.match(demo.caption, /Software Engineer/, `${label}: print caption`);
+                }
+                if (concept === 'geometric')
+                    assert.match(demo.clip, /url/, `${label}: rounded hexagon mask`);
+                if (dom.width > 900)
+                    assert.ok(
+                        demo.frame.x > demo.title.right,
+                        `${label}/${concept}: portrait beside copy`
+                    );
+                else
+                    assert.ok(
+                        demo.frame.bottom < demo.title.y,
+                        `${label}/${concept}: portrait above copy`
+                    );
+                if (process.env.BROWSER_SCREENSHOT_DIR) {
+                    await mkdir(process.env.BROWSER_SCREENSHOT_DIR, { recursive: true });
+                    await evaluate(sessionId, 'scrollTo(0, 0)');
+                    await waitFor(sessionId, `document.fonts.status === 'loaded'`);
+                    const screenshot = await send(
+                        'Page.captureScreenshot',
+                        { format: 'png' },
+                        sessionId
+                    );
+                    await writeFile(
+                        join(
+                            process.env.BROWSER_SCREENSHOT_DIR,
+                            `portrait-${concept}-${dom.width}${scenario.nojs ? '-nojs' : ''}.png`
+                        ),
+                        Buffer.from(screenshot.data, 'base64')
+                    );
+                }
+            }
+            assert.equal(dom.hero.hasRing, false, `${label}: no surrounding text`);
+            assert.ok(
+                dom.hero.actions.every(
+                    (action) =>
+                        action.rect.height >= 44 &&
+                        action.rect.x >= 0 &&
+                        action.rect.right <= dom.width
+                ),
+                `${label}: usable actions`
+            );
+            if (process.env.BROWSER_SCREENSHOT_DIR && scenario.desktop) {
+                await evaluate(
+                    sessionId,
+                    `document.querySelector('#portrait-gallery').scrollIntoView()`
+                );
+                await waitFor(
+                    sessionId,
+                    `[...document.querySelectorAll('#portrait-gallery img')].every(image => image.complete && image.naturalWidth > 0)`
+                );
+                await evaluate(sessionId, 'scrollTo(0, 0)');
+                const clip = await evaluate(
+                    sessionId,
+                    `(() => {
+                    const box = document.querySelector('#portrait-gallery').getBoundingClientRect();
+                    return { x: box.x, y: box.y + scrollY, width: box.width, height: box.height, scale: 1 };
+                })()`
+                );
+                const screenshot = await send(
+                    'Page.captureScreenshot',
+                    { format: 'png', clip, captureBeyondViewport: true },
+                    sessionId
+                );
+                await writeFile(
+                    join(process.env.BROWSER_SCREENSHOT_DIR, 'portrait-gallery-1440.png'),
+                    Buffer.from(screenshot.data, 'base64')
+                );
+            }
+            if (!scenario.nojs) {
+                await evaluate(
+                    sessionId,
+                    `document.querySelector('#portrait-gallery').scrollIntoView();
+                    document.querySelector('#portrait-gallery article button').click()`
+                );
+                await waitFor(
+                    sessionId,
+                    `document.querySelector('section[aria-label="Introduction"] figure').dataset.portraitConcept === 'signature' &&
+                    scrollY === 0`
+                );
+            }
+        }
         if (!scenario.route) {
             assert.ok(dom.homeVisible, `${label}: visible identity without animation dependence`);
-            if (scenario.desktop)
+            assert.ok(dom.hero, `${label}: cohesive introduction section`);
+            assert.equal(
+                dom.hero.display,
+                'grid',
+                `${label}: component layout overrides shared surface`
+            );
+            assert.notEqual(dom.hero.surface.hero, 'none', `${label}: hero gradient`);
+            assert.equal(dom.hero.surface.heroDots, 'none', `${label}: restrained hero texture`);
+            assert.notEqual(
+                dom.hero.surface.hero,
+                dom.hero.surface.section,
+                `${label}: distinct editorial hero surface`
+            );
+            assert.notEqual(
+                dom.hero.surface.sectionDots,
+                'none',
+                `${label}: biography keeps the dotted surface`
+            );
+            assert.equal(dom.hero.surface.heroColor, 'rgb(40, 40, 39)', `${label}: charcoal hero`);
+            assert.equal(
+                dom.hero.surface.titleColor,
+                'rgb(254, 249, 245)',
+                `${label}: ivory identity`
+            );
+            assert.equal(dom.hero.surface.roleColor, 'rgb(248, 215, 188)', `${label}: peach role`);
+            assert.ok(
+                dom.hero.surface.roleMarks.every(
+                    (mark) =>
+                        mark.color === dom.hero.surface.roleColor && mark.background === 'none'
+                ),
+                `${label}: CMS role highlights stay readable on charcoal`
+            );
+            assert.ok(
+                Math.abs(dom.hero.sectionGap - dom.hero.otherSectionGap) <= 1,
+                `${label}: hero gap matches the next section gap`
+            );
+            assert.equal(dom.hero.hasRing, false, `${label}: no surrounding text`);
+            assert.equal(dom.hero.portraitTreatment, 'signature', `${label}: approved portrait`);
+            assert.match(dom.hero.portraitRadius, /80px/, `${label}: signature corner`);
+            assert.equal(dom.hero.portraitAnimation, 'none', `${label}: static portrait`);
+            assert.ok(
+                Math.abs(dom.hero.portrait.width - dom.hero.portrait.height) <= 1,
+                `${label}: undistorted square crop`
+            );
+            const expectedPortrait = pageDocument('').querySelector(
+                'section[aria-label="Introduction"] img'
+            );
+            assert.equal(
+                new URL(dom.hero.portraitSrc).pathname,
+                new URL(expectedPortrait.src).pathname,
+                `${label}: existing data-driven portrait`
+            );
+            assert.ok(
+                dom.hero.portrait.width >= (dom.width > 900 ? 190 : 150),
+                `${label}: enlarged portrait`
+            );
+            assert.ok(
+                dom.hero.summary.bottom <= dom.hero.actionsBounds.y,
+                `${label}: description before actions`
+            );
+            assert.ok(
+                dom.hero.actions.every(
+                    (action) =>
+                        action.rect.x >= 0 &&
+                        action.rect.right <= dom.width &&
+                        action.rect.height >= 44
+                ),
+                `${label}: usable action bounds`
+            );
+            assert.notEqual(
+                dom.hero.actions[0].background,
+                dom.hero.actions[1].background,
+                `${label}: primary action hierarchy`
+            );
+            if (dom.width > 900) {
                 assert.equal(dom.columns.split(' ').length, 2, 'Desktop hero columns');
+                assert.equal(dom.hero.titleAlign, 'left', `${label}: aligned identity`);
+                assert.equal(dom.hero.summaryAlign, 'left', `${label}: aligned description`);
+                assert.ok(
+                    dom.hero.portrait.x > dom.hero.title.right,
+                    `${label}: portrait beside copy`
+                );
+            } else {
+                assert.equal(dom.hero.titleAlign, 'center', `${label}: centered identity`);
+                assert.equal(dom.hero.summaryAlign, 'center', `${label}: centered description`);
+                assert.ok(
+                    dom.hero.portrait.bottom < dom.hero.title.y,
+                    `${label}: portrait before identity without overlap`
+                );
+            }
+            if (dom.width <= 540) {
+                assert.ok(
+                    Math.abs(dom.hero.actions[0].rect.width - dom.hero.actionsBounds.width) <= 1,
+                    `${label}: full-width primary action`
+                );
+                if (dom.hero.actions.length > 2)
+                    assert.ok(
+                        Math.abs(dom.hero.actions[1].rect.y - dom.hero.actions[2].rect.y) <= 1,
+                        `${label}: secondary actions share a row`
+                    );
+            }
+            if (dom.width >= 390)
+                assert.ok(
+                    dom.hero.actions.every((action) => action.rect.bottom <= 844),
+                    `${label}: hero actions visible in the first viewport`
+                );
         }
         if (scenario.nojs) {
             assert.ok(dom.nativeLinks > 0, `${label}: native navigation`);

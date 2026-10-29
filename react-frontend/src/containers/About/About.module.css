@@ -1,18 +1,39 @@
 .container {
+    composes: container from '../../styles/surfaces.module.css';
     display: grid;
+    grid-template-areas: 'introduction portrait';
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
-    gap: clamp(2rem, 5vw, 5rem);
-    margin-bottom: var(--space-6);
+    gap: clamp(2rem, 4vw, 4rem);
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    background-color: var(--color-base-900);
+    background-image:
+        radial-gradient(ellipse at 100% 20%, rgb(248 215 188 / 12%), transparent 65%),
+        linear-gradient(160deg, var(--color-base-900), #201f1d);
+    border-color: var(--color-base-800);
+    border-radius: calc(var(--radius) + 6px);
+    box-shadow: 0 12px 28px rgb(40 40 39 / 12%);
+}
+
+.container::before {
+    display: none;
+}
+
+.introduction {
+    grid-area: introduction;
+    min-width: 0;
+}
+
+.portrait {
+    grid-area: portrait;
+    display: grid;
+    justify-items: center;
 }
 
 @media (max-width: 900px) {
     .container {
+        grid-template-areas: 'portrait' 'introduction';
         grid-template-columns: minmax(0, 1fr);
-        gap: var(--space-5);
-    }
-
-    .container > :last-child {
-        justify-self: center;
+        gap: var(--space-4);
     }
 }

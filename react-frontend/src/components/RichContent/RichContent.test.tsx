@@ -73,6 +73,13 @@ describe('RichContent — Portable Text renderer', () => {
         expect(h1?.className).toMatch(/h1/);
     });
 
+    it('preserves heading whitespace without introducing empty inline boxes that wrap onto blank lines', () => {
+        const c = renderValue([block([span(' Shawky Ebrahim  ')], { style: 'h1' })]);
+        const heading = c.querySelector('h1');
+        expect(heading?.textContent).toBe(' Shawky Ebrahim  ');
+        expect(c.querySelectorAll('h1 span:empty')).toHaveLength(0);
+    });
+
     it('normalizes legacy nested heading levels without changing their typography classes', () => {
         const { container } = render(
             <RichContent

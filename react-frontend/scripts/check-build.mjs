@@ -31,6 +31,7 @@ for (const route of [
     'hub/follows',
     'hub/library',
     'hub/mataa3',
+    'portrait-demo',
 ]) {
     const document = pageDocument(route);
     const headings = [
@@ -61,3 +62,28 @@ assert.equal(stylesheets.length, 1, 'Home should request one bundled site styles
 const cssBytes = assetBytes(stylesheets);
 assert.ok(cssBytes <= budgets.css, `Site CSS ${cssBytes} exceeds ${budgets.css} gzip bytes`);
 console.log(`PASS site CSS budget: ${cssBytes}/${budgets.css} gzip bytes`);
+
+const codePage = pageDocument('hub/my-terminal-and-editor-setup-2026');
+assert.ok(
+    codePage.querySelector('pre .token'),
+    'Code highlighting must be prerendered, not a cold Suspense fallback'
+);
+console.log('PASS prerendered code highlighting');
+
+const demoPage = pageDocument('portrait-demo');
+assert.equal(demoPage.querySelector('meta[name="robots"]')?.content, 'noindex, nofollow');
+assert.equal(demoPage.querySelectorAll('#portrait-gallery article').length, 3);
+const originalPortrait = pageDocument('').querySelector('section[aria-label="Introduction"] img');
+const conceptImages = demoPage.querySelectorAll('figure[data-portrait-concept] img');
+assert.equal(conceptImages.length, 4);
+for (const image of conceptImages) {
+    assert.match(image.alt, /Shawky Ebrahim/);
+    assert.equal(new URL(image.src).pathname, new URL(originalPortrait.src).pathname);
+}
+assert.equal(
+    originalPortrait.closest('figure')?.dataset.portraitConcept,
+    'signature',
+    'Homepage must use the approved signature-corner portrait'
+);
+assert.equal(pageDocument('').querySelector('#portrait-gallery'), null);
+console.log('PASS isolated, noindex three-concept portrait studio');

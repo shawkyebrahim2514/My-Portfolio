@@ -1,56 +1,44 @@
 .frame {
-    /* Scales down on narrow viewports so the ring (which extends beyond
-       this box) never gets close to the screen edges. */
-    --avatar-size: clamp(160px, 24vw, 280px);
-    /* The CircularText ring is `--avatar-size * 1.24` centered on this frame,
-       so it overflows every side by ~`--avatar-size * 0.12` (plus ~half a
-       glyph). Reserve that halo as margin where a collision can happen — above
-       (the sticky navbar) and to the sides (horizontal container overflow).
-       The bottom is left to the container's normal `gap`, so the ring's
-       harmless decorative overflow tucks into that gap instead of pushing the
-       name far away. */
-    --avatar-halo: calc(var(--avatar-size) * 0.12 + var(--space-2));
+    --avatar-size: clamp(208px, 22vw, 264px);
     width: var(--avatar-size);
     height: var(--avatar-size);
-    position: relative;
-    margin: var(--avatar-halo) var(--avatar-halo) 0;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 8px;
+    border: 1px solid var(--color-secondary-200);
+    border-radius: 32px 32px 88px 32px;
+    background: var(--color-secondary-50);
+    box-shadow: 8px 8px 0 var(--color-secondary-200);
 }
 
-.ring {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 0;
-}
-
-.backShape {
-    width: inherit;
-    height: inherit;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-radius: 50%;
-    z-index: 1;
-    scale: 1.1;
-    border: 3px solid var(--color-base-700);
+@media (max-width: 900px) {
+    .frame {
+        --avatar-size: 168px;
+    }
 }
 
 .imageFrame {
     width: 100%;
     height: 100%;
-    border-radius: 50%;
+    border-radius: 24px 24px 80px 24px;
     overflow: hidden;
-    position: absolute;
-    box-shadow: var(--shadow);
-    top: 0;
-    left: 0;
-    z-index: 2;
-    border: 3px solid var(--color-base-50);
+    box-sizing: border-box;
 }
 
 .image {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
+    .frame {
+        transition: box-shadow 160ms ease-out;
+    }
+
+    .frame:hover {
+        box-shadow: 10px 10px 0 var(--color-secondary-200);
+    }
 }

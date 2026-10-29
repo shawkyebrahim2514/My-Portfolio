@@ -1,13 +1,19 @@
 /* Shared surface treatments — replaces theme.container / theme.boxingStyle. */
 
-.container {
+/* Component layouts must override this base regardless of stylesheet order. */
+:where(.container) {
     display: flex;
     gap: 1rem;
     padding: 1rem;
     place-items: stretch;
     position: relative;
     background-color: var(--color-base-50);
-    background-image: linear-gradient(135deg, var(--color-base-100) 0%, var(--color-base-0) 50%, var(--color-base-100) 100%);
+    background-image: linear-gradient(
+        135deg,
+        var(--color-base-100) 0%,
+        var(--color-base-0) 50%,
+        var(--color-base-100) 100%
+    );
     border: var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);

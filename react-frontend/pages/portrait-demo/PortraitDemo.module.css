@@ -1,0 +1,231 @@
+.notice {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-3);
+    padding: var(--space-3);
+    border: 1px dashed var(--color-secondary-400);
+    border-radius: var(--radius);
+    background: var(--color-secondary-50);
+    color: var(--color-base-800);
+    font-size: var(--font-size-sm);
+}
+
+.notice a,
+.controls a {
+    color: var(--color-secondary-800);
+    text-underline-offset: 3px;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) 0;
+}
+
+.controls button,
+.card button {
+    min-height: 44px;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--color-base-300);
+    border-radius: var(--radius);
+    background: var(--color-base-50);
+    color: var(--color-base-900);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.controls button[aria-pressed='true'],
+.card button[aria-pressed='true'] {
+    border-color: var(--color-base-900);
+    background: var(--color-base-900);
+    color: var(--color-base-0);
+}
+
+.controls a {
+    padding: 0.5rem;
+}
+
+.controls button:focus-visible,
+.card button:focus-visible {
+    outline: 3px solid var(--color-secondary-700);
+    outline-offset: 3px;
+}
+
+.portrait {
+    position: relative;
+    isolation: isolate;
+    box-sizing: border-box;
+    width: clamp(208px, 22vw, 264px);
+    max-width: 100%;
+    margin: 0;
+}
+
+.crop {
+    aspect-ratio: 1;
+    overflow: hidden;
+}
+
+.photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.editorial {
+    padding: 10px 10px 0;
+    border: 1px solid #d0d4c9;
+    border-radius: 3px;
+    background: #fffcf4;
+    box-shadow: 0 6px 16px rgb(74 51 38 / 10%);
+}
+
+.editorial::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: -2px;
+    border: 1px solid #b9c9b2;
+    border-radius: 3px;
+    background: #dce5d8;
+    transform: rotate(-4deg);
+}
+
+.editorial::after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    border-radius: inherit;
+    background: #fffcf4;
+}
+
+.editorial .crop,
+.editorial .printCaption {
+    position: relative;
+    z-index: 1;
+}
+
+.printCaption {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 9px 0;
+    color: #4a3326;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    line-height: 1.3;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.geometric {
+    filter: drop-shadow(0 6px 6px rgb(40 40 39 / 12%));
+}
+
+.geometric .crop {
+    box-sizing: border-box;
+    padding: 8px;
+    background: linear-gradient(135deg, #fff5d4, #ead58f);
+}
+
+.clipDefinition {
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+
+.gallery {
+    composes: container from '../../src/styles/surfaces.module.css';
+    display: block;
+    margin-top: var(--space-3);
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    scroll-margin-top: 8rem;
+}
+
+.gallery h2 {
+    margin: 0 0 var(--space-2);
+    font-size: var(--font-size-h3);
+}
+
+.gallery > p {
+    margin: 0 0 var(--space-4);
+    color: var(--color-base-700);
+    line-height: 1.6;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: var(--space-3);
+    border: 1px solid var(--color-base-200);
+    border-radius: 16px;
+    background: var(--color-base-50);
+}
+
+.cardHeading {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+}
+
+.cardHeading > span {
+    color: var(--color-secondary-800);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+}
+
+.cardHeading h3 {
+    margin: 0;
+    font-size: var(--font-size-md);
+}
+
+.sample {
+    display: grid;
+    place-items: center;
+    min-height: 340px;
+    padding: var(--space-4) var(--space-2);
+}
+
+.card p {
+    margin: 0 0 var(--space-2);
+    color: var(--color-base-700);
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+}
+
+.card button {
+    align-self: flex-start;
+    margin-top: auto;
+}
+
+.card .palette {
+    color: var(--color-secondary-800);
+    font-weight: 600;
+}
+
+@media (max-width: 900px) {
+    .portrait {
+        width: 168px;
+    }
+
+    .cards {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .sample {
+        min-height: 230px;
+    }
+}

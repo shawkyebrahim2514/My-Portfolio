@@ -1,7 +1,10 @@
 import { lazy, Suspense } from 'react';
 import type { RichCode } from '../../Types';
 
-const CodeBlock = lazy(() => import('./CodeBlock'));
+// Prerendering uses renderToString, which cannot await a cold lazy boundary.
+const CodeBlock = import.meta.env.SSR
+    ? (await import('./CodeBlock')).default
+    : lazy(() => import('./CodeBlock'));
 
 export default function DeferredCodeBlock({ value }: { readonly value: RichCode }) {
     return (

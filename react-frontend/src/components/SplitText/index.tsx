@@ -15,23 +15,24 @@ function SplitText({ text, tag: Tag = 'span', className, delay = 50 }: SplitText
     let charIndex = 0;
     const nodes: ReactNode[] = [];
     words.forEach((word, wi) => {
-        nodes.push(
-            <span key={`w-${wi}`} className={styles.word}>
-                {Array.from(word).map((char) => {
-                    const i = charIndex;
-                    charIndex += 1;
-                    return (
-                        <span
-                            key={i}
-                            className={styles.char}
-                            style={{ animationDelay: `${i * delay}ms` }}
-                        >
-                            {char}
-                        </span>
-                    );
-                })}
-            </span>
-        );
+        if (word)
+            nodes.push(
+                <span key={`w-${wi}`} className={styles.word}>
+                    {Array.from(word).map((char) => {
+                        const i = charIndex;
+                        charIndex += 1;
+                        return (
+                            <span
+                                key={i}
+                                className={styles.char}
+                                style={{ animationDelay: `${i * delay}ms` }}
+                            >
+                                {char}
+                            </span>
+                        );
+                    })}
+                </span>
+            );
         // A literal space text node (not a styled span) between words keeps
         // `textContent` byte-identical to the source string and lets lines
         // wrap normally between words.

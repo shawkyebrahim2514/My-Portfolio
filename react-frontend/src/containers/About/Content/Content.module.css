@@ -1,27 +1,140 @@
 .content {
+    min-width: 0;
     font-size: var(--font-size-md);
     color: var(--color-base-800);
     text-align: left;
 }
 
-.content {
-    min-width: 0;
+.intro {
+    display: grid;
+    gap: var(--space-4);
+    color: var(--color-secondary-50);
+}
+
+.identity {
+    display: grid;
+    gap: var(--space-2);
+}
+
+/* CMS alignment marks must not split the hero into conflicting text axes. */
+.identity :is(h1, p) {
+    text-align: inherit;
+}
+
+.identity h1 {
+    font-size: clamp(2.25rem, 4.8vw, 4.25rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+}
+
+.identity p {
+    font-size: clamp(1.125rem, 1rem + 0.4vw, 1.4rem);
+    line-height: 1.5;
+    text-wrap: pretty;
+    color: var(--color-secondary-200);
+}
+
+/* CMS highlight colors are intended for the light biography surfaces. */
+.identity p :is(span, a) {
+    color: inherit;
+    background: none;
 }
 
 .summary {
-    margin-block: var(--space-4);
     max-width: 48ch;
     line-height: 1.65;
+    color: var(--color-base-200);
 }
 
 .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-5);
+    align-items: center;
+    gap: 0.75rem;
 }
 
-.actions a {
-    min-height: 44px;
+.action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 48px;
+    padding: 0.65rem 1rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    line-height: 1.4;
     text-decoration: none;
+    text-align: center;
+    transition:
+        background-color 0.2s,
+        border-color 0.2s,
+        color 0.2s;
+}
+
+.action:focus-visible {
+    outline: 3px solid var(--color-secondary-200);
+    outline-offset: 3px;
+}
+
+.primary {
+    background-color: var(--color-secondary-200);
+    color: var(--color-base-900);
+}
+
+.primary:hover {
+    background-color: var(--color-secondary-100);
+}
+
+.secondary {
+    border-color: #ffffff40;
+    color: var(--color-secondary-50);
+}
+
+.secondary:hover {
+    background-color: #ffffff0f;
+    border-color: var(--color-secondary-200);
+}
+
+.contact {
+    color: var(--color-secondary-200);
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+}
+
+.contact:hover {
+    background-color: #ffffff0f;
+}
+
+@media (max-width: 900px) {
+    .intro {
+        text-align: center;
+    }
+
+    .summary {
+        margin-inline: auto;
+    }
+
+    .actions {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 540px) {
+    .actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: stretch;
+        gap: var(--space-2);
+    }
+
+    .action {
+        padding-inline: 0.75rem;
+    }
+
+    .primary,
+    .contact:nth-child(2) {
+        grid-column: 1 / -1;
+    }
 }
