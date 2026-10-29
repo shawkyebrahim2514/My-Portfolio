@@ -163,7 +163,7 @@ export default function ShapeGridBackground({ hoverColor }: Readonly<{ hoverColo
 
         const start = () => {
             if (document.hidden) return;
-            if (reduceMotion) drawGrid();
+            if (reduceMotion !== false) drawGrid();
             else if (requestId === null) requestId = requestAnimationFrame(updateAnimation);
         };
         const handleResize = () => {
@@ -179,7 +179,7 @@ export default function ShapeGridBackground({ hoverColor }: Readonly<{ hoverColo
         start();
         window.addEventListener('resize', handleResize);
         document.addEventListener('visibilitychange', handleVisibility);
-        if (!reduceMotion) {
+        if (reduceMotion === false) {
             canvas.addEventListener('mousemove', handleMouseMove);
             canvas.addEventListener('mouseleave', handleMouseLeave);
         }

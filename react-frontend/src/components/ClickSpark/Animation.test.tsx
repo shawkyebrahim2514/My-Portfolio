@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import ClickSpark from './index';
 import ShapeGridBackground from '../ShapeGridBackground';
 
-let reducedMotion = false;
+let reducedMotion: boolean | null = false;
 vi.mock('@react-spring/web', () => ({ useReducedMotion: () => reducedMotion }));
 
 let frames: Map<number, FrameRequestCallback>;
@@ -65,19 +65,22 @@ describe('Decorative animation scheduling', () => {
         expect(frames.size).toBe(0);
     });
 
-    it('draws a static reduced-motion grid without starting either animation loop', () => {
-        reducedMotion = true;
-        render(
-            <>
-                <ClickSpark />
-                <ShapeGridBackground />
-            </>
-        );
-        expect(context.clearRect).toHaveBeenCalled();
-        fireEvent.click(window);
-        fireEvent.resize(window);
-        expect(frames.size).toBe(0);
-    });
+    it.each([true, null])(
+        'keeps the grid static when motion preference is reduced or unresolved (%s)',
+        (preference) => {
+            reducedMotion = preference;
+            render(
+                <>
+                    <ClickSpark />
+                    <ShapeGridBackground />
+                </>
+            );
+            expect(context.clearRect).toHaveBeenCalled();
+            fireEvent.click(window);
+            fireEvent.resize(window);
+            expect(frames.size).toBe(0);
+        }
+    );
 
     it('cancels work while hidden, discards transient sparks and resumes only the grid', () => {
         render(
