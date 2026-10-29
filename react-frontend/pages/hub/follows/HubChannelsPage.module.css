@@ -4,6 +4,10 @@
     gap: 0.9rem;
 }
 
+.filters[hidden] {
+    display: none;
+}
+
 .filterGroup {
     display: flex;
     flex-direction: column;
@@ -19,6 +23,7 @@
 }
 
 .search {
+    min-height: 44px;
     display: flex;
     width: 100%;
     align-items: center;
@@ -37,7 +42,7 @@
     outline: none;
     background: transparent;
     color: var(--color-base-800);
-    font-size: var(--font-size-sm);
+    font-size: max(1rem, var(--font-size-sm));
     font-family: inherit;
 }
 
@@ -45,9 +50,14 @@
     color: var(--color-base-500);
 }
 
+.search:focus-within {
+    outline: 3px solid var(--color-secondary-400);
+    outline-offset: 2px;
+}
+
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
     gap: 1.25rem;
 }
 

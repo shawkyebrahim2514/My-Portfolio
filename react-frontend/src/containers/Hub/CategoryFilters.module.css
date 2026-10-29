@@ -4,6 +4,39 @@
     gap: 0.9rem;
 }
 
+.filters [hidden] {
+    display: none;
+}
+
+.disclosure {
+    width: 100%;
+    min-width: 0;
+}
+
+.disclosure > summary {
+    cursor: pointer;
+    min-height: 44px;
+    padding-block: 0.75rem;
+    font-weight: 600;
+    color: var(--color-base-700);
+}
+
+.disclosure[open] > summary {
+    margin-bottom: var(--space-2);
+}
+
+.list.horizontal {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 4px 4px 8px;
+}
+
+.horizontal > .chip {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
 .filterGroup {
     display: flex;
     flex-direction: column;
@@ -19,6 +52,7 @@
 }
 
 .search {
+    min-height: 44px;
     display: flex;
     width: 100%;
     align-items: center;
@@ -37,12 +71,17 @@
     outline: none;
     background: transparent;
     color: var(--color-base-800);
-    font-size: var(--font-size-sm);
+    font-size: max(1rem, var(--font-size-sm));
     font-family: inherit;
 }
 
 .search input::placeholder {
     color: var(--color-base-500);
+}
+
+.search:focus-within {
+    outline: 3px solid var(--color-secondary-400);
+    outline-offset: 2px;
 }
 
 .list {
@@ -54,6 +93,7 @@
 }
 
 .chip {
+    min-height: 44px;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
