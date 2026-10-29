@@ -9,14 +9,14 @@ import styles from './CategoryFilters.module.css';
 type CategoryRef = { slug: string } | null;
 
 export function countByCategorySlug(
-    items: readonly { categories: readonly CategoryRef[] }[],
+    items: readonly { categories: readonly CategoryRef[] }[]
 ): Map<string, number> {
     const counts = new Map<string, number>();
     items.forEach((item) => {
         const slugs = new Set(
             item.categories
                 .filter((category): category is { slug: string } => Boolean(category))
-                .map((category) => category.slug),
+                .map((category) => category.slug)
         );
         slugs.forEach((slug) => {
             counts.set(slug, (counts.get(slug) ?? 0) + 1);
@@ -33,13 +33,20 @@ type CategoryFiltersProps = {
     readonly query?: string;
 };
 
-function CategoryFilters({ categories, activeSlug, allCount, counts, query = '' }: CategoryFiltersProps) {
+function CategoryFilters({
+    categories,
+    activeSlug,
+    allCount,
+    counts,
+    query = '',
+}: CategoryFiltersProps) {
     if (categories.length === 0) return null;
 
     return (
         <nav className={styles.list} aria-label="Filter by category">
             <a
                 href={`/hub${query}`}
+                aria-current={!activeSlug ? 'page' : undefined}
                 className={cx(styles.chip, !activeSlug && styles.active)}
                 data-clarity-event="hubFilter"
             >
@@ -56,6 +63,7 @@ function CategoryFilters({ categories, activeSlug, allCount, counts, query = '' 
                     <a
                         key={category.slug}
                         href={`/hub/category/${category.slug}${query}`}
+                        aria-current={activeSlug === category.slug ? 'page' : undefined}
                         className={cx(styles.chip, activeSlug === category.slug && styles.active)}
                         data-clarity-event="hubFilter"
                     >

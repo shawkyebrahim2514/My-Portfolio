@@ -1,7 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { faBookOpen, faHeadphones, faLayerGroup, faMagnifyingGlass, faNewspaper, faPodcast, faTv } from '@fortawesome/free-solid-svg-icons';
+import {
+    faBookOpen,
+    faHeadphones,
+    faLayerGroup,
+    faMagnifyingGlass,
+    faNewspaper,
+    faPodcast,
+    faTv,
+} from '@fortawesome/free-solid-svg-icons';
 import Text from '../../components/Text';
 import CategoryFilters, { countByCategorySlug } from './CategoryFilters';
 import Grid from './Grid';
@@ -45,11 +53,13 @@ function matchesSearch(entry: SanityHubEntrySummary, normalizedQuery: string) {
     return text.includes(normalizedQuery);
 }
 
-function queryString(kind: 'all' | HubEntryKind, search: string) {
-    const params = new URLSearchParams();
+function queryString(kind: 'all' | HubEntryKind, search: string, base: string) {
+    const params = new URLSearchParams(base);
     if (kind !== 'all') params.set('type', kind);
+    else params.delete('type');
     const query = search.trim();
     if (query) params.set('q', query);
+    else params.delete('q');
     const value = params.toString();
     return value ? `?${value}` : '';
 }
@@ -58,19 +68,22 @@ function HubPostsListing({ entries, categories, activeSlug }: HubPostsListingPro
     const [kindFilter, setKindFilter] = useState<'all' | HubEntryKind>('all');
     const [search, setSearch] = useState('');
     const [urlSyncReady, setUrlSyncReady] = useState(false);
+    const [queryBase, setQueryBase] = useState('');
 
     const entriesInCategory = useMemo(
         () =>
             activeSlug
-                ? entries.filter((entry) => entry.categories.some((category) => category?.slug === activeSlug))
+                ? entries.filter((entry) =>
+                      entry.categories.some((category) => category?.slug === activeSlug)
+                  )
                 : entries,
-        [entries, activeSlug],
+        [entries, activeSlug]
     );
 
     const normalizedQuery = search.trim().toLowerCase();
     const entriesInSearchView = useMemo(
         () => entriesInCategory.filter((entry) => matchesSearch(entry, normalizedQuery)),
-        [entriesInCategory, normalizedQuery],
+        [entriesInCategory, normalizedQuery]
     );
 
     const kindCounts = useMemo(() => {
@@ -83,7 +96,7 @@ function HubPostsListing({ entries, categories, activeSlug }: HubPostsListingPro
 
     const availableKinds = useMemo(
         () => KIND_ORDER.filter((kind) => (kindCounts.get(kind) ?? 0) > 0),
-        [kindCounts],
+        [kindCounts]
     );
 
     const filteredEntries = useMemo(
@@ -91,10 +104,10 @@ function HubPostsListing({ entries, categories, activeSlug }: HubPostsListingPro
             kindFilter === 'all'
                 ? entriesInSearchView
                 : entriesInSearchView.filter((entry) => entry.kind === kindFilter),
-        [entriesInSearchView, kindFilter],
+        [entriesInSearchView, kindFilter]
     );
 
-    const {visibleCount, loadMore} = useLoadMore(`${kindFilter}\0${search}\0${activeSlug ?? ''}`);
+    const { visibleCount, loadMore } = useLoadMore(`${kindFilter}\0${search}\0${activeSlug ?? ''}`);
     const visibleEntries = filteredEntries.slice(0, visibleCount);
 
     const categorySource = useMemo(() => {
@@ -106,16 +119,17 @@ function HubPostsListing({ entries, categories, activeSlug }: HubPostsListingPro
 
     const categoryCounts = useMemo(() => countByCategorySlug(categorySource), [categorySource]);
     const categoryOptions = useMemo(() => {
-        if (!normalizedQuery && kindFilter === 'all') return categories;
         return categories.filter(
-            (category) => category.slug === activeSlug || (categoryCounts.get(category.slug) ?? 0) > 0,
+            (category) =>
+                category.slug === activeSlug || (categoryCounts.get(category.slug) ?? 0) > 0
         );
-    }, [categories, categoryCounts, normalizedQuery, kindFilter, activeSlug]);
+    }, [categories, categoryCounts, activeSlug]);
 
     useEffect(() => {
         if (typeof window === 'undefined') return;
 
         const params = new URLSearchParams(window.location.search);
+        setQueryBase(window.location.search);
         const kindParam = params.get('type');
         if (kindParam && KIND_ORDER.includes(kindParam as HubEntryKind)) {
             setKindFilter(kindParam as HubEntryKind);
@@ -136,24 +150,36 @@ function HubPostsListing({ entries, categories, activeSlug }: HubPostsListingPro
     useEffect(() => {
         if (!urlSyncReady || typeof window === 'undefined') return;
 
-        const nextSearch = queryString(kindFilter, search);
+        const nextSearch = queryString(kindFilter, search, queryBase);
         const nextUrl = `${window.location.pathname}${nextSearch}${window.location.hash}`;
         const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
         if (nextUrl !== currentUrl) {
             window.history.replaceState(window.history.state, '', nextUrl);
         }
-    }, [urlSyncReady, kindFilter, search]);
+    }, [urlSyncReady, kindFilter, search, queryBase]);
 
     return (
         <>
             <section className={styles.filters} aria-label="Post filters">
-                <div className={styles.filterGroup}>
+                <label className={styles.search} htmlFor="hub-post-search" hidden={!urlSyncReady}>
+                    <span className="sr-only">Search Hub posts</span>
+                    <FontAwesomeIcon icon={faMagnifyingGlass} />
+                    <input
+                        id="hub-post-search"
+                        type="search"
+                        value={search}
+                        onChange={(event) => setSearch(event.target.value)}
+                        placeholder="Search a title or topic"
+                    />
+                </label>
+                <div className={styles.filterGroup} hidden={!urlSyncReady}>
                     <Text className={styles.filterLabel}>Type</Text>
-                    <div className={styles.list}>
+                    <div className={cx(styles.list, styles.horizontal)}>
                         <button
                             type="button"
                             className={cx(styles.chip, kindFilter === 'all' && styles.active)}
                             onClick={() => setKindFilter('all')}
+                            aria-pressed={kindFilter === 'all'}
                         >
                             <span className={styles.icon}>
                                 <FontAwesomeIcon icon={faLayerGroup} />
@@ -167,6 +193,7 @@ function HubPostsListing({ entries, categories, activeSlug }: HubPostsListingPro
                                 type="button"
                                 className={cx(styles.chip, kindFilter === kind && styles.active)}
                                 onClick={() => setKindFilter(kind)}
+                                aria-pressed={kindFilter === kind}
                             >
                                 <span className={styles.icon}>
                                     <FontAwesomeIcon icon={KIND_META[kind].icon} />
@@ -178,28 +205,22 @@ function HubPostsListing({ entries, categories, activeSlug }: HubPostsListingPro
                     </div>
                 </div>
 
-                <label className={styles.search} htmlFor="hub-post-search">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                    <input
-                        id="hub-post-search"
-                        type="search"
-                        value={search}
-                        onChange={(event) => setSearch(event.target.value)}
-                        placeholder="Search a title or topic"
-                    />
-                </label>
-
                 {categoryOptions.length > 0 && (
-                    <div className={styles.filterGroup}>
-                        <Text className={styles.filterLabel}>Category</Text>
+                    <details className={styles.disclosure} open={Boolean(activeSlug)}>
+                        <summary>
+                            Categories
+                            {activeSlug
+                                ? ` · ${categories.find((category) => category.slug === activeSlug)?.title ?? activeSlug}`
+                                : ''}
+                        </summary>
                         <CategoryFilters
                             categories={categoryOptions}
                             activeSlug={activeSlug}
                             allCount={categorySource.length}
                             counts={categoryCounts}
-                            query={queryString(kindFilter, search)}
+                            query={queryString(kindFilter, search, queryBase)}
                         />
-                    </div>
+                    </details>
                 )}
             </section>
 

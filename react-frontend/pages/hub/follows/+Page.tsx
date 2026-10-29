@@ -136,12 +136,20 @@ function HubChannelsPage() {
         return counts;
     }, [visibleChannels]);
 
+    useEffect(() => {
+        if (!urlSyncReady || (typeCounts.get(directoryTypeFilter) ?? 0) > 0) return;
+        const availableType = DIRECTORY_TYPE_ORDER.find((type) => (typeCounts.get(type) ?? 0) > 0);
+        if (availableType) setDirectoryTypeFilter(availableType);
+    }, [directoryTypeFilter, typeCounts, urlSyncReady]);
+
     const channelsInTypeView = useMemo(
         () =>
-            visibleChannels.filter(
-                (channel) => resolveDirectoryType(channel) === directoryTypeFilter
-            ),
-        [visibleChannels, directoryTypeFilter]
+            !urlSyncReady
+                ? visibleChannels
+                : visibleChannels.filter(
+                      (channel) => resolveDirectoryType(channel) === directoryTypeFilter
+                  ),
+        [visibleChannels, directoryTypeFilter, urlSyncReady]
     );
 
     const normalizedQuery = search.trim().toLowerCase();
@@ -263,7 +271,7 @@ function HubChannelsPage() {
         const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
 
         if (nextUrl !== currentUrl) {
-            window.history.replaceState(null, '', nextUrl);
+            window.history.replaceState(window.history.state, '', nextUrl);
         }
     }, [urlSyncReady, directoryTypeFilter, platformFilter, categoryFilter, search]);
 
@@ -297,11 +305,28 @@ function HubChannelsPage() {
                     </div>
                 )}
 
-                <section className={styles.filters} aria-label="Follows filters">
+                <section
+                    className={styles.filters}
+                    aria-label="Follows filters"
+                    hidden={!urlSyncReady}
+                >
+                    <label className={styles.search} htmlFor="hub-channel-search">
+                        <span className="sr-only">Search follows</span>
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />
+                        <input
+                            id="hub-channel-search"
+                            type="search"
+                            value={search}
+                            onChange={(event) => setSearch(event.target.value)}
+                            placeholder="Search a name or topic"
+                        />
+                    </label>
                     <div className={styles.filterGroup}>
                         <Text className={styles.filterLabel}>Type</Text>
-                        <div className={chipStyles.list}>
-                            {DIRECTORY_TYPE_ORDER.map((type) => (
+                        <div className={cx(chipStyles.list, chipStyles.horizontal)}>
+                            {DIRECTORY_TYPE_ORDER.filter(
+                                (type) => (typeCounts.get(type) ?? 0) > 0
+                            ).map((type) => (
                                 <button
                                     key={type}
                                     type="button"
@@ -310,6 +335,7 @@ function HubChannelsPage() {
                                         directoryTypeFilter === type && chipStyles.active
                                     )}
                                     onClick={() => setDirectoryTypeFilter(type)}
+                                    aria-pressed={directoryTypeFilter === type}
                                     data-clarity-event="hubFilter"
                                 >
                                     <span className={chipStyles.icon}>
@@ -326,112 +352,119 @@ function HubChannelsPage() {
                         </div>
                     </div>
 
-                    <label className={styles.search} htmlFor="hub-channel-search">
-                        <FontAwesomeIcon icon={faMagnifyingGlass} />
-                        <input
-                            id="hub-channel-search"
-                            type="search"
-                            value={search}
-                            onChange={(event) => setSearch(event.target.value)}
-                            placeholder="Search a name or topic"
-                        />
-                    </label>
-
-                    <div className={styles.filterGroup}>
-                        <Text className={styles.filterLabel}>Source</Text>
-                        <div className={chipStyles.list}>
-                            <button
-                                type="button"
-                                className={cx(
-                                    chipStyles.chip,
-                                    platformFilter === 'all' && chipStyles.active
-                                )}
-                                onClick={() => setPlatformFilter('all')}
-                                data-clarity-event="hubFilter"
-                            >
-                                <span className={chipStyles.label}>All</span>
-                                <span className={chipStyles.count}>
-                                    {channelsInTypeSearchView.length}
-                                </span>
-                            </button>
-                            {availablePlatforms.map((platform) => (
-                                <button
-                                    key={platform}
-                                    type="button"
-                                    className={cx(
-                                        chipStyles.chip,
-                                        platformFilter === platform && chipStyles.active
-                                    )}
-                                    onClick={() => setPlatformFilter(platform)}
-                                    data-clarity-event="hubFilter"
-                                >
-                                    <span className={chipStyles.icon}>
-                                        <FontAwesomeIcon icon={PLATFORM_META[platform].icon} />
-                                    </span>
-                                    <span className={chipStyles.label}>
-                                        {PLATFORM_META[platform].label}
-                                    </span>
-                                    <span className={chipStyles.count}>
-                                        {platformCounts.get(platform) ?? 0}
-                                    </span>
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {categoryOptions.length > 0 && (
+                    <details
+                        className={chipStyles.disclosure}
+                        open={platformFilter !== 'all' || categoryFilter !== 'all'}
+                    >
+                        <summary>
+                            Source and category
+                            {platformFilter !== 'all'
+                                ? ` · ${PLATFORM_META[platformFilter].label}`
+                                : ''}
+                            {categoryFilter !== 'all'
+                                ? ` · ${categories.find((category) => category.slug === categoryFilter)?.title ?? categoryFilter}`
+                                : ''}
+                        </summary>
                         <div className={styles.filterGroup}>
-                            <Text className={styles.filterLabel}>Category</Text>
+                            <Text className={styles.filterLabel}>Source</Text>
                             <div className={chipStyles.list}>
                                 <button
                                     type="button"
                                     className={cx(
                                         chipStyles.chip,
-                                        categoryFilter === 'all' && chipStyles.active
+                                        platformFilter === 'all' && chipStyles.active
                                     )}
-                                    onClick={() => setCategoryFilter('all')}
+                                    onClick={() => setPlatformFilter('all')}
+                                    aria-pressed={platformFilter === 'all'}
                                     data-clarity-event="hubFilter"
                                 >
-                                    <span className={chipStyles.icon}>
-                                        <FontAwesomeIcon icon={faLayerGroup} />
-                                    </span>
                                     <span className={chipStyles.label}>All</span>
                                     <span className={chipStyles.count}>
-                                        {channelsInPlatformView.length}
+                                        {channelsInTypeSearchView.length}
                                     </span>
                                 </button>
-                                {categoryOptions.map((category) => {
-                                    const inlineSvg = category.icon?.metadata?.inlineSvg;
-                                    return (
-                                        <button
-                                            key={category.slug}
-                                            type="button"
-                                            className={cx(
-                                                chipStyles.chip,
-                                                categoryFilter === category.slug &&
-                                                    chipStyles.active
-                                            )}
-                                            onClick={() => setCategoryFilter(category.slug)}
-                                            data-clarity-event="hubFilter"
-                                        >
-                                            {inlineSvg ? (
-                                                <InlineSvg
-                                                    className={chipStyles.icon}
-                                                    svg={inlineSvg}
-                                                />
-                                            ) : null}
-                                            <span className={chipStyles.label}>
-                                                {category.title}
-                                            </span>
-                                            <span className={chipStyles.count}>
-                                                {categoryCounts.get(category.slug) ?? 0}
-                                            </span>
-                                        </button>
-                                    );
-                                })}
+                                {availablePlatforms.map((platform) => (
+                                    <button
+                                        key={platform}
+                                        type="button"
+                                        className={cx(
+                                            chipStyles.chip,
+                                            platformFilter === platform && chipStyles.active
+                                        )}
+                                        onClick={() => setPlatformFilter(platform)}
+                                        aria-pressed={platformFilter === platform}
+                                        data-clarity-event="hubFilter"
+                                    >
+                                        <span className={chipStyles.icon}>
+                                            <FontAwesomeIcon icon={PLATFORM_META[platform].icon} />
+                                        </span>
+                                        <span className={chipStyles.label}>
+                                            {PLATFORM_META[platform].label}
+                                        </span>
+                                        <span className={chipStyles.count}>
+                                            {platformCounts.get(platform) ?? 0}
+                                        </span>
+                                    </button>
+                                ))}
                             </div>
                         </div>
-                    )}
+
+                        {categoryOptions.length > 0 && (
+                            <div className={styles.filterGroup}>
+                                <Text className={styles.filterLabel}>Category</Text>
+                                <div className={chipStyles.list}>
+                                    <button
+                                        type="button"
+                                        className={cx(
+                                            chipStyles.chip,
+                                            categoryFilter === 'all' && chipStyles.active
+                                        )}
+                                        onClick={() => setCategoryFilter('all')}
+                                        aria-pressed={categoryFilter === 'all'}
+                                        data-clarity-event="hubFilter"
+                                    >
+                                        <span className={chipStyles.icon}>
+                                            <FontAwesomeIcon icon={faLayerGroup} />
+                                        </span>
+                                        <span className={chipStyles.label}>All</span>
+                                        <span className={chipStyles.count}>
+                                            {channelsInPlatformView.length}
+                                        </span>
+                                    </button>
+                                    {categoryOptions.map((category) => {
+                                        const inlineSvg = category.icon?.metadata?.inlineSvg;
+                                        return (
+                                            <button
+                                                key={category.slug}
+                                                type="button"
+                                                className={cx(
+                                                    chipStyles.chip,
+                                                    categoryFilter === category.slug &&
+                                                        chipStyles.active
+                                                )}
+                                                onClick={() => setCategoryFilter(category.slug)}
+                                                aria-pressed={categoryFilter === category.slug}
+                                                data-clarity-event="hubFilter"
+                                            >
+                                                {inlineSvg ? (
+                                                    <InlineSvg
+                                                        className={chipStyles.icon}
+                                                        svg={inlineSvg}
+                                                    />
+                                                ) : null}
+                                                <span className={chipStyles.label}>
+                                                    {category.title}
+                                                </span>
+                                                <span className={chipStyles.count}>
+                                                    {categoryCounts.get(category.slug) ?? 0}
+                                                </span>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                    </details>
                 </section>
 
                 {filteredChannels.length === 0 ? (

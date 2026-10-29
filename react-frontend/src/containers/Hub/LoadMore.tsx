@@ -4,7 +4,7 @@ import styles from './LoadMore.module.css';
 export const LOAD_MORE_PAGE_SIZE = 12;
 
 export function useLoadMore(resetKey: string, pageSize = LOAD_MORE_PAGE_SIZE) {
-    const [visibleCount, setVisibleCount] = useState(pageSize);
+    const [visibleCount, setVisibleCount] = useState(Number.POSITIVE_INFINITY);
 
     useEffect(() => {
         setVisibleCount(pageSize);
@@ -12,6 +12,7 @@ export function useLoadMore(resetKey: string, pageSize = LOAD_MORE_PAGE_SIZE) {
 
     return {
         visibleCount,
+        isEnhanced: Number.isFinite(visibleCount),
         loadMore: () => setVisibleCount((count) => count + pageSize),
     };
 }
@@ -23,12 +24,7 @@ type LoadMoreProps = {
     readonly onLoadMore: () => void;
 };
 
-function LoadMore({
-    shown,
-    total,
-    pageSize = LOAD_MORE_PAGE_SIZE,
-    onLoadMore,
-}: LoadMoreProps) {
+function LoadMore({ shown, total, pageSize = LOAD_MORE_PAGE_SIZE, onLoadMore }: LoadMoreProps) {
     if (total === 0) return null;
 
     const remaining = Math.max(0, total - shown);

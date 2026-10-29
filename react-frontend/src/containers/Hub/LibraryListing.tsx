@@ -44,7 +44,7 @@ function LibraryListing({ collections, saves, activeSlug }: LibraryListingProps)
 
     const scopedSaves = useMemo(
         () => (activeSlug ? saves.filter((save) => save.collection?.slug === activeSlug) : saves),
-        [saves, activeSlug],
+        [saves, activeSlug]
     );
 
     const collectionCounts = useMemo(() => {
@@ -61,25 +61,33 @@ function LibraryListing({ collections, saves, activeSlug }: LibraryListingProps)
         () =>
             collections.filter(
                 (collection) =>
-                    collection.slug === activeSlug || (collectionCounts.get(collection.slug) ?? 0) > 0,
+                    collection.slug === activeSlug ||
+                    (collectionCounts.get(collection.slug) ?? 0) > 0
             ),
-        [collections, collectionCounts, activeSlug],
+        [collections, collectionCounts, activeSlug]
     );
 
     const filteredSaves = useMemo(
         () => scopedSaves.filter((save) => matchesSearch(save, normalizedQuery)),
-        [scopedSaves, normalizedQuery],
+        [scopedSaves, normalizedQuery]
     );
 
-    const { visibleCount, loadMore } = useLoadMore(`${activeSlug ?? 'all'}\0${normalizedQuery}`);
+    const { visibleCount, loadMore, isEnhanced } = useLoadMore(
+        `${activeSlug ?? 'all'}\0${normalizedQuery}`
+    );
     const visibleSaves = filteredSaves.slice(0, visibleCount);
 
     return (
         <>
             <section className={styles.filters} aria-label="Library filters">
                 {collectionOptions.length > 0 && (
-                    <div className={styles.filterGroup}>
-                        <Text className={styles.filterLabel}>Collection</Text>
+                    <details className={chipStyles.disclosure} open={Boolean(activeSlug)}>
+                        <summary>
+                            Collections
+                            {activeSlug
+                                ? ` · ${collections.find((collection) => collection.slug === activeSlug)?.title ?? activeSlug}`
+                                : ''}
+                        </summary>
                         <div className={chipStyles.list}>
                             <a
                                 href="/hub/library"
@@ -98,7 +106,7 @@ function LibraryListing({ collections, saves, activeSlug }: LibraryListingProps)
                                     href={`/hub/library/${collection.slug}`}
                                     className={cx(
                                         chipStyles.chip,
-                                        activeSlug === collection.slug && chipStyles.active,
+                                        activeSlug === collection.slug && chipStyles.active
                                     )}
                                     data-clarity-event="hubFilter"
                                 >
@@ -109,10 +117,11 @@ function LibraryListing({ collections, saves, activeSlug }: LibraryListingProps)
                                 </a>
                             ))}
                         </div>
-                    </div>
+                    </details>
                 )}
 
-                <label className={styles.search} htmlFor="hub-library-search">
+                <label className={styles.search} htmlFor="hub-library-search" hidden={!isEnhanced}>
+                    <span className="sr-only">Search library</span>
                     <FontAwesomeIcon icon={faMagnifyingGlass} />
                     <input
                         id="hub-library-search"
@@ -143,7 +152,11 @@ function LibraryListing({ collections, saves, activeSlug }: LibraryListingProps)
                                     href={save.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className={cx(surfaces.container, styles.card, isRTL && styles.rtl)}
+                                    className={cx(
+                                        surfaces.container,
+                                        styles.card,
+                                        isRTL && styles.rtl
+                                    )}
                                     dir={isRTL ? 'rtl' : undefined}
                                     lang={save.language}
                                     data-clarity-event="librarySave"
@@ -151,7 +164,9 @@ function LibraryListing({ collections, saves, activeSlug }: LibraryListingProps)
                                     <header className={styles.header}>
                                         <div className={styles.badges}>
                                             {save.collection?.title && (
-                                                <span className={styles.collection}>{save.collection.title}</span>
+                                                <span className={styles.collection}>
+                                                    {save.collection.title}
+                                                </span>
                                             )}
                                             {save.featured && (
                                                 <span className={styles.featured}>
@@ -172,7 +187,10 @@ function LibraryListing({ collections, saves, activeSlug }: LibraryListingProps)
                                     {(save.tags?.length ?? 0) > 0 && (
                                         <div className={styles.tags}>
                                             {(save.tags ?? []).slice(0, 4).map((tag) => (
-                                                <span key={`${save._key}-${tag}`} className={styles.tag}>
+                                                <span
+                                                    key={`${save._key}-${tag}`}
+                                                    className={styles.tag}
+                                                >
                                                     {tag}
                                                 </span>
                                             ))}
