@@ -4,6 +4,7 @@ import type { RichLinkPreview } from '../../Types';
 import { cx } from '../../utils/cx';
 import { urlForImage } from './utils';
 import styles from './LinkPreview.module.css';
+import { sanityImageProps } from '../../utils/sanityImage';
 
 type LinkPreviewProps = {
     value: RichLinkPreview;
@@ -24,30 +25,46 @@ export default function LinkPreview({ value, compact = false }: LinkPreviewProps
 
     return (
         <a
-            className={cx(
-                styles.card,
-                compact && styles.compact,
-                !imageUrl && styles.noImage
-            )}
+            className={cx(styles.card, compact && styles.compact, !imageUrl && styles.noImage)}
             href={value.url}
             target="_blank"
             rel="noopener noreferrer"
         >
             {imageUrl && (
-                <img className={styles.image} src={imageUrl} alt="" loading="lazy" />
+                <img
+                    className={styles.image}
+                    {...sanityImageProps(
+                        imageUrl,
+                        1280,
+                        '(max-width: 768px) calc(100vw - 64px), 480px'
+                    )}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                />
             )}
             <span className={styles.content}>
                 <span className={styles.publisher}>
                     {faviconUrl ? (
-                        <img src={faviconUrl} alt="" width={16} height={16} loading="lazy" />
+                        <img
+                            {...sanityImageProps(faviconUrl, 48, '16px')}
+                            alt=""
+                            width={16}
+                            height={16}
+                            loading="lazy"
+                        />
                     ) : (
                         <FontAwesomeIcon icon={faLink} />
                     )}
                     {value.siteName ?? host}
                 </span>
-                <strong className={styles.title} dir="auto">{title}</strong>
+                <strong className={styles.title} dir="auto">
+                    {title}
+                </strong>
                 {value.description && (
-                    <span className={styles.description} dir="auto">{value.description}</span>
+                    <span className={styles.description} dir="auto">
+                        {value.description}
+                    </span>
                 )}
             </span>
             <FontAwesomeIcon

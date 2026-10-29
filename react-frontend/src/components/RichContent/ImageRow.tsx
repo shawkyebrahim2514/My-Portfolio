@@ -2,6 +2,7 @@ import { cx } from '../../utils/cx';
 import type { RichImageRow, RichMediaImage } from '../../Types';
 import { imageFrameVars, imageRowAlignClass, urlForImage } from './utils';
 import styles from './RichContent.module.css';
+import { sanityImageProps } from '../../utils/sanityImage';
 
 type ImageRowProps = {
     readonly value: RichImageRow;
@@ -31,7 +32,11 @@ export default function ImageRow({ value }: ImageRowProps) {
                         style={imageFrameVars(image.maxWidth, image.maxHeight)}
                     >
                         <img
-                            src={src}
+                            {...sanityImageProps(
+                                src,
+                                1920,
+                                '(max-width: 736px) calc(100vw - 64px), 672px'
+                            )}
                             alt={image.alt}
                             loading="lazy"
                             decoding="async"

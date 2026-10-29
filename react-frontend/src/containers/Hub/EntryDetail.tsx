@@ -26,6 +26,7 @@ import buttonStyles from '../../components/Button/Button.module.css';
 import { accentStyle } from './kindAccent';
 import { resolveRemoteImageStyle, resolveYouTubeBannerUrl } from '../../utils/remoteImageCrop';
 import { cx } from '../../utils/cx';
+import { sanityImageProps } from '../../utils/sanityImage';
 import type {
     SanityHubEntry,
     HubEntryKind,
@@ -47,15 +48,16 @@ const KIND_META: Record<HubEntryKind, { icon: typeof faNewspaper; label: string 
     listen: { icon: faHeadphones, label: 'Listening List' },
 };
 
-const PLATFORM_META: Record<HubPlatformLink['platform'], { icon: IconDefinition; label: string }> = {
-    spotify: { icon: faSpotify, label: 'Spotify' },
-    apple: { icon: faApple, label: 'Apple Podcasts' },
-    youtube: { icon: faYoutube, label: 'YouTube' },
-    soundcloud: { icon: faSoundcloud, label: 'SoundCloud' },
-    anghami: { icon: faMusic, label: 'Anghami' },
-    rss: { icon: faRss, label: 'RSS' },
-    website: { icon: faGlobe, label: 'Website' },
-};
+const PLATFORM_META: Record<HubPlatformLink['platform'], { icon: IconDefinition; label: string }> =
+    {
+        spotify: { icon: faSpotify, label: 'Spotify' },
+        apple: { icon: faApple, label: 'Apple Podcasts' },
+        youtube: { icon: faYoutube, label: 'YouTube' },
+        soundcloud: { icon: faSoundcloud, label: 'SoundCloud' },
+        anghami: { icon: faMusic, label: 'Anghami' },
+        rss: { icon: faRss, label: 'RSS' },
+        website: { icon: faGlobe, label: 'Website' },
+    };
 
 const CHANNEL_PLATFORM_LABEL = {
     youtube: 'YouTube',
@@ -69,7 +71,11 @@ const CHANNEL_PLATFORM_LABEL = {
 
 function formatDate(iso: string, language: HubContentLanguage) {
     const locale = language === 'ar' ? 'ar' : undefined;
-    return new Date(iso).toLocaleDateString(locale, { year: 'numeric', month: 'long', day: 'numeric' });
+    return new Date(iso).toLocaleDateString(locale, {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    });
 }
 
 // Turn a heading's text into a stable, URL-safe anchor id. Keeps Unicode
@@ -116,14 +122,16 @@ function EntryDetail(entry: SanityHubEntry) {
     // it from the regular episode list below.
     const featuredEpisode = isPodcast
         ? (body?.find(
-              (node): node is RichPodcastEpisode => node._type === 'podcastEpisode' && Boolean(node.featured),
+              (node): node is RichPodcastEpisode =>
+                  node._type === 'podcastEpisode' && Boolean(node.featured)
           ) ?? undefined)
         : undefined;
     // For reading lists, pull the first `featured` reading item out to render it
     // as an emphasized "lead pick" above the numbered list.
     const featuredRead = isRead
         ? (body?.find(
-              (node): node is RichReadingItem => node._type === 'readingItem' && Boolean(node.featured),
+              (node): node is RichReadingItem =>
+                  node._type === 'readingItem' && Boolean(node.featured)
           ) ?? undefined)
         : undefined;
     const listeningItems = isListen
@@ -152,7 +160,9 @@ function EntryDetail(entry: SanityHubEntry) {
           : 'clips';
 
     const hasBody = Boolean(displayBody && displayBody.length > 0);
-    const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef => Boolean(category));
+    const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef =>
+        Boolean(category)
+    );
 
     // Article "On this page" TOC: collect h2/h3 headings from the body and give
     // each a stable anchor id. `headingIds` (keyed by block `_key`) is threaded
@@ -165,7 +175,10 @@ function EntryDetail(entry: SanityHubEntry) {
         displayBody.forEach((node, index) => {
             if (node._type !== 'block' || (node.style !== 'h2' && node.style !== 'h3')) return;
             const text = node.children
-                .filter((child): child is { _type: 'span'; _key: string; text: string } => child._type === 'span')
+                .filter(
+                    (child): child is { _type: 'span'; _key: string; text: string } =>
+                        child._type === 'span'
+                )
                 .map((child) => child.text)
                 .join('')
                 .trim();
@@ -211,7 +224,12 @@ function EntryDetail(entry: SanityHubEntry) {
                     <div className={styles.channelBanner} aria-hidden="true" />
                     <div className={styles.channelId}>
                         {image && (
-                            <img className={styles.channelAvatar} src={image} alt="" />
+                            <img
+                                className={styles.channelAvatar}
+                                {...sanityImageProps(image, 480, '120px')}
+                                alt=""
+                                decoding="async"
+                            />
                         )}
                         <div className={styles.channelInfo}>
                             <Text variant="h1" className={styles.channelName}>
@@ -236,7 +254,12 @@ function EntryDetail(entry: SanityHubEntry) {
                                     href={channel.url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className={cx(buttonStyles.button, buttonStyles.md, buttonStyles.pointer, styles.channelCta)}
+                                    className={cx(
+                                        buttonStyles.button,
+                                        buttonStyles.md,
+                                        buttonStyles.pointer,
+                                        styles.channelCta
+                                    )}
                                     data-clarity-event="hubSource"
                                 >
                                     <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
@@ -252,8 +275,13 @@ function EntryDetail(entry: SanityHubEntry) {
                         <span className={styles.podcastCoverFrame}>
                             <img
                                 className={styles.podcastCover}
-                                src={resolveYouTubeBannerUrl(image)}
+                                {...sanityImageProps(
+                                    resolveYouTubeBannerUrl(image),
+                                    1280,
+                                    '(max-width: 768px) calc(200vw - 64px), 640px'
+                                )}
                                 alt=""
+                                decoding="async"
                                 style={resolveRemoteImageStyle(coverFocus, 'center')}
                             />
                         </span>
@@ -335,8 +363,13 @@ function EntryDetail(entry: SanityHubEntry) {
                 <div className={styles.imageFrame}>
                     <img
                         className={styles.image}
-                        src={resolveYouTubeBannerUrl(image)}
+                        {...sanityImageProps(
+                            resolveYouTubeBannerUrl(image),
+                            1920,
+                            '(max-width: 768px) calc(200vw - 64px), 1280px'
+                        )}
                         alt=""
+                        decoding="async"
                         style={resolveRemoteImageStyle(coverFocus, 'center')}
                     />
                 </div>
@@ -398,7 +431,9 @@ function EntryDetail(entry: SanityHubEntry) {
                 </section>
             )}
 
-            {!isChannel && !isListen && hasBody &&
+            {!isChannel &&
+                !isListen &&
+                hasBody &&
                 (isArticle ? (
                     <div className={styles.articleProse}>
                         {articleHeadings.length > 0 && (

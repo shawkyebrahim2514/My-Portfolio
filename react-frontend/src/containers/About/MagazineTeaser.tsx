@@ -9,6 +9,7 @@ import { cx } from '../../utils/cx';
 import { resolveRemoteImageStyle, type RemoteImageCrop } from '../../utils/remoteImageCrop';
 import type { HubContentLanguage } from '../../Types';
 import styles from './HubTeaser.module.css';
+import { sanityImageProps } from '../../utils/sanityImage';
 
 export type MagazineTeaserItem = {
     readonly key: string;
@@ -55,7 +56,10 @@ function linkProps(item: MagazineTeaserItem) {
 function HiddenPill({ hidden }: { readonly hidden?: boolean }) {
     if (!hidden) return null;
     return (
-        <span className={styles.hiddenPill} title="Hidden from production — visible only in preview mode">
+        <span
+            className={styles.hiddenPill}
+            title="Hidden from production — visible only in preview mode"
+        >
             <FontAwesomeIcon icon={faEyeSlash} />
             Hidden
         </span>
@@ -104,7 +108,7 @@ function Avatar({ item }: { readonly item: MagazineTeaserItem }) {
             {item.avatar ? (
                 <img
                     className={styles.avatarImg}
-                    src={item.avatar}
+                    {...sanityImageProps(item.avatar, 256, '96px')}
                     alt=""
                     loading="lazy"
                     decoding="async"
@@ -120,9 +124,12 @@ function Avatar({ item }: { readonly item: MagazineTeaserItem }) {
 function RowMark({ item }: { readonly item: MagazineTeaserItem }) {
     if (item.image) {
         return (
-            <span
+            <img
                 className={styles.rowThumb}
-                style={{ backgroundImage: `url(${item.image})` }}
+                {...sanityImageProps(item.image, 144, '48px')}
+                alt=""
+                loading="lazy"
+                decoding="async"
                 aria-hidden="true"
             />
         );
@@ -142,13 +149,25 @@ function EntryRow({ item }: { readonly item: MagazineTeaserItem }) {
             <HiddenPill hidden={item.hidden} />
             <RowMark item={item} />
             <span className={styles.rowBody}>
-                <ItemCopy item={item} titleClassName={styles.title} excerptClassName={styles.excerpt} />
+                <ItemCopy
+                    item={item}
+                    titleClassName={styles.title}
+                    excerptClassName={styles.excerpt}
+                />
             </span>
         </a>
     );
 }
 
-function MagazineTeaser({ title, subtitle, ctaHref, ctaLabel, ctaEvent, items, variant = 'magazine' }: MagazineTeaserProps) {
+function MagazineTeaser({
+    title,
+    subtitle,
+    ctaHref,
+    ctaLabel,
+    ctaEvent,
+    items,
+    variant = 'magazine',
+}: MagazineTeaserProps) {
     if (items.length === 0) return null;
 
     const isPeople = variant === 'people';
@@ -170,7 +189,11 @@ function MagazineTeaser({ title, subtitle, ctaHref, ctaLabel, ctaEvent, items, v
                             <HiddenPill hidden={item.hidden} />
                             <Avatar item={item} />
                             <span className={styles.personBody}>
-                                <ItemCopy item={item} titleClassName={styles.title} excerptClassName={styles.excerpt} />
+                                <ItemCopy
+                                    item={item}
+                                    titleClassName={styles.title}
+                                    excerptClassName={styles.excerpt}
+                                />
                             </span>
                         </a>
                     ))}
@@ -180,11 +203,19 @@ function MagazineTeaser({ title, subtitle, ctaHref, ctaLabel, ctaEvent, items, v
                     <div className={cx(styles.split, side.length === 0 && styles.splitSolo)}>
                         <a className={styles.poster} {...linkProps(featured)}>
                             {featured.image ? (
-                                <span
-                                    className={styles.posterPhoto}
-                                    style={{ backgroundImage: `url(${featured.image})` }}
-                                    aria-hidden="true"
-                                />
+                                <span className={styles.posterPhoto} aria-hidden="true">
+                                    <img
+                                        className={styles.posterImage}
+                                        {...sanityImageProps(
+                                            featured.image,
+                                            1280,
+                                            '(max-width: 720px) calc(100vw - 64px), 660px'
+                                        )}
+                                        alt=""
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
+                                </span>
                             ) : (
                                 <span className={styles.posterGhost} aria-hidden="true">
                                     {initialFor(featured.title)}
@@ -219,7 +250,12 @@ function MagazineTeaser({ title, subtitle, ctaHref, ctaLabel, ctaEvent, items, v
                 <StarBorder>
                     <a
                         href={ctaHref}
-                        className={cx(buttonStyles.button, buttonStyles.md, buttonStyles.pointer, styles.cta)}
+                        className={cx(
+                            buttonStyles.button,
+                            buttonStyles.md,
+                            buttonStyles.pointer,
+                            styles.cta
+                        )}
                         data-clarity-event={ctaEvent}
                     >
                         {ctaLabel}

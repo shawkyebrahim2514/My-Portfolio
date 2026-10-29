@@ -6,6 +6,7 @@ import { cx } from '../../utils/cx';
 import type { RichReadingItem } from '../../Types';
 import { urlForImage } from './utils';
 import styles from './ReadingItem.module.css';
+import { sanityImageProps } from '../../utils/sanityImage';
 
 // One recommended article inside a Read-kind entry's body. A compact link-out
 // row: title (the link), source, and an optional note. No inline embed — the
@@ -47,7 +48,13 @@ function ReadingItem({
             {!isFeatured && <span className={styles.num} aria-hidden="true" />}
             <span className={styles.favicon} aria-hidden="true">
                 {favicon ? (
-                    <img src={favicon} alt="" width={24} height={24} loading="lazy" />
+                    <img
+                        {...sanityImageProps(favicon, 72, '24px')}
+                        alt=""
+                        width={24}
+                        height={24}
+                        loading="lazy"
+                    />
                 ) : (
                     <FontAwesomeIcon icon={faBookmark} />
                 )}
