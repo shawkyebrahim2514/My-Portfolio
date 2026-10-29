@@ -27,11 +27,11 @@ import { accentStyle } from './kindAccent';
 import { resolveRemoteImageStyle, resolveYouTubeBannerUrl } from '../../utils/remoteImageCrop';
 import { cx } from '../../utils/cx';
 import { sanityImageProps } from '../../utils/sanityImage';
+import { formatPublishedDate } from '../../utils/publishedDate';
 import type {
     SanityHubEntry,
     HubEntryKind,
     HubEntryCategoryRef,
-    HubContentLanguage,
     HubPlatformLink,
     RichContentNode,
     RichPodcastEpisode,
@@ -68,15 +68,6 @@ const CHANNEL_PLATFORM_LABEL = {
     website: 'Website',
     twitter: 'Twitter (X)',
 } as const;
-
-function formatDate(iso: string, language: HubContentLanguage) {
-    const locale = language === 'ar' ? 'ar' : undefined;
-    return new Date(iso).toLocaleDateString(locale, {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    });
-}
 
 // Turn a heading's text into a stable, URL-safe anchor id. Keeps Unicode
 // letters/numbers (so Arabic headings get readable ids too) and falls back to a
@@ -210,7 +201,9 @@ function EntryDetail(entry: SanityHubEntry) {
                         Editor&apos;s pick
                     </span>
                 )}
-                <Text className={styles.date}>{formatDate(publishedAt, language)}</Text>
+                <time dateTime={publishedAt} className={styles.date}>
+                    {formatPublishedDate(publishedAt, language)}
+                </time>
                 {durationLabel && <Text className={styles.date}>{durationLabel}</Text>}
                 {isChannel && videoCount > 0 && (
                     <Text className={styles.date}>
@@ -342,7 +335,10 @@ function EntryDetail(entry: SanityHubEntry) {
                         <div className={styles.bylineText}>
                             <Text className={styles.bylineName}>Shawky Ebrahim</Text>
                             <Text className={styles.bylineSub}>
-                                Software Engineer · {formatDate(publishedAt, language)}
+                                Software Engineer ·{' '}
+                                <time dateTime={publishedAt}>
+                                    {formatPublishedDate(publishedAt, language)}
+                                </time>
                             </Text>
                         </div>
                     </div>
