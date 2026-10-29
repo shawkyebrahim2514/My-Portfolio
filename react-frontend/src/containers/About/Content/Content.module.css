@@ -8,6 +8,7 @@
 .intro {
     display: grid;
     gap: var(--space-4);
+    color: var(--color-secondary-50);
 }
 
 .identity {
@@ -21,7 +22,7 @@
 }
 
 .identity h1 {
-    font-size: clamp(2rem, 4.5vw, 3.8rem);
+    font-size: clamp(2.25rem, 4.8vw, 4.25rem);
     line-height: 1.1;
     letter-spacing: -0.025em;
 }
@@ -30,12 +31,19 @@
     font-size: clamp(1.125rem, 1rem + 0.4vw, 1.4rem);
     line-height: 1.5;
     text-wrap: pretty;
+    color: var(--color-secondary-200);
+}
+
+/* CMS highlight colors are intended for the light biography surfaces. */
+.identity p :is(span, a) {
+    color: inherit;
+    background: none;
 }
 
 .summary {
     max-width: 48ch;
     line-height: 1.65;
-    color: var(--color-base-700);
+    color: var(--color-base-200);
 }
 
 .actions {
@@ -66,37 +74,37 @@
 }
 
 .action:focus-visible {
-    outline: 3px solid var(--color-secondary-600);
+    outline: 3px solid var(--color-secondary-200);
     outline-offset: 3px;
 }
 
 .primary {
-    background-color: var(--color-base-900);
-    color: var(--color-base-50);
+    background-color: var(--color-secondary-200);
+    color: var(--color-base-900);
 }
 
 .primary:hover {
-    background-color: var(--color-base-800);
+    background-color: var(--color-secondary-100);
 }
 
 .secondary {
-    border-color: var(--color-base-300);
-    color: var(--color-base-800);
+    border-color: #ffffff40;
+    color: var(--color-secondary-50);
 }
 
 .secondary:hover {
-    background-color: var(--color-base-100);
-    border-color: var(--color-base-600);
+    background-color: #ffffff0f;
+    border-color: var(--color-secondary-200);
 }
 
 .contact {
-    color: var(--color-secondary-800);
+    color: var(--color-secondary-200);
     text-decoration: underline;
     text-underline-offset: 0.3em;
 }
 
 .contact:hover {
-    background-color: var(--color-secondary-50);
+    background-color: #ffffff0f;
 }
 
 @media (max-width: 900px) {

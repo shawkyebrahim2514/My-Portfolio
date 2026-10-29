@@ -330,8 +330,16 @@ try {
                     otherSectionGap: rect(sections[1]).y - rect(sections[0]).bottom,
                     surface: {
                         hero: getComputedStyle(hero).backgroundImage,
+                        heroColor: getComputedStyle(hero).backgroundColor,
+                        titleColor: getComputedStyle(title).color,
+                        roleColor: getComputedStyle(hero.querySelector('p')).color,
+                        roleMarks: [...hero.querySelector('p').querySelectorAll('span, a')]
+                            .map(el => ({
+                                color: getComputedStyle(el).color,
+                                background: getComputedStyle(el).backgroundImage
+                            })),
                         section: getComputedStyle(sections[0]).backgroundImage,
-                        heroDots: getComputedStyle(hero, '::before').backgroundImage,
+                        heroDots: getComputedStyle(hero, '::before').display,
                         sectionDots: getComputedStyle(sections[0], '::before').backgroundImage
                     },
                     actionsBounds: rect(actions),
@@ -498,16 +506,30 @@ try {
                 `${label}: component layout overrides shared surface`
             );
             assert.notEqual(dom.hero.surface.hero, 'none', `${label}: hero gradient`);
-            assert.notEqual(dom.hero.surface.heroDots, 'none', `${label}: hero dotted pattern`);
-            assert.equal(
+            assert.equal(dom.hero.surface.heroDots, 'none', `${label}: restrained hero texture`);
+            assert.notEqual(
                 dom.hero.surface.hero,
                 dom.hero.surface.section,
-                `${label}: matching section gradient`
+                `${label}: distinct editorial hero surface`
             );
-            assert.equal(
-                dom.hero.surface.heroDots,
+            assert.notEqual(
                 dom.hero.surface.sectionDots,
-                `${label}: matching section dots`
+                'none',
+                `${label}: biography keeps the dotted surface`
+            );
+            assert.equal(dom.hero.surface.heroColor, 'rgb(40, 40, 39)', `${label}: charcoal hero`);
+            assert.equal(
+                dom.hero.surface.titleColor,
+                'rgb(254, 249, 245)',
+                `${label}: ivory identity`
+            );
+            assert.equal(dom.hero.surface.roleColor, 'rgb(248, 215, 188)', `${label}: peach role`);
+            assert.ok(
+                dom.hero.surface.roleMarks.every(
+                    (mark) =>
+                        mark.color === dom.hero.surface.roleColor && mark.background === 'none'
+                ),
+                `${label}: CMS role highlights stay readable on charcoal`
             );
             assert.ok(
                 Math.abs(dom.hero.sectionGap - dom.hero.otherSectionGap) <= 1,
