@@ -82,13 +82,13 @@ function ItemCopy({
                 <FontAwesomeIcon icon={item.badgeIcon} />
                 {item.badgeLabel}
             </span>
-            <h4
+            <h3
                 className={cx(titleClassName, isRTL && styles.rtl)}
                 dir={isRTL ? 'rtl' : undefined}
                 lang={item.language}
             >
                 {item.title}
-            </h4>
+            </h3>
             {excerptClassName && item.excerpt ? (
                 <p
                     className={cx(excerptClassName, isRTL && styles.rtl)}
@@ -178,7 +178,7 @@ function MagazineTeaser({
     return (
         <div className={cx(styles.teaser, isPeople && styles.people)}>
             <div className={styles.kicker}>
-                <h3 className={styles.kickerTitle}>{title}</h3>
+                <h2 className={styles.kickerTitle}>{title}</h2>
                 <span className={styles.kickerSub}>{subtitle}</span>
             </div>
 

@@ -24,13 +24,13 @@ function HubRecommendations({ entries }: HubRecommendationsProps) {
                     <span className={styles.icon}>
                         <FontAwesomeIcon icon={faLayerGroup} />
                     </span>
-                    <Text variant="h3">
+                    <Text variant="h3" as="h2">
                         More like this
                     </Text>
                 </div>
                 <hr className={styles.divider} />
             </header>
-            <Grid entries={visibleEntries} />
+            <Grid entries={visibleEntries} headingLevel={3} />
         </section>
     );
 }

@@ -6,9 +6,10 @@ import styles from './Grid.module.css';
 type GridProps = {
     readonly entries: SanityHubEntrySummary[];
     readonly empty?: string;
+    readonly headingLevel?: 2 | 3;
 };
 
-function Grid({ entries, empty = 'Nothing here yet. I’ll add more.' }: GridProps) {
+function Grid({ entries, empty = 'Nothing here yet. I’ll add more.', headingLevel }: GridProps) {
     if (entries.length === 0) {
         return <p className={styles.empty}>{empty}</p>;
     }
@@ -18,6 +19,7 @@ function Grid({ entries, empty = 'Nothing here yet. I’ll add more.' }: GridPro
             {entries.map((entry) => (
                 <HubCard
                     key={entry.slug}
+                    headingLevel={headingLevel}
                     title={entry.title}
                     slug={entry.slug}
                     kind={entry.kind}

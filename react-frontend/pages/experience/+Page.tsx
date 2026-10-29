@@ -7,15 +7,18 @@ import type { SanityExperiencePage } from '../../src/Types';
 import styles from '../../src/styles/section.module.css';
 
 function Experience() {
-  const experiences = useData<SanityExperiencePage>();
+    const experiences = useData<SanityExperiencePage>();
 
-  return (
-    <div className={styles.section}>
-      <ProfessionalExperience professionalExperienceSection={experiences.professionalExperienceSection} />
-      <Internships internshipsSection={experiences.internshipsSection} />
-      <Certificates certificatesSection={experiences.certificatesSection} />
-    </div>
-  );
+    return (
+        <div className={styles.section}>
+            <h1 className="sr-only">Experience</h1>
+            <ProfessionalExperience
+                professionalExperienceSection={experiences.professionalExperienceSection}
+            />
+            <Internships internshipsSection={experiences.internshipsSection} />
+            <Certificates certificatesSection={experiences.certificatesSection} />
+        </div>
+    );
 }
 
 export default ContainerWrap(Experience);

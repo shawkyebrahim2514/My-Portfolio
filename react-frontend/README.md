@@ -38,6 +38,27 @@ Preview the production build:
 npm run preview
 ```
 
+Restart the preview after rebuilding so Vike reloads the generated asset manifest.
+Only route `+data.ts` hooks fetch page content; `src/containers` contains
+presentational sections, not a second client-fetching route tree.
+
+### Semantics and asset delivery
+
+Use `Text`'s `as` prop for the correct heading/paragraph element independently of
+its visual `variant`. A page has one H1, followed by H2 sections and H3 items.
+Legacy rich text can set `headingLevel` on `RichContent` to normalize its heading
+levels while preserving authored typography and nested callouts. Use actual
+heading levels when authoring new content rather than picking a heading by size.
+
+CSS is bundled once and code highlighting loads only for rendered code blocks;
+highlighted source remains in the prerendered HTML. Publication dates use UTC and
+explicit content locales so hydration does not change the calendar day.
+
+Omnes is still served by the existing third-party font provider with
+`font-display: swap`. No font binaries are distributed here; verify an appropriate
+webfont/redistribution license before self-hosting or subsetting Omnes. Arabic
+content retains IBM Plex Sans Arabic from Google Fonts.
+
 ---
 
 ## Rich Content (Portable Text)

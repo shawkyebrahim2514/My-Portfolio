@@ -24,6 +24,7 @@ import type { RichBlock, RichMarkDef, RichSpan } from '../../Types';
 import { blockAlignClass, ALIGN_MARKS } from './utils';
 import styles from './RichContent.module.css';
 import marksStyles from './Marks.module.css';
+import { HeadingContext } from './headingContext';
 
 // A standalone `[Text](url)` / `[[Text|doc]](url)` link — optionally combined
 // with a highlight decorator on the same span, e.g. `**!-[Title](url)-!**`
@@ -53,7 +54,7 @@ function singleLinkOverride(value: RichBlock): React.ReactNode | undefined {
     if (!def) return undefined;
     const content =
         def._type === 'link' ? (
-            <Header title={child.text} link={def.href} />
+            <Header title={child.text} link={def.href} inline />
         ) : (
             <ButtonLink href={def.href} icon={def.icon} text={child.text} />
         );
@@ -84,11 +85,13 @@ function NormalBlock({ value, children }: BlockProps) {
 // rendering if the block carries an override link or any non-alignment mark
 // (bold/highlight/etc.), since splitting would otherwise drop that styling.
 function Heading1({ value, children }: BlockProps) {
+    const { tags } = React.useContext(HeadingContext);
+    const tag = tags.h1 ?? 'h1';
     const block = value as RichBlock;
     const alignClass = blockAlignClass(block.children, styles);
     const override = singleLinkOverride(block);
     if (override) {
-        return <h1 className={cx(styles.h1, alignClass)}>{override}</h1>;
+        return React.createElement(tag, { className: cx(styles.h1, alignClass) }, override);
     }
     const spans = (block.children ?? []).filter(
         (child): child is RichSpan => child._type === 'span'
@@ -97,13 +100,13 @@ function Heading1({ value, children }: BlockProps) {
         (span.marks ?? []).some((mark) => !ALIGN_MARKS.has(mark))
     );
     if (hasStylingMarks) {
-        return <h1 className={cx(styles.h1, alignClass)}>{children}</h1>;
+        return React.createElement(tag, { className: cx(styles.h1, alignClass) }, children);
     }
     const text = spans.map((span) => span.text).join('');
-    return (
-        <h1 className={cx(styles.h1, alignClass)}>
-            <SplitText text={text} />
-        </h1>
+    return React.createElement(
+        tag,
+        { className: cx(styles.h1, alignClass) },
+        <SplitText text={text} />
     );
 }
 
@@ -113,6 +116,7 @@ function makeHeading(
     headingIds?: Record<string, string>
 ) {
     return function Heading({ value, children }: BlockProps) {
+        const { tags, as } = React.useContext(HeadingContext);
         const block = value as RichBlock;
         const override = singleLinkOverride(block);
         // When the caller supplies an id map (article kind — for the "On this
@@ -120,7 +124,7 @@ function makeHeading(
         // TOC anchors + scroll-spy can target it.
         const id = headingIds?.[block._key];
         return React.createElement(
-            tag,
+            as ?? tags[tag] ?? tag,
             {
                 className: cx(styles[styleKey], blockAlignClass(block.children, styles)),
                 ...(id ? { id } : {}),

@@ -569,7 +569,9 @@ function HubChannelsPage() {
                                                         </span>
                                                     )}
                                                 </div>
-                                                <Text variant="h4">{channel.name}</Text>
+                                                <Text variant="h4" as="h2">
+                                                    {channel.name}
+                                                </Text>
                                             </div>
                                         </header>
 
