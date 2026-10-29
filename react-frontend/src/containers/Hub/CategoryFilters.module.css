@@ -1,4 +1,5 @@
 .filters {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 0.9rem;
@@ -38,6 +39,7 @@
 }
 
 .filterGroup {
+    min-width: 0;
     display: flex;
     flex-direction: column;
     gap: 0.45rem;
