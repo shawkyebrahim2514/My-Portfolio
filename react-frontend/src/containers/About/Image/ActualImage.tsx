@@ -1,16 +1,21 @@
 import { SanityAboutPage } from '../../../Types';
 import styles from './Image.module.css';
+import { sanityImageProps } from '../../../utils/sanityImage';
 
-export default function ActualImage({ personImage }: Readonly<Pick<SanityAboutPage, 'personImage'>>) {
+export default function ActualImage({
+    personImage,
+}: Readonly<Pick<SanityAboutPage, 'personImage'>>) {
     return (
         <div className={styles.imageFrame}>
-            <img src={personImage}
+            <img
+                {...sanityImageProps(personImage, 640, '(max-width: 552px) 58vw, 320px')}
                 alt="Shawky Ebrahim"
                 width={320}
                 height={320}
                 fetchPriority="high"
                 decoding="async"
-                className={styles.image} />
+                className={styles.image}
+            />
         </div>
-    )
+    );
 }

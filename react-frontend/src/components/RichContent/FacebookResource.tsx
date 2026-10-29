@@ -1,10 +1,11 @@
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faArrowUpRightFromSquare} from '@fortawesome/free-solid-svg-icons';
-import {faFacebook} from '@fortawesome/free-brands-svg-icons';
-import type {RichFacebookResource} from '../../Types';
-import {cx} from '../../utils/cx';
-import {urlForImage} from './utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+import type { RichFacebookResource } from '../../Types';
+import { cx } from '../../utils/cx';
+import { urlForImage } from './utils';
 import styles from './FacebookResource.module.css';
+import { sanityImageProps } from '../../utils/sanityImage';
 
 const TYPE_LABELS: Record<RichFacebookResource['resourceType'], string> = {
     reel: 'Reel',
@@ -14,7 +15,7 @@ const TYPE_LABELS: Record<RichFacebookResource['resourceType'], string> = {
     article: 'Article',
 };
 
-export default function FacebookResource({value}: {value: RichFacebookResource}) {
+export default function FacebookResource({ value }: { value: RichFacebookResource }) {
     const thumbnail =
         value.thumbnailSource === 'none'
             ? undefined
@@ -32,7 +33,11 @@ export default function FacebookResource({value}: {value: RichFacebookResource})
             {thumbnail && (
                 <img
                     className={styles.thumbnail}
-                    src={thumbnail}
+                    {...sanityImageProps(
+                        thumbnail,
+                        1280,
+                        '(max-width: 768px) calc(100vw - 64px), 480px'
+                    )}
                     alt=""
                     loading="lazy"
                     decoding="async"
@@ -46,10 +51,18 @@ export default function FacebookResource({value}: {value: RichFacebookResource})
                     </span>
                     <span className={styles.type}>{TYPE_LABELS[value.resourceType]}</span>
                 </span>
-                <strong className={styles.title} dir="auto">{value.title}</strong>
-                {value.creator && <span className={styles.creator} dir="auto">{value.creator}</span>}
+                <strong className={styles.title} dir="auto">
+                    {value.title}
+                </strong>
+                {value.creator && (
+                    <span className={styles.creator} dir="auto">
+                        {value.creator}
+                    </span>
+                )}
                 {value.commentary && (
-                    <span className={styles.commentary} dir="auto">{value.commentary}</span>
+                    <span className={styles.commentary} dir="auto">
+                        {value.commentary}
+                    </span>
                 )}
             </span>
             <FontAwesomeIcon

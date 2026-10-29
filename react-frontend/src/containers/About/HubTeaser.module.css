@@ -153,7 +153,11 @@
     gap: 0.35rem;
     padding: 1.25rem;
     background:
-        radial-gradient(80% 70% at 100% 0%, color-mix(in srgb, var(--a) 38%, transparent), transparent 58%),
+        radial-gradient(
+            80% 70% at 100% 0%,
+            color-mix(in srgb, var(--a) 38%, transparent),
+            transparent 58%
+        ),
         linear-gradient(165deg, #262422, #141413);
     transition: var(--transition);
 }
@@ -173,12 +177,16 @@
     position: absolute;
     inset: 0;
     z-index: -1;
-    background-position: center;
-    background-size: cover;
+}
+
+.posterImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .posterPhoto::after {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg, #11111122 0%, #111111d4 62%, #111 100%);
@@ -247,8 +255,7 @@
 }
 
 .rowThumb {
-    background-position: center;
-    background-size: cover;
+    object-fit: cover;
 }
 
 .rowMark,

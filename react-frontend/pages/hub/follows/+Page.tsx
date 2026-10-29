@@ -31,7 +31,10 @@ import LoadMore, { useLoadMore } from '../../../src/containers/Hub/LoadMore';
 import { filterVisible } from '../../../src/containers/Hub/visibility';
 import { useIsPreview } from '../../../src/contexts/PreviewContext';
 import { cx } from '../../../src/utils/cx';
-import { resolveRemoteImageStyle, resolveYouTubeBannerUrl } from '../../../src/utils/remoteImageCrop';
+import {
+    resolveRemoteImageStyle,
+    resolveYouTubeBannerUrl,
+} from '../../../src/utils/remoteImageCrop';
 import type {
     HubDirectoryType,
     HubDirectoryPlatform,
@@ -44,6 +47,7 @@ import surfaces from '../../../src/styles/surfaces.module.css';
 import lede from '../../../src/styles/lede.module.css';
 import chipStyles from '../../../src/containers/Hub/CategoryFilters.module.css';
 import styles from './HubChannelsPage.module.css';
+import { sanityImageProps } from '../../../src/utils/sanityImage';
 
 const PLATFORM_META: Record<HubDirectoryPlatform, { label: string; icon: IconDefinition }> = {
     youtube: { label: 'YouTube', icon: faYoutube },
@@ -78,7 +82,7 @@ const DIRECTORY_TYPE_PLATFORMS: Record<HubDirectoryType, HubDirectoryPlatform[]>
 };
 
 const ALL_DIRECTORY_PLATFORMS = Array.from(
-    new Set([...DIRECTORY_TYPE_PLATFORMS.subscription, ...DIRECTORY_TYPE_PLATFORMS.creator]),
+    new Set([...DIRECTORY_TYPE_PLATFORMS.subscription, ...DIRECTORY_TYPE_PLATFORMS.creator])
 ) as HubDirectoryPlatform[];
 
 const CREATOR_PLATFORM_SET = new Set<HubDirectoryPlatform>(DIRECTORY_TYPE_PLATFORMS.creator);
@@ -108,7 +112,8 @@ function matchesSearch(channel: SanityHubDirectoryChannel, normalizedQuery: stri
 function HubChannelsPage() {
     const { page, categories } = useData<HubChannelsDirectoryData>();
     const isPreview = useIsPreview();
-    const [directoryTypeFilter, setDirectoryTypeFilter] = useState<HubDirectoryType>('subscription');
+    const [directoryTypeFilter, setDirectoryTypeFilter] =
+        useState<HubDirectoryType>('subscription');
     const [platformFilter, setPlatformFilter] = useState<'all' | HubDirectoryPlatform>('all');
     const [categoryFilter, setCategoryFilter] = useState<'all' | string>('all');
     const [search, setSearch] = useState('');
@@ -116,7 +121,7 @@ function HubChannelsPage() {
 
     const visibleChannels = useMemo(
         () => filterVisible(page.channels ?? [], isPreview),
-        [page.channels, isPreview],
+        [page.channels, isPreview]
     );
 
     const typeCounts = useMemo(() => {
@@ -132,14 +137,17 @@ function HubChannelsPage() {
     }, [visibleChannels]);
 
     const channelsInTypeView = useMemo(
-        () => visibleChannels.filter((channel) => resolveDirectoryType(channel) === directoryTypeFilter),
-        [visibleChannels, directoryTypeFilter],
+        () =>
+            visibleChannels.filter(
+                (channel) => resolveDirectoryType(channel) === directoryTypeFilter
+            ),
+        [visibleChannels, directoryTypeFilter]
     );
 
     const normalizedQuery = search.trim().toLowerCase();
     const channelsInTypeSearchView = useMemo(
         () => channelsInTypeView.filter((channel) => matchesSearch(channel, normalizedQuery)),
-        [channelsInTypeView, normalizedQuery],
+        [channelsInTypeView, normalizedQuery]
     );
 
     const platformCounts = useMemo(() => {
@@ -155,7 +163,7 @@ function HubChannelsPage() {
             platformFilter === 'all'
                 ? channelsInTypeSearchView
                 : channelsInTypeSearchView.filter((channel) => channel.platform === platformFilter),
-        [channelsInTypeSearchView, platformFilter],
+        [channelsInTypeSearchView, platformFilter]
     );
 
     const categoryCounts = useMemo(() => {
@@ -164,7 +172,7 @@ function HubChannelsPage() {
             const slugs = new Set(
                 channel.categories
                     .filter((category): category is HubEntryCategoryRef => Boolean(category))
-                    .map((category) => category.slug),
+                    .map((category) => category.slug)
             );
             slugs.forEach((slug) => {
                 counts.set(slug, (counts.get(slug) ?? 0) + 1);
@@ -175,15 +183,15 @@ function HubChannelsPage() {
 
     const categoryOptions = useMemo(
         () => categories.filter((category) => (categoryCounts.get(category.slug) ?? 0) > 0),
-        [categories, categoryCounts],
+        [categories, categoryCounts]
     );
 
     const availablePlatforms = useMemo(
         () =>
             DIRECTORY_TYPE_PLATFORMS[directoryTypeFilter].filter(
-                (platform) => (platformCounts.get(platform) ?? 0) > 0,
+                (platform) => (platformCounts.get(platform) ?? 0) > 0
             ),
-        [directoryTypeFilter, platformCounts],
+        [directoryTypeFilter, platformCounts]
     );
 
     useEffect(() => {
@@ -274,7 +282,7 @@ function HubChannelsPage() {
     }, [channelsInPlatformView, categoryFilter]);
 
     const { visibleCount, loadMore } = useLoadMore(
-        `${directoryTypeFilter}\0${platformFilter}\0${categoryFilter}\0${search}`,
+        `${directoryTypeFilter}\0${platformFilter}\0${categoryFilter}\0${search}`
     );
     const visibleChannelsPage = filteredChannels.slice(0, visibleCount);
 
@@ -299,7 +307,7 @@ function HubChannelsPage() {
                                     type="button"
                                     className={cx(
                                         chipStyles.chip,
-                                        directoryTypeFilter === type && chipStyles.active,
+                                        directoryTypeFilter === type && chipStyles.active
                                     )}
                                     onClick={() => setDirectoryTypeFilter(type)}
                                     data-clarity-event="hubFilter"
@@ -307,8 +315,12 @@ function HubChannelsPage() {
                                     <span className={chipStyles.icon}>
                                         <FontAwesomeIcon icon={DIRECTORY_TYPE_META[type].icon} />
                                     </span>
-                                    <span className={chipStyles.label}>{DIRECTORY_TYPE_META[type].label}</span>
-                                    <span className={chipStyles.count}>{typeCounts.get(type) ?? 0}</span>
+                                    <span className={chipStyles.label}>
+                                        {DIRECTORY_TYPE_META[type].label}
+                                    </span>
+                                    <span className={chipStyles.count}>
+                                        {typeCounts.get(type) ?? 0}
+                                    </span>
                                 </button>
                             ))}
                         </div>
@@ -332,13 +344,15 @@ function HubChannelsPage() {
                                 type="button"
                                 className={cx(
                                     chipStyles.chip,
-                                    platformFilter === 'all' && chipStyles.active,
+                                    platformFilter === 'all' && chipStyles.active
                                 )}
                                 onClick={() => setPlatformFilter('all')}
                                 data-clarity-event="hubFilter"
                             >
                                 <span className={chipStyles.label}>All</span>
-                                <span className={chipStyles.count}>{channelsInTypeSearchView.length}</span>
+                                <span className={chipStyles.count}>
+                                    {channelsInTypeSearchView.length}
+                                </span>
                             </button>
                             {availablePlatforms.map((platform) => (
                                 <button
@@ -346,7 +360,7 @@ function HubChannelsPage() {
                                     type="button"
                                     className={cx(
                                         chipStyles.chip,
-                                        platformFilter === platform && chipStyles.active,
+                                        platformFilter === platform && chipStyles.active
                                     )}
                                     onClick={() => setPlatformFilter(platform)}
                                     data-clarity-event="hubFilter"
@@ -354,8 +368,12 @@ function HubChannelsPage() {
                                     <span className={chipStyles.icon}>
                                         <FontAwesomeIcon icon={PLATFORM_META[platform].icon} />
                                     </span>
-                                    <span className={chipStyles.label}>{PLATFORM_META[platform].label}</span>
-                                    <span className={chipStyles.count}>{platformCounts.get(platform) ?? 0}</span>
+                                    <span className={chipStyles.label}>
+                                        {PLATFORM_META[platform].label}
+                                    </span>
+                                    <span className={chipStyles.count}>
+                                        {platformCounts.get(platform) ?? 0}
+                                    </span>
                                 </button>
                             ))}
                         </div>
@@ -369,7 +387,7 @@ function HubChannelsPage() {
                                     type="button"
                                     className={cx(
                                         chipStyles.chip,
-                                        categoryFilter === 'all' && chipStyles.active,
+                                        categoryFilter === 'all' && chipStyles.active
                                     )}
                                     onClick={() => setCategoryFilter('all')}
                                     data-clarity-event="hubFilter"
@@ -378,7 +396,9 @@ function HubChannelsPage() {
                                         <FontAwesomeIcon icon={faLayerGroup} />
                                     </span>
                                     <span className={chipStyles.label}>All</span>
-                                    <span className={chipStyles.count}>{channelsInPlatformView.length}</span>
+                                    <span className={chipStyles.count}>
+                                        {channelsInPlatformView.length}
+                                    </span>
                                 </button>
                                 {categoryOptions.map((category) => {
                                     const inlineSvg = category.icon?.metadata?.inlineSvg;
@@ -388,15 +408,21 @@ function HubChannelsPage() {
                                             type="button"
                                             className={cx(
                                                 chipStyles.chip,
-                                                categoryFilter === category.slug && chipStyles.active,
+                                                categoryFilter === category.slug &&
+                                                    chipStyles.active
                                             )}
                                             onClick={() => setCategoryFilter(category.slug)}
                                             data-clarity-event="hubFilter"
                                         >
                                             {inlineSvg ? (
-                                                <InlineSvg className={chipStyles.icon} svg={inlineSvg} />
+                                                <InlineSvg
+                                                    className={chipStyles.icon}
+                                                    svg={inlineSvg}
+                                                />
                                             ) : null}
-                                            <span className={chipStyles.label}>{category.title}</span>
+                                            <span className={chipStyles.label}>
+                                                {category.title}
+                                            </span>
                                             <span className={chipStyles.count}>
                                                 {categoryCounts.get(category.slug) ?? 0}
                                             </span>
@@ -409,126 +435,154 @@ function HubChannelsPage() {
                 </section>
 
                 {filteredChannels.length === 0 ? (
-                    <Text className={styles.emptyState}>
-                        Nothing matches that yet.
-                    </Text>
+                    <Text className={styles.emptyState}>Nothing matches that yet.</Text>
                 ) : (
                     <>
-                    <div className={styles.grid}>
-                        {visibleChannelsPage.map((channel) => {
-                            const href = channel.deepDiveSlug ? `/hub/${channel.deepDiveSlug}` : channel.url;
-                            if (!href) return null;
-                            const isExternal = !channel.deepDiveSlug;
-                            const meta = PLATFORM_META[channel.platform];
-                            const accent = channel.accentColor ?? PLATFORM_ACCENT[channel.platform];
-                            const resolvedCategories = channel.categories.filter(
-                                (category): category is HubEntryCategoryRef => Boolean(category),
-                            );
-                            const isRTL = channel.language === 'ar';
-                            return (
-                                <a
-                                    key={channel._key}
-                                    href={href}
-                                    target={isExternal ? '_blank' : undefined}
-                                    rel={isExternal ? 'noopener noreferrer' : undefined}
-                                    className={cx(surfaces.container, styles.card, isRTL && styles.rtl)}
-                                    style={
-                                        {
-                                            '--channel-accent': accent,
-                                        } as CSSProperties
-                                    }
-                                    dir={isRTL ? 'rtl' : undefined}
-                                    lang={channel.language}
-                                    data-clarity-event={isExternal ? 'follow' : undefined}
-                                >
-                                    <div className={styles.coverFrame} aria-hidden="true">
-                                        {channel.coverImage && (
-                                            <img
-                                                className={styles.cover}
-                                                src={resolveYouTubeBannerUrl(channel.coverImage)}
-                                                alt=""
-                                                loading="lazy"
-                                                decoding="async"
-                                                style={resolveRemoteImageStyle(channel.coverFocus)}
-                                            />
+                        <div className={styles.grid}>
+                            {visibleChannelsPage.map((channel) => {
+                                const href = channel.deepDiveSlug
+                                    ? `/hub/${channel.deepDiveSlug}`
+                                    : channel.url;
+                                if (!href) return null;
+                                const isExternal = !channel.deepDiveSlug;
+                                const meta = PLATFORM_META[channel.platform];
+                                const accent =
+                                    channel.accentColor ?? PLATFORM_ACCENT[channel.platform];
+                                const resolvedCategories = channel.categories.filter(
+                                    (category): category is HubEntryCategoryRef => Boolean(category)
+                                );
+                                const isRTL = channel.language === 'ar';
+                                return (
+                                    <a
+                                        key={channel._key}
+                                        href={href}
+                                        target={isExternal ? '_blank' : undefined}
+                                        rel={isExternal ? 'noopener noreferrer' : undefined}
+                                        className={cx(
+                                            surfaces.container,
+                                            styles.card,
+                                            isRTL && styles.rtl
                                         )}
-                                    </div>
-                                    <header className={styles.header}>
-                                        {channel.avatar ? (
-                                            <span className={styles.avatarFrame}>
+                                        style={
+                                            {
+                                                '--channel-accent': accent,
+                                            } as CSSProperties
+                                        }
+                                        dir={isRTL ? 'rtl' : undefined}
+                                        lang={channel.language}
+                                        data-clarity-event={isExternal ? 'follow' : undefined}
+                                    >
+                                        <div className={styles.coverFrame} aria-hidden="true">
+                                            {channel.coverImage && (
                                                 <img
-                                                    className={styles.avatar}
-                                                    src={channel.avatar}
+                                                    className={styles.cover}
+                                                    {...sanityImageProps(
+                                                        resolveYouTubeBannerUrl(channel.coverImage),
+                                                        1536,
+                                                        '(max-width: 768px) calc(200vw - 64px), 760px'
+                                                    )}
                                                     alt=""
                                                     loading="lazy"
                                                     decoding="async"
-                                                    style={resolveRemoteImageStyle(channel.avatarFocus, 'center')}
+                                                    style={resolveRemoteImageStyle(
+                                                        channel.coverFocus
+                                                    )}
                                                 />
-                                            </span>
-                                        ) : (
-                                            <span className={styles.avatarFallback} aria-hidden="true">
-                                                {channel.name.slice(0, 1).toUpperCase()}
-                                            </span>
-                                        )}
-                                        <div className={styles.heading}>
-                                            <div className={styles.badges}>
-                                                <span className={styles.platform}>
-                                                    <FontAwesomeIcon icon={meta.icon} />
-                                                    {meta.label}
+                                            )}
+                                        </div>
+                                        <header className={styles.header}>
+                                            {channel.avatar ? (
+                                                <span className={styles.avatarFrame}>
+                                                    <img
+                                                        className={styles.avatar}
+                                                        {...sanityImageProps(
+                                                            channel.avatar,
+                                                            256,
+                                                            '96px'
+                                                        )}
+                                                        alt=""
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                        style={resolveRemoteImageStyle(
+                                                            channel.avatarFocus,
+                                                            'center'
+                                                        )}
+                                                    />
                                                 </span>
-                                                {channel.featured && (
-                                                    <span className={styles.featured}>
-                                                        <FontAwesomeIcon icon={faStar} />
-                                                        Featured
+                                            ) : (
+                                                <span
+                                                    className={styles.avatarFallback}
+                                                    aria-hidden="true"
+                                                >
+                                                    {channel.name.slice(0, 1).toUpperCase()}
+                                                </span>
+                                            )}
+                                            <div className={styles.heading}>
+                                                <div className={styles.badges}>
+                                                    <span className={styles.platform}>
+                                                        <FontAwesomeIcon icon={meta.icon} />
+                                                        {meta.label}
                                                     </span>
-                                                )}
-                                                {channel.hiddenInProduction && (
-                                                    <span className={styles.hidden}>
-                                                        <FontAwesomeIcon icon={faEyeSlash} />
-                                                        Hidden
-                                                    </span>
-                                                )}
+                                                    {channel.featured && (
+                                                        <span className={styles.featured}>
+                                                            <FontAwesomeIcon icon={faStar} />
+                                                            Featured
+                                                        </span>
+                                                    )}
+                                                    {channel.hiddenInProduction && (
+                                                        <span className={styles.hidden}>
+                                                            <FontAwesomeIcon icon={faEyeSlash} />
+                                                            Hidden
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                <Text variant="h4">{channel.name}</Text>
                                             </div>
-                                            <Text variant="h4">{channel.name}</Text>
-                                        </div>
-                                    </header>
+                                        </header>
 
-                                    <Text className={styles.note}>{channel.note}</Text>
+                                        <Text className={styles.note}>{channel.note}</Text>
 
-                                    {(resolvedCategories.length > 0 || (channel.tags?.length ?? 0) > 0) && (
-                                        <div className={styles.tags}>
-                                            {resolvedCategories.map((category) => (
-                                                <span key={`cat-${channel._key}-${category.slug}`} className={styles.tag}>
-                                                    {category.title}
-                                                </span>
-                                            ))}
-                                            {(channel.tags ?? []).slice(0, 4).map((tag) => (
-                                                <span key={`tag-${channel._key}-${tag}`} className={styles.tag}>
-                                                    {tag}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    )}
+                                        {(resolvedCategories.length > 0 ||
+                                            (channel.tags?.length ?? 0) > 0) && (
+                                            <div className={styles.tags}>
+                                                {resolvedCategories.map((category) => (
+                                                    <span
+                                                        key={`cat-${channel._key}-${category.slug}`}
+                                                        className={styles.tag}
+                                                    >
+                                                        {category.title}
+                                                    </span>
+                                                ))}
+                                                {(channel.tags ?? []).slice(0, 4).map((tag) => (
+                                                    <span
+                                                        key={`tag-${channel._key}-${tag}`}
+                                                        className={styles.tag}
+                                                    >
+                                                        {tag}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
 
-                                    {channel.deepDiveTitle && (
-                                        <Text className={styles.deepDive}>
-                                            Deep dive: {channel.deepDiveTitle}
-                                        </Text>
-                                    )}
+                                        {channel.deepDiveTitle && (
+                                            <Text className={styles.deepDive}>
+                                                Deep dive: {channel.deepDiveTitle}
+                                            </Text>
+                                        )}
 
-                                    <span className={styles.cta}>
-                                        <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
-                                        {channel.deepDiveSlug ? 'Read my notes' : 'Open it'}
-                                    </span>
-                                </a>
-                            );
-                        })}
-                    </div>
-                    <LoadMore
-                        shown={visibleChannelsPage.length}
-                        total={filteredChannels.length}
-                        onLoadMore={loadMore}
-                    />
+                                        <span className={styles.cta}>
+                                            <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
+                                            {channel.deepDiveSlug ? 'Read my notes' : 'Open it'}
+                                        </span>
+                                    </a>
+                                );
+                            })}
+                        </div>
+                        <LoadMore
+                            shown={visibleChannelsPage.length}
+                            total={filteredChannels.length}
+                            onLoadMore={loadMore}
+                        />
                     </>
                 )}
             </div>

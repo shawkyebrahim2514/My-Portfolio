@@ -4,6 +4,7 @@ import type { RichFigure, RichMediaImage } from '../../Types';
 import { urlForImage } from './utils';
 import styles from './Figure.module.css';
 import { cx } from '../../utils/cx';
+import { sanityImageProps } from '../../utils/sanityImage';
 
 function imageUrl(image: RichMediaImage): string | undefined {
     if (image._type !== 'externalImage') return urlForImage(image.asset);
@@ -22,7 +23,11 @@ export default function Figure({ value }: { value: RichFigure }) {
             <div className={cx(styles.media, hasCaption && styles.mediaWithCaption)}>
                 <img
                     className={styles.image}
-                    src={src}
+                    {...sanityImageProps(
+                        src,
+                        1920,
+                        '(max-width: 1255px) calc(100vw - 64px), 1159px'
+                    )}
                     alt={image.alt}
                     loading="lazy"
                     decoding="async"

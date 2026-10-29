@@ -1,13 +1,25 @@
 import { memo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faNewspaper, faPodcast, faBookOpen, faTv, faHeadphones, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import {
+    faNewspaper,
+    faPodcast,
+    faBookOpen,
+    faTv,
+    faHeadphones,
+    faEyeSlash,
+} from '@fortawesome/free-solid-svg-icons';
 import { cx } from '../../utils/cx';
 import Text from '../Text';
 import { accentStyle } from '../../containers/Hub/kindAccent';
-import { resolveRemoteImageStyle, resolveYouTubeBannerUrl, type RemoteImageCrop } from '../../utils/remoteImageCrop';
+import {
+    resolveRemoteImageStyle,
+    resolveYouTubeBannerUrl,
+    type RemoteImageCrop,
+} from '../../utils/remoteImageCrop';
 import surfaces from '../../styles/surfaces.module.css';
 import type { HubEntryKind, HubEntryCategoryRef, HubContentLanguage } from '../../Types';
 import styles from './HubCard.module.css';
+import { sanityImageProps } from '../../utils/sanityImage';
 
 const KIND_META: Record<HubEntryKind, { icon: typeof faNewspaper; label: string }> = {
     article: { icon: faNewspaper, label: 'Article' },
@@ -35,16 +47,38 @@ export type HubCardProps = {
     readonly hidden?: boolean;
 };
 
-function HubCard({ title, slug, kind, excerpt, coverImage, coverFocus, channelAvatar, durationLabel, categories, language = 'en', accentColor, hidden }: HubCardProps) {
+function HubCard({
+    title,
+    slug,
+    kind,
+    excerpt,
+    coverImage,
+    coverFocus,
+    channelAvatar,
+    durationLabel,
+    categories,
+    language = 'en',
+    accentColor,
+    hidden,
+}: HubCardProps) {
     const { icon, label } = KIND_META[kind] ?? KIND_META.article;
     const image = channelAvatar ?? coverImage;
     const isRTL = language === 'ar';
-    const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef => Boolean(category));
+    const resolvedCategories = categories.filter((category): category is HubEntryCategoryRef =>
+        Boolean(category)
+    );
 
     return (
-        <a href={`/hub/${slug}`} className={cx(surfaces.container, styles.card)} style={accentStyle(kind, accentColor)}>
+        <a
+            href={`/hub/${slug}`}
+            className={cx(surfaces.container, styles.card)}
+            style={accentStyle(kind, accentColor)}
+        >
             {hidden && (
-                <span className={styles.hiddenPill} title="Hidden from production — visible only in preview mode">
+                <span
+                    className={styles.hiddenPill}
+                    title="Hidden from production — visible only in preview mode"
+                >
                     <FontAwesomeIcon icon={faEyeSlash} />
                     Hidden
                 </span>
@@ -53,7 +87,11 @@ function HubCard({ title, slug, kind, excerpt, coverImage, coverFocus, channelAv
                 <div className={styles.imageFrame}>
                     <img
                         className={styles.image}
-                        src={resolveYouTubeBannerUrl(image)}
+                        {...sanityImageProps(
+                            resolveYouTubeBannerUrl(image),
+                            1536,
+                            '(max-width: 768px) calc(100vw - 64px), 760px'
+                        )}
                         alt=""
                         loading="lazy"
                         decoding="async"
@@ -65,7 +103,11 @@ function HubCard({ title, slug, kind, excerpt, coverImage, coverFocus, channelAv
                     </span>
                 </div>
             )}
-            <div className={cx(styles.content, isRTL && styles.rtl)} dir={isRTL ? 'rtl' : undefined} lang={language}>
+            <div
+                className={cx(styles.content, isRTL && styles.rtl)}
+                dir={isRTL ? 'rtl' : undefined}
+                lang={language}
+            >
                 {!image && (
                     <span className={styles.badge}>
                         <FontAwesomeIcon icon={icon} />
