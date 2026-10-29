@@ -38,14 +38,12 @@ export default function ShapeGridBackground({ hoverColor }: Readonly<{ hoverColo
         let hoveredCell: GridOffset | null = null;
         const trailCells: GridOffset[] = [];
         const cellOpacities = new Map<string, number>();
-        let requestId = 0;
+        let requestId: number | null = null;
 
         const resizeCanvas = () => {
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
         };
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
 
         const drawHex = (cx: number, cy: number, size: number) => {
             ctx.beginPath();
@@ -73,7 +71,8 @@ export default function ShapeGridBackground({ hoverColor }: Readonly<{ hoverColo
             for (let col = -2; col < cols; col++) {
                 for (let row = -2; row < rows; row++) {
                     const cx = col * hexHoriz + offsetX;
-                    const cy = row * hexVert + ((col + colShift) % 2 !== 0 ? hexVert / 2 : 0) + offsetY;
+                    const cy =
+                        row * hexVert + ((col + colShift) % 2 !== 0 ? hexVert / 2 : 0) + offsetY;
 
                     const cellKey = `${col},${row}`;
                     const alpha = cellOpacities.get(cellKey);
@@ -119,16 +118,13 @@ export default function ShapeGridBackground({ hoverColor }: Readonly<{ hoverColo
             }
         };
 
-        // Users who prefer reduced motion still get the grid + hover trail
-        // (a direct response to their own pointer movement), just without
-        // the ambient auto-drift.
         const updateAnimation = () => {
-            if (!reduceMotion) {
-                const wrapX = hexHoriz * 2;
-                const wrapY = hexVert;
-                gridOffset.x = (gridOffset.x - SPEED + wrapX) % wrapX;
-                gridOffset.y = (gridOffset.y - SPEED + wrapY) % wrapY;
-            }
+            requestId = null;
+            if (document.hidden) return;
+            const wrapX = hexHoriz * 2;
+            const wrapY = hexVert;
+            gridOffset.x = (gridOffset.x - SPEED + wrapX) % wrapX;
+            gridOffset.y = (gridOffset.y - SPEED + wrapY) % wrapY;
             updateCellOpacities();
             drawGrid();
             requestId = requestAnimationFrame(updateAnimation);
@@ -165,15 +161,35 @@ export default function ShapeGridBackground({ hoverColor }: Readonly<{ hoverColo
             hoveredCell = null;
         };
 
-        canvas.addEventListener('mousemove', handleMouseMove);
-        canvas.addEventListener('mouseleave', handleMouseLeave);
-        requestId = requestAnimationFrame(updateAnimation);
+        const start = () => {
+            if (document.hidden) return;
+            if (reduceMotion !== false) drawGrid();
+            else if (requestId === null) requestId = requestAnimationFrame(updateAnimation);
+        };
+        const handleResize = () => {
+            resizeCanvas();
+            start();
+        };
+        const handleVisibility = () => {
+            if (requestId !== null) cancelAnimationFrame(requestId);
+            requestId = null;
+            start();
+        };
+        resizeCanvas();
+        start();
+        window.addEventListener('resize', handleResize);
+        document.addEventListener('visibilitychange', handleVisibility);
+        if (reduceMotion === false) {
+            canvas.addEventListener('mousemove', handleMouseMove);
+            canvas.addEventListener('mouseleave', handleMouseLeave);
+        }
 
         return () => {
-            window.removeEventListener('resize', resizeCanvas);
+            window.removeEventListener('resize', handleResize);
+            document.removeEventListener('visibilitychange', handleVisibility);
             canvas.removeEventListener('mousemove', handleMouseMove);
             canvas.removeEventListener('mouseleave', handleMouseLeave);
-            cancelAnimationFrame(requestId);
+            if (requestId !== null) cancelAnimationFrame(requestId);
         };
     }, [reduceMotion, hoverColor]);
 
