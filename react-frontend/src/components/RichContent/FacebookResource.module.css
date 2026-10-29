@@ -7,13 +7,12 @@
     overflow: hidden;
     color: inherit;
     text-decoration: none;
-    background:
-        linear-gradient(
-            145deg,
-            color-mix(in srgb, #1877f2 7%, var(--color-base-0)),
-            var(--color-base-0) 55%,
-            var(--color-base-100)
-        );
+    background: linear-gradient(
+        145deg,
+        color-mix(in srgb, #1877f2 7%, var(--color-base-0)),
+        var(--color-base-0) 55%,
+        var(--color-base-100)
+    );
     border: var(--border);
     border-radius: var(--radius);
     box-shadow: var(--shadow);
@@ -63,7 +62,7 @@
     align-items: center;
     gap: var(--space-1);
     color: #1877f2;
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .type {

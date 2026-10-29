@@ -9,7 +9,7 @@ import Note from './Note';
 import KeyTakeaways from './KeyTakeaways';
 import Quote from './Quote';
 import ExpandableDetails from './ExpandableDetails';
-import CodeBlock from './CodeBlock';
+import DeferredCodeBlock from './DeferredCodeBlock';
 import YouTube from './YouTube';
 import CuratedVideo from './CuratedVideo';
 import PodcastEpisode from './PodcastEpisode';
@@ -212,7 +212,7 @@ export const components: PortableTextComponents = {
         keyTakeaways: KeyTakeaways,
         quote: Quote,
         expandableDetails: ExpandableDetails,
-        code: CodeBlock,
+        code: DeferredCodeBlock,
         youtube: YouTube,
         curatedVideo: CuratedVideo,
         podcastEpisode: PodcastEpisode,
